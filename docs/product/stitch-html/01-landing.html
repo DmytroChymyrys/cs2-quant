@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"tertiary-fixed":"#ffdad7","background":"#10131a","tertiary-container":"#ff7e77","surface-container-highest":"#32353c","surface-variant":"#32353c","surface-tint":"#4cd6fb","on-primary-container":"#00414f","surface-container-low":"#191c22","on-secondary-container":"#00311f","outline":"#869398","on-surface":"#e1e2eb","on-background":"#e1e2eb","primary-container":"#00b4d8","on-primary-fixed":"#001f27","primary-fixed":"#b3ebff","surface-container-high":"#272a31","secondary-fixed-dim":"#4edea3","surface-container":"#1d2026","secondary-fixed":"#6ffbbe","surface-dim":"#10131a","inverse-surface":"#e1e2eb","on-tertiary-container":"#7c000f","surface-bright":"#363940","inverse-primary":"#00677d","inverse-on-surface":"#2e3037","secondary-container":"#00a572","primary":"#4cd6fb","on-error":"#690005","on-primary-fixed-variant":"#004e5f","primary-fixed-dim":"#4cd6fb","on-surface-variant":"#bcc9ce","on-secondary":"#003824","on-tertiary":"#68000a","on-error-container":"#ffdad6","on-primary":"#003642","error":"#ffb4ab","surface":"#10131a","outline-variant":"#3d494d","on-secondary-fixed-variant":"#005236","error-container":"#93000a","tertiary-fixed-dim":"#ffb3ad","surface-container-lowest":"#0b0e14","on-tertiary-fixed":"#410004","tertiary":"#ffb3ad","on-tertiary-fixed-variant":"#930013","secondary":"#4edea3","on-secondary-fixed":"#002113"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"panel-header-h":"28px","md":"12px","lg":"16px","sm":"8px","row-compact-h":"20px","gutter-compact":"1px","row-default-h":"26px","2xs":"2px","ticker-ribbon-h":"24px","xs":"4px","zero":"0px","2xl":"32px","xl":"24px"},"fontFamily":{"tabular-metric-md":["JetBrains Mono"],"body-lg":["JetBrains Mono"],"headline-sm":["Inter"],"tabular-metric-sm":["JetBrains Mono"],"code-raw":["JetBrains Mono"],"headline-lg":["Inter"],"display-lg":["Inter"],"body-sm":["JetBrains Mono"],"body-md":["JetBrains Mono"],"label-caps":["Inter"],"tabular-metric-lg":["JetBrains Mono"],"headline-md":["Inter"]},"fontSize":{"tabular-metric-md":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"500"}],"body-lg":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["13px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"600"}],"tabular-metric-sm":["10px",{"lineHeight":"12px","letterSpacing":"0.01em","fontWeight":"500"}],"code-raw":["11px",{"lineHeight":"14px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-sm":["11px",{"lineHeight":"14px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"label-caps":["10px",{"lineHeight":"12px","letterSpacing":"0.06em","fontWeight":"600"}],"tabular-metric-lg":["18px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-md":["16px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"500"}]}}}}</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant"><div class="h-12 w-full px-lg flex items-center justify-between"><div class="flex items-center gap-md"><a class="flex items-center gap-sm" data-path="overview" href="#"><img alt="Brand logo. - Primary color: #00b4d8
+- Font: inter
+- Mode: dark
+- Roundness: rounded-lg
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U5g-JogKTOwhGvpxzMCIEhQGTWo3IQTDv0hLQPwCRIbNfyw3RFPkST68zhDtBR-1xxmkG2XhMXkG1_wuFOO-eA6TPyTeIdsNrjvnsIHeNx6fdhCBzZ3pBPsWvNTabDDaRtTz57ztQIhFInfIanQae3yhfFqTnuVupIaEg0RJEFd_s1PGOLx0CWWSjhjDozgbhHW238SOjsFrQTFBQiB9gsqc5hnk1F4S4UFG_mWqV4f5449aJx1Nv0Zy4d"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold">FLOATALPHA</span></a><span class="h-4 w-px bg-outline-variant hidden sm:block"></span><span class="font-label-caps text-label-caps text-outline uppercase tracking-wider hidden md:inline-block">CS2 Market Intelligence</span></div><nav class="hidden lg:flex items-center gap-lg" data-active-classes="text-primary font-semibold"><a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="platform-terminal" href="#">Platform</a><a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="methodology" href="#">Methodology</a><a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pricing" href="#">Pricing</a><a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="data-provenance" href="#">Data Provenance</a></nav><div class="flex items-center gap-md"><a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface px-sm py-xs transition-colors" data-path="sign-in" href="#">Sign In</a><a class="font-headline-sm text-headline-sm bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container px-md py-xs rounded-none uppercase transition-colors" data-path="explore" href="#">Explore FloatAlpha</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-12 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<!-- ========================================== -->
+<!-- 1. HERO SECTION                            -->
+<!-- ========================================== -->
+<section class="relative w-full overflow-hidden border-b border-outline-variant bg-surface-container-lowest py-2xl lg:py-32">
+<!-- Subtle architectural background grid -->
+<div class="pointer-events-none absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#869398_1px,transparent_1px),linear-gradient(to_bottom,#869398_1px,transparent_1px)] [background-size:32px_32px]"></div>
+<div class="relative mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col lg:flex-row items-center gap-2xl">
+<!-- Left Column: Institutional Value Proposition -->
+<div class="flex-1 flex flex-col items-start gap-lg z-10">
+<!-- Overline badge -->
+<div class="inline-flex items-center gap-xs px-sm py-xs bg-surface-container-low border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
+            QUANTITATIVE CS2 MARKET SURVEILLANCE • SKINPORT GROUNDED
+          </span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-lg text-display-lg lg:text-[48px] lg:leading-[52px] text-on-surface font-bold tracking-tight uppercase">
+          SEE WHAT PRICE ALONE<br/>
+<span class="text-primary">DOESN'T SHOW.</span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          FloatAlpha tracks simultaneous vector shifts across price, supply attrition, and sales activity to surface anomalous liquidity conditions across CS2 digital economies.
+        </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center gap-md pt-sm">
+<a class="inline-flex items-center justify-center bg-primary text-on-primary font-headline-sm text-headline-sm px-xl py-md uppercase font-bold tracking-wide hover:bg-primary-container hover:text-on-primary-container transition-all" data-path="explore" href="#">
+            EXPLORE FLOATALPHA
+          </a>
+<a class="inline-flex items-center justify-center bg-surface-container-low border border-outline-variant text-on-surface font-headline-sm text-headline-sm px-xl py-md uppercase font-semibold hover:border-primary transition-all" data-path="platform-terminal" href="#">
+            VIEW LIVE TERMINAL
+          </a>
+</div>
+<!-- Telemetry readout pill -->
+<div class="flex items-center gap-md pt-xs text-outline font-code-raw text-code-raw">
+<span>UNIVERSE: 100 PILOT ASSETS</span>
+<span>•</span>
+<span>LATENCY: 42ms REALIZED</span>
+<span>•</span>
+<span>SAMPLING: 60s INTERVAL</span>
+</div>
+</div>
+<!-- Right Column: Visual Hero Component (Thesis Divergence Widget) -->
+<div class="flex-1 w-full max-w-xl lg:max-w-none z-10">
+<div class="bg-surface-container-low border border-outline-variant flex flex-col p-lg relative">
+<!-- Terminal Panel Header -->
+<div class="flex items-center justify-between pb-sm border-b border-outline-variant">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-none bg-primary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">DIVERGENCE THESIS MODEL</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline uppercase">CORE OBSERVATION // V.2.4</span>
+</div>
+<!-- Asset Meta Row -->
+<div class="flex items-start justify-between py-md">
+<div>
+<div class="flex items-center gap-xs">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">AK-47 | FIRE SERPENT</span>
+<span class="px-xs py-2xs bg-surface-container-highest text-secondary-fixed text-label-caps font-label-caps uppercase border-l-2 border-secondary-fixed">FT</span>
+</div>
+<div class="font-body-sm text-body-sm text-outline mt-2xs">Condition: Field-Tested • Collection: Operation Bravo • Pattern Seed #412</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-secondary font-bold">HIGH (99.8%)</span>
+</div>
+</div>
+<!-- Metric Cards Grid -->
+<div class="grid grid-cols-3 gap-xs mb-md">
+<!-- Metric 1: Price -->
+<div class="bg-surface-container p-sm flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-outline">PRICE Δ</span>
+<div class="my-xs">
+<div class="font-tabular-metric-lg text-tabular-metric-lg text-error font-semibold">-1.2%</div>
+<div class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">$845.00 SPOT</div>
+</div>
+<span class="font-code-raw text-code-raw text-outline">NEUTRAL DISPERSION</span>
+</div>
+<!-- Metric 2: Listings -->
+<div class="bg-surface-container p-sm flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-outline">LISTINGS Δ</span>
+<div class="my-xs">
+<div class="font-tabular-metric-lg text-tabular-metric-lg text-primary font-semibold">-22.4%</div>
+<div class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">34 UNITS (-10)</div>
+</div>
+<span class="font-code-raw text-code-raw text-primary font-medium">SUPPLY CONTRACTING</span>
+</div>
+<!-- Metric 3: Sales Activity -->
+<div class="bg-surface-container p-sm flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-outline">SALES ACTIVITY Δ</span>
+<div class="my-xs">
+<div class="font-tabular-metric-lg text-tabular-metric-lg text-secondary font-semibold">+84.0%</div>
+<div class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">18 SALES / 24H</div>
+</div>
+<span class="font-code-raw text-code-raw text-secondary font-medium">ACCELERATING</span>
+</div>
+</div>
+<!-- Sparkline Visualization Fragment -->
+<div class="bg-surface-container-lowest p-md border border-outline-variant flex flex-col gap-xs">
+<div class="flex items-center justify-between text-outline font-label-caps text-label-caps">
+<span class="flex items-center gap-xs">
+<span class="w-2.5 h-0.5 bg-on-surface-variant inline-block"></span> PRICE (STATIC)
+                <span class="w-2.5 h-0.5 bg-primary inline-block ml-sm"></span> SUPPLY ATTRITION
+                <span class="w-2 h-2 bg-secondary inline-block ml-sm"></span> SALES SPIKES
+              </span>
+<span>72H WINDOW</span>
+</div>
+<div class="relative h-28 w-full flex items-end">
+<!-- Inline High-Precision SVG Chart -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="volGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#4edea3" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#4edea3" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Sales Volume Bars in Background -->
+<rect fill="#4edea3" height="20" opacity="0.4" width="8" x="20" y="80"></rect>
+<rect fill="#4edea3" height="18" opacity="0.4" width="8" x="50" y="82"></rect>
+<rect fill="#4edea3" height="25" opacity="0.5" width="8" x="80" y="75"></rect>
+<rect fill="#4edea3" height="15" opacity="0.3" width="8" x="120" y="85"></rect>
+<rect fill="#4edea3" height="30" opacity="0.5" width="8" x="160" y="70"></rect>
+<rect fill="#4edea3" height="40" opacity="0.6" width="8" x="200" y="60"></rect>
+<rect fill="#4edea3" height="55" opacity="0.7" width="8" x="240" y="45"></rect>
+<rect fill="#4edea3" height="70" opacity="0.8" width="8" x="280" y="30"></rect>
+<rect fill="#4edea3" height="80" opacity="0.9" width="8" x="320" y="20"></rect>
+<rect fill="#4edea3" height="90" opacity="1.0" width="8" x="360" y="10"></rect>
+<!-- Supply Line (Collapsing) -->
+<path d="M 0,20 Q 100,25 200,45 T 400,90" fill="none" stroke="#4cd6fb" stroke-dasharray="3,3" stroke-width="2"></path>
+<!-- Price Line (Nearly Horizontal) -->
+<path d="M 0,50 L 50,49 L 100,52 L 150,51 L 200,50 L 250,52 L 300,51 L 350,53 L 400,51" fill="none" stroke="#e1e2eb" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Coordinate axes labels -->
+<div class="flex justify-between font-code-raw text-code-raw text-outline border-t border-outline-variant pt-2xs mt-2xs">
+<span>T-72H</span>
+<span>T-48H</span>
+<span>T-24H</span>
+<span class="text-on-surface">NOW</span>
+</div>
+</div>
+<!-- Impact Callout Footer -->
+<div class="mt-md p-sm bg-surface-container border-l-2 border-primary flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">
+              “Price barely moved. The market underneath it did.”
+            </span>
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 2. PRODUCT EXPLANATION ("MORE THAN A PRICE CHART") -->
+<!-- ========================================== -->
+<section class="w-full bg-surface py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<!-- Section Headline -->
+<div class="flex flex-col gap-xs max-w-2xl">
+<span class="font-label-caps text-label-caps text-primary uppercase">TRI-VECTOR ANALYSIS</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          MORE THAN A PRICE CHART
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Single-dimensional price tracking obscures underlying market mechanics. FloatAlpha quantifies market health across three converging quantitative vectors.
+        </p>
+</div>
+<!-- Convergence Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Vector 01 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col justify-between">
+<div class="flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-mono">01 // VECTOR</span>
+<span class="font-label-caps text-label-caps text-outline">TRANSACTED</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">PRICE DISPERSION</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Observe price movement, percentile ranges, bid/ask dispersion, short-term realized volatility, and drawdown across verified transaction and active listing points.
+            </p>
+</div>
+<div class="mt-xl pt-md border-t border-outline-variant flex items-center justify-between text-outline font-code-raw text-code-raw">
+<span>METRIC: SPOT VWAP</span>
+<span class="text-on-surface">σ: ±0.42%</span>
+</div>
+</div>
+<!-- Vector 02 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col justify-between">
+<div class="flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-mono">02 // VECTOR</span>
+<span class="font-label-caps text-label-caps text-outline">INVENTORY</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">SUPPLY CONTRACTION</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Track how available listing quantities change through time, measuring net attrition, merchant inventory depletion rates, and float cluster lockups.
+            </p>
+</div>
+<div class="mt-xl pt-md border-t border-outline-variant flex items-center justify-between text-outline font-code-raw text-code-raw">
+<span>METRIC: QTY VELOCITY</span>
+<span class="text-primary">-18.4% NET/WK</span>
+</div>
+</div>
+<!-- Vector 03 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col justify-between">
+<div class="flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-mono">03 // VECTOR</span>
+<span class="font-label-caps text-label-caps text-outline">TURNOVER</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">SALES ACTIVITY</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Measure recent sales velocity and frequency changes relative to established baselines to detect genuine liquidity spikes without false-positive noise.
+            </p>
+</div>
+<div class="mt-xl pt-md border-t border-outline-variant flex items-center justify-between text-outline font-code-raw text-code-raw">
+<span>METRIC: TURNOVER Z-SCORE</span>
+<span class="text-secondary">+2.84 STDEV</span>
+</div>
+</div>
+</div>
+<!-- Confluence Banner -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg flex flex-col md:flex-row items-center justify-between gap-md">
+<div class="flex items-center gap-md">
+<div class="p-xs bg-primary/10 border border-primary text-primary">
+<span class="material-symbols-outlined text-[24px]">hub</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">TRIANGULATED MARKET INTELLIGENCE</div>
+<div class="font-body-sm text-body-sm text-outline">Pure statistical confluence without synthetic trading algorithms or simulated advice.</div>
+</div>
+</div>
+<div class="font-code-raw text-code-raw text-on-surface-variant bg-surface-container px-md py-xs border border-outline-variant">
+          f(price, supply, turnover) → CONFLUENCE SCORE
+        </div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 3. DISCOVERY WORKFLOW ("THE SURVEILLANCE WORKFLOW") -->
+<!-- ========================================== -->
+<section class="w-full bg-surface-container-lowest py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase">METHODICAL EXTRACTION</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          THE SURVEILLANCE WORKFLOW
+        </h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- Step 1 -->
+<div class="bg-surface-container-low border border-outline-variant flex flex-col">
+<div class="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">STEP 01</span>
+<span class="font-code-raw text-code-raw text-outline">TERMINAL.VIEW</span>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">MONITOR THE MACRO</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              FloatAlpha Terminal surfaces aggregate market shifts across the 100-asset tracked basket, tracking aggregate valuation trends and market-wide inventory runoffs.
+            </p>
+<!-- Terminal UI Mini-Fragment -->
+<div class="mt-auto pt-md bg-surface-container-lowest p-sm border border-outline-variant flex flex-col gap-xs font-code-raw text-code-raw">
+<div class="flex justify-between text-outline">
+<span>INDEX VALUE: $492,481</span>
+<span class="text-secondary">+1.4% 24H</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 overflow-hidden">
+<div class="bg-secondary h-full" style="width: 68%;"></div>
+</div>
+<div class="flex justify-between text-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant pt-2xs">
+<span>BREADTH: 68 UP</span>
+<span>32 DOWN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-low border border-outline-variant flex flex-col">
+<div class="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">STEP 02</span>
+<span class="font-code-raw text-code-raw text-outline">SCREENER.QUERY</span>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">FIND UNUSUAL CONDITIONS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              The Screener isolates assets matching precise quantitative thresholds: steep inventory drawdowns combined with sustained volume spikes and stable price anchors.
+            </p>
+<!-- Screener Row Mini-Fragment -->
+<div class="mt-auto pt-md bg-surface-container-lowest p-sm border border-outline-variant flex flex-col gap-xs font-code-raw text-code-raw">
+<div class="flex justify-between border-b border-outline-variant pb-xs text-outline">
+<span>FILTER: SUPPLY &lt; -15%</span>
+<span class="text-primary">MATCH: 4 SKUS</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>AWP | ASIIMOV (FT)</span>
+<span class="text-primary">-18.2% QTY</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>M4A1-S | PRINTSTREAM (MW)</span>
+<span class="text-primary">-21.0% QTY</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-low border border-outline-variant flex flex-col">
+<div class="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">STEP 03</span>
+<span class="font-code-raw text-code-raw text-outline">INTEL.ANALYZE</span>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">UNDERSTAND THE ASSET</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Asset Intelligence lays bare the transaction history, observation confidence, wear pattern distributions, and historical liquidity depth beneath every ticker.
+            </p>
+<!-- Asset Intel Mini-Fragment -->
+<div class="mt-auto pt-md bg-surface-container-lowest p-sm border border-outline-variant flex flex-col gap-xs font-code-raw text-code-raw">
+<div class="flex justify-between text-outline">
+<span>SAMPLE DEPTH</span>
+<span class="text-secondary">4,812 SALES</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>FLOAT CLUSTERING</span>
+<span class="text-on-surface">0.18 - 0.22 DENSE</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>SOURCE GROUNDING</span>
+<span class="text-primary">VERIFIED SKINPORT API</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 4. CORE FEATURE MATRIX                     -->
+<!-- ========================================== -->
+<section class="w-full bg-surface py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase">CAPABILITY ARSENAL</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          CORE FEATURE MATRIX
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Engineered to institutional specifications with 0px radius geometry, instantaneous data retrieval, and audit-grade calculations.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Feature 1 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm hover:border-primary transition-all">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-primary">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">MARKET TERMINAL</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Understand global market conditions at a glance with macro metrics, aggregate breadth distribution, top movers, and high-frequency order streams.
+          </p>
+</div>
+<!-- Feature 2 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm hover:border-primary transition-all">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-primary">
+<span class="material-symbols-outlined text-[20px]">filter_alt</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">QUANTITATIVE SCREENER</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Filter assets across multi-variable parameters including price dispersion, listing drawdown rates, activity velocity, realized volatility, and confidence bands.
+          </p>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm hover:border-primary transition-all">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-primary">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">ASSET INTELLIGENCE</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Investigate why an asset appeared on surveillance scans with deep multi-series divergence analysis, float spectrum distributions, and seller inventory depth.
+          </p>
+</div>
+<!-- Feature 4 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm hover:border-primary transition-all">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-primary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">PRICE CONFIDENCE</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Systematically quantify the statistical confidence in an observed price based on verifiable transaction quorum, order depth, and observation latency.
+          </p>
+</div>
+<!-- Feature 5 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm hover:border-primary transition-all">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-primary">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">PORTFOLIO WATCHLISTS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Follow specific asset conditions, float bounds, volume anomalies, and supply thresholds across your active digital inventory tracking lists.
+          </p>
+</div>
+<!-- Feature 6 -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col gap-sm relative opacity-85">
+<div class="flex items-center justify-between">
+<div class="w-8 h-8 flex items-center justify-center bg-surface-container text-outline">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<span class="px-xs py-2xs bg-surface-container-highest text-primary font-label-caps text-label-caps uppercase">PIPELINE Q3</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold uppercase">REAL-TIME ALERTS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Event-driven webhooks and notifications for supply contraction threshold breaches, abnormal turnover acceleration, and outlier float listings.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 5. PRICE CONFIDENCE EDUCATIONAL BREAKDOWN   -->
+<!-- ========================================== -->
+<section class="w-full bg-surface-container-lowest py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div class="flex flex-col gap-xs max-w-2xl">
+<span class="font-label-caps text-label-caps text-primary uppercase">LIQUIDITY AUDITING</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          NOT EVERY PRICE IS EQUALLY RELIABLE
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          FloatAlpha evaluates the quantitative rigor behind a displayed market price rather than presenting every quoted ticker with false equivalence.
+        </p>
+</div>
+<!-- Comparison Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<!-- Card A: Liquid Asset -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-sm border-b border-outline-variant">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">AK-47 | REDLINE</span>
+<span class="font-body-sm text-body-sm text-outline ml-xs">Field-Tested</span>
+</div>
+<div class="px-sm py-xs bg-secondary/10 border border-secondary text-secondary font-label-caps text-label-caps uppercase font-bold">
+                CONFIDENCE: HIGH
+              </div>
+</div>
+<div class="py-md flex flex-col gap-sm">
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Listing Depth</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-on-surface font-semibold">340+ Verified Units</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Sales Activity (24H)</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-on-surface font-semibold">142 Realized Trades</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Observed Price Dispersion</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-secondary font-semibold">0.4% (Tight Standard Band)</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-outline">Observation Depth</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-on-surface font-semibold">Accumulating / Verified</span>
+</div>
+</div>
+</div>
+<div class="mt-md p-sm bg-surface-container font-code-raw text-code-raw text-on-surface-variant border-l-2 border-secondary">
+            VERDICT: Price reflects active multi-participant auction consensus. Slippage risk is negligible at displayed levels.
+          </div>
+</div>
+<!-- Card B: Thin Asset -->
+<div class="bg-surface-container-low border border-outline-variant p-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-sm border-b border-outline-variant">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">M4A4 | RADIATION HAZARD</span>
+<span class="font-body-sm text-body-sm text-outline ml-xs">Souvenir Factory New</span>
+</div>
+<div class="px-sm py-xs bg-error/10 border border-error text-error font-label-caps text-label-caps uppercase font-bold">
+                CONFIDENCE: LOW
+              </div>
+</div>
+<div class="py-md flex flex-col gap-sm">
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Listing Depth</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-error font-semibold">2 Verified Units</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Sales Activity (14D)</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-error font-semibold">1 Realized Trade</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-surface-container">
+<span class="font-body-sm text-body-sm text-outline">Observed Price Dispersion</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-error font-semibold">18.5% (Wide Outlier Spread)</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-outline">Observation Depth</span>
+<span class="font-tabular-metric-md text-tabular-metric-md text-outline font-semibold">Low Liquidity Penalty</span>
+</div>
+</div>
+</div>
+<div class="mt-md p-sm bg-surface-container font-code-raw text-code-raw text-on-surface-variant border-l-2 border-error">
+            VERDICT: Price is ungrounded by recent market turnover. Last quoted price is susceptible to unilateral seller manipulation.
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 6. DATA TRANSPARENCY & PROVENANCE          -->
+<!-- ========================================== -->
+<section class="w-full bg-surface py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div class="flex flex-col gap-xs max-w-2xl">
+<span class="font-label-caps text-label-caps text-primary uppercase">AUDITABLE ARCHITECTURE</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          BUILT ON OBSERVATIONS, NOT HYPE
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Skinport grounded market observations • Pilot 100-SKU universe • Realized snapshot telemetry without synthetic volume padding.
+        </p>
+</div>
+<!-- 4 Semantic Tiers -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Tier 1 -->
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-caps text-label-caps uppercase font-bold">TIER 01</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">GROUNDED OBSERVATIONS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Direct source data verified by continuous ingestion workers. Raw execution logs preserved with cryptographically timestamped records.
+          </p>
+</div>
+<!-- Tier 2 -->
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">functions</span>
+<span class="font-label-caps text-label-caps uppercase font-bold">TIER 02</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">DERIVED METRICS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Mathematical calculations based strictly on verified historical snapshots: price moving averages, liquidity velocity, and supply delta.
+          </p>
+</div>
+<!-- Tier 3 -->
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">biotech</span>
+<span class="font-label-caps text-label-caps uppercase font-bold">TIER 03</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">EXPERIMENTAL METRICS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Clearly labeled exploratory pilot models, prototype volatility indices, and float-premium regression lines undergoing quorum evaluation.
+          </p>
+</div>
+<!-- Tier 4 -->
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-outline">
+<span class="material-symbols-outlined text-[18px]">hourglass_empty</span>
+<span class="font-label-caps text-label-caps uppercase font-bold">TIER 04</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">COLLECTING / UNAVAILABLE</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Transparently flagged when observation history is still accumulating. FloatAlpha never backfills with synthetic interpolation.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 7. AUTHENTIC PRODUCT SCREEN SHOWCASE        -->
+<!-- ========================================== -->
+<section class="w-full bg-surface-container-lowest py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase">PRODUCTION WORKSTATIONS</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+            ENGINEERED FOR SERIOUS MARKET SURVEILLANCE
+          </h2>
+</div>
+<!-- Screen Selector Tabs -->
+<div class="inline-flex bg-surface-container border border-outline-variant p-2xs" id="screenTabContainer">
+<button class="screen-tab px-md py-xs font-label-caps text-label-caps uppercase transition-colors bg-primary text-on-primary font-bold" data-index="0" onclick="switchScreen(0)">01 TERMINAL</button>
+<button class="screen-tab px-md py-xs font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface transition-colors" data-index="1" onclick="switchScreen(1)">02 SCREENER</button>
+<button class="screen-tab px-md py-xs font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface transition-colors" data-index="2" onclick="switchScreen(2)">03 ASSET INTEL</button>
+</div>
+</div>
+<!-- Framed Screen Showcase Viewports -->
+<div class="relative w-full border border-outline-variant bg-surface-container-low overflow-hidden">
+<!-- Persistent Titlebar inside terminal frame -->
+<div class="bg-surface-container px-md py-xs border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-code-raw text-code-raw text-outline ml-sm" id="activeScreenLabel">STATION: FLOATALPHA TERMINAL // PROD_NODE_01</span>
+</div>
+<span class="font-code-raw text-code-raw text-outline">FPS: 60 • WS: CONNECTED</span>
+</div>
+<!-- Dynamic Screen Views -->
+<div class="relative min-h-[480px] lg:min-h-[580px] w-full bg-surface-container-lowest">
+<!-- Screen 1: Terminal -->
+<div class="screen-content transition-opacity duration-200" id="screen-0">
+<img alt="FloatAlpha Live Terminal View" class="w-full h-auto object-cover object-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmdHvOd7Vc_lCLJLux4lI8rProFxpxMGHQ6hs5q_T-vNNXPYhl-YI3X0XV8pvrGbcVGpVVSbOWjeaI-VZAu45xHCHlbblU5FGYE9B0i8ddWqxwwzLmiQmOchSYvqwCZRlKNWlaTYfxR2ukqlYJ4syAgwRqDQ4eQTXP6Ldjdxp73Qrz_M0_1S6Ph212X_7f0uqOyuffumNQgPayoAefCpsUNOU0Yl9d2KZ78-dK-DuqPrLsk9b5HpMFxg"/>
+</div>
+<!-- Screen 2: Screener -->
+<div class="screen-content hidden transition-opacity duration-200" id="screen-1">
+<img alt="FloatAlpha Multi-variable Screener View" class="w-full h-auto object-cover object-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIrNLnzrzzRWJEttBhQY2LLN863drSkIvNdKE-MCOurDeMbmM4gnHB7VzzaLcqSSPhCusPYRpvRMVqNKkqaoUDp-Y9_phamoipVE_6UDV7v2l192NAxh3zG1_yQXslkL5wb-rtQHPQ0t5twu3t4nROPOIgZIw2EflKf1HCadPBY39-j_kva5thxVC03lMUUOH43co3i2YqyW2R3xjViRlUPwg4OjGAnAaxK4Hxt_yp6oltnPEdUkDo8Q"/>
+</div>
+<!-- Screen 3: Asset Intel -->
+<div class="screen-content hidden transition-opacity duration-200" id="screen-2">
+<img alt="FloatAlpha Asset Intelligence Divergence View" class="w-full h-auto object-cover object-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9HxpnQ3v3KK0phcLNpgodndNAdVRvg6sHmIYj89WoA0uPkcdfqoV9p9xu74szxvSQMzFN6rKyK-OeAxzeQkltdzWxfUNx78-EbAyshQ5IfSAlTMyOyOFEmYDsou8AEGsF7oU_n-Dm15RRMkkt6TjEeNcDOJLABfgNjRas8cVGYBLGPPPENlyeIbauUkJMV_r9L-KB-1GapdisYTHFPp9UyAMh2fjbetXCLbxI1JAUlnOUbbYqRAfqQ"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 8. RESTRAINED PRICING TEASER               -->
+<!-- ========================================== -->
+<section class="w-full bg-surface py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col items-center text-center gap-xl">
+<div class="flex flex-col items-center gap-xs max-w-xl">
+<span class="font-label-caps text-label-caps text-primary uppercase">SUBSCRIPTION ARCHITECTURE</span>
+<h2 class="font-headline-lg text-headline-lg lg:text-display-lg text-on-surface font-bold uppercase tracking-tight">
+          START WITH FLOATALPHA
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Institutional analytics engineered specifically for digital inventory desks and algorithmic liquidity researchers.
+        </p>
+</div>
+<!-- Pricing Dual Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg w-full max-w-4xl text-left">
+<!-- Free Tier -->
+<div class="bg-surface-container-low border border-outline-variant p-xl flex flex-col justify-between">
+<div class="flex flex-col gap-md">
+<div class="flex justify-between items-baseline">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold uppercase">COMMUNITY ACCESS</h3>
+<span class="font-label-caps text-label-caps text-outline uppercase">TIER 0</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Explore macro market intelligence and grounded core asset data without financial friction.
+            </p>
+<ul class="flex flex-col gap-xs font-body-sm text-body-sm text-on-surface py-sm border-t border-outline-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+                24H CS2 Market Overview &amp; Macro Breadth
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+                100-SKU Pilot Terminal Index
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+                Basic Single-Variable Asset Observations
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+                Community Discord Research Access
+              </li>
+</ul>
+</div>
+<div class="pt-lg border-t border-outline-variant">
+<a class="block text-center bg-surface-container border border-outline-variant text-on-surface font-headline-sm text-headline-sm py-sm uppercase font-semibold hover:border-on-surface transition-all" data-path="explore" href="#">
+              INITIALIZE TIER 0
+            </a>
+</div>
+</div>
+<!-- Pro Tier -->
+<div class="bg-surface-container-low border-2 border-primary p-xl flex flex-col justify-between relative">
+<div class="absolute top-0 right-0 bg-primary text-on-primary font-label-caps text-label-caps px-sm py-2xs font-bold uppercase">
+            RECOMMENDED FOR TRADING DESKS
+          </div>
+<div class="flex flex-col gap-md">
+<div class="flex justify-between items-baseline">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold uppercase">INSTITUTIONAL PRO</h3>
+<span class="font-label-caps text-label-caps text-primary uppercase">FULL CAPABILITY</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              High-frequency multi-variable screening, proprietary divergence triggers, and historical quorum.
+            </p>
+<ul class="flex flex-col gap-xs font-body-sm text-body-sm text-on-surface py-sm border-t border-outline-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Advanced Multi-Variable Screener &amp; Filter Combinations
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Full Historical Trajectory &amp; Attrition Charts
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Deep Statistical Price Confidence Breakdowns
+              </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Unlimited Custom Condition Watchlists
+              </li>
+</ul>
+</div>
+<div class="pt-lg border-t border-outline-variant">
+<a class="block text-center bg-primary text-on-primary font-headline-sm text-headline-sm py-sm uppercase font-bold hover:bg-primary-container hover:text-on-primary-container transition-all" data-path="pricing" href="#">
+              COMPARE PLANS &amp; CAPABILITIES
+            </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 9. TRUST & PRODUCT PRINCIPLES              -->
+<!-- ========================================== -->
+<section class="w-full bg-surface-container-lowest py-2xl border-b border-outline-variant">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col gap-xl">
+<div class="flex flex-col items-center text-center gap-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase">INSTITUTIONAL COMPLIANCE</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold uppercase tracking-tight">
+          OPERATING PILLARS
+        </h2>
+</div>
+<!-- 5-Pillar Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-xs">
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-xs">
+<span class="font-code-raw text-code-raw text-primary">01 //</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">NO BUY / SELL SIGNALS</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Descriptive market observations only. We never provide predictive financial tips.</p>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-xs">
+<span class="font-code-raw text-code-raw text-primary">02 //</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">TRANSPARENT METHODS</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Every index calculation and divergence formula is published and fully auditable.</p>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-xs">
+<span class="font-code-raw text-code-raw text-primary">03 //</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">SOURCE-AWARE DATA</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Explicit provenance documentation detailing exact endpoints and snapshot epochs.</p>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-xs">
+<span class="font-code-raw text-code-raw text-primary">04 //</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">CONFIDENCE-AWARE</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Every single price point carries an audited statistical confidence tier.</p>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-md flex flex-col gap-xs">
+<span class="font-code-raw text-code-raw text-primary">05 //</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">NO FABRICATED METRICS</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Missing data is explicitly flagged as collecting. Zero synthetic interpolation.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 10. FINAL CTA & REGULATORY DISCLAIMER       -->
+<!-- ========================================== -->
+<section class="w-full bg-surface-container-low py-2xl lg:py-32">
+<div class="mx-auto max-w-[1440px] px-lg lg:px-2xl flex flex-col items-center text-center gap-xl">
+<div class="flex flex-col items-center gap-md max-w-3xl">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">REAL-TIME CS2 INTELLIGENCE</span>
+<h2 class="font-headline-lg text-display-lg lg:text-[44px] lg:leading-[48px] text-on-surface font-bold uppercase tracking-tight">
+          LOOK BENEATH THE PRICE.
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          Explore the market through simultaneous price, supply, and activity dynamics across verified digital inventory markets.
+        </p>
+<div class="pt-sm">
+<a class="inline-flex items-center justify-center bg-primary text-on-primary font-headline-sm text-headline-sm px-2xl py-md uppercase font-bold tracking-wide hover:bg-primary-container hover:text-on-primary-container transition-all" data-path="explore" href="#">
+            OPEN FLOATALPHA
+          </a>
+</div>
+</div>
+<!-- Regulatory Disclaimer Box -->
+<div class="w-full max-w-4xl p-md bg-surface-container-lowest border border-outline-variant text-left mt-lg">
+<div class="flex items-center gap-xs text-outline mb-2xs">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span class="font-label-caps text-label-caps uppercase font-bold">REGULATORY &amp; DATA NOTICE</span>
+</div>
+<p class="font-code-raw text-code-raw text-outline leading-relaxed">
+          FloatAlpha provides descriptive digital asset market information and quantitative analytical tools. It does not provide investment, trading, financial, or tax advice. Past market observations do not guarantee future pricing or turnover behavior. Market data is grounded in public snapshot streams from Skinport. FloatAlpha is not affiliated with, sponsored by, or endorsed by Valve Corporation, Counter-Strike, or Skinport.
+        </p>
+</div>
+</div>
+</section>
+<!-- Interactive script for terminal screen showcase tabs -->
+<script>
+    function switchScreen(idx) {
+      const labels = [
+        "STATION: FLOATALPHA TERMINAL // PROD_NODE_01",
+        "STATION: MULTI-VARIABLE SCREENER // REALTIME_QUERY",
+        "STATION: ASSET INTELLIGENCE // DIVERGENCE_ANALYZER"
+      ];
+      
+      const contents = document.querySelectorAll('.screen-content');
+      contents.forEach((el, i) => {
+        if (i === idx) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      const tabs = document.querySelectorAll('.screen-tab');
+      tabs.forEach((tab, i) => {
+        if (i === idx) {
+          tab.classList.add('bg-primary', 'text-on-primary', 'font-bold');
+          tab.classList.remove('text-on-surface-variant');
+        } else {
+          tab.classList.remove('bg-primary', 'text-on-primary', 'font-bold');
+          tab.classList.add('text-on-surface-variant');
+        }
+      });
+
+      const labelEl = document.getElementById('activeScreenLabel');
+      if (labelEl) {
+        labelEl.textContent = labels[idx];
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-outline-variant"><div class="w-full px-lg py-xl flex flex-col gap-xl"><div class="grid grid-cols-1 md:grid-cols-5 gap-xl"><div class="md:col-span-2 flex flex-col gap-sm"><div class="flex items-center gap-sm"><img alt="Brand logo. - Primary color: #00b4d8
+- Font: inter
+- Mode: dark
+- Roundness: rounded-lg
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U5g-JogKTOwhGvpxzMCIEhQGTWo3IQTDv0hLQPwCRIbNfyw3RFPkST68zhDtBR-1xxmkG2XhMXkG1_wuFOO-eA6TPyTeIdsNrjvnsIHeNx6fdhCBzZ3pBPsWvNTabDDaRtTz57ztQIhFInfIanQae3yhfFqTnuVupIaEg0RJEFd_s1PGOLx0CWWSjhjDozgbhHW238SOjsFrQTFBQiB9gsqc5hnk1F4S4UFG_mWqV4f5449aJx1Nv0Zy4d"/><span class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">FLOATALPHA</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Institutional valuation architecture, high-density order book feeds, and algorithmic market intelligence for Counter-Strike 2 virtual economies.</p></div><div class="flex flex-col gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase tracking-wider mb-xs">Platform</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="platform-terminal" href="#">Market Terminal</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="screener" href="#">Float Screener</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="intelligence" href="#">Macro Intelligence</a></div><div class="flex flex-col gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase tracking-wider mb-xs">Documentation</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="methodology" href="#">Valuation Engine</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="data-provenance" href="#">Data Provenance</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pricing" href="#">Subscription Tiers</a></div><div class="flex flex-col gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase tracking-wider mb-xs">Legal &amp; Compliance</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="api-license" href="#">API License Agreement</a></div></div><div class="pt-md border-t border-outline-variant flex flex-col md:flex-row justify-between items-start md:items-center gap-sm"><p class="font-code-raw text-code-raw text-outline">© 2025 FloatAlpha Technologies LLC. All rights reserved. Precision quantitative analytics for CS2 digital inventories.</p><p class="font-code-raw text-code-raw text-outline">FloatAlpha is not associated with, affiliated with, sponsored by, or endorsed by Valve Corporation or Counter-Strike.</p></div></div></footer></body></html>

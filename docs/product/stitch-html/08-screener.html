@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "tertiary-fixed": "#ffdad7",
+        "on-surface-variant": "#bcc9ce",
+        "surface-bright": "#363940",
+        "inverse-primary": "#00677d",
+        "on-surface": "#e1e2eb",
+        "surface-container-highest": "#32353c",
+        "on-secondary-fixed": "#002113",
+        "surface": "#10131a",
+        "on-primary-container": "#00414f",
+        "primary-container": "#00b4d8",
+        "surface-container": "#1d2026",
+        "on-primary-fixed-variant": "#004e5f",
+        "inverse-surface": "#e1e2eb",
+        "on-secondary-fixed-variant": "#005236",
+        "on-tertiary-fixed": "#410004",
+        "surface-container-lowest": "#0b0e14",
+        "on-secondary-container": "#00311f",
+        "on-error": "#690005",
+        "on-background": "#e1e2eb",
+        "primary-fixed-dim": "#4cd6fb",
+        "error-container": "#93000a",
+        "secondary": "#4edea3",
+        "secondary-container": "#00a572",
+        "outline-variant": "#3d494d",
+        "surface-dim": "#10131a",
+        "tertiary-fixed-dim": "#ffb3ad",
+        "tertiary": "#ffb3ad",
+        "on-primary-fixed": "#001f27",
+        "secondary-fixed": "#6ffbbe",
+        "on-secondary": "#003824",
+        "tertiary-container": "#ff7e77",
+        "on-tertiary": "#68000a",
+        "surface-variant": "#32353c",
+        "outline": "#869398",
+        "on-tertiary-fixed-variant": "#930013",
+        "on-error-container": "#ffdad6",
+        "background": "#10131a",
+        "on-tertiary-container": "#7c000f",
+        "surface-tint": "#4cd6fb",
+        "primary-fixed": "#b3ebff",
+        "secondary-fixed-dim": "#4edea3",
+        "primary": "#4cd6fb",
+        "inverse-on-surface": "#2e3037",
+        "surface-container-low": "#191c22",
+        "on-primary": "#003642",
+        "error": "#ffb4ab",
+        "surface-container-high": "#272a31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "sm": "8px",
+        "lg": "16px",
+        "panel-header-h": "28px",
+        "row-compact-h": "20px",
+        "gutter-compact": "1px",
+        "ticker-ribbon-h": "24px",
+        "xl": "24px",
+        "zero": "0px",
+        "2xl": "32px",
+        "row-default-h": "26px",
+        "xs": "4px",
+        "md": "12px",
+        "2xs": "2px"
+      },
+      "fontFamily": {
+        "headline-lg": ["Inter"],
+        "tabular-metric-md": ["JetBrains Mono"],
+        "display-lg": ["Inter"],
+        "body-lg": ["JetBrains Mono"],
+        "body-sm": ["JetBrains Mono"],
+        "headline-sm": ["Inter"],
+        "body-md": ["JetBrains Mono"],
+        "headline-md": ["Inter"],
+        "tabular-metric-sm": ["JetBrains Mono"],
+        "code-raw": ["JetBrains Mono"],
+        "tabular-metric-lg": ["JetBrains Mono"],
+        "label-caps": ["Inter"]
+      },
+      "fontSize": {
+        "headline-lg": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "tabular-metric-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500"}],
+        "display-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "body-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "body-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "headline-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "body-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "headline-md": ["16px", {"lineHeight": "22px", "letterSpacing": "-0.005em", "fontWeight": "500"}],
+        "tabular-metric-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+        "code-raw": ["11px", {"lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "tabular-metric-lg": ["18px", {"lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant"><div class="h-12 w-full px-lg flex items-center justify-between gap-md"><div class="flex items-center gap-lg"><div class="flex items-center gap-xs"><span class="font-headline-md text-headline-md font-bold tracking-wider text-on-surface">FLOATALPHA</span><span class="px-2xs py-zero bg-surface-container text-primary font-tabular-metric-sm text-tabular-metric-sm border border-outline-variant">v4.19</span><span class="hidden xl:inline text-on-surface-variant font-label-caps text-label-caps pl-xs border-l border-outline-variant">CS2 MARKET INTELLIGENCE</span></div><nav class="flex items-center gap-sm h-12" data-active-classes="text-on-surface border-b-2 border-primary"><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="terminal" href="#">Terminal</a><a aria-current="page" class="h-12 flex items-center px-sm font-headline-sm transition-colors text-on-surface border-b-2 border-primary" data-path="screener" href="#">Screener</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="assets" href="#">Assets</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="watchlist" href="#">Watchlist</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="portfolio" href="#">Portfolio</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="alerts" href="#">Alerts</a></nav></div><div class="flex items-center gap-md"><div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant px-sm h-7 gap-sm"><span class="material-symbols-outlined text-outline text-[16px]">search</span><span class="font-code-raw text-code-raw text-outline">FIND ASSET (FLOAT/SKIN)...</span><kbd class="bg-surface-container px-xs py-zero font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant border border-outline-variant">/</kbd></div><div class="hidden lg:flex items-center gap-xs px-sm h-7 bg-surface-container-low border border-outline-variant"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">99.8% DATA COVERAGE • Skinport Grounded</span></div><button class="flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">notifications</span></button><div class="flex items-center px-xs h-7 bg-surface-container border border-outline-variant gap-xs"><span class="font-label-caps text-label-caps text-primary font-bold">PRO ANALYST</span><span class="font-code-raw text-code-raw text-on-surface-variant">0x8F9...B21</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-12 pb-8 bg-surface"><div class="flex flex-col w-full">
+<!-- TOP SUB-HEADER & PRESET CONTROLS -->
+<section class="h-11 px-lg bg-surface-container-lowest flex items-center justify-between gap-md border-b border-outline-variant">
+<div class="flex items-center gap-md min-w-0">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">view_kanban</span>
+<h1 class="font-headline-sm text-headline-sm uppercase text-on-surface tracking-wider font-extrabold whitespace-nowrap">Asset Screener</h1>
+</div>
+<span class="hidden xl:inline text-outline text-[12px]">•</span>
+<span class="hidden md:inline font-body-sm text-body-sm text-on-surface-variant truncate">
+        Discover unusual price, supply, and activity conditions across tracked CS2 assets.
+      </span>
+<div class="inline-flex items-center px-xs py-2xs bg-surface-container border border-outline-variant rounded-none">
+<span class="font-label-caps text-label-caps text-primary font-semibold tracking-wider">
+          100 ASSETS IN PILOT UNIVERSE • SKINPORT GROUNDED
+        </span>
+</div>
+</div>
+<div class="flex items-center gap-xs shrink-0">
+<div class="relative flex items-center">
+<span class="font-label-caps text-label-caps text-outline absolute left-2 pointer-events-none">PRESET:</span>
+<select class="h-7 pl-12 pr-6 bg-surface-container-low border border-outline-variant text-on-surface font-code-raw text-code-raw focus:border-primary outline-none cursor-pointer">
+<option selected="">SUPPLY CONTRACTION</option>
+<option>ALL ASSETS</option>
+<option>ACTIVITY SPIKES</option>
+<option>PRICE MOMENTUM</option>
+<option>HIGH CONFIDENCE</option>
+</select>
+<span class="material-symbols-outlined text-outline text-[14px] absolute right-1 pointer-events-none">expand_more</span>
+</div>
+<button class="h-7 px-sm bg-surface-container-low hover:bg-surface-container text-on-surface font-label-caps text-label-caps border border-outline-variant flex items-center gap-xs transition-colors">
+<span class="material-symbols-outlined text-[14px] text-primary">bookmark_add</span>
+        SAVE SCREEN
+      </button>
+<button class="h-7 px-sm bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps border border-outline-variant flex items-center gap-xs transition-colors">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span>
+        RESET
+      </button>
+<button class="h-7 px-sm bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps border border-outline-variant flex items-center gap-xs transition-colors">
+<span class="material-symbols-outlined text-[14px] text-primary">download</span>
+        EXPORT (CSV)
+        <span class="px-2xs py-zero bg-primary text-on-primary font-tabular-metric-sm text-tabular-metric-sm font-bold">PRO</span>
+</button>
+</div>
+</section>
+<!-- COMPACT INSTITUTIONAL FILTER MATRIX -->
+<section class="bg-surface-container-low border-b border-outline-variant p-sm flex flex-col gap-xs">
+<!-- Primary Row -->
+<div class="flex flex-wrap items-center justify-between gap-sm font-body-sm text-body-sm">
+<!-- Category Segments -->
+<div class="flex items-center border border-outline-variant bg-surface-container-lowest">
+<button class="h-7 px-sm bg-primary text-on-primary font-headline-sm text-headline-sm font-semibold">ALL</button>
+<button class="h-7 px-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-headline-sm text-headline-sm border-l border-outline-variant transition-colors">CASES</button>
+<button class="h-7 px-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-headline-sm text-headline-sm border-l border-outline-variant transition-colors">WEAPONS</button>
+<button class="h-7 px-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-headline-sm text-headline-sm border-l border-outline-variant transition-colors">KNIVES</button>
+<button class="h-7 px-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-headline-sm text-headline-sm border-l border-outline-variant transition-colors">GLOVES</button>
+<button class="h-7 px-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-headline-sm text-headline-sm border-l border-outline-variant transition-colors">STICKERS</button>
+</div>
+<!-- Metric Filters -->
+<div class="flex items-center gap-xs flex-wrap">
+<!-- Price Range -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-outline-variant">
+<span class="font-label-caps text-label-caps text-outline mr-xs">PRICE:</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">$0</span>
+<span class="text-outline px-2xs">→</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-primary">$6,000</span>
+</div>
+<!-- Price Delta -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-outline-variant">
+<span class="font-label-caps text-label-caps text-outline mr-xs">PRICE Δ 7D:</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface">-5.0%</span>
+<span class="text-outline px-2xs">to</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface">+5.0%</span>
+</div>
+<!-- Listing Delta -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-error/50">
+<span class="font-label-caps text-label-caps text-error mr-xs">LISTING Δ 7D:</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-error">&lt; -15.0%</span>
+</div>
+<!-- Activity Delta -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-secondary/50">
+<span class="font-label-caps text-label-caps text-secondary mr-xs">ACT Δ (24H/7D):</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-secondary">&gt; +50.0%</span>
+</div>
+<!-- Confidence Selector -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-outline-variant">
+<span class="font-label-caps text-label-caps text-outline mr-xs">CONFIDENCE:</span>
+<span class="font-label-caps text-label-caps text-primary">MED+ ONLY</span>
+</div>
+<!-- History -->
+<div class="flex items-center h-7 px-xs bg-surface-container-lowest border border-outline-variant">
+<span class="font-label-caps text-label-caps text-outline mr-xs">HIST:</span>
+<span class="font-code-raw text-code-raw text-on-surface">30D+ LOGGED</span>
+</div>
+</div>
+<div class="flex items-center">
+<button class="h-7 px-xs bg-surface-container hover:bg-surface-container-high text-primary font-code-raw text-code-raw flex items-center gap-xs border border-outline-variant" id="toggleQueryBuilder">
+<span class="material-symbols-outlined text-[15px]">terminal</span>
+<span>QUERY SYNTAX</span>
+<span class="material-symbols-outlined text-[14px]">tune</span>
+</button>
+</div>
+</div>
+<!-- ADVANCED FILTER QUERY BUILDER SYNTAX STRIP -->
+<div class="p-xs bg-surface-container-lowest border border-outline-variant flex items-center justify-between gap-sm overflow-x-auto" id="queryBuilderBlock">
+<div class="flex items-center gap-xs flex-nowrap font-code-raw text-code-raw whitespace-nowrap">
+<span class="text-outline font-bold">SQL / DSL:</span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant">[Listing_Δ_7D]</span>
+<span class="text-error font-bold">&lt;</span>
+<span class="px-xs py-2xs bg-surface-container text-error border border-outline-variant">-15%</span>
+<span class="text-primary font-bold px-2xs">AND</span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant">[Activity_Δ_24H_vs_7D]</span>
+<span class="text-secondary font-bold">&gt;</span>
+<span class="px-xs py-2xs bg-surface-container text-secondary border border-outline-variant">+50%</span>
+<span class="text-primary font-bold px-2xs">AND</span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant">[Price_Δ_7D]</span>
+<span class="text-outline">BETWEEN</span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant">[-5%, +5%]</span>
+<span class="text-primary font-bold px-2xs">AND</span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant">[Price_Confidence]</span>
+<span class="text-outline">IS NOT</span>
+<span class="px-xs py-2xs bg-surface-container text-tertiary border border-outline-variant">'LOW'</span>
+</div>
+<div class="flex items-center gap-xs shrink-0">
+<button class="h-6 px-xs bg-surface-container hover:bg-surface-container-high text-primary font-code-raw text-tabular-metric-sm border border-outline-variant flex items-center gap-2xs">
+<span class="material-symbols-outlined text-[12px]">add</span>
+          ADD CONDITION
+        </button>
+<button class="h-6 px-xs text-outline hover:text-on-surface font-code-raw text-tabular-metric-sm border border-outline-variant">
+          COPY AST
+        </button>
+</div>
+</div>
+</section>
+<!-- RESULT SUMMARY & ACTIVE REMOVABLE STRIP -->
+<section class="h-8 px-lg bg-surface flex items-center justify-between border-b border-outline-variant">
+<div class="flex items-center gap-md min-w-0">
+<div class="flex items-center gap-xs">
+<span class="font-tabular-metric-md text-tabular-metric-md font-bold text-primary">18</span>
+<span class="font-code-raw text-code-raw text-outline">/</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">100 ASSETS MATCH QUERY</span>
+</div>
+<div class="hidden lg:flex items-center gap-xs overflow-x-auto">
+<span class="inline-flex items-center gap-2xs px-xs py-2xs bg-surface-container border border-outline-variant text-error font-tabular-metric-sm text-tabular-metric-sm">
+          SUPPLY 7D &lt; -15%
+          <span class="material-symbols-outlined text-[12px] hover:text-on-surface cursor-pointer">close</span>
+</span>
+<span class="inline-flex items-center gap-2xs px-xs py-2xs bg-surface-container border border-outline-variant text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+          ACTIVITY &gt; +50%
+          <span class="material-symbols-outlined text-[12px] hover:text-on-surface cursor-pointer">close</span>
+</span>
+<span class="inline-flex items-center gap-2xs px-xs py-2xs bg-surface-container border border-outline-variant text-on-surface-variant font-tabular-metric-sm text-tabular-metric-sm">
+          PRICE 7D ±5%
+          <span class="material-symbols-outlined text-[12px] hover:text-on-surface cursor-pointer">close</span>
+</span>
+<span class="inline-flex items-center gap-2xs px-xs py-2xs bg-surface-container border border-outline-variant text-primary font-tabular-metric-sm text-tabular-metric-sm">
+          CONFIDENCE ≥ MED
+          <span class="material-symbols-outlined text-[12px] hover:text-on-surface cursor-pointer">close</span>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-md shrink-0">
+<div class="flex items-center gap-xs">
+<span class="font-label-caps text-label-caps text-outline">SORT:</span>
+<span class="font-code-raw text-code-raw text-on-surface flex items-center gap-2xs">
+          Listing Δ 7D ASC
+          <span class="material-symbols-outlined text-primary text-[12px]">arrow_upward</span>
+</span>
+</div>
+<div class="border-l border-outline-variant pl-sm flex items-center gap-xs">
+<button class="p-2xs bg-surface-container text-primary border border-outline-variant" title="Dense view"><span class="material-symbols-outlined text-[14px]">density_small</span></button>
+<button class="p-2xs text-outline hover:text-on-surface" title="Normal view"><span class="material-symbols-outlined text-[14px]">density_medium</span></button>
+<button class="h-6 px-xs bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps border border-outline-variant flex items-center gap-2xs" title="Columns customization">
+          COLUMNS
+          <span class="material-symbols-outlined text-[12px]">view_column</span>
+</button>
+</div>
+</div>
+</section>
+<!-- MAIN DUAL-PANE VIEWPORT (TABLE + DOCKED INSPECTION) -->
+<div class="w-full flex flex-col xl:flex-row items-stretch border-b border-outline-variant bg-surface">
+<!-- LEFT / CENTRAL DATA TABLE CONTAINER (~74%) -->
+<div class="w-full xl:w-[73%] overflow-x-auto border-b xl:border-b-0 xl:border-r border-outline-variant">
+<table class="w-full border-collapse text-left select-none">
+<thead>
+<tr class="h-7 bg-surface-container-low border-b border-outline-variant font-label-caps text-label-caps text-outline whitespace-nowrap">
+<th class="px-sm font-semibold tracking-wider">ASSET IDENTIFIER</th>
+<th class="px-sm text-right font-semibold tracking-wider">PRICE (MEDIAN)</th>
+<th class="px-sm text-right font-semibold tracking-wider">24H Δ</th>
+<th class="px-sm text-right font-semibold tracking-wider">7D Δ</th>
+<th class="px-sm text-right font-semibold tracking-wider">LISTINGS</th>
+<th class="px-sm text-right font-semibold tracking-wider text-primary">LISTING Δ 7D ▼</th>
+<th class="px-sm text-right font-semibold tracking-wider">24H OBS.</th>
+<th class="px-sm text-right font-semibold tracking-wider">ACT Δ 7D</th>
+<th class="px-sm text-right font-semibold tracking-wider">VOL (30D σ)</th>
+<th class="px-sm text-right font-semibold tracking-wider">DRAWDOWN</th>
+<th class="px-sm text-center font-semibold tracking-wider">CONFIDENCE</th>
+<th class="px-sm text-center font-semibold tracking-wider">OBSERVATIONAL SIGNAL</th>
+</tr>
+</thead>
+<tbody class="font-tabular-metric-md text-tabular-metric-md divide-y divide-outline-variant/40">
+<!-- ROW 1 (SELECTED / CANONICAL THESIS EXAMPLE) -->
+<tr class="h-[34px] bg-surface-container/60 hover:bg-surface-container border-l-2 border-primary cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0" title="Field-Tested"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">AK-47 | Fire Serpent</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.21 • Operation Bravo</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$845.00</td>
+<td class="px-sm text-right text-error">-0.4%</td>
+<td class="px-sm text-right text-error">-1.2%</td>
+<td class="px-sm text-right text-on-surface">34</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-22.4%</td>
+<td class="px-sm text-right text-on-surface">18 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+84.0%</td>
+<td class="px-sm text-right text-outline">14.1%</td>
+<td class="px-sm text-right text-on-surface-variant">-12.4%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-primary/10 text-primary font-label-caps text-label-caps border border-primary/40 font-bold">
+                SUPPLY CONTRACTING
+              </span>
+</td>
+</tr>
+<!-- ROW 2 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-primary shrink-0" title="Container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Operation Bravo Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Discontinued Container</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$48.50</td>
+<td class="px-sm text-right text-secondary">+0.2%</td>
+<td class="px-sm text-right text-secondary">+0.8%</td>
+<td class="px-sm text-right text-on-surface">420</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-18.3%</td>
+<td class="px-sm text-right text-on-surface">224 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+151.0%</td>
+<td class="px-sm text-right text-outline">11.2%</td>
+<td class="px-sm text-right text-on-surface-variant">-6.2%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-primary/10 text-primary font-label-caps text-label-caps border border-primary/40">
+                SUPPLY CONTRACTING
+              </span>
+</td>
+</tr>
+<!-- ROW 3 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-primary-container shrink-0" title="Minimal Wear"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Desert Eagle | Printstream</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">MW 0.09 • Fracture</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$114.00</td>
+<td class="px-sm text-right text-error">-0.8%</td>
+<td class="px-sm text-right text-error">-1.8%</td>
+<td class="px-sm text-right text-on-surface">114</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-16.4%</td>
+<td class="px-sm text-right text-on-surface">28 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+154.0%</td>
+<td class="px-sm text-right text-outline">18.4%</td>
+<td class="px-sm text-right text-on-surface-variant">-15.1%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/40">
+                ACTIVITY ACCELERATING
+              </span>
+</td>
+</tr>
+<!-- ROW 4 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-outline shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Kilowatt Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool Container</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$4.85</td>
+<td class="px-sm text-right text-secondary">+1.2%</td>
+<td class="px-sm text-right text-secondary">+2.4%</td>
+<td class="px-sm text-right text-on-surface">3,240</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-17.4%</td>
+<td class="px-sm text-right text-on-surface">312 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+191.0%</td>
+<td class="px-sm text-right text-outline">19.8%</td>
+<td class="px-sm text-right text-on-surface-variant">-22.0%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container-high text-on-surface font-label-caps text-label-caps border border-outline-variant">
+                VOLUME SPIKE
+              </span>
+</td>
+</tr>
+<!-- ROW 5 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0" title="Factory New"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">AWP | Fade</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.02 • The Havoc</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$1,620.00</td>
+<td class="px-sm text-right text-secondary">+0.4%</td>
+<td class="px-sm text-right text-error">-0.5%</td>
+<td class="px-sm text-right text-on-surface">88</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-15.8%</td>
+<td class="px-sm text-right text-on-surface">12 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+68.0%</td>
+<td class="px-sm text-right text-outline">16.2%</td>
+<td class="px-sm text-right text-on-surface-variant">-8.4%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-on-surface-variant font-label-caps text-label-caps border border-outline-variant">MED</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-primary/10 text-primary font-label-caps text-label-caps border border-primary/40">
+                SUPPLY CONTRACTING
+              </span>
+</td>
+</tr>
+<!-- ROW 6 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-tertiary shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Butterfly Knife | Doppler P2</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.02 • Spectrum</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$3,420.00</td>
+<td class="px-sm text-right text-secondary">+1.8%</td>
+<td class="px-sm text-right text-secondary">+3.1%</td>
+<td class="px-sm text-right text-on-surface">41</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-14.2%</td>
+<td class="px-sm text-right text-on-surface">14 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+58.0%</td>
+<td class="px-sm text-right text-outline">15.0%</td>
+<td class="px-sm text-right text-on-surface-variant">-9.2%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-primary font-label-caps text-label-caps border border-primary/40">
+                PRICE MOMENTUM
+              </span>
+</td>
+</tr>
+<!-- ROW 7 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-outline shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Revolution Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Standard Active Pool</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$1.42</td>
+<td class="px-sm text-right text-outline">+0.0%</td>
+<td class="px-sm text-right text-error">-1.1%</td>
+<td class="px-sm text-right text-on-surface">5,820</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-15.1%</td>
+<td class="px-sm text-right text-on-surface">224 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+142.0%</td>
+<td class="px-sm text-right text-outline">21.0%</td>
+<td class="px-sm text-right text-on-surface-variant">-18.6%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container-high text-on-surface font-label-caps text-label-caps border border-outline-variant">
+                VOLUME SPIKE
+              </span>
+</td>
+</tr>
+<!-- ROW 8 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">M4A1-S | Blue Phosphor</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.01 • Control</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$680.00</td>
+<td class="px-sm text-right text-error">-0.5%</td>
+<td class="px-sm text-right text-secondary">+0.4%</td>
+<td class="px-sm text-right text-on-surface">62</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-16.0%</td>
+<td class="px-sm text-right text-on-surface">19 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+111.0%</td>
+<td class="px-sm text-right text-outline">17.5%</td>
+<td class="px-sm text-right text-on-surface-variant">-11.0%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-on-surface-variant font-label-caps text-label-caps border border-outline-variant">MED</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-primary/10 text-primary font-label-caps text-label-caps border border-primary/40">
+                SUPPLY CONTRACTING
+              </span>
+</td>
+</tr>
+<!-- ROW 9 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-outline shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Dreams &amp; Nightmares Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$1.13</td>
+<td class="px-sm text-right text-secondary">+3.2%</td>
+<td class="px-sm text-right text-secondary">+4.1%</td>
+<td class="px-sm text-right text-on-surface">14,210</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-11.2%</td>
+<td class="px-sm text-right text-on-surface">145 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+48.0%</td>
+<td class="px-sm text-right text-outline">12.8%</td>
+<td class="px-sm text-right text-on-surface-variant">-5.1%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-primary font-label-caps text-label-caps border border-primary/40">
+                PRICE MOMENTUM
+              </span>
+</td>
+</tr>
+<!-- ROW 10 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-tertiary-container shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Sport Gloves | Vice</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.16</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$1,840.00</td>
+<td class="px-sm text-right text-error">-1.2%</td>
+<td class="px-sm text-right text-error">-2.1%</td>
+<td class="px-sm text-right text-on-surface">24</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-9.4%</td>
+<td class="px-sm text-right text-on-surface">4 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+12.0%</td>
+<td class="px-sm text-right text-outline">15.2%</td>
+<td class="px-sm text-right text-on-surface-variant">-14.8%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-primary/10 text-primary font-label-caps text-label-caps border border-primary/40">
+                SUPPLY CONTRACTING
+              </span>
+</td>
+</tr>
+<!-- ROW 11 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-outline shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Fracture Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool Container</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$0.62</td>
+<td class="px-sm text-right text-secondary">+0.8%</td>
+<td class="px-sm text-right text-secondary">+1.4%</td>
+<td class="px-sm text-right text-on-surface">18,400</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-12.8%</td>
+<td class="px-sm text-right text-on-surface">198 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+83.0%</td>
+<td class="px-sm text-right text-outline">18.1%</td>
+<td class="px-sm text-right text-on-surface-variant">-14.2%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/40">
+                ACTIVITY ACCELERATING
+              </span>
+</td>
+</tr>
+<!-- ROW 12 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">AWP | Asiimov</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.28 • Phoenix</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$112.50</td>
+<td class="px-sm text-right text-error">-0.8%</td>
+<td class="px-sm text-right text-secondary">+2.1%</td>
+<td class="px-sm text-right text-on-surface">210</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-8.5%</td>
+<td class="px-sm text-right text-on-surface">36 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+71.0%</td>
+<td class="px-sm text-right text-outline">13.9%</td>
+<td class="px-sm text-right text-on-surface-variant">-10.4%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/40">
+                MOMENTUM ACCELERATING
+              </span>
+</td>
+</tr>
+<!-- ROW 13 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">AK-47 | Redline</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.19 • Phoenix</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$14.20</td>
+<td class="px-sm text-right text-secondary">+1.8%</td>
+<td class="px-sm text-right text-secondary">+4.2%</td>
+<td class="px-sm text-right text-on-surface">890</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-7.2%</td>
+<td class="px-sm text-right text-on-surface">74 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+54.0%</td>
+<td class="px-sm text-right text-outline">14.5%</td>
+<td class="px-sm text-right text-on-surface-variant">-8.1%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/10 text-secondary font-label-caps text-label-caps border border-secondary/40">
+                ACTIVITY ACCELERATING
+              </span>
+</td>
+</tr>
+<!-- ROW 14 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-primary-container shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">M4A1-S | Printstream</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">MW 0.11 • Broken Fang</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$148.00</td>
+<td class="px-sm text-right text-secondary">+4.6%</td>
+<td class="px-sm text-right text-secondary">+12.1%</td>
+<td class="px-sm text-right text-on-surface">140</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-6.4%</td>
+<td class="px-sm text-right text-on-surface">19 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+111.0%</td>
+<td class="px-sm text-right text-outline">16.8%</td>
+<td class="px-sm text-right text-on-surface-variant">-7.2%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-on-surface-variant font-label-caps text-label-caps border border-outline-variant">MED</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container-high text-on-surface font-label-caps text-label-caps border border-outline-variant">
+                VOLUME SPIKE
+              </span>
+</td>
+</tr>
+<!-- ROW 15 (INSUFFICIENT DATA / LOW CONFIDENCE EDGE CASE) -->
+<tr class="h-[34px] bg-surface-container-lowest/50 hover:bg-surface-container-low cursor-pointer transition-colors opacity-80">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-tertiary-container shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Sticker | Titan (Holo)</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Katowice 2014</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$58,000.00</td>
+<td class="px-sm text-right text-outline">0.0%</td>
+<td class="px-sm text-right text-outline">0.0%</td>
+<td class="px-sm text-right text-on-surface">2</td>
+<td class="px-sm text-right text-outline">0 Sales</td>
+<td class="px-sm text-right text-outline">0 Tx</td>
+<td class="px-sm text-right text-outline">-</td>
+<td class="px-sm text-right text-outline font-code-raw text-tabular-metric-sm">COLLECTING</td>
+<td class="px-sm text-right text-outline font-code-raw text-tabular-metric-sm">INSUFFICIENT</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-tertiary-container/20 text-tertiary-container font-label-caps text-label-caps border border-tertiary-container/30 font-bold">LOW</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-outline font-label-caps text-label-caps border border-outline-variant">
+                LOW ACTIVITY
+              </span>
+</td>
+</tr>
+<!-- ROW 16 -->
+<tr class="h-[34px] hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="px-sm whitespace-nowrap">
+<div class="flex items-center gap-xs">
+<span class="w-1 h-3 bg-secondary shrink-0"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">AWP | Dragon Lore</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.22 • Cobblestone</span>
+</div>
+</td>
+<td class="px-sm text-right font-semibold text-on-surface">$5,480.00</td>
+<td class="px-sm text-right text-secondary">+5.2%</td>
+<td class="px-sm text-right text-secondary">+8.1%</td>
+<td class="px-sm text-right text-on-surface">18</td>
+<td class="px-sm text-right font-semibold text-error bg-error/5">-5.1%</td>
+<td class="px-sm text-right text-on-surface">3 Sales</td>
+<td class="px-sm text-right font-semibold text-secondary">+25.0%</td>
+<td class="px-sm text-right text-outline">13.5%</td>
+<td class="px-sm text-right text-on-surface-variant">-4.2%</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-secondary/15 text-secondary font-label-caps text-label-caps border border-secondary/30">HIGH</span>
+</td>
+<td class="px-sm text-center">
+<span class="inline-block px-xs py-zero bg-surface-container text-primary font-label-caps text-label-caps border border-primary/40">
+                PRICE MOMENTUM
+              </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- RIGHT-SIDE INSPECTION PANEL (~27%) -->
+<aside class="w-full xl:w-[27%] bg-surface-container-lowest flex flex-col justify-between shrink-0">
+<div class="flex flex-col">
+<!-- Panel Header -->
+<div class="h-7 px-sm bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="w-1.5 h-1.5 bg-primary"></span>
+<span class="font-label-caps text-label-caps font-bold text-on-surface tracking-wider uppercase">
+              INSPECTION: AK-47 | FIRE SERPENT (FT)
+            </span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary font-mono">LIVE TELEMETRY</span>
+</div>
+<!-- Micro Telemetry Grid -->
+<div class="p-sm grid grid-cols-3 gap-xs border-b border-outline-variant bg-surface-container-low/40">
+<div class="p-xs bg-surface-container border border-outline-variant flex flex-col">
+<span class="font-label-caps text-label-caps text-outline">MEDIAN FLOOR</span>
+<span class="font-tabular-metric-lg text-tabular-metric-lg text-on-surface font-semibold mt-2xs">$845.00</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-error">-1.2% (7D)</span>
+</div>
+<div class="p-xs bg-surface-container border border-outline-variant flex flex-col">
+<span class="font-label-caps text-label-caps text-outline">LISTINGS COUNT</span>
+<span class="font-tabular-metric-lg text-tabular-metric-lg text-on-surface font-semibold mt-2xs">34</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-error font-bold">-22.4% (7D)</span>
+</div>
+<div class="p-xs bg-surface-container border border-outline-variant flex flex-col">
+<span class="font-label-caps text-label-caps text-outline">24H OBS. SALES</span>
+<span class="font-tabular-metric-lg text-tabular-metric-lg text-secondary font-semibold mt-2xs">18 Sales</span>
+<span class="font-tabular-metric-sm text-tabular-metric-sm text-secondary">+84.0% vs 7D</span>
+</div>
+</div>
+<!-- 30D DIVERGENCE CHARTLET (THESIS PROOF) -->
+<div class="p-sm border-b border-outline-variant">
+<div class="flex items-center justify-between mb-xs"><div class="flex items-center gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase">Trajectory Divergence</span><span class="px-xs py-zero bg-primary/15 text-primary border border-primary/40 font-label-caps text-label-caps font-bold">COLLECTING HISTORY • 1D 04H AVAILABLE</span></div><div class="flex items-center gap-sm font-label-caps text-label-caps"><span class="flex items-center gap-2xs text-primary"><span class="w-2 h-0.5 bg-primary"></span> Price (Flat)</span><span class="flex items-center gap-2xs text-error"><span class="w-2 h-0.5 bg-error"></span> Supply (Contraction)</span></div></div>
+<!-- Mini Inline Chart SVG -->
+<div class="relative w-full h-36 bg-surface-container-low border border-outline-variant p-2xs">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 320 120">
+<!-- Gridlines -->
+<line stroke="#3d494d" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="320" y1="30" y2="30"></line>
+<line stroke="#3d494d" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="320" y1="60" y2="60"></line>
+<line stroke="#3d494d" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="320" y1="90" y2="90"></line>
+<!-- Price Curve (Cyan, sideways/modest churn $855 -> $845) -->
+<path d="M 0,55 Q 50,52 90,57 T 180,54 T 260,58 L 320,60" fill="none" stroke="#4cd6fb" stroke-width="2"></path>
+<!-- Supply/Listing Curve (Crimson, collapsing from 44 -> 34) -->
+<path d="M 0,20 Q 70,25 120,38 T 200,65 T 270,95 L 320,105" fill="none" stroke="#ffb4ab" stroke-width="2"></path>
+<!-- Active Divergence Highlight Polygon -->
+<polygon fill="#4cd6fb" fill-opacity="0.04" points="120,38 200,65 270,95 320,105 320,60 260,58 180,54 120,38"></polygon>
+<!-- Current Needle Marker at T=Now -->
+<line stroke="#e1e2eb" stroke-dasharray="1 1" stroke-width="1" x1="318" x2="318" y1="0" y2="120"></line>
+<circle cx="318" cy="60" fill="#4cd6fb" r="3"></circle>
+<circle cx="318" cy="105" fill="#ffb4ab" r="3"></circle>
+</svg>
+<!-- Monospaced Legend Bounds -->
+<div class="absolute bottom-1 left-2 font-tabular-metric-sm text-tabular-metric-sm text-outline">T-30D</div>
+<div class="absolute bottom-1 right-2 font-tabular-metric-sm text-tabular-metric-sm text-primary font-bold">NOW</div>
+</div>
+<div class="mt-xs p-xs bg-surface-container border border-outline-variant flex items-center justify-between font-code-raw text-tabular-metric-sm text-on-surface-variant"><span class="flex items-center gap-xs"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span>Historical observations accumulating (longer frames unlock as logged)</span></span><span class="text-outline">v4.19 INGEST</span></div><div class="flex items-center justify-between mt-xs font-code-raw text-tabular-metric-sm text-outline"><span>PRICE / SUPPLY DIVERGENCE:</span><span class="text-primary font-bold">Δ Spread Divergence: +21.2%</span></div>
+</div>
+<!-- Quantitative Health & Confidence Analysis -->
+<div class="p-sm border-b border-outline-variant flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-outline">OBSERVATIONAL INTEGRITY</span>
+<span class="inline-flex items-center gap-xs text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 bg-secondary"></span> 98.2% Depth Quorum
+            </span>
+</div>
+<!-- Precision Metric Rows -->
+<div class="space-y-xs font-code-raw text-body-sm">
+<div class="flex justify-between items-center py-2xs border-b border-outline-variant/30"><span class="text-on-surface-variant">Observed Price Dispersion:</span><span class="text-on-surface font-tabular-metric-sm">0.8% Across Observed Feed</span></div>
+<div class="flex justify-between items-center py-2xs border-b border-outline-variant/30">
+<span class="text-on-surface-variant">Net Listing Attrition:</span>
+<span class="text-error font-tabular-metric-sm">-10 units in 7D (Z-Score -2.8σ)</span>
+</div>
+<div class="flex justify-between items-center py-2xs border-b border-outline-variant/30">
+<span class="text-on-surface-variant">Sales Velocity vs Baseln:</span>
+<span class="text-secondary font-tabular-metric-sm">+84.0% Observed Skinport Outflow</span>
+</div>
+</div>
+<!-- Diagnostic Monologue Box -->
+<div class="p-xs bg-surface-container border-l-2 border-primary text-body-sm font-code-raw text-on-surface-variant leading-relaxed">
+<span class="text-primary font-bold">ANOMALY OBSERVED:</span> Supply Contraction detected (Z-Score -2.8σ). Net listing attrition outpacing 30D baseline while sales velocity remains +84% above normal. No price spike realized yet.
+          </div>
+</div>
+<!-- Active Observational Badges -->
+<div class="p-sm flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline">ACTIVE GROUNDED SIGNALS</span>
+<div class="flex items-center gap-xs flex-wrap">
+<span class="px-xs py-2xs bg-primary/15 text-primary border border-primary/40 font-label-caps text-label-caps font-bold">
+              SUPPLY CONTRACTING
+            </span>
+<span class="px-xs py-2xs bg-secondary/15 text-secondary border border-secondary/40 font-label-caps text-label-caps font-bold">
+              ACTIVITY ACCELERATING
+            </span>
+<span class="px-xs py-2xs bg-surface-container text-on-surface border border-outline-variant font-label-caps text-label-caps">
+              HISTORICAL BASELINE PASS
+            </span>
+</div>
+</div>
+</div>
+<!-- Footer Action Button -->
+<div class="p-sm bg-surface-container-low border-t border-outline-variant">
+<a class="w-full h-8 bg-surface-container hover:bg-surface-container-high border border-primary text-primary hover:text-white font-headline-sm text-headline-sm font-bold flex items-center justify-center gap-xs transition-colors group" href="#/asset/ak47-fire-serpent">
+<span>OPEN ASSET INTELLIGENCE</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+</a>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  (function initScreenerInteractions() {
+    const toggleBtn = document.getElementById('toggleQueryBuilder');
+    const queryBuilder = document.getElementById('queryBuilderBlock');
+    if (toggleBtn && queryBuilder) {
+      toggleBtn.addEventListener('click', function () {
+        if (queryBuilder.classList.contains('hidden')) {
+          queryBuilder.classList.remove('hidden');
+          toggleBtn.classList.add('bg-surface-container-high');
+        } else {
+          queryBuilder.classList.add('hidden');
+          toggleBtn.classList.remove('bg-surface-container-high');
+        }
+      });
+    }
+
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      row.addEventListener('click', function () {
+        rows.forEach(r => {
+          r.classList.remove('border-l-2', 'border-primary', 'bg-surface-container/60');
+        });
+        this.classList.add('border-l-2', 'border-primary', 'bg-surface-container/60');
+      });
+    });
+  })();
+</script></main><footer class="fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest border-t border-outline-variant h-8 px-md flex items-center justify-between font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant"><div class="flex items-center gap-xs truncate"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0"></span><span class="truncate">Skinport Grounded Feed: 100 assets sample • Last observation 2m ago • Quorum 99.8% Sync</span></div><div class="hidden md:flex items-center gap-xs text-outline"><span class="truncate">Engine: v4.19-LTS • Latency 14ms • Realized observations: 100 SKUs</span></div><div class="flex items-center gap-md shrink-0"><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">/</kbd> Search</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">T</kbd> Terminal</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">S</kbd> Screener</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">Esc</kbd> Clear</span></div></footer></body></html>

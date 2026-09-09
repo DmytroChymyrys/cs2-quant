@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#002113", "on-tertiary-fixed-variant": "#930013", "background": "#10131a", "tertiary-fixed": "#ffdad7", "inverse-surface": "#e1e2eb", "outline-variant": "#3d494d", "secondary-fixed-dim": "#4edea3", "primary-fixed": "#b3ebff", "on-primary-fixed-variant": "#004e5f", "on-secondary-container": "#00311f", "secondary-fixed": "#6ffbbe", "surface-container-high": "#272a31", "surface-container-low": "#191c22", "inverse-on-surface": "#2e3037", "surface-bright": "#363940", "surface-container-highest": "#32353c", "on-surface": "#e1e2eb", "on-surface-variant": "#bcc9ce", "on-secondary": "#003824", "on-primary-fixed": "#001f27", "tertiary": "#ffb3ad", "on-primary": "#003642", "tertiary-container": "#ff7e77", "error-container": "#93000a", "outline": "#869398", "surface-tint": "#4cd6fb", "surface-variant": "#32353c", "surface": "#10131a", "primary-container": "#00b4d8", "on-secondary-fixed-variant": "#005236", "error": "#ffb4ab", "on-tertiary-fixed": "#410004", "on-error": "#690005", "surface-container": "#1d2026", "on-primary-container": "#00414f", "on-tertiary-container": "#7c000f", "secondary-container": "#00a572", "primary-fixed-dim": "#4cd6fb", "tertiary-fixed-dim": "#ffb3ad", "on-background": "#e1e2eb", "primary": "#4cd6fb", "secondary": "#4edea3", "inverse-primary": "#00677d", "on-tertiary": "#68000a", "surface-dim": "#10131a", "surface-container-lowest": "#0b0e14", "on-error-container": "#ffdad6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "2xl": "32px", "panel-header-h": "28px", "row-compact-h": "20px", "row-default-h": "26px", "xs": "4px", "sm": "8px", "zero": "0px", "md": "12px", "2xs": "2px", "xl": "24px", "ticker-ribbon-h": "24px", "gutter-compact": "1px", "lg": "16px" }, "fontFamily": { "tabular-metric-lg": [ "JetBrains Mono" ], "label-caps": [ "Inter" ], "tabular-metric-md": [ "JetBrains Mono" ], "headline-lg": [ "Inter" ], "headline-md": [ "Inter" ], "body-sm": [ "JetBrains Mono" ], "body-md": [ "JetBrains Mono" ], "headline-sm": [ "Inter" ], "body-lg": [ "JetBrains Mono" ], "code-raw": [ "JetBrains Mono" ], "display-lg": [ "Inter" ], "tabular-metric-sm": [ "JetBrains Mono" ] }, "fontSize": { "tabular-metric-lg": [ "18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-caps": [ "10px", { "lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600" } ], "tabular-metric-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" } ], "headline-lg": [ "20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-md": [ "16px", { "lineHeight": "22px", "letterSpacing": "-0.005em", "fontWeight": "500" } ], "body-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400" } ], "body-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-sm": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "code-raw": [ "11px", { "lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400" } ], "display-lg": [ "28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "tabular-metric-sm": [ "10px", { "lineHeight": "12px", "letterSpacing": "0.01em", "fontWeight": "500" } ] } } } };</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant"><div class="w-full px-lg flex items-center justify-between h-16"><div class="flex items-center gap-lg"><div class="flex items-center gap-sm"><div class="w-2xs h-xl bg-primary"></div><div class="flex flex-col"><div class="flex items-center gap-xs"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-on-surface font-semibold">FloatAlpha</span><span class="font-code-raw text-code-raw text-primary px-xs py-2xs bg-surface-container-high">v4.19</span></div><span class="font-label-caps text-label-caps uppercase text-outline tracking-widest">SYSTEM SPECIFICATION // COMPONENT BEHAVIOR BOARD</span></div></div><div class="h-xl w-gutter-compact bg-outline-variant hidden xl:block"></div><nav class="hidden xl:flex items-center gap-2xs overflow-x-auto" data-active-classes="bg-surface-container-high text-primary border-b-2 border-primary"><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="01-skeletons-and-lifecycle" href="#">01 Skeletons &amp; Lifecycle</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="02-data-semantics-and-provenance" href="#">02 Data Semantics &amp; Provenance</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="03-degradation-and-errors" href="#">03 Degradation &amp; Errors</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="04-empty-and-locked-states" href="#">04 Empty &amp; Locked States</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="05-ui-controls-and-primitives" href="#">05 UI Controls &amp; Primitives</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="06-signals-and-signals-matrix" href="#">06 Signals &amp; Signals Matrix</a><a class="font-label-caps text-label-caps uppercase text-on-surface-variant hover:text-on-surface px-md py-sm transition-colors" data-path="07-modals-and-responsive" href="#">07 Modals &amp; Responsive</a></nav></div><div class="flex items-center gap-md"><div class="hidden md:flex items-center gap-xs px-sm py-2xs bg-surface-container border border-outline-variant"><span class="w-2xs h-2xs rounded-full bg-secondary animate-pulse"></span><span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">SPEC SYNCHRONIZED</span><span class="font-code-raw text-code-raw text-outline">| Q3-REV-9</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest pb-12"><div class="flex flex-col w-full text-on-surface bg-surface-container-lowest">
+<!-- ========================================================================= -->
+<!-- HERO / SPECIFICATION META STRIP                                           -->
+<!-- ========================================================================= -->
+<section class="w-full bg-surface-container-low border-b border-outline-variant px-lg py-md">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div class="flex items-center gap-md">
+<div class="w-1.5 h-8 bg-primary"></div>
+<div>
+<div class="flex items-center gap-xs">
+<span class="font-headline-md text-headline-md font-semibold text-on-surface uppercase tracking-tight">System States &amp; Component Behavior Board</span>
+<span class="font-code-raw text-code-raw bg-surface-container-highest px-xs py-2xs text-primary">CANONICAL v4.19</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Deterministic UI state contract, lifecycle states, provenance tags &amp; layout stability spec for FloatAlpha CS2 engine.</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-sm font-label-caps text-label-caps text-on-surface-variant">
+<div class="bg-surface-container px-sm py-2xs border border-outline-variant flex items-center gap-xs">
+<span class="text-outline uppercase">Viewport Ref:</span>
+<span class="font-code-raw text-primary">1440 x 900 Fixed Desktop</span>
+</div>
+<div class="bg-surface-container px-sm py-2xs border border-outline-variant flex items-center gap-xs">
+<span class="text-outline uppercase">Target Baseline:</span>
+<span class="font-code-raw text-secondary">4px Rigid Grid</span>
+</div>
+<div class="bg-surface-container px-sm py-2xs border border-outline-variant flex items-center gap-xs">
+<span class="text-outline uppercase">Shadows:</span>
+<span class="font-code-raw text-error">ZERO_DECORATIVE</span>
+</div>
+</div>
+</div>
+</section>
+<div class="max-w-[1440px] mx-auto w-full px-lg py-lg flex flex-col gap-2xl">
+<!-- ========================================================================= -->
+<!-- SECTION 1: SKELETONS & LOADING LIFECYCLE (Req 1)                         -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-01">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-primary text-on-primary px-xs py-2xs font-semibold">01</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Skeletons &amp; Loading Lifecycle Architecture</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 1.0 - Layout Stability Standard]</span>
+</div>
+<span class="font-code-raw text-code-raw text-secondary bg-surface-container px-sm py-2xs border border-outline-variant">CLS = 0.0000 STRICT</span>
+</div>
+<div class="bg-surface-container-high border-l-2 border-primary p-sm font-body-sm text-body-sm text-on-surface-variant">
+<span class="text-primary font-semibold uppercase tracking-wider font-label-caps text-label-caps">Implementation Directive:</span>
+        Stable geometry enforced. Skeleton dimensions match 1:1 with hydrated DOM nodes. Height jumps, padding shifts, and variable element expansions are strictly rejected during SSR &amp; hydration transitions.
+      </div>
+<!-- Skeletons Demonstration Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-md items-start">
+<!-- Left: Metric + Table + Chart Skeletons (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-md">
+<!-- 1.1 Market Metric Skeleton (Fixed 68px) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-outline">Component: Market Metric Cards (Fixed Height: 68px)</span>
+<span class="font-code-raw text-code-raw text-primary">LIFECYCLE: FETCHING_METRIC_BUFFER</span>
+</div>
+<div class="grid grid-cols-3 gap-gutter-compact bg-outline-variant p-gutter-compact">
+<!-- Metric Skeleton 1 -->
+<div class="bg-surface p-sm h-[68px] flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="h-2.5 w-16 bg-surface-container-high animate-pulse"></div>
+<div class="h-2 w-8 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="h-6 w-24 bg-surface-container-high animate-pulse"></div>
+<div class="h-3.5 w-12 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+<!-- Metric Skeleton 2 -->
+<div class="bg-surface p-sm h-[68px] flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="h-2.5 w-20 bg-surface-container-high animate-pulse"></div>
+<div class="h-2 w-6 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="h-6 w-28 bg-surface-container-high animate-pulse"></div>
+<div class="h-3.5 w-10 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+<!-- Metric Skeleton 3 -->
+<div class="bg-surface p-sm h-[68px] flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="h-2.5 w-14 bg-surface-container-high animate-pulse"></div>
+<div class="h-2 w-10 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="h-6 w-20 bg-surface-container-high animate-pulse"></div>
+<div class="h-3.5 w-14 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 1.2 Table Row Skeletons (Fixed 34px rows) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-outline">Component: Data Grid (Row Height: 34px, 5 Columns Aligned)</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">ROWS: 4 STABLE SEATS</span>
+</div>
+<!-- Header -->
+<div class="grid grid-cols-12 bg-surface-container-lowest text-outline font-label-caps text-label-caps uppercase px-sm h-panel-header-h items-center border-b border-outline-variant">
+<div class="col-span-4">Asset Descriptor</div>
+<div class="col-span-2 text-right">Floor Price</div>
+<div class="col-span-2 text-right">24h Delta</div>
+<div class="col-span-2 text-right">Depth L2</div>
+<div class="col-span-2 text-right">Signal State</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-12 px-sm h-[34px] items-center border-b border-outline-variant bg-surface">
+<div class="col-span-4 flex items-center gap-xs">
+<div class="w-4 h-4 bg-surface-container-high animate-pulse"></div>
+<div class="h-3 w-32 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-16 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-12 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-14 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-4 w-20 bg-surface-container-high animate-pulse"></div></div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 px-sm h-[34px] items-center border-b border-outline-variant bg-surface">
+<div class="col-span-4 flex items-center gap-xs">
+<div class="w-4 h-4 bg-surface-container-high animate-pulse"></div>
+<div class="h-3 w-40 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-20 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-10 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-12 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-4 w-16 bg-surface-container-high animate-pulse"></div></div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 px-sm h-[34px] items-center border-b border-outline-variant bg-surface">
+<div class="col-span-4 flex items-center gap-xs">
+<div class="w-4 h-4 bg-surface-container-high animate-pulse"></div>
+<div class="h-3 w-28 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-14 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-14 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-16 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-4 w-24 bg-surface-container-high animate-pulse"></div></div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 px-sm h-[34px] items-center bg-surface">
+<div class="col-span-4 flex items-center gap-xs">
+<div class="w-4 h-4 bg-surface-container-high animate-pulse"></div>
+<div class="h-3 w-36 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-16 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-8 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-3 w-10 bg-surface-container-high animate-pulse"></div></div>
+<div class="col-span-2 flex justify-end"><div class="h-4 w-14 bg-surface-container-high animate-pulse"></div></div>
+</div>
+</div>
+<!-- 1.3 Chart Skeleton (Exact 320px Height with Phantom Grid) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-outline">Component: Canvas Chart Viewport (Fixed 320px)</span>
+<div class="flex items-center gap-xs">
+<div class="w-12 h-3 bg-surface-container-highest animate-pulse"></div>
+<div class="w-8 h-3 bg-surface-container-highest animate-pulse"></div>
+</div>
+</div>
+<div class="h-[320px] bg-surface relative flex flex-col justify-between p-md select-none overflow-hidden">
+<!-- Phantom Horizontal Grid lines -->
+<div class="w-full flex items-center justify-between border-b border-outline-variant/30 py-xs">
+<div class="w-10 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-full mx-md border-t border-dashed border-outline-variant/30"></div>
+</div>
+<div class="w-full flex items-center justify-between border-b border-outline-variant/30 py-xs">
+<div class="w-10 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-full mx-md border-t border-dashed border-outline-variant/30"></div>
+</div>
+<div class="w-full flex items-center justify-between border-b border-outline-variant/30 py-xs">
+<div class="w-10 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-full mx-md border-t border-dashed border-outline-variant/30"></div>
+</div>
+<div class="w-full flex items-center justify-between border-b border-outline-variant/30 py-xs">
+<div class="w-10 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-full mx-md border-t border-dashed border-outline-variant/30"></div>
+</div>
+<!-- Phantom Baseline Silhouette Curve -->
+<svg class="absolute inset-0 w-full h-full text-surface-container-high pointer-events-none" preserveaspectratio="none" viewbox="0 0 500 200">
+<path d="M 0 160 Q 75 140 150 170 T 300 110 T 450 130 T 500 90 L 500 200 L 0 200 Z" fill="currentColor" opacity="0.15"></path>
+<path d="M 0 160 Q 75 140 150 170 T 300 110 T 450 130 T 500 90" fill="none" opacity="0.3" stroke="currentColor" stroke-width="1.5"></path>
+</svg>
+<!-- Axis labels at bottom -->
+<div class="w-full flex justify-between pt-sm border-t border-outline-variant/40">
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Rail (360px) & Intelligence Panel Skeletons (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-md">
+<!-- 1.4 Inspection Rail Skeleton (360px Fixed Frame) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-outline">Inspection Rail (360px Dock)</span>
+<span class="font-code-raw text-code-raw text-primary">SLOT_R0</span>
+</div>
+<div class="p-md flex flex-col gap-md bg-surface">
+<!-- Rail Header -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-xs">
+<div class="w-36 h-4 bg-surface-container-high animate-pulse"></div>
+<div class="w-20 h-2.5 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="w-12 h-5 bg-surface-container-high animate-pulse"></div>
+</div>
+<!-- Float Bar Skeleton -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between">
+<div class="w-16 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-12 h-2 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high animate-pulse"></div>
+</div>
+<!-- Stat Box Skeleton Grid -->
+<div class="grid grid-cols-2 gap-xs">
+<div class="bg-surface-container p-sm flex flex-col gap-xs">
+<div class="w-12 h-2 bg-surface-container-highest animate-pulse"></div>
+<div class="w-16 h-4 bg-surface-container-highest animate-pulse"></div>
+</div>
+<div class="bg-surface-container p-sm flex flex-col gap-xs">
+<div class="w-12 h-2 bg-surface-container-highest animate-pulse"></div>
+<div class="w-16 h-4 bg-surface-container-highest animate-pulse"></div>
+</div>
+</div>
+<!-- Depth Ladder Bars Skeleton -->
+<div class="flex flex-col gap-xs border-t border-outline-variant/40 pt-sm">
+<div class="flex justify-between items-center">
+<div class="w-16 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-8 h-2 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="h-3 w-3/4 bg-surface-container-high/60 animate-pulse"></div>
+<div class="h-3 w-5/6 bg-surface-container-high/60 animate-pulse"></div>
+<div class="h-3 w-1/2 bg-surface-container-high/60 animate-pulse"></div>
+</div>
+<!-- Action Triggers -->
+<div class="flex gap-xs mt-sm">
+<div class="h-7 flex-1 bg-surface-container-high animate-pulse"></div>
+<div class="h-7 flex-1 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- 1.5 Asset Intelligence Multi-metric Block Skeleton -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-outline">Intelligence Split Block</span>
+<span class="font-code-raw text-code-raw text-outline">PARALLEL HYDRATION</span>
+</div>
+<div class="p-sm grid grid-cols-2 gap-sm bg-surface">
+<div class="border border-outline-variant/50 p-xs flex flex-col gap-xs">
+<div class="w-14 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-20 h-5 bg-surface-container-high animate-pulse"></div>
+<div class="w-full h-1 bg-surface-container-high animate-pulse"></div>
+</div>
+<div class="border border-outline-variant/50 p-xs flex flex-col gap-xs">
+<div class="w-14 h-2 bg-surface-container-high animate-pulse"></div>
+<div class="w-20 h-5 bg-surface-container-high animate-pulse"></div>
+<div class="w-full h-1 bg-surface-container-high animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 2: DATA SEMANTICS, PROVENANCE & COLLECTING STATES                -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-02">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-primary text-on-primary px-xs py-2xs font-semibold">02</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Data Semantics, Provenance &amp; Collecting States</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 2, 3, 4, 14, 21, 22]</span>
+</div>
+<span class="font-code-raw text-code-raw text-primary">AUDIT TRAIL &amp; PROVENANCE</span>
+</div>
+<!-- 2.1 Data Semantic Status Matrix (Req 21) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">2.1 Data Semantic Token &amp; Provenance Badge Matrix</span>
+<span class="font-code-raw text-code-raw text-outline">SPEC // OBS_TAXONOMY_v2</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant text-outline font-label-caps text-label-caps uppercase">
+<th class="p-sm w-36">Semantic Token</th>
+<th class="p-sm w-44">Visual Badge</th>
+<th class="p-sm">Engineering Definition &amp; Trigger Conditions</th>
+<th class="p-sm w-64">Live Example Data Value</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- GROUNDED -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-secondary">GROUNDED</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-secondary/10 border border-secondary/40 text-secondary font-label-caps text-label-caps font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>GROUNDED
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Direct verified venue observation recorded via canonical Steam GC or exchange WebSocket execution stream. Zero estimation.</td>
+<td class="p-sm font-code-raw text-on-surface">BUFF_TX #981048 // $1,840.50</td>
+</tr>
+<!-- DERIVED -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-primary">DERIVED</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-primary/10 border border-primary/40 text-primary font-label-caps text-label-caps font-semibold">
+                    DERIVED: 30D VWAP
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Statistically computed from discrete observations. Requires declared sample window and mathematical model note.</td>
+<td class="p-sm font-code-raw text-on-surface">σ = 0.0418 (ROLLING 30D DEVIATION)</td>
+</tr>
+<!-- EXPERIMENTAL -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-tertiary">EXPERIMENTAL</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-tertiary/10 border border-tertiary/40 text-tertiary font-label-caps text-label-caps font-semibold">
+                    [PILOT 100-SKU BENCHMARK]
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Sub-sample or prototype metric under backtest. Must display explicit disclaimer on hover regarding statistical margin of error.</td>
+<td class="p-sm font-code-raw text-tertiary">BETA_COEFF: 1.14 ± 0.22</td>
+</tr>
+<!-- COLLECTING -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-primary-fixed-dim">COLLECTING</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-surface-container-high border border-primary/40 text-primary-fixed-dim font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[12px] animate-spin">progress_activity</span>COLLECTING (1D 04H)
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Asset or market condition has insufficient historical observations to calculate statistical models. Timer counts observed elapsed window.</td>
+<td class="p-sm font-code-raw text-outline">CALCULATING 7D TRAJECTORY...</td>
+</tr>
+<!-- UNAVAILABLE vs ZERO -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-outline">UNAVAILABLE</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-surface-container-highest border border-outline-variant text-outline font-label-caps text-label-caps">
+                    — UNAVAILABLE
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Required data point does not exist. <strong class="text-error">STRICT RULE:</strong> Never render 0.00% or 0 Tx when data is absent. Em-dash is mandatory.</td>
+<td class="p-sm font-code-raw">
+<div class="flex items-center gap-sm">
+<span class="text-error">— [ABSENT]</span>
+<span class="text-outline">vs</span>
+<span class="text-secondary">0.00% [VALID ZERO]</span>
+</div>
+</td>
+</tr>
+<!-- STALE -->
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-tertiary-container">STALE</td>
+<td class="p-sm">
+<span class="inline-flex items-center gap-xs px-xs py-2xs bg-tertiary-container/10 border border-tertiary-container text-tertiary-container font-label-caps text-label-caps font-semibold">
+<span class="material-symbols-outlined text-[12px]">schedule</span>DATA STALE (27m)
+                  </span>
+</td>
+<td class="p-sm text-on-surface-variant">Observation timestamp exceeds maximum freshness window (&gt; 15m for L1 data). Interface shifts to passive cached representation.</td>
+<td class="p-sm font-code-raw text-tertiary-container">LAST SYNC: 14:03:19 UTC</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 2.2 Collecting History In-Situ Demonstrations (Req 2 & 14) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Chart Timeframe Selector -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase">Chart Horizon Selector (Req 2)</span>
+<div class="flex gap-2xs bg-surface p-2xs border border-outline-variant">
+<button class="px-xs py-2xs font-code-raw text-code-raw bg-primary text-on-primary font-semibold">24H</button>
+<div class="relative group">
+<button class="px-xs py-2xs font-code-raw text-code-raw bg-surface-container text-primary flex items-center gap-2xs border border-primary/30">
+<span>7D</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</button>
+<div class="hidden group-hover:block absolute bottom-full mb-xs left-0 w-44 bg-surface-container-highest border border-primary text-[10px] p-xs font-code-raw text-on-surface z-20">
+                COLLECTING: 1D 04H AVAILABLE / 7D REQUIRED
+              </div>
+</div>
+<button class="px-xs py-2xs font-code-raw text-code-raw text-outline opacity-50 cursor-not-allowed" title="History Locked">30D [LOCKED]</button>
+</div>
+<span class="font-code-raw text-[10px] text-outline">State: 7D collecting, 30D structurally locked</span>
+</div>
+<!-- Table Cell Collecting State -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase">Table Cell Inline Collecting (Req 2)</span>
+<div class="bg-surface border border-outline-variant p-xs flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface">AK-47 | Case Hardened</span>
+<span class="font-code-raw text-code-raw text-primary-fixed-dim bg-surface-container px-xs py-2xs border border-primary/20">
+              COLLECTING (1D 04H)
+            </span>
+</div>
+<span class="font-code-raw text-[10px] text-outline">Fallback cell value prevents blank DOM</span>
+</div>
+<!-- Metric Panel Collecting Banner -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase">Metric Panel Inline Guard (Req 2)</span>
+<div class="bg-surface border border-dashed border-primary/40 p-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">sync</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">COLLECTING HISTORY</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">7D analytics unlock when observations accumulate</span>
+</div>
+</div>
+<span class="font-code-raw text-[10px] text-outline">Structural placeholder maintains card height</span>
+</div>
+<!-- Alert Rule Collecting State (Req 14) -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase">Alert Rule Inactive State (Req 14)</span>
+<div class="bg-surface border border-outline-variant p-xs flex flex-col gap-2xs">
+<div class="flex justify-between items-center">
+<span class="font-code-raw text-code-raw text-on-surface">ALT-781: 7D_SUPPLY_DIVERGENCE</span>
+<span class="font-label-caps text-[9px] bg-outline-variant px-xs text-outline uppercase">STANDBY</span>
+</div>
+<p class="font-body-sm text-[10px] text-primary">Requires 7D listing history. 1D 04H currently available.</p>
+</div>
+<span class="font-code-raw text-[10px] text-outline">Execution engine suppresses trigger until qualified</span>
+</div>
+</div>
+<!-- 2.3 Insufficient History & 2.4 Price Confidence Standard -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- 2.3 Insufficient History Indicator -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">2.3 Insufficient History Handling (Req 3)</span>
+<span class="font-code-raw text-code-raw text-primary">HOVER_DISCLOSURE</span>
+</div>
+<div class="flex items-center justify-between bg-surface p-sm border border-outline-variant">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-outline">Observed Metric:</span>
+<div class="font-headline-md text-headline-md font-semibold text-on-surface">OBSERVED 30D VOLATILITY</div>
+</div>
+<div class="relative group cursor-help">
+<span class="inline-flex items-center gap-xs px-sm py-xs bg-surface-container-high border border-outline-variant text-on-surface-variant font-code-raw text-code-raw">
+<span class="material-symbols-outlined text-[14px] text-primary">info</span>
+                  INSUFFICIENT HISTORY
+                </span>
+<!-- Tooltip -->
+<div class="hidden group-hover:block absolute right-0 bottom-full mb-xs w-64 bg-surface-container-highest border border-primary p-sm z-30">
+<span class="font-label-caps text-label-caps text-primary uppercase block mb-2xs">Data Governance Notice</span>
+<p class="font-body-sm text-body-sm text-on-surface">This metric requires additional FloatAlpha observation history before statistically significant distribution parameters can be calculated.</p>
+</div>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-[11px] text-outline mt-sm">Rules: Never extrapolate missing points with straight linear fills or hypothetical guesses.</p>
+</div>
+<!-- 2.4 Price Confidence System (Req 22) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">2.4 Price Confidence Classification (Req 22)</span>
+<span class="font-code-raw text-code-raw text-secondary">NON-DIRECTIONAL SPEC</span>
+</div>
+<div class="grid grid-cols-3 gap-xs">
+<!-- HIGH -->
+<div class="bg-surface border border-secondary/40 p-xs flex flex-col gap-2xs">
+<span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">HIGH CONFIDENCE</span>
+<span class="font-code-raw text-[11px] text-on-surface">SPREAD &lt; 1.2%</span>
+<span class="font-body-sm text-[10px] text-outline">Order book depth &gt; 30 verified units. Low price dispersion.</span>
+</div>
+<!-- MEDIUM -->
+<div class="bg-surface border border-primary/40 p-xs flex flex-col gap-2xs">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">MED CONFIDENCE</span>
+<span class="font-code-raw text-[11px] text-on-surface">SPREAD 1.2% - 4.5%</span>
+<span class="font-body-sm text-[10px] text-outline">Order book depth 4-29 units. Standard trading volume.</span>
+</div>
+<!-- LOW -->
+<div class="bg-surface border border-tertiary-container/50 p-xs flex flex-col gap-2xs">
+<span class="font-label-caps text-label-caps uppercase text-tertiary-container font-semibold">LOW CONFIDENCE</span>
+<span class="font-code-raw text-[11px] text-on-surface">SPREAD &gt; 4.5%</span>
+<span class="font-body-sm text-[10px] text-outline">Sparse book (&lt; 3 units). High execution variance.</span>
+</div>
+</div>
+</div>
+<div class="mt-sm bg-surface-container-high p-xs border-l-2 border-secondary font-body-sm text-[11px] text-on-surface-variant">
+<strong class="text-on-surface">Strict Standard:</strong> Price Confidence describes confidence in the reliability of observed market price, <span class="text-error uppercase font-semibold">NEVER</span> future direction. Numerical 0-1 scores are prohibited.
+          </div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 3: DATA DEGRADATION, FRESHNESS & SYSTEM ERRORS                    -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-03">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-tertiary-container text-on-tertiary-container px-xs py-2xs font-semibold">03</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Degradation, Freshness &amp; System Errors</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 5, 6, 7, 8, 9, 17, 26, 27]</span>
+</div>
+<span class="font-code-raw text-code-raw text-tertiary-container">RESILIENCE PATTERNS</span>
+</div>
+<!-- 3.1 Page-Level Stale Banner -->
+<div class="w-full bg-surface-container-high border-l-4 border-tertiary-container p-sm flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">history</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-tertiary-container font-semibold">DATA STALE // GLOBAL DEVIATION WARNING</span>
+<p class="font-body-sm text-body-sm text-on-surface">Last successful observation 27m ago. Displaying most recent available snapshot. Real-time updates paused.</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw text-outline">STATUS_CODE: STALE_BUFFER_27M</span>
+<button class="px-sm py-xs bg-surface-container border border-outline-variant hover:border-primary font-code-raw text-code-raw text-on-surface">FORCE REFRESH</button>
+</div>
+</div>
+<!-- 3.2 to 3.8 Failure Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- 3.2 Source Degraded (Req 6) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-tertiary-container font-semibold uppercase flex items-center gap-2xs">
+<span class="w-2 h-2 bg-tertiary-container"></span>SOURCE DEGRADED (Req 6)
+              </span>
+<span class="font-code-raw text-[10px] text-outline">INGEST_LAG</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Skinport observations temporarily delayed. Historical data remains fully accessible.</p>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-xs">
+<a class="font-code-raw text-code-raw text-primary hover:underline flex items-center gap-2xs" href="#">
+<span>VIEW DATA STATUS</span>
+<span class="material-symbols-outlined text-[12px]">open_in_new</span>
+</a>
+<span class="font-code-raw text-[10px] text-outline">QUEUE_DEPTH: 4,118</span>
+</div>
+</div>
+<!-- 3.3 Source Unavailable (Req 7) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-error font-semibold uppercase flex items-center gap-2xs">
+<span class="w-2 h-2 bg-error"></span>SOURCE UNAVAILABLE (Req 7)
+              </span>
+<span class="font-code-raw text-[10px] text-outline">CIRCUIT_BROKEN</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Live observations temporarily unavailable for Steam Community Market. Historical observations accessible.</p>
+</div>
+<div class="bg-surface p-xs border border-outline-variant flex justify-between font-code-raw text-[10px]">
+<span class="text-outline">LAST SYNC:</span>
+<span class="text-on-surface">14:30:00 UTC (42m ago)</span>
+</div>
+</div>
+<!-- 3.4 Network Error (Req 8) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-outline uppercase flex items-center gap-2xs">
+<span class="material-symbols-outlined text-outline text-[14px]">wifi_off</span>NETWORK ERROR (Req 8)
+              </span>
+<span class="font-code-raw text-[10px] text-error">ERR_CONN_DROPPED</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">UNABLE TO LOAD THIS VIEW</h4>
+<p class="font-body-sm text-body-sm text-outline">Network packet exchange timed out. Check connection and retry.</p>
+</div>
+<button class="w-full py-xs bg-surface-container-high border border-outline-variant hover:border-primary font-code-raw text-code-raw text-primary font-semibold flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">refresh</span>
+<span>RETRY CONNECTION</span>
+</button>
+</div>
+<!-- 3.5 General Recoverable Component Error (Req 9) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-tertiary-container uppercase">COMPONENT CRASH (Req 9)</span>
+<span class="font-code-raw text-[10px] text-outline">ISOLATED_BOUNDARY</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">SOMETHING WENT WRONG</h4>
+<p class="font-body-sm text-body-sm text-outline">FloatAlpha could not mount this modular widget. Parent workspace remains stable.</p>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps font-semibold uppercase">RELOAD WIDGET</button>
+<button class="px-sm py-xs bg-surface-container-high border border-outline-variant font-code-raw text-code-raw text-outline hover:text-on-surface">LOG</button>
+</div>
+</div>
+<!-- 3.6 Rate Limited (Req 17) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-tertiary uppercase flex items-center gap-2xs">
+<span class="material-symbols-outlined text-[14px]">speed</span>THROTTLED (Req 17)
+              </span>
+<span class="font-code-raw text-[10px] text-tertiary">HTTP_429</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">TOO MANY REQUESTS</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Client observation polling limit reached. Please wait a moment before sending additional queries.</p>
+</div>
+<div class="flex items-center justify-between font-code-raw text-[11px] bg-surface p-xs border border-outline-variant">
+<span class="text-outline">LOCKOUT DURATION:</span>
+<span class="text-primary font-semibold">00:42 REMAINING</span>
+</div>
+</div>
+<!-- 3.7 & 3.8 404 & Maintenance (Req 26 & 27) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between h-48">
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-outline uppercase">OUTAGE / NOT FOUND (Req 26, 27)</span>
+<span class="font-code-raw text-[10px] text-outline">HTTP_404 / 503</span>
+</div>
+<div class="border-b border-outline-variant pb-xs">
+<span class="font-code-raw text-[10px] text-error font-semibold uppercase">PAGE NOT FOUND (404)</span>
+<p class="font-body-sm text-[11px] text-outline">Asset descriptor or route does not exist.</p>
+</div>
+<div>
+<span class="font-code-raw text-[10px] text-primary font-semibold uppercase">SYSTEM MAINTENANCE (503)</span>
+<p class="font-body-sm text-[11px] text-outline">Market observations remain safely stored in DB.</p>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-2xs bg-surface-container-high border border-outline-variant hover:border-primary font-code-raw text-[10px] text-on-surface uppercase">OPEN TERMINAL</button>
+<button class="flex-1 py-2xs bg-surface-container-high border border-outline-variant hover:border-primary font-code-raw text-[10px] text-on-surface uppercase">SEARCH ASSETS</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 4: EMPTY STATES & ACCESS GATING                                   -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-04">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-primary text-on-primary px-xs py-2xs font-semibold">04</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Empty States &amp; Access Gating Frameworks</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 10, 11, 12, 13, 15, 16]</span>
+</div>
+<span class="font-code-raw text-code-raw text-secondary">ZERO DATA GUARDS</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- 4.1 No Filter Results (Req 10) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">4.1 Filter Exhaustion (Req 10)</span>
+<span class="font-code-raw text-[10px] text-outline">COUNT: 0</span>
+</div>
+<div class="py-lg flex flex-col items-center text-center gap-xs">
+<span class="material-symbols-outlined text-outline text-[32px]">filter_alt_off</span>
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">NO ASSETS MATCH CRITERIA</h4>
+<p class="font-body-sm text-body-sm text-outline max-w-[260px]">Adjust active wear sliders, pattern seeds, or price range filters to broaden query.</p>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-surface-container-high border border-outline-variant hover:border-primary font-label-caps text-label-caps uppercase text-on-surface">CLEAR FILTERS</button>
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">RESET SCREEN</button>
+</div>
+</div>
+<!-- 4.2 Empty Watchlist (Req 11) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">4.2 Empty Watchlist (Req 11)</span>
+<span class="font-code-raw text-[10px] text-primary">PORTFOLIO_ZERO</span>
+</div>
+<div class="py-sm flex flex-col gap-xs">
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">YOUR WATCHLIST IS EMPTY</h4>
+<p class="font-body-sm text-body-sm text-outline">Follow market assets to observe fluctuations in floor price, liquid inventory, and sales velocity.</p>
+<!-- Restrained Wireframe of Tracked Columns -->
+<div class="mt-xs bg-surface border border-outline-variant/60 p-xs flex flex-col gap-2xs select-none opacity-40">
+<div class="flex justify-between border-b border-outline-variant pb-2xs font-label-caps text-[9px] text-outline uppercase">
+<span>Tracked Asset</span>
+<span>Observed Price</span>
+<span>Spread</span>
+</div>
+<div class="h-3 w-full bg-surface-container-high"></div>
+<div class="h-3 w-full bg-surface-container-high"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">BROWSE ASSETS</button>
+<button class="flex-1 py-xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">OPEN SCREENER</button>
+</div>
+</div>
+<!-- 4.3 Empty Portfolio (Req 12) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">4.3 Empty Holdings (Req 12)</span>
+<span class="font-code-raw text-[10px] text-secondary">NON-CUSTODIAL</span>
+</div>
+<div class="py-sm flex flex-col gap-xs">
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">BUILD YOUR PORTFOLIO VIEW</h4>
+<p class="font-body-sm text-body-sm text-outline">Add holdings manually to observe real-time liquidation value, concentration risk, and capital beta.</p>
+<div class="bg-surface-container-high p-xs border-l-2 border-secondary mt-xs font-body-sm text-[10px] text-secondary">
+<span class="font-semibold uppercase">Security Guarantee:</span> Non-custodial tracking engine. FloatAlpha never requests Steam passwords or trade URLs.
+              </div>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-secondary text-on-secondary font-label-caps text-label-caps uppercase font-semibold">ADD FIRST HOLDING</button>
+<button class="flex-1 py-xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">IMPORT CSV</button>
+</div>
+</div>
+</div>
+<!-- Gating & Alerting States -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- 4.4 No Alerts Configured (Req 13) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">4.4 Alerts Engine (Req 13)</span>
+<span class="font-code-raw text-[10px] text-outline">DAEMON_IDLE</span>
+</div>
+<div class="py-sm flex flex-col gap-xs">
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">NO SURVEILLANCE RULES</h4>
+<p class="font-body-sm text-body-sm text-outline">Deploy real-time monitors to track sudden orderbook wall removals, float arbitrage gaps, or rapid volume triggers.</p>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">CREATE ALERT</button>
+<button class="flex-1 py-xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">TEMPLATES</button>
+</div>
+</div>
+<!-- 4.5 Pro Locked Capability (Req 15) -->
+<div class="bg-surface-container border border-outline-variant p-md relative overflow-hidden flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-primary">4.5 Pro Capability Locked (Req 15)</span>
+<span class="bg-primary/20 text-primary px-xs py-2xs font-label-caps text-[9px] font-semibold uppercase">PRO TIER</span>
+</div>
+<!-- Interactive UI with non-disruptive overlay -->
+<div class="relative bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase">Execution Parameter:</span>
+<div class="h-6 w-full bg-surface-container-high flex items-center px-xs font-code-raw text-code-raw text-outline">
+                VOLATILITY_BAND_MULTIPLIER = 2.45
+              </div>
+<div class="flex gap-xs">
+<div class="h-6 w-1/2 bg-surface-container-high"></div>
+<div class="h-6 w-1/2 bg-surface-container-high"></div>
+</div>
+<!-- Inline Non-disruptive Lock Scrim -->
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-[1px] flex flex-col items-center justify-center p-xs text-center">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+<span class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface mt-2xs">ADVANCED CONDITION BUILDER</span>
+<p class="font-body-sm text-[10px] text-outline">Requires Multi-condition Boolean Logic Engine.</p>
+</div>
+</div>
+</div>
+<div class="flex gap-xs mt-sm">
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">UPGRADE TO PRO</button>
+<button class="px-md py-xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-outline hover:text-on-surface">NOT NOW</button>
+</div>
+</div>
+<!-- 4.6 Auth Required Gating (Req 16) -->
+<div class="bg-surface-container border border-outline-variant p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline">4.6 Authentication Guard (Req 16)</span>
+<span class="font-code-raw text-[10px] text-outline">STATE: ANONYMOUS</span>
+</div>
+<div class="py-sm flex flex-col gap-xs">
+<h4 class="font-headline-sm text-headline-sm uppercase font-semibold text-on-surface">SAVE THIS CUSTOM SCREEN</h4>
+<p class="font-body-sm text-body-sm text-outline">Sign in to commit your multi-variable filter layout, custom column weights, and surveillance rules to persistent storage.</p>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 py-xs bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">SIGN IN</button>
+<button class="flex-1 py-xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">CREATE ACCOUNT</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 5: UI PRIMITIVES, FORMS & BUTTON STATE MATRIX                     -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-05">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-primary text-on-primary px-xs py-2xs font-semibold">05</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">UI Controls, Forms &amp; Destruction Hierarchy</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 18, 19, 20, 24]</span>
+</div>
+<span class="font-code-raw text-code-raw text-primary">INTERACTION SPECS</span>
+</div>
+<!-- 5.1 Form Input States Matrix (Req 18) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">5.1 Complete Input Control State Matrix</span>
+<span class="font-code-raw text-code-raw text-outline">6 PRIMITIVES × 6 LIFECYCLE STATES</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant text-outline font-label-caps text-label-caps uppercase">
+<th class="p-xs w-32">Input Type</th>
+<th class="p-xs">Default</th>
+<th class="p-xs">Focused</th>
+<th class="p-xs">Valid</th>
+<th class="p-xs">Invalid (Subtle)</th>
+<th class="p-xs">Disabled</th>
+<th class="p-xs">Loading State</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Text Input -->
+<tr class="bg-surface">
+<td class="p-xs font-code-raw text-outline font-semibold">Text Search</td>
+<td class="p-xs"><input class="w-full h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs font-code-raw text-[11px] text-on-surface" readonly="" type="text" value="Butterfly Knife"/></td>
+<td class="p-xs"><input class="w-full h-row-default-h bg-surface-container-lowest border border-primary px-xs font-code-raw text-[11px] text-on-surface outline-none" readonly="" type="text" value="Karambit"/></td>
+<td class="p-xs">
+<div class="relative flex items-center">
+<input class="w-full h-row-default-h bg-surface-container-lowest border border-secondary px-xs font-code-raw text-[11px] text-on-surface" readonly="" type="text" value="Fade"/>
+<span class="material-symbols-outlined text-secondary text-[14px] absolute right-xs">check</span>
+</div>
+</td>
+<td class="p-xs">
+<div>
+<input class="w-full h-row-default-h bg-surface-container-lowest border border-error px-xs font-code-raw text-[11px] text-error" readonly="" type="text" value="InvalidPattern!"/>
+<span class="font-body-sm text-[9px] text-error block">Alphanumeric only</span>
+</div>
+</td>
+<td class="p-xs"><input class="w-full h-row-default-h bg-surface-container border border-outline-variant/30 px-xs font-code-raw text-[11px] text-outline opacity-50 cursor-not-allowed" disabled="" type="text" value="Disabled"/></td>
+<td class="p-xs">
+<div class="relative flex items-center">
+<input class="w-full h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs font-code-raw text-[11px] text-outline" readonly="" type="text" value="Searching..."/>
+<span class="material-symbols-outlined text-primary text-[14px] absolute right-xs animate-spin">progress_activity</span>
+</div>
+</td>
+</tr>
+<!-- Numeric Float / Currency Input -->
+<tr class="bg-surface">
+<td class="p-xs font-code-raw text-outline font-semibold">Numeric ($)</td>
+<td class="p-xs">
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant h-row-default-h px-xs">
+<span class="font-code-raw text-[10px] text-outline mr-2xs">$</span>
+<input class="bg-transparent font-code-raw text-[11px] text-on-surface w-full focus:outline-none" readonly="" type="text" value="1,250.00"/>
+</div>
+</td>
+<td class="p-xs">
+<div class="flex items-center bg-surface-container-lowest border border-primary h-row-default-h px-xs">
+<span class="font-code-raw text-[10px] text-primary mr-2xs">$</span>
+<input class="bg-transparent font-code-raw text-[11px] text-on-surface w-full focus:outline-none" readonly="" type="text" value="1,250.00"/>
+</div>
+</td>
+<td class="p-xs">
+<div class="flex items-center bg-surface-container-lowest border border-secondary h-row-default-h px-xs">
+<span class="font-code-raw text-[10px] text-secondary mr-2xs">$</span>
+<input class="bg-transparent font-code-raw text-[11px] text-on-surface w-full focus:outline-none" readonly="" type="text" value="2,400.00"/>
+</div>
+</td>
+<td class="p-xs">
+<div>
+<div class="flex items-center bg-surface-container-lowest border border-error h-row-default-h px-xs">
+<span class="font-code-raw text-[10px] text-error mr-2xs">$</span>
+<input class="bg-transparent font-code-raw text-[11px] text-error w-full focus:outline-none" readonly="" type="text" value="-50.00"/>
+</div>
+<span class="font-body-sm text-[9px] text-error block">Must be positive</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="flex items-center bg-surface-container border border-outline-variant/30 h-row-default-h px-xs opacity-50 cursor-not-allowed">
+<span class="font-code-raw text-[10px] text-outline mr-2xs">$</span>
+<input class="bg-transparent font-code-raw text-[11px] text-outline w-full cursor-not-allowed" disabled="" type="text" value="0.00"/>
+</div>
+</td>
+<td class="p-xs">
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant h-row-default-h px-xs justify-between">
+<span class="font-code-raw text-[11px] text-outline">SYNCING</span>
+<span class="material-symbols-outlined text-primary text-[12px] animate-spin">sync</span>
+</div>
+</td>
+</tr>
+<!-- Dropdown Select -->
+<tr class="bg-surface">
+<td class="p-xs font-code-raw text-outline font-semibold">Select Picker</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs flex items-center justify-between font-body-sm text-[11px]">
+<span>Factory New</span>
+<span class="material-symbols-outlined text-[12px] text-outline">arrow_drop_down</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-primary px-xs flex items-center justify-between font-body-sm text-[11px]">
+<span>Minimal Wear</span>
+<span class="material-symbols-outlined text-[12px] text-primary">arrow_drop_up</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-secondary px-xs flex items-center justify-between font-body-sm text-[11px]">
+<span>Field-Tested</span>
+<span class="material-symbols-outlined text-[12px] text-secondary">check</span>
+</div>
+</td>
+<td class="p-xs">
+<div>
+<div class="h-row-default-h bg-surface-container-lowest border border-error px-xs flex items-center justify-between font-body-sm text-[11px] text-error">
+<span>Select Tier...</span>
+<span class="material-symbols-outlined text-[12px] text-error">error</span>
+</div>
+<span class="font-body-sm text-[9px] text-error block">Required parameter</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container border border-outline-variant/30 px-xs flex items-center justify-between font-body-sm text-[11px] text-outline opacity-50 cursor-not-allowed">
+<span>Locked Tier</span>
+<span class="material-symbols-outlined text-[12px]">lock</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs flex items-center justify-between font-body-sm text-[11px] text-outline">
+<span>Fetching...</span>
+<span class="material-symbols-outlined text-[12px] text-primary animate-spin">progress_activity</span>
+</div>
+</td>
+</tr>
+<!-- Condition Builder Clause -->
+<tr class="bg-surface">
+<td class="p-xs font-code-raw text-outline font-semibold">Rule Clause</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs flex items-center gap-xs font-code-raw text-[10px]">
+<span class="text-primary">FLOAT</span> &lt; <span class="text-secondary">0.0300</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-primary px-xs flex items-center gap-xs font-code-raw text-[10px]">
+<span class="text-primary">SPREAD</span> &gt; <span class="text-tertiary">3.50%</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-secondary px-xs flex items-center justify-between font-code-raw text-[10px]">
+<span>VALID_RULE_TREE</span>
+<span class="material-symbols-outlined text-[12px] text-secondary">verified</span>
+</div>
+</td>
+<td class="p-xs">
+<div>
+<div class="h-row-default-h bg-surface-container-lowest border border-error px-xs flex items-center gap-xs font-code-raw text-[10px] text-error">
+<span>SYNTAX_ERR: [OP]</span>
+</div>
+<span class="font-body-sm text-[9px] text-error block">Operator missing</span>
+</div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container border border-outline-variant/30 px-xs flex items-center font-code-raw text-[10px] text-outline opacity-50">
+                    CLAUSE_DISABLED
+                  </div>
+</td>
+<td class="p-xs">
+<div class="h-row-default-h bg-surface-container-lowest border border-outline-variant px-xs flex items-center justify-between font-code-raw text-[10px] text-outline">
+<span>EVALUATING...</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 5.2 Button State Matrix (Req 19) & 5.3 Feedback Toasts (Req 20) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-md">
+<!-- Button States (7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">5.2 Button State Matrix (Req 19)</span>
+<span class="font-code-raw text-code-raw text-outline">5 VARIANTS × 5 STATES</span>
+</div>
+<div class="p-sm flex flex-col gap-sm">
+<!-- Row: Primary -->
+<div class="flex items-center gap-xs">
+<span class="w-20 font-code-raw text-[10px] text-outline uppercase">Primary:</span>
+<button class="h-row-compact-h px-sm bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold">DEFAULT</button>
+<button class="h-row-compact-h px-sm bg-primary/80 text-on-primary font-label-caps text-label-caps uppercase font-semibold">HOVER</button>
+<button class="h-row-compact-h px-sm bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold ring-1 ring-on-surface">FOCUS</button>
+<button class="h-row-compact-h px-sm bg-surface-container-high text-outline font-label-caps text-label-caps uppercase cursor-not-allowed opacity-50" disabled="">DISABLED</button>
+<button class="h-row-compact-h px-sm bg-primary text-on-primary font-label-caps text-label-caps uppercase font-semibold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] animate-spin">progress_activity</span>
+<span>SYNC</span>
+</button>
+</div>
+<!-- Row: Secondary / Neutral -->
+<div class="flex items-center gap-xs">
+<span class="w-20 font-code-raw text-[10px] text-outline uppercase">Secondary:</span>
+<button class="h-row-compact-h px-sm bg-surface-container-high text-on-surface border border-outline-variant font-label-caps text-label-caps uppercase">DEFAULT</button>
+<button class="h-row-compact-h px-sm bg-surface-container-highest text-on-surface border border-primary font-label-caps text-label-caps uppercase">HOVER</button>
+<button class="h-row-compact-h px-sm bg-surface-container-highest text-primary border border-primary font-label-caps text-label-caps uppercase">FOCUS</button>
+<button class="h-row-compact-h px-sm bg-surface-container text-outline border border-outline-variant/30 font-label-caps text-label-caps uppercase cursor-not-allowed opacity-50" disabled="">DISABLED</button>
+<button class="h-row-compact-h px-sm bg-surface-container-high text-outline border border-outline-variant font-label-caps text-label-caps uppercase flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] animate-spin">refresh</span>
+<span>LOAD</span>
+</button>
+</div>
+<!-- Row: Danger / Crimson -->
+<div class="flex items-center gap-xs">
+<span class="w-20 font-code-raw text-[10px] text-outline uppercase">Danger:</span>
+<button class="h-row-compact-h px-sm bg-error-container text-on-error-container font-label-caps text-label-caps uppercase font-semibold">DEFAULT</button>
+<button class="h-row-compact-h px-sm bg-error text-on-error font-label-caps text-label-caps uppercase font-semibold">HOVER</button>
+<button class="h-row-compact-h px-sm bg-error-container text-on-error-container font-label-caps text-label-caps uppercase font-semibold ring-1 ring-error">FOCUS</button>
+<button class="h-row-compact-h px-sm bg-surface-container text-outline border border-outline-variant/30 font-label-caps text-label-caps uppercase cursor-not-allowed opacity-50" disabled="">DISABLED</button>
+<button class="h-row-compact-h px-sm bg-error-container text-on-error-container font-label-caps text-label-caps uppercase font-semibold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] animate-spin">delete</span>
+<span>WIPING</span>
+</button>
+</div>
+<!-- Row: Ghost -->
+<div class="flex items-center gap-xs">
+<span class="w-20 font-code-raw text-[10px] text-outline uppercase">Ghost:</span>
+<button class="h-row-compact-h px-sm text-outline hover:text-on-surface font-label-caps text-label-caps uppercase">DEFAULT</button>
+<button class="h-row-compact-h px-sm bg-surface-container text-on-surface font-label-caps text-label-caps uppercase">HOVER</button>
+<button class="h-row-compact-h px-sm bg-surface-container text-primary font-label-caps text-label-caps uppercase">FOCUS</button>
+<button class="h-row-compact-h px-sm text-outline opacity-40 font-label-caps text-label-caps uppercase cursor-not-allowed" disabled="">DISABLED</button>
+<button class="h-row-compact-h px-sm text-primary font-label-caps text-label-caps uppercase flex items-center gap-2xs">
+<span class="material-symbols-outlined text-[12px] animate-spin">hourglass_empty</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 5.3 Feedback Toasts (Req 20) (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">5.3 Feedback Toast Taxonomy (Req 20)</span>
+<span class="font-code-raw text-code-raw text-secondary">TRANSIENT_SYSTEM</span>
+</div>
+<div class="p-sm flex flex-col gap-xs">
+<!-- Success Toast -->
+<div class="bg-surface-container-high border-l-2 border-secondary p-xs flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<div>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold">SUCCESS:</span>
+<span class="font-body-sm text-body-sm text-on-surface ml-xs">Asset added to Watchlist #01</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[14px] cursor-pointer hover:text-on-surface">close</span>
+</div>
+<!-- Info Toast -->
+<div class="bg-surface-container-high border-l-2 border-primary p-xs flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">info</span>
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase font-semibold">INFO:</span>
+<span class="font-body-sm text-body-sm text-on-surface ml-xs">Alert ALT-002 paused via daemon</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[14px] cursor-pointer hover:text-on-surface">close</span>
+</div>
+<!-- Warning Toast -->
+<div class="bg-surface-container-high border-l-2 border-tertiary-container p-xs flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary-container text-[16px]">warning</span>
+<div>
+<span class="font-label-caps text-label-caps text-tertiary-container uppercase font-semibold">WARNING:</span>
+<span class="font-body-sm text-body-sm text-on-surface ml-xs">Observation data delayed 12m</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[14px] cursor-pointer hover:text-on-surface">close</span>
+</div>
+<!-- Error Toast -->
+<div class="bg-surface-container-high border-l-2 border-error p-xs flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-error text-[16px]">error</span>
+<div>
+<span class="font-label-caps text-label-caps text-error uppercase font-semibold">ERROR:</span>
+<span class="font-body-sm text-body-sm text-on-surface ml-xs">Unable to commit screen changes</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[14px] cursor-pointer hover:text-on-surface">close</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 5.4 Destructive Confirmation Hierarchy (Req 24) -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">5.4 Destructive Confirmation Hierarchy (Req 24)</span>
+<span class="font-code-raw text-code-raw text-error">SAFETY PROTOCOL</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md p-md">
+<!-- Level 1: Compact Inline -->
+<div class="bg-surface border border-outline-variant p-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase font-semibold">LEVEL 1: LOW IMPACT</span>
+<span class="font-code-raw text-[10px] text-outline">DELETE_ALERT</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2xs">DELETE ALERT ALT-04?</h4>
+<p class="font-body-sm text-[11px] text-outline">Removes real-time Discord &amp; in-app webhook triggers. Can be recreated at any time.</p>
+</div>
+<div class="flex gap-xs mt-md">
+<button class="flex-1 py-2xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">CANCEL</button>
+<button class="flex-1 py-2xs bg-error-container text-on-error-container font-label-caps text-label-caps uppercase font-semibold">DELETE</button>
+</div>
+</div>
+<!-- Level 2: Holding Removal -->
+<div class="bg-surface border border-outline-variant p-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs mb-xs">
+<span class="font-label-caps text-label-caps text-tertiary-container uppercase font-semibold">LEVEL 2: MEDIUM IMPACT</span>
+<span class="font-code-raw text-[10px] text-tertiary-container">REMOVE_HOLDING</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase text-on-surface mb-2xs">REMOVE PORTFOLIO ASSET?</h4>
+<p class="font-body-sm text-[11px] text-on-surface-variant">
+                Removing <strong class="text-on-surface">AWP | Dragon Lore (FN)</strong> will erase historical cost-basis audit trails and realized PnL calculations.
+              </p>
+</div>
+<div class="flex gap-xs mt-md">
+<button class="flex-1 py-2xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">KEEP ASSET</button>
+<button class="flex-1 py-2xs bg-error-container text-on-error-container font-label-caps text-label-caps uppercase font-semibold">REMOVE HOLDING</button>
+</div>
+</div>
+<!-- Level 3: Irreversible Deletion -->
+<div class="bg-surface border-2 border-error p-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-error pb-xs mb-xs">
+<span class="font-label-caps text-label-caps text-error uppercase font-semibold">LEVEL 3: CRITICAL IMPACT</span>
+<span class="font-code-raw text-[10px] text-error">PURGE_ACCOUNT</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm uppercase text-error mb-2xs">IRREVERSIBLE ACCOUNT PURGE</h4>
+<p class="font-body-sm text-[11px] text-outline mb-xs">Type "DELETE" to permanently destroy all surveillance rules, saved screens, and encrypted API tokens.</p>
+<input class="w-full h-6 bg-surface-container-lowest border border-outline-variant px-xs font-code-raw text-[11px] text-on-surface focus:border-error outline-none" placeholder='Type "DELETE" to confirm' type="text"/>
+</div>
+<div class="flex gap-xs mt-md">
+<button class="flex-1 py-2xs bg-surface-container-high border border-outline-variant font-label-caps text-label-caps uppercase text-on-surface">ABORT</button>
+<button class="flex-1 py-2xs bg-error text-on-error font-label-caps text-label-caps uppercase font-semibold opacity-60 cursor-not-allowed">CONFIRM PURGE</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 6: OBSERVATIONAL SIGNALS & TERMINOLOGY GOVERNANCE                 -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md" id="section-06">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-secondary text-on-secondary px-xs py-2xs font-semibold">06</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Signals &amp; Terminology Governance Standard</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 23 - Neutrality Standard]</span>
+</div>
+<span class="font-code-raw text-code-raw text-secondary">REGULATORY AUDITED</span>
+</div>
+<!-- 6.1 Approved Signal Vocabulary -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">6.1 Canonical SignalBadge Vocabulary Tokens</span>
+<span class="font-code-raw text-code-raw text-primary">ENUM // QUANT_SIGNAL_FLAGS</span>
+</div>
+<div class="p-md grid grid-cols-2 sm:grid-cols-4 gap-md">
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-primary/10 border border-primary text-primary font-label-caps text-label-caps font-semibold uppercase">
+              SUPPLY CONTRACTING
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Active exchange listings decreasing &gt; 2.5σ over 24h.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-surface-container-high border border-outline-variant text-on-surface font-label-caps text-label-caps font-semibold uppercase">
+              SUPPLY EXPANDING
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Active exchange listings increasing &gt; 2.5σ over 24h.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-primary-fixed-dim/10 border border-primary-fixed-dim text-primary-fixed-dim font-label-caps text-label-caps font-semibold uppercase">
+              ACTIVITY ACCELERATING
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Observed transaction frequency per hour rising.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-surface-container border border-outline-variant/60 text-outline font-label-caps text-label-caps font-semibold uppercase">
+              ACTIVITY DECLINING
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Observed trade interval expanding vs 7D baseline.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-secondary/10 border border-secondary text-secondary font-label-caps text-label-caps font-semibold uppercase">
+              VOLUME SPIKE
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Single-hour turnover exceeding 300% of rolling mean.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-secondary/10 border border-secondary text-secondary font-label-caps text-label-caps font-semibold uppercase">
+              PRICE MOMENTUM
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Directional price trend persistence across 3+ venues.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-surface-container-high border border-outline-variant text-outline font-label-caps text-label-caps font-semibold uppercase">
+              LOW ACTIVITY
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Fewer than 2 verified executions in rolling 48h.</span>
+</div>
+<div class="bg-surface p-sm border border-outline-variant flex flex-col gap-xs">
+<span class="inline-flex items-center px-xs py-2xs bg-tertiary-container/10 border border-tertiary-container text-tertiary-container font-label-caps text-label-caps font-semibold uppercase">
+              LOW PRICE CONFIDENCE
+            </span>
+<span class="font-body-sm text-[11px] text-outline">Order book spread &gt; 4.5% or depth &lt; 3 units.</span>
+</div>
+</div>
+</div>
+<!-- 6.2 Prohibited Terminology Audit Table -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="h-panel-header-h bg-surface-container-high px-sm flex items-center justify-between border-b border-outline-variant">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">6.2 Prohibited Commercial Terminology vs Mandatory Quantitative Replacement</span>
+<span class="font-code-raw text-code-raw text-error">STRICT COMPLIANCE DIRECTIVE</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant text-outline font-label-caps text-label-caps uppercase">
+<th class="p-sm w-48 text-error">Prohibited Commercial Term</th>
+<th class="p-sm text-secondary">Mandatory Quantitative Replacement</th>
+<th class="p-sm">Engineering Rationale &amp; Neutrality Rule</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"BUY" / "STRONG BUY"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"OBSERVED LIQUIDITY EXPANSION" / "PRICE MOMENTUM"</td>
+<td class="p-sm text-on-surface-variant">FloatAlpha does not issue investment advice or trade recommendations. All labels must describe observations.</td>
+</tr>
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"SELL" / "DUMP"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"SUPPLY EXPANDING" / "ACCELERATED LISTINGS"</td>
+<td class="p-sm text-on-surface-variant">Negative retail sentiment framing is strictly prohibited. State inventory shifts neutrally.</td>
+</tr>
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"BULLISH" / "BEARISH"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"POSITIVE MOMENTUM" / "SUPPLY OVERHANG"</td>
+<td class="p-sm text-on-surface-variant">Replaces speculative bias with mathematical vector and order-book depth metrics.</td>
+</tr>
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"UNDERVALUED" / "OVERVALUED"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"TRADING BELOW 30D VWAP" / "HISTORICAL HIGH PERCENTILE"</td>
+<td class="p-sm text-on-surface-variant">Value is an opinion; statistical deviation from an observed rolling mean is an empirical fact.</td>
+</tr>
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"FAIR VALUE" / "TRUE PRICE"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"VOLUME-WEIGHTED BENCHMARK" / "MEDIAN VENUE PRICE"</td>
+<td class="p-sm text-on-surface-variant">Explicitly defines the calculation model rather than claiming universal ontological truth.</td>
+</tr>
+<tr class="bg-surface">
+<td class="p-sm font-code-raw font-semibold text-error line-through">"TO THE MOON" / "CRASH"</td>
+<td class="p-sm font-code-raw font-semibold text-secondary">"24H VOLATILITY &gt; +18.4%" / "MAX DRAWDOWN EXCEEDED"</td>
+<td class="p-sm text-on-surface-variant">Gamified slang is strictly banned in all UI strings, telemetry logs, and push notification templates.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 7: RESPONSIVE BEHAVIOR ARCHITECTURE                               -->
+<!-- ========================================================================= -->
+<section class="flex flex-col gap-md mb-xl" id="section-07">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<div class="flex items-center gap-sm">
+<span class="font-code-raw text-code-raw bg-primary text-on-primary px-xs py-2xs font-semibold">07</span>
+<h2 class="font-headline-lg text-headline-lg uppercase font-semibold tracking-tight">Responsive Viewport Adaptations</h2>
+<span class="font-label-caps text-label-caps text-outline uppercase">[Req 25]</span>
+</div>
+<span class="font-code-raw text-code-raw text-primary">BREAKPOINT SPEC</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- 1440px Canonical Desktop -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-sm">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase font-semibold">1440px Desktop [CANONICAL]</span>
+<span class="font-code-raw text-[10px] text-outline">&gt; 1440px</span>
+</div>
+<!-- Diagram wireframe -->
+<div class="w-full h-32 bg-surface-container-lowest p-xs flex gap-xs border border-outline-variant">
+<div class="flex-1 flex flex-col gap-xs">
+<div class="h-3 w-full bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high/40"></div>
+<div class="h-8 w-full bg-surface-container-high/60"></div>
+</div>
+<div class="w-12 bg-primary/20 border border-primary/50 flex items-center justify-center font-code-raw text-[9px] text-primary [writing-mode:vertical-rl]">
+              360px RAIL
+            </div>
+</div>
+<ul class="font-body-sm text-[11px] text-outline flex flex-col gap-2xs">
+<li>• 12-column persistent layout</li>
+<li>• Multi-column tables (all 8 metrics shown)</li>
+<li>• Persistent 360px inspection right-rail</li>
+</ul>
+</div>
+<!-- 1280px Compact Desktop -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-sm">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-label-caps text-label-caps text-on-surface uppercase font-semibold">1280px Compact Desktop</span>
+<span class="font-code-raw text-[10px] text-outline">1280px - 1439px</span>
+</div>
+<!-- Diagram wireframe -->
+<div class="w-full h-32 bg-surface-container-lowest p-xs flex gap-xs border border-outline-variant">
+<div class="flex-1 flex flex-col gap-xs">
+<div class="h-3 w-full bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high/40"></div>
+<div class="h-8 w-full bg-surface-container-high/60"></div>
+</div>
+<div class="w-8 bg-surface-container-high border border-outline-variant flex items-center justify-center font-code-raw text-[9px] text-outline [writing-mode:vertical-rl]">
+              300px
+            </div>
+</div>
+<ul class="font-body-sm text-[11px] text-outline flex flex-col gap-2xs">
+<li>• Right rail compresses to 300px</li>
+<li>• Secondary delta columns truncate (30D hidden)</li>
+<li>• Chart maintains full aspect ratio</li>
+</ul>
+</div>
+<!-- 1024px Tablet / Landscape -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-sm">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-label-caps text-label-caps text-on-surface uppercase font-semibold">1024px Landscape / Tablet</span>
+<span class="font-code-raw text-[10px] text-outline">768px - 1023px</span>
+</div>
+<!-- Diagram wireframe -->
+<div class="w-full h-32 bg-surface-container-lowest p-xs flex flex-col gap-xs border border-outline-variant">
+<div class="h-3 w-full bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high/40"></div>
+<div class="h-6 w-full bg-primary/20 border border-primary/40 flex items-center justify-center font-code-raw text-[9px] text-primary">
+              INSPECTION DRAWER (COLLAPSIBLE)
+            </div>
+</div>
+<ul class="font-body-sm text-[11px] text-outline flex flex-col gap-2xs">
+<li>• Right rail drops to bottom tabbed drawer</li>
+<li>• Primary chart expands to full viewport width</li>
+<li>• Horizontal scroll on high-density tables</li>
+</ul>
+</div>
+<!-- <768px Mobile Feed -->
+<div class="bg-surface-container border border-outline-variant p-sm flex flex-col gap-sm">
+<div class="flex items-center justify-between border-b border-outline-variant pb-xs">
+<span class="font-label-caps text-label-caps text-tertiary-container uppercase font-semibold">&lt;768px Field Console</span>
+<span class="font-code-raw text-[10px] text-outline">&lt; 768px</span>
+</div>
+<!-- Diagram wireframe -->
+<div class="w-full h-32 bg-surface-container-lowest p-xs flex justify-center border border-outline-variant">
+<div class="w-20 h-full bg-surface-container-high/40 border-x border-outline-variant flex flex-col gap-xs p-2xs">
+<div class="h-2 w-full bg-surface-container-highest"></div>
+<div class="h-8 w-full bg-surface-container-highest"></div>
+<div class="h-8 w-full bg-surface-container-highest"></div>
+</div>
+</div>
+<ul class="font-body-sm text-[11px] text-outline flex flex-col gap-2xs">
+<li>• Monolithic single-column card feeds</li>
+<li>• Inspection rail becomes 100vw slide drawer</li>
+<li>• Hard rule: No font size scaling below 10px</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  // Simple tab click interaction for spec nav references
+  document.querySelectorAll('nav a[data-path]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetPath = link.getAttribute('data-path');
+      const sectionNum = targetPath.split('-')[0];
+      const targetEl = document.getElementById('section-' + sectionNum);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Set active class
+        document.querySelectorAll('nav a[data-path]').forEach(a => a.classList.remove('text-primary', 'bg-surface-container-high'));
+        link.classList.add('text-primary', 'bg-surface-container-high');
+      }
+    });
+  });
+</script></main><footer class="fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest border-t border-outline-variant h-sm flex items-center justify-between px-lg select-none"><div class="flex items-center gap-lg"><div class="flex items-center gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase">PROVENANCE ENGINE:</span><span class="font-code-raw text-code-raw text-primary">VALVE_GC_NODE_04</span></div><div class="hidden md:flex items-center gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase">QUORUM CONSENSUS:</span><span class="font-code-raw text-code-raw text-secondary">100.00% SYNCED</span></div><div class="hidden lg:flex items-center gap-xs"><span class="font-label-caps text-label-caps text-outline uppercase">STATE VERIFICATION:</span><span class="font-code-raw text-code-raw text-on-surface">ED25519_SIG_VALID</span></div></div><div class="flex items-center gap-md"><span class="font-code-raw text-code-raw text-outline">μs LATENCY: <span class="text-primary">14ms</span></span><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">© FLOATALPHA QUANTITATIVE SYSTEMS</span></div></footer></body></html>

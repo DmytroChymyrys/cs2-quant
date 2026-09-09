@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloatAlpha — Pricing & Plans</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            surface: {
+              bg: '#080B10',
+              panel: '#0E121A',
+              'panel-elevated': '#141923',
+              input: '#111622',
+              hover: '#1A2232',
+              active: '#202B3F',
+            },
+            border: {
+              subtle: '#1B2230',
+              default: '#263145',
+              focus: '#00B4D8',
+            },
+            cyan: {
+              primary: '#00B4D8',
+              bright: '#38BDF8',
+              dim: 'rgba(0, 180, 216, 0.12)',
+            },
+            emerald: {
+              primary: '#10B981',
+              dim: 'rgba(16, 185, 129, 0.14)',
+            },
+            crimson: {
+              primary: '#EF4444',
+              dim: 'rgba(239, 68, 68, 0.14)',
+            },
+            amber: {
+              warning: '#F59E0B',
+              dim: 'rgba(245, 158, 11, 0.12)',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #080B10;
+      color: #F1F5F9;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum" 1;
+    }
+    .grid-bg {
+      background-image: linear-gradient(to right, rgba(38, 49, 69, 0.15) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(38, 49, 69, 0.15) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#080B10] text-slate-100 flex flex-col selection:bg-cyan-500/20 selection:text-cyan-300">
+
+  <!-- TOP PUBLIC NAVIGATION -->
+  <header class="w-full h-12 bg-[#0E121A]/95 backdrop-blur border-b border-[#1B2230] sticky top-0 z-50 px-4 md:px-8 flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-6 h-6 bg-[#111622] border border-[#263145] rounded flex items-center justify-center text-[#00B4D8] group-hover:border-[#00B4D8] transition-colors">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-[13px] tracking-wider text-slate-100 uppercase">FloatAlpha</span>
+          <span class="hidden sm:inline-block font-mono text-[9.5px] uppercase tracking-wider text-slate-400 border-l border-slate-700 pl-2">CS2 Market Intelligence</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-[11px] font-medium tracking-wide text-slate-400">
+        <a href="#" class="px-2.5 py-1 hover:text-slate-200 transition-colors">Platform</a>
+        <a href="#" class="px-2.5 py-1 hover:text-slate-200 transition-colors">Terminal</a>
+        <a href="#" class="px-2.5 py-1 hover:text-slate-200 transition-colors">Screener</a>
+        <a href="#" class="px-2.5 py-1 text-[#00B4D8] font-semibold border-b-2 border-[#00B4D8] -mb-[1px]">Pricing</a>
+        <a href="#" class="px-2.5 py-1 hover:text-slate-200 transition-colors">Methodology</a>
+        <a href="#" class="px-2.5 py-1 hover:text-slate-200 transition-colors">Data Provenance</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="#" class="text-[11px] font-medium text-slate-300 hover:text-white px-2.5 py-1 transition-colors">Sign In</a>
+      <a href="#" class="h-7 px-3 bg-[#00B4D8] hover:bg-[#38BDF8] text-slate-950 font-bold text-[11px] tracking-wide uppercase rounded flex items-center justify-center transition-colors shadow-sm">
+        Explore FloatAlpha
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- HERO SECTION -->
+    <section class="relative pt-16 pb-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#0E121A] border border-[#263145] text-slate-300 font-mono text-[10px] uppercase tracking-widest mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#00B4D8]"></span>
+        Transparent Digital Asset Valuation
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight uppercase text-slate-100 leading-tight mb-4">
+        Market Intelligence<br>
+        <span class="text-[#00B4D8]">Without The Noise.</span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-slate-400 text-sm sm:text-base font-normal leading-relaxed mb-8">
+        Start exploring FloatAlpha for free. Upgrade when you need deeper multi-variable screening, historical baseline analytics, and persistent surveillance watchlists.
+      </p>
+
+      <!-- BILLING TOGGLE -->
+      <div class="inline-flex items-center p-1 bg-[#0E121A] border border-[#263145] rounded-md gap-1">
+        <button id="toggle-monthly" onclick="setBilling('monthly')" class="px-3 py-1.5 rounded text-xs font-mono font-medium transition-all bg-[#1E2738] text-cyan-300 shadow-sm">
+          Monthly Billing
+        </button>
+        <button id="toggle-annual" onclick="setBilling('annual')" class="px-3 py-1.5 rounded text-xs font-mono font-medium transition-all text-slate-400 hover:text-slate-200 flex items-center gap-1.5">
+          <span>Annual Billing</span>
+          <span class="px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-800/60">Save 17%</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PRICING CARDS -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+
+        <!-- FREE PLAN CARD -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-6 sm:p-7 flex flex-col justify-between relative hover:border-slate-600 transition-colors">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <span class="font-mono text-xs uppercase tracking-widest text-slate-400 font-semibold block mb-1">Tier 0 // Community</span>
+                <h3 class="text-xl font-bold uppercase text-slate-100">Free</h3>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-[#141923] text-slate-300 border border-[#263145]">Public Access</span>
+            </div>
+
+            <p class="text-xs text-slate-400 mb-6 min-h-[32px]">
+              For exploring the CS2 market with FloatAlpha’s core quantitative indicators.
+            </p>
+
+            <div class="mb-6 pb-6 border-b border-[#1B2230] flex items-baseline gap-2">
+              <span class="text-4xl font-extrabold font-mono text-slate-100">$0</span>
+              <span class="font-mono text-xs uppercase tracking-wider text-slate-400">Forever</span>
+            </div>
+
+            <div class="space-y-3 mb-8">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Included Capabilities:</div>
+              
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Market Terminal</strong> — Macro indices & aggregate market breadth</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Asset Intelligence</strong> — Individual asset detail & divergence graphs</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Price Confidence</strong> — Grounded statistical ratings (High / Med / Low)</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Basic Screener</strong> — Core price & category filtering</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Basic Market History</strong> — Standard 24-hour observation windows</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Limited Watchlist</strong> — Track up to 5 priority assets</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Grounded Market Observations</strong> — Verified Skinport ingestion</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="w-full h-10 bg-[#141923] hover:bg-[#1E2738] border border-[#263145] hover:border-slate-500 text-slate-200 font-bold text-xs font-mono uppercase tracking-wider rounded flex items-center justify-center transition-colors">
+            Start Free
+          </a>
+        </div>
+
+        <!-- PRO PLAN CARD -->
+        <div class="bg-[#0E121A] border-2 border-[#00B4D8]/80 rounded p-6 sm:p-7 flex flex-col justify-between relative shadow-[0_0_24px_rgba(0,180,216,0.12)]">
+          <!-- SUBTLE PRO ACCENT BADGE -->
+          <div class="absolute -top-3 right-6">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-[#00B4D8] text-slate-950 shadow-sm">
+              Full Surveillance
+            </span>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <span class="font-mono text-xs uppercase tracking-widest text-[#00B4D8] font-semibold block mb-1">Tier 1 // Quantitative</span>
+                <h3 class="text-xl font-bold uppercase text-slate-100 flex items-center gap-2">
+                  Pro
+                  <span class="w-2 h-2 rounded-full bg-[#00B4D8]"></span>
+                </h3>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-cyan-950/60 text-cyan-300 border border-cyan-800">Advanced Analytics</span>
+            </div>
+
+            <p class="text-xs text-slate-400 mb-6 min-h-[32px]">
+              For users who want to investigate unusual market conditions and supply shifts more deeply.
+            </p>
+
+            <div class="mb-6 pb-6 border-b border-[#1B2230] flex items-baseline gap-2">
+              <span id="pro-price" class="text-4xl font-extrabold font-mono text-slate-100">$14.99</span>
+              <span id="pro-period" class="font-mono text-xs uppercase tracking-wider text-slate-400">/ Month</span>
+              <span id="pro-savings-sub" class="hidden text-[11px] font-mono text-emerald-400 ml-2">($149 / Year • Save $30)</span>
+            </div>
+
+            <div class="space-y-3 mb-8">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-[#00B4D8] font-bold">Everything in Free, plus:</div>
+              
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Advanced Multi-Condition Screener</strong> — Complex boolean logic queries</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Supply Contraction Filters</strong> — Detect net merchant inventory drawdowns</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Activity Anomaly Filters</strong> — Volume Z-scores & turnover velocity spikes</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Advanced Price / Supply Divergence</strong> — Multi-series correlation charts</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Extended Historical Analytics</strong> — 7D, 30D, and 90D observation baselines</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Unlimited Watchlists & Saved Screens</strong> — Organize custom surveillance portfolios</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>CSV Data Export</strong> — Full mathematical export of telemetry snapshots</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-200">
+                <svg class="w-4 h-4 text-[#00B4D8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Advanced Derived Metrics</strong> — Volatility dispersion, Z-score, drawdown</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-400">
+                <span class="w-4 h-4 flex items-center justify-center shrink-0 mt-0.5 font-mono text-[10px] text-amber-400">○</span>
+                <span><strong>Real-Time Alerts</strong> — <span class="text-amber-400 font-mono text-[10px] uppercase font-semibold">Coming Soon</span> (Webhooks & Event triggers)</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="w-full h-10 bg-[#00B4D8] hover:bg-[#38BDF8] text-slate-950 font-bold text-xs font-mono uppercase tracking-wider rounded flex items-center justify-center transition-colors shadow-sm">
+            Start Pro
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DETAILED FEATURE COMPARISON TABLE -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="text-center mb-8">
+        <h2 class="text-xs font-bold font-mono uppercase tracking-widest text-[#00B4D8] mb-2">Capability Matrix</h2>
+        <h3 class="text-2xl font-extrabold uppercase text-slate-100 tracking-tight">Comprehensive Feature Comparison</h3>
+        <p class="text-xs text-slate-400 max-w-lg mx-auto mt-1">Audit exact capability boundaries across Free and Pro tiers.</p>
+      </div>
+
+      <div class="bg-[#0E121A] border border-[#263145] rounded overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-[#0B0F17] border-b border-[#1B2230] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                <th class="py-3 px-4 w-1/2">Platform Capability</th>
+                <th class="py-3 px-4 w-1/4 text-center font-mono">Free ($0)</th>
+                <th class="py-3 px-4 w-1/4 text-center font-mono text-[#00B4D8]">Pro ($14.99/mo)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#141924] text-xs">
+
+              <!-- GROUP 1: MARKET INTELLIGENCE -->
+              <tr class="bg-[#111520] font-mono text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <td colspan="3" class="py-2 px-4 text-[#00B4D8]">01 // Market Intelligence</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Market Terminal</div>
+                  <div class="text-[11px] text-slate-400">Macro CS2 overview, aggregate breadth, top movers</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Asset Intelligence</div>
+                  <div class="text-[11px] text-slate-400">In-depth asset page with multi-series trajectory & divergence window</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Price Confidence Rating</div>
+                  <div class="text-[11px] text-slate-400">Statistical reliability rating (High / Medium / Low) with 4-factor breakdown</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Grounded Observations</div>
+                  <div class="text-[11px] text-slate-400">Directly verified snapshot telemetry from Skinport API ingestion</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+
+              <!-- GROUP 2: SCREENING -->
+              <tr class="bg-[#111520] font-mono text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <td colspan="3" class="py-2 px-4 text-[#00B4D8]">02 // Quantitative Screening</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Basic Filters</div>
+                  <div class="text-[11px] text-slate-400">Filter by category (Cases, Knives, Weapons), price range, wear exterior</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Advanced Condition Builder</div>
+                  <div class="text-[11px] text-slate-400">Multi-variable boolean combinations (AND / OR query chaining)</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Supply Contraction Filters</div>
+                  <div class="text-[11px] text-slate-400">Screen for inventory depletion breaches (&lt; -15% 7D net listings)</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Activity Anomaly Filters</div>
+                  <div class="text-[11px] text-slate-400">Isolate turnover velocity acceleration (&gt; +50% vs baseline)</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Volatility & Dispersion Filters</div>
+                  <div class="text-[11px] text-slate-400">Filter by observed price IQR and standard deviation spread</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Confidence Quorum Filters</div>
+                  <div class="text-[11px] text-slate-400">Restrict universe to High or Medium Price Confidence assets</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-400 font-semibold">LIMITED (High Only)</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Saved Screens</div>
+                  <div class="text-[11px] text-slate-400">Save and recall multi-variable query presets</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED (Unlimited)</td>
+              </tr>
+
+              <!-- GROUP 3: HISTORY & ANALYTICS -->
+              <tr class="bg-[#111520] font-mono text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <td colspan="3" class="py-2 px-4 text-[#00B4D8]">03 // History & Analytics</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Basic History</div>
+                  <div class="text-[11px] text-slate-400">24-hour observation windows and realized telemetry ticks</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Extended History</div>
+                  <div class="text-[11px] text-slate-400">7D, 30D, and 90D observation windows as telemetry accumulates</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Price / Supply Divergence Analysis</div>
+                  <div class="text-[11px] text-slate-400">Synchronous comparison of median price stability against inventory depletion</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-400 font-semibold">LIMITED (Sample Only)</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Advanced Derived Metrics</div>
+                  <div class="text-[11px] text-slate-400">Turnover Z-score, rolling price dispersion IQR, maximum observed drawdown</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+
+              <!-- GROUP 4: MONITORING -->
+              <tr class="bg-[#111520] font-mono text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <td colspan="3" class="py-2 px-4 text-[#00B4D8]">04 // Monitoring & Watchlists</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Watchlist Portfolios</div>
+                  <div class="text-[11px] text-slate-400">Track custom baskets of CS2 virtual assets</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-400 font-semibold">LIMITED (1 List / 5 Assets)</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED (Unlimited)</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Saved Assets</div>
+                  <div class="text-[11px] text-slate-400">Pin assets for one-click surveillance from the terminal navigation</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-400 font-semibold">LIMITED (Up to 5)</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED (Unlimited)</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Real-Time Alerts</div>
+                  <div class="text-[11px] text-slate-400">Webhooks and automated notifications on supply breaches or volume anomalies</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-amber-400 font-semibold">COMING SOON</td>
+              </tr>
+
+              <!-- GROUP 5: DATA PROVENANCE & EXPORT -->
+              <tr class="bg-[#111520] font-mono text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <td colspan="3" class="py-2 px-4 text-[#00B4D8]">05 // Data Provenance & Export</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Data Provenance Documentation</div>
+                  <div class="text-[11px] text-slate-400">Detailed ingestion audit trail, timestamp verification, quorum health status</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">Transparent Methodology</div>
+                  <div class="text-[11px] text-slate-400">Mathematical calculation formulas for dispersion, Z-score, and supply velocity</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+              <tr class="hover:bg-[#151C28] transition-colors">
+                <td class="py-2.5 px-4 text-slate-200">
+                  <div class="font-medium">CSV Telemetry Export</div>
+                  <div class="text-[11px] text-slate-400">Export filtered table data, historical snapshots, and screener results</div>
+                </td>
+                <td class="py-2.5 px-4 text-center font-mono text-slate-500">—</td>
+                <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-semibold">✓ INCLUDED</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSPARENCY & INTEGRITY SECTION -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="bg-[#0E121A] border border-[#263145] rounded p-6 sm:p-8">
+        <div class="max-w-3xl mb-8">
+          <span class="font-mono text-xs uppercase tracking-widest text-[#00B4D8] font-semibold block mb-1">Pillars of Integrity</span>
+          <h3 class="text-xl sm:text-2xl font-extrabold uppercase text-slate-100 tracking-tight mb-3">
+            Know What You're Paying For.
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            FloatAlpha clearly distinguishes grounded observations, derived analytics, and experimental research. Pro unlocks deeper multi-variable screening and extended historical baselines. It does not unlock fabricated certainty or synthetic market claims.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-[#1B2230]">
+          <!-- PRINCIPLE 1 -->
+          <div class="bg-[#111622] border border-[#1B2230] rounded p-4">
+            <div class="font-mono text-[10px] text-[#00B4D8] uppercase tracking-wider font-semibold mb-1">01 // Strict Compliance</div>
+            <h4 class="text-sm font-bold uppercase text-slate-100 mb-1.5">No Buy / Sell Signals</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              We provide descriptive statistical observations only. We never provide predictive financial tips, trade calls, or speculative targets.
+            </p>
+          </div>
+
+          <!-- PRINCIPLE 2 -->
+          <div class="bg-[#111622] border border-[#1B2230] rounded p-4">
+            <div class="font-mono text-[10px] text-[#00B4D8] uppercase tracking-wider font-semibold mb-1">02 // Open Science</div>
+            <h4 class="text-sm font-bold uppercase text-slate-100 mb-1.5">Transparent Methodology</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Every index calculation, dispersion metric, and divergence formula is published, auditable, and grounded in verifiable telemetry.
+            </p>
+          </div>
+
+          <!-- PRINCIPLE 3 -->
+          <div class="bg-[#111622] border border-[#1B2230] rounded p-4">
+            <div class="font-mono text-[10px] text-[#00B4D8] uppercase tracking-wider font-semibold mb-1">03 // Fair Terms</div>
+            <h4 class="text-sm font-bold uppercase text-slate-100 mb-1.5">Cancel Anytime</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              No long-term commitments or lock-ins. Switch between monthly and annual plans or downgrade to Free with one click in your account settings.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FREQUENTLY ASKED QUESTIONS -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="text-center mb-10">
+        <h2 class="text-xs font-bold font-mono uppercase tracking-widest text-[#00B4D8] mb-2">Transparency & Mechanics</h2>
+        <h3 class="text-2xl font-extrabold uppercase text-slate-100 tracking-tight">Frequently Asked Questions</h3>
+      </div>
+
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>Can I use FloatAlpha for free?</span>
+            <span class="font-mono text-xs text-[#00B4D8] font-normal">Yes</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Yes. The Free plan provides full access to the Macro Market Terminal, individual Asset Intelligence screens, Price Confidence ratings, core screening filters, and verified 24-hour observation history. It is not a time-limited trial.
+          </p>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>What does Pro unlock?</span>
+            <span class="font-mono text-xs text-[#00B4D8] font-normal">Features</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Pro unlocks the advanced multi-condition query engine in the Screener, supply contraction indicators, turnover velocity anomaly filters, extended multi-week historical analytics, unlimited custom watchlists, saved screen templates, and full CSV raw data export.
+          </p>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>Does FloatAlpha provide investment advice?</span>
+            <span class="font-mono text-xs text-[#EF4444] font-normal">Strictly No</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            No. FloatAlpha is an institutional surveillance tool providing descriptive statistical observations over virtual asset inventories. We do not provide buy or sell recommendations, investment advisory services, or speculative financial advice.
+          </p>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>Where does FloatAlpha's data come from?</span>
+            <span class="font-mono text-xs text-[#10B981] font-normal">Skinport Ingestion Feed</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            All currently displayed live telemetry is grounded directly in verified snapshot observations from our Skinport API ingestion pipeline across our 100 pilot assets. FloatAlpha transparently indicates when data is accumulating rather than fabricating synthetic order-book depth.
+          </p>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>What is Price Confidence?</span>
+            <span class="font-mono text-xs text-[#00B4D8] font-normal">Core Principle</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Price Confidence is FloatAlpha's audit of observation quality. It evaluates active listing depth, recent sales activity frequency, and observed price dispersion rather than treating every quoted ticker with equal credibility. It is available in both Free and Pro tiers.
+          </p>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="bg-[#0E121A] border border-[#263145] rounded p-5">
+          <h4 class="text-sm font-bold text-slate-100 mb-2 flex items-center justify-between">
+            <span>Can I cancel Pro anytime?</span>
+            <span class="font-mono text-xs text-[#10B981] font-normal">One Click</span>
+          </h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Yes. You can cancel your subscription at any time directly through your account dashboard. You will retain full Pro access until the conclusion of your current billing period, after which your workspace transitions cleanly back to the Free plan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CONVERSION CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 text-center">
+      <div class="bg-[#0E121A] border border-[#263145] rounded p-8 sm:p-10 relative overflow-hidden">
+        <div class="relative z-10">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#00B4D8] font-semibold mb-2 block">Surveillance Architecture</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold uppercase text-slate-100 tracking-tight mb-3">
+            Start With The Market.<br>Go Deeper When You Need To.
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto mb-6">
+            Explore macro digital asset breadth and price confidence for free, or upgrade to Pro for quantitative multi-variable screening.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="#" class="w-full sm:w-auto h-10 px-6 bg-[#141923] hover:bg-[#1E2738] border border-[#263145] hover:border-slate-500 text-slate-200 font-bold text-xs font-mono uppercase tracking-wider rounded flex items-center justify-center transition-colors">
+              Start Free
+            </a>
+            <a href="#" class="w-full sm:w-auto h-10 px-6 bg-[#00B4D8] hover:bg-[#38BDF8] text-slate-950 font-bold text-xs font-mono uppercase tracking-wider rounded flex items-center justify-center transition-colors shadow-sm">
+              Start Pro
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CANONICAL PUBLIC FOOTER (EXACT MATCH TO LANDING) -->
+  <footer class="w-full bg-[#0E121A] border-t border-[#1B2230] pt-12 pb-8 px-4 sm:px-8 text-slate-400 text-xs">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <!-- BRAND COL -->
+        <div class="col-span-2 sm:col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-5 h-5 bg-[#111622] border border-[#263145] rounded flex items-center justify-center text-[#00B4D8]">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline></svg>
+            </div>
+            <span class="font-extrabold text-sm tracking-wider text-slate-100 uppercase">FloatAlpha</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed pr-4">
+            Institutional valuation architecture, high-density order book feeds, and algorithmic market intelligence analytics for CS2 digital inventories.
+          </p>
+        </div>
+
+        <!-- PLATFORM LINKS -->
+        <div>
+          <h4 class="font-mono text-[11px] uppercase tracking-wider text-slate-200 font-bold mb-3">Product</h4>
+          <ul class="space-y-2 text-[11px]">
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Market Terminal</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Quantitative Screener</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Asset Intelligence</a></li>
+            <li><a href="#" class="text-cyan-400 font-medium">Pricing & Plans</a></li>
+          </ul>
+        </div>
+
+        <!-- METHODOLOGY & DATA -->
+        <div>
+          <h4 class="font-mono text-[11px] uppercase tracking-wider text-slate-200 font-bold mb-3">Methodology</h4>
+          <ul class="space-y-2 text-[11px]">
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Price Confidence Model</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Skinport Telemetry Pipeline</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Data Provenance</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Divergence Engine</a></li>
+          </ul>
+        </div>
+
+        <!-- LEGAL & COMPLIANCE -->
+        <div>
+          <h4 class="font-mono text-[11px] uppercase tracking-wider text-slate-200 font-bold mb-3">Legal & Notice</h4>
+          <ul class="space-y-2 text-[11px]">
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">Subscription Agreement</a></li>
+            <li><a href="#" class="hover:text-cyan-400 transition-colors">API License</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DISCLAIMER BAR -->
+      <div class="pt-6 border-t border-[#1B2230] flex flex-col md:flex-row items-center justify-between gap-4 text-[10.5px] text-slate-400">
+        <div>
+          © 2025 FloatAlpha Technologies LLC. All rights reserved. Precision quantitative analytics for CS2 digital inventories.
+        </div>
+        <div class="text-slate-400 max-w-xl text-center md:text-right">
+          FloatAlpha provides descriptive digital asset market information and analytical tools. It does not provide investment or financial advice. FloatAlpha is not associated with, affiliated with, sponsored by, or endorsed by Valve Corporation or Counter-Strike.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BILLING TOGGLE INTERACTIVITY SCRIPT -->
+  <script>
+    let currentBilling = 'monthly';
+    function setBilling(cycle) {
+      currentBilling = cycle;
+      const btnMonthly = document.getElementById('toggle-monthly');
+      const btnAnnual = document.getElementById('toggle-annual');
+      const proPrice = document.getElementById('pro-price');
+      const proPeriod = document.getElementById('pro-period');
+      const proSavingsSub = document.getElementById('pro-savings-sub');
+
+      if (cycle === 'annual') {
+        btnAnnual.className = "px-3 py-1.5 rounded text-xs font-mono font-medium transition-all bg-[#1E2738] text-cyan-300 shadow-sm flex items-center gap-1.5";
+        btnMonthly.className = "px-3 py-1.5 rounded text-xs font-mono font-medium transition-all text-slate-400 hover:text-slate-200";
+        proPrice.textContent = "$149";
+        proPeriod.textContent = "/ Year";
+        proSavingsSub.classList.remove('hidden');
+      } else {
+        btnMonthly.className = "px-3 py-1.5 rounded text-xs font-mono font-medium transition-all bg-[#1E2738] text-cyan-300 shadow-sm";
+        btnAnnual.className = "px-3 py-1.5 rounded text-xs font-mono font-medium transition-all text-slate-400 hover:text-slate-200 flex items-center gap-1.5";
+        proPrice.textContent = "$14.99";
+        proPeriod.textContent = "/ Month";
+        proSavingsSub.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

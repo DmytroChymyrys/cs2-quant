@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "tertiary-fixed": "#ffdad7",
+        "on-surface-variant": "#bcc9ce",
+        "surface-bright": "#363940",
+        "inverse-primary": "#00677d",
+        "on-surface": "#e1e2eb",
+        "surface-container-highest": "#32353c",
+        "on-secondary-fixed": "#002113",
+        "surface": "#10131a",
+        "on-primary-container": "#00414f",
+        "primary-container": "#00b4d8",
+        "surface-container": "#1d2026",
+        "on-primary-fixed-variant": "#004e5f",
+        "inverse-surface": "#e1e2eb",
+        "on-secondary-fixed-variant": "#005236",
+        "on-tertiary-fixed": "#410004",
+        "surface-container-lowest": "#0b0e14",
+        "on-secondary-container": "#00311f",
+        "on-error": "#690005",
+        "on-background": "#e1e2eb",
+        "primary-fixed-dim": "#4cd6fb",
+        "error-container": "#93000a",
+        "secondary": "#4edea3",
+        "secondary-container": "#00a572",
+        "outline-variant": "#3d494d",
+        "surface-dim": "#10131a",
+        "tertiary-fixed-dim": "#ffb3ad",
+        "tertiary": "#ffb3ad",
+        "on-primary-fixed": "#001f27",
+        "secondary-fixed": "#6ffbbe",
+        "on-secondary": "#003824",
+        "tertiary-container": "#ff7e77",
+        "on-tertiary": "#68000a",
+        "surface-variant": "#32353c",
+        "outline": "#869398",
+        "on-tertiary-fixed-variant": "#930013",
+        "on-error-container": "#ffdad6",
+        "background": "#10131a",
+        "on-tertiary-container": "#7c000f",
+        "surface-tint": "#4cd6fb",
+        "primary-fixed": "#b3ebff",
+        "secondary-fixed-dim": "#4edea3",
+        "primary": "#4cd6fb",
+        "inverse-on-surface": "#2e3037",
+        "surface-container-low": "#191c22",
+        "on-primary": "#003642",
+        "error": "#ffb4ab",
+        "surface-container-high": "#272a31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "sm": "8px",
+        "lg": "16px",
+        "panel-header-h": "28px",
+        "row-compact-h": "20px",
+        "gutter-compact": "1px",
+        "ticker-ribbon-h": "24px",
+        "xl": "24px",
+        "zero": "0px",
+        "2xl": "32px",
+        "row-default-h": "26px",
+        "xs": "4px",
+        "md": "12px",
+        "2xs": "2px"
+      },
+      "fontFamily": {
+        "headline-lg": ["Inter"],
+        "tabular-metric-md": ["JetBrains Mono"],
+        "display-lg": ["Inter"],
+        "body-lg": ["JetBrains Mono"],
+        "body-sm": ["JetBrains Mono"],
+        "headline-sm": ["Inter"],
+        "body-md": ["JetBrains Mono"],
+        "headline-md": ["Inter"],
+        "tabular-metric-sm": ["JetBrains Mono"],
+        "code-raw": ["JetBrains Mono"],
+        "tabular-metric-lg": ["JetBrains Mono"],
+        "label-caps": ["Inter"]
+      },
+      "fontSize": {
+        "headline-lg": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "tabular-metric-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500"}],
+        "display-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "body-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "body-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "headline-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "body-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "headline-md": ["16px", {"lineHeight": "22px", "letterSpacing": "-0.005em", "fontWeight": "500"}],
+        "tabular-metric-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+        "code-raw": ["11px", {"lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "tabular-metric-lg": ["18px", {"lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant"><div class="h-12 w-full px-lg flex items-center justify-between gap-md"><div class="flex items-center gap-lg"><div class="flex items-center gap-xs"><span class="font-headline-md text-headline-md font-bold tracking-wider text-on-surface">FLOATALPHA</span><span class="px-2xs py-zero bg-surface-container text-primary font-tabular-metric-sm text-tabular-metric-sm border border-outline-variant">v4.19</span><span class="hidden xl:inline text-on-surface-variant font-label-caps text-label-caps pl-xs border-l border-outline-variant">CS2 MARKET INTELLIGENCE</span></div><nav class="flex items-center gap-sm h-12" data-active-classes="text-on-surface border-b-2 border-primary"><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="terminal" href="#">Terminal</a><a aria-current="page" class="h-12 flex items-center px-sm font-headline-sm transition-colors text-on-surface border-b-2 border-primary" data-path="screener" href="#">Screener</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="assets" href="#">Assets</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="watchlist" href="#">Watchlist</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="portfolio" href="#">Portfolio</a><a class="h-12 flex items-center px-sm text-on-surface-variant font-headline-sm text-headline-sm hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="alerts" href="#">Alerts</a></nav></div><div class="flex items-center gap-md"><div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant px-sm h-7 gap-sm"><span class="material-symbols-outlined text-outline text-[16px]">search</span><span class="font-code-raw text-code-raw text-outline">FIND ASSET (FLOAT/SKIN)...</span><kbd class="bg-surface-container px-xs py-zero font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant border border-outline-variant">/</kbd></div><div class="hidden lg:flex items-center gap-xs px-sm h-7 bg-surface-container-low border border-outline-variant"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">SKINPORT GROUNDED • 100 PILOT ASSETS</span></div><button class="flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">notifications</span></button><div class="flex items-center px-xs h-7 bg-surface-container border border-outline-variant gap-xs"><span class="font-label-caps text-label-caps text-primary font-bold">PRO ANALYST</span><span class="font-code-raw text-code-raw text-on-surface-variant">0x8F9...B21</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-12 pb-8 bg-surface"><div class="flex flex-col w-full">
+<!-- Macro Context Sub-Header -->
+<section class="w-full bg-surface-container-lowest px-md py-sm flex flex-col gap-xs">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-xs">
+<div class="flex items-baseline gap-sm">
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface uppercase">Assets Explorer</h1>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Search and explore assets across the FloatAlpha tracked research universe.</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-surface-container text-primary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          100 ASSETS // PILOT UNIVERSE // SKINPORT GROUNDED
+        </span>
+</div>
+</div>
+<!-- Pilot Dataset Notice Bar -->
+<div class="w-full bg-surface-container-low px-sm py-xs flex items-center justify-between gap-sm"><div class="flex items-center gap-xs min-w-0"><span class="material-symbols-outlined text-primary text-[14px] shrink-0">terminal</span><span class="font-code-raw text-code-raw text-on-surface-variant truncate"><strong class="text-primary font-medium">PILOT DATASET ACTIVE:</strong> Collecting continuous observations across 100 benchmark items from Skinport. Available metrics expand as observation history accumulates.</span></div></div>
+</section>
+<!-- Query & Dimension Filtering Matrix -->
+<section class="w-full bg-surface-container px-md py-xs flex flex-col gap-xs">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-sm">
+<!-- Search Input Container -->
+<div class="flex-1 max-w-2xl relative flex items-center">
+<span class="material-symbols-outlined absolute left-sm text-outline text-[16px] pointer-events-none">search</span>
+<input class="w-full h-7 pl-xl pr-16 bg-surface-container-lowest text-on-surface font-code-raw text-code-raw placeholder:text-outline focus:outline-none focus:bg-surface-container-high transition-colors" id="global-asset-search" placeholder="SEARCH ASSET, WEAPON, WEAR, OR COLLECTION (E.G. 'AK-47', 'BRAVO') /" type="text"/>
+<div class="absolute right-xs flex items-center gap-2xs pointer-events-none">
+<span class="px-xs py-zero bg-surface-container font-tabular-metric-sm text-tabular-metric-sm text-outline">100 TRACKED</span>
+<kbd class="px-2xs py-zero bg-surface-container font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant">/</kbd>
+</div>
+</div>
+<!-- Quick Nav To Algorithmic Screener -->
+<div class="flex items-center gap-md shrink-0">
+<a class="flex items-center gap-xs font-label-caps text-label-caps text-primary hover:text-on-surface transition-colors" data-path="screener" href="#"><span>ADVANCED ANALYSIS → OPEN SCREENER</span><span class="material-symbols-outlined text-[13px]">arrow_outward</span></a>
+</div>
+</div>
+<!-- Category Tabs & Secondary Attributes -->
+<div class="flex flex-wrap items-center justify-between gap-xs pt-2xs">
+<div class="flex items-center gap-2xs overflow-x-auto" id="category-selector">
+<button class="h-6 px-sm bg-primary text-on-primary font-headline-sm text-headline-sm uppercase transition-colors" data-cat="ALL">All</button>
+<button class="h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors" data-cat="CASES">Cases</button>
+<button class="h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors" data-cat="WEAPON SKINS">Weapon Skins</button>
+<button class="h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors" data-cat="KNIVES">Knives</button>
+<button class="h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors" data-cat="GLOVES">Gloves</button>
+<button class="h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors" data-cat="STICKERS">Stickers &amp; Capsules</button>
+</div>
+<!-- Micro Controls -->
+<div class="flex flex-wrap items-center gap-xs">
+<div class="flex items-center bg-surface-container-lowest h-6 px-xs gap-xs">
+<span class="font-label-caps text-label-caps text-outline">PRICE:</span>
+<span class="font-code-raw text-code-raw text-on-surface">$0.00 – ANY</span>
+<span class="material-symbols-outlined text-outline text-[12px]">expand_more</span>
+</div>
+<div class="flex items-center bg-surface-container-lowest h-6 px-xs gap-xs">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
+<span class="font-code-raw text-code-raw text-secondary">ALL LEVELS</span>
+<span class="material-symbols-outlined text-outline text-[12px]">expand_more</span>
+</div>
+<div class="flex items-center bg-surface-container-lowest h-6 px-xs gap-xs">
+<span class="font-label-caps text-label-caps text-outline">ACTIVITY:</span>
+<span class="font-code-raw text-code-raw text-on-surface">ACTIVE ONLY</span>
+<span class="material-symbols-outlined text-outline text-[12px]">expand_more</span>
+</div>
+<div class="flex items-center bg-surface-container-lowest h-6 px-xs gap-xs">
+<span class="font-label-caps text-label-caps text-outline">BOOK:</span>
+<span class="font-code-raw text-code-raw text-on-surface">ALL POOLS</span>
+<span class="material-symbols-outlined text-outline text-[12px]">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Split View: Dominant Asset Table (72%) + Real-time Telemetry Rail (28%) -->
+<div class="w-full flex flex-col xl:flex-row items-stretch bg-surface-container-lowest">
+<!-- Left: Dominant Asset Data Table -->
+<div class="w-full xl:w-[72%] flex flex-col overflow-x-auto">
+<table class="w-full text-left border-collapse select-none">
+<thead>
+<tr class="h-6 bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"><th class="pl-md pr-xs py-zero w-6 text-center font-normal">#</th><th class="px-xs py-zero font-medium">ASSET &amp; CONDITION METRIC</th><th class="px-xs py-zero font-medium">CATEGORY</th><th class="px-xs py-zero text-right font-medium">MEDIAN OBS.</th><th class="px-xs py-zero text-right font-medium">24H Δ</th><th class="px-xs py-zero text-right font-medium">7D Δ</th><th class="px-xs py-zero text-right font-medium">LISTINGS</th><th class="px-xs py-zero text-right font-medium">24H SALES</th><th class="px-xs py-zero text-center font-medium">CONFIDENCE</th><th class="px-xs py-zero text-right font-medium">LAST OBSERVED</th><th class="pl-xs pr-md py-zero text-right font-medium">WATCH</th></tr>
+</thead>
+<tbody class="font-tabular-metric-md text-tabular-metric-md text-on-surface divide-y divide-surface-container" id="asset-table-body">
+<!-- Row 1: Selected / AK-47 Fire Serpent -->
+<tr class="h-8 bg-surface-container-high transition-colors cursor-pointer group" data-asset="ak47-fire-serpent" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-primary">01</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">military_tech</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">AK-47 | Fire Serpent</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.2144 • Operation Bravo</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$845.00</td>
+<td class="px-xs py-zero text-right text-error font-medium">-0.4%</td>
+<td class="px-xs py-zero text-right text-error font-medium">-1.2%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">34 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">18 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">2m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-primary text-on-primary font-headline-sm text-headline-sm uppercase">Watching</button>
+</td>
+</tr>
+<!-- Row 2: Operation Bravo Case -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="bravo-case" data-category="CASES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">02</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">inventory_2</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Operation Bravo Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Discontinued Container • Rare</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Cases</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$48.50</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+0.2%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+0.8%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">420 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">224 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">3m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 3: Desert Eagle Printstream -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="deagle-printstream" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">03</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">security</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Desert Eagle | Printstream</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">MW 0.0921 • Fracture Collection</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$114.00</td>
+<td class="px-xs py-zero text-right text-error font-medium">-0.8%</td>
+<td class="px-xs py-zero text-right text-error font-medium">-1.8%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">114 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">28 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">4m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 4: Kilowatt Case -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="kilowatt-case" data-category="CASES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">04</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">inventory_2</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Kilowatt Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool Container • CS2 Core</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Cases</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$4.85</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+1.2%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+2.4%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">3,240 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">312 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">1m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 5: AWP Fade -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="awp-fade" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">05</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">target</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">AWP | Fade</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.0210 • 98.4% Fade • Havoc</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$1,620.00</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+0.4%</td>
+<td class="px-xs py-zero text-right text-error font-medium">-0.5%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">88 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">12 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">8m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 6: Butterfly Knife Doppler P2 -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="butterfly-doppler" data-category="KNIVES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">06</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary-fixed-dim">colorize</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Butterfly Knife | Doppler P2</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.0289 • Spectrum Case</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Knives</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$3,420.00</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+1.8%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+3.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">41 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">14 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">6m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-primary text-on-primary font-headline-sm text-headline-sm uppercase">Watching</button>
+</td>
+</tr>
+<!-- Row 7: Revolution Case -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="revolution-case" data-category="CASES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">07</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">inventory_2</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Revolution Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Standard Active Pool Drop</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Cases</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$1.42</td>
+<td class="px-xs py-zero text-right text-on-surface-variant font-medium">+0.0%</td>
+<td class="px-xs py-zero text-right text-error font-medium">-1.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">5,820 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">224 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">2m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 8: M4A1-S Blue Phosphor -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="m4a1-blue-phosphor" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">08</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">military_tech</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">M4A1-S | Blue Phosphor</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FN 0.0124 • Control Collection</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$680.00</td>
+<td class="px-xs py-zero text-right text-error font-medium">-0.5%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+0.4%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">62 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">19 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-primary-container/20 text-primary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>MED
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">12m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 9: Dreams & Nightmares Case -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="dreams-nightmares-case" data-category="CASES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">09</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">inventory_2</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Dreams &amp; Nightmares Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool Container</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Cases</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$1.13</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+3.2%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+4.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">14,210 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">145 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">5m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 10: Sport Gloves Vice -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="gloves-vice" data-category="GLOVES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">10</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">front_hand</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Sport Gloves | Vice</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.1620 • Clean Knuckles</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Gloves</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$1,840.00</td>
+<td class="px-xs py-zero text-right text-error font-medium">-1.2%</td>
+<td class="px-xs py-zero text-right text-error font-medium">-2.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">24 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">4 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-primary-container/20 text-primary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>MED
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">18m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 11: Fracture Case -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="fracture-case" data-category="CASES">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">11</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-tertiary">inventory_2</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Fracture Case</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Active Pool Container</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Cases</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$0.62</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+0.8%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+1.4%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">18,400 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">198 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">3m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 12: AWP Asiimov -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="awp-asiimov" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">12</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">target</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">AWP | Asiimov</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.2810 • Phoenix Collection</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$112.50</td>
+<td class="px-xs py-zero text-right text-error font-medium">-0.8%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+2.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">210 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">36 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">7m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 13: AK-47 Redline -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="ak47-redline" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">13</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">military_tech</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">AK-47 | Redline</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.1980 • Operation Phoenix</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$14.20</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+1.8%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+4.2%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">890 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">74 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">2m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 14: M4A1-S Printstream -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="m4a1-printstream" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">14</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">military_tech</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">M4A1-S | Printstream</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">MW 0.1102 • Broken Fang</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$148.00</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+4.6%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+12.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">140 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">19 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-secondary-container/20 text-secondary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>HIGH
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">9m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 15: Sticker Titan Holo Katowice 2014 -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="titan-holo-2014" data-category="STICKERS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">15</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">label_important</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">Sticker | Titan (Holo)</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">Katowice 2014 • Legendary Tier</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Stickers &amp; Capsules</td>
+<td class="px-xs py-zero text-right font-semibold text-primary">$58,000.00</td>
+<td class="px-xs py-zero text-right text-on-surface-variant font-medium">0.0%</td>
+<td class="px-xs py-zero text-right text-on-surface-variant font-medium">0.0%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-tertiary">2 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">0 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-tertiary-container/20 text-tertiary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>LOW
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">42m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-surface-container-high text-on-surface hover:text-primary font-headline-sm text-headline-sm uppercase transition-colors">+ Watch</button>
+</td>
+</tr>
+<!-- Row 16: AWP Dragon Lore -->
+<tr class="h-8 bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group" data-asset="awp-dragon-lore" data-category="WEAPON SKINS">
+<td class="pl-md pr-xs py-zero text-center font-code-raw text-code-raw text-outline">16</td>
+<td class="px-xs py-zero">
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[13px] text-primary">target</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors">AWP | Dragon Lore</span>
+<span class="font-code-raw text-code-raw text-on-surface-variant">FT 0.2241 • Cobblestone Legacy</span>
+</div>
+</div>
+</td>
+<td class="px-xs py-zero font-code-raw text-code-raw text-on-surface-variant">Weapon Skin</td>
+<td class="px-xs py-zero text-right font-semibold text-on-surface">$5,480.00</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+5.2%</td>
+<td class="px-xs py-zero text-right text-secondary font-medium">+8.1%</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface">18 Units</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-on-surface-variant">3 Sales</td>
+<td class="px-xs py-zero text-center">
+<span class="inline-flex items-center gap-2xs px-xs py-zero bg-primary-container/20 text-primary font-tabular-metric-sm text-tabular-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>MED
+              </span>
+</td>
+<td class="px-xs py-zero text-right font-code-raw text-code-raw text-outline">15m ago</td>
+<td class="pl-xs pr-md py-zero text-right">
+<button class="px-xs py-2xs bg-primary text-on-primary font-headline-sm text-headline-sm uppercase">Watching</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Right: Quick Inspection Rail (~28%) -->
+<div class="w-full xl:w-[28%] bg-surface-container-low flex flex-col justify-between">
+<!-- Upper Section: Active Item Context -->
+<div class="flex flex-col p-md gap-md">
+<!-- Rail Titlebar -->
+<div class="flex items-center justify-between pb-xs">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-none bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface-variant">INSPECTION RAIL // ASSET OBSERVATIONS</span>
+</div>
+<span class="font-code-raw text-code-raw text-outline">SKU #001</span>
+</div>
+<!-- Asset Identity Block -->
+<div class="bg-surface-container-lowest p-sm flex flex-col gap-xs">
+<div class="flex items-start justify-between gap-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">AK-47 | Fire Serpent</span>
+<span class="font-code-raw text-code-raw text-primary">Field-Tested (0.2144) • Paint #180</span>
+<span class="font-code-raw text-code-raw text-outline">Collection: Operation Bravo (Discontinued)</span>
+</div>
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]">military_tech</span>
+</div>
+</div>
+<!-- Float Visual Range Needle Bar -->
+<div class="flex flex-col gap-2xs pt-xs">
+<div class="flex justify-between font-tabular-metric-sm text-tabular-metric-sm text-outline">
+<span>0.00 (FN)</span>
+<span class="text-on-surface font-medium">FLOAT: 0.2144</span>
+<span>1.00 (BS)</span>
+</div>
+<div class="relative w-full h-1.5 bg-surface-container-highest overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-[21.44%] bg-primary"></div>
+<div class="absolute top-0 bottom-0 w-0.5 bg-on-surface" style="left: 21.44%;"></div>
+</div>
+</div>
+</div>
+<!-- Core Metric Quad Matrix -->
+<div class="grid grid-cols-2 gap-xs"><div class="bg-surface-container-lowest p-xs flex flex-col"><span class="font-label-caps text-label-caps text-outline">OBSERVED MEDIAN</span><span class="font-tabular-metric-lg text-tabular-metric-lg text-on-surface font-bold">$845.00</span><div class="flex items-center gap-xs font-tabular-metric-sm text-tabular-metric-sm text-error"><span>24h -0.4%</span><span>•</span><span>7d -1.2%</span></div></div><div class="bg-surface-container-lowest p-xs flex flex-col"><span class="font-label-caps text-label-caps text-outline">ACTIVE LISTINGS</span><span class="font-tabular-metric-lg text-tabular-metric-lg text-on-surface font-bold">34 Units</span><span class="font-tabular-metric-sm text-tabular-metric-sm text-secondary">NET -10 LISTINGS (14D)</span></div><div class="bg-surface-container-lowest p-xs flex flex-col"><span class="font-label-caps text-label-caps text-outline">24H SALES</span><span class="font-tabular-metric-lg text-tabular-metric-lg text-on-surface font-bold">18 Sales</span><span class="font-tabular-metric-sm text-tabular-metric-sm text-secondary">+84.0% VS BASELINE</span></div><div class="bg-surface-container-lowest p-xs flex flex-col"><span class="font-label-caps text-label-caps text-outline">PRICE CONFIDENCE</span><div class="flex items-center gap-2xs mt-2xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-tabular-metric-md text-tabular-metric-md text-secondary font-bold">HIGH</span></div><span class="font-tabular-metric-sm text-tabular-metric-sm text-outline truncate" title="Reliable Listing Depth &amp; Sales">Reliable Listing Depth &amp; Sales</span></div></div>
+<!-- State Conditions Badges -->
+<div class="flex flex-wrap gap-xs">
+<span class="px-xs py-2xs bg-surface-container text-secondary font-code-raw text-code-raw">
+            ▲ SUPPLY CONTRACTING
+          </span>
+<span class="px-xs py-2xs bg-surface-container text-primary font-code-raw text-code-raw">
+            ⚡ ACTIVITY ACCELERATING
+          </span>
+</div>
+<!-- Trajectory Mini Spark Visualization -->
+<div class="bg-surface-container-lowest p-xs flex flex-col gap-xs">
+<div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-outline">OBSERVATION HISTORY (24H)</span><span class="font-tabular-metric-sm text-tabular-metric-sm text-primary">LATEST OBSERVATION</span></div>
+<!-- Embedded Minimalist Trajectory Chart -->
+<div class="w-full h-24 relative bg-surface-container-low flex items-center justify-center">
+<svg class="w-full h-full p-2" preserveaspectratio="none" viewbox="0 0 300 80">
+<!-- Grid lines -->
+<line stroke="#272A31" stroke-dasharray="2 2" x1="0" x2="300" y1="20" y2="20"></line>
+<line stroke="#272A31" stroke-dasharray="2 2" x1="0" x2="300" y1="40" y2="40"></line>
+<line stroke="#272A31" stroke-dasharray="2 2" x1="0" x2="300" y1="60" y2="60"></line>
+<!-- Listing depth contraction line (Coral) -->
+<polyline fill="none" points="0,25 30,28 60,32 90,30 120,42 150,48 180,44 210,56 240,62 270,58 300,68" stroke="#ff7e77" stroke-width="1.5"></polyline>
+<!-- Median Price line (Cyan) -->
+<polyline fill="none" points="0,48 30,46 60,49 90,44 120,45 150,42 180,43 210,40 240,39 270,41 300,38" stroke="#4cd6fb" stroke-width="2"></polyline>
+</svg>
+<div class="absolute bottom-1 right-2 flex items-center gap-xs font-tabular-metric-sm text-tabular-metric-sm">
+<span class="text-primary flex items-center gap-2xs"><span class="w-1.5 h-1.5 bg-primary inline-block"></span> PRICE</span>
+<span class="text-tertiary-container flex items-center gap-2xs"><span class="w-1.5 h-1.5 bg-tertiary-container inline-block"></span> LISTINGS</span>
+</div>
+</div>
+<div class="px-xs py-zero bg-surface-container flex items-center justify-between font-tabular-metric-sm text-tabular-metric-sm"><span class="text-outline">OBSERVATION HISTORY:</span><span class="text-primary font-code-raw">1D 04H ACCUMULATED</span></div>
+</div>
+<!-- Observational Integrity Metrics -->
+<div class="flex flex-col gap-2xs bg-surface-container-lowest p-xs font-code-raw text-code-raw"><div class="flex justify-between"><span class="text-outline">OBSERVED PRICE DISPERSION:</span><span class="text-on-surface">0.8% (Tight Clustering)</span></div><div class="flex justify-between"><span class="text-outline">OBSERVED LISTING DEPTH:</span><span class="text-secondary">34 Units Available</span></div><div class="flex justify-between"><span class="text-outline">PRIMARY DATA SOURCE:</span><span class="text-on-surface">Skinport Grounded Feed</span></div></div>
+</div>
+<!-- Action Trigger Matrix (Bottom of Inspection Rail) -->
+<div class="p-md bg-surface-container-lowest flex flex-col gap-xs">
+<a class="w-full h-8 bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm uppercase flex items-center justify-center gap-xs transition-colors font-semibold" data-path="assets" href="#">
+<span>Open Asset Intelligence</span>
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+</a>
+<button class="w-full h-7 bg-surface-container hover:bg-surface-container-high text-primary font-headline-sm text-headline-sm uppercase flex items-center justify-center gap-xs transition-colors" id="toggle-watch-rail">
+<span class="material-symbols-outlined text-[14px]">star</span>
+<span id="watch-btn-text">Watching (Click To Remove)</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    // Asset Table Row Selection & Category Filtering Micro-Interactions
+    (function() {
+      const searchInput = document.getElementById('global-asset-search');
+      const tableRows = document.querySelectorAll('#asset-table-body tr');
+      const categoryButtons = document.querySelectorAll('#category-selector button');
+      const watchBtn = document.getElementById('toggle-watch-rail');
+      const watchBtnText = document.getElementById('watch-btn-text');
+
+      let currentCategory = 'ALL';
+
+      // Category Switching
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryButtons.forEach(b => {
+            b.className = "h-6 px-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface font-headline-sm text-headline-sm uppercase transition-colors";
+          });
+          btn.className = "h-6 px-sm bg-primary text-on-primary font-headline-sm text-headline-sm uppercase transition-colors";
+          currentCategory = btn.getAttribute('data-cat');
+          applyFilter();
+        });
+      });
+
+      // Filter Logic
+      function applyFilter() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        tableRows.forEach(row => {
+          const rowText = row.innerText.toLowerCase();
+          const rowCategory = row.getAttribute('data-category') || '';
+          
+          const matchesCategory = (currentCategory === 'ALL' || rowCategory === currentCategory);
+          const matchesSearch = !query || rowText.includes(query);
+
+          if (matchesCategory && matchesSearch) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilter);
+      }
+
+      // Row Selection
+      tableRows.forEach(row => {
+        row.addEventListener('click', (e) => {
+          if (e.target.tagName === 'BUTTON') return;
+          tableRows.forEach(r => {
+            r.classList.remove('bg-surface-container-high');
+            r.classList.add('bg-surface-container-lowest');
+          });
+          row.classList.remove('bg-surface-container-lowest');
+          row.classList.add('bg-surface-container-high');
+        });
+      });
+
+      // Quick Rail Watch Toggle
+      let isWatching = true;
+      if (watchBtn && watchBtnText) {
+        watchBtn.addEventListener('click', () => {
+          isWatching = !isWatching;
+          if (isWatching) {
+            watchBtnText.textContent = "Watching (Click To Remove)";
+            watchBtn.classList.remove('text-on-surface');
+            watchBtn.classList.add('text-primary');
+          } else {
+            watchBtnText.textContent = "+ Watch Asset";
+            watchBtn.classList.remove('text-primary');
+            watchBtn.classList.add('text-on-surface');
+          }
+        });
+      }
+
+      // Hotkey navigation
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          e.preventDefault();
+          if (searchInput) searchInput.focus();
+        } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+          searchInput.value = '';
+          applyFilter();
+          searchInput.blur();
+        }
+      });
+    })();
+  </script>
+</div></main><footer class="fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest border-t border-outline-variant h-8 px-md flex items-center justify-between font-tabular-metric-sm text-tabular-metric-sm text-on-surface-variant"><div class="flex items-center gap-xs truncate"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0"></span><span class="truncate">Skinport Grounded Feed: 100 assets pilot universe • Last observation 2m ago • Sync Verified</span></div><div class="hidden md:flex items-center gap-xs text-outline"><span class="truncate">Observation Engine: Active • Realized observations: 100 SKUs</span></div><div class="flex items-center gap-md shrink-0"><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">/</kbd> Search</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">T</kbd> Terminal</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">S</kbd> Screener</span><span class="text-outline hover:text-on-surface"><kbd class="text-on-surface-variant">Esc</kbd> Clear</span></div></footer></body></html>

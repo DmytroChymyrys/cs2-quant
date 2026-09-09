@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FloatAlpha — New User Onboarding (Interactive Flow &amp; State Architecture)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              void: '#080B10',
+              surface: '#0E121A',
+              card: '#141923',
+              border: '#1B2230',
+              borderLight: '#263145',
+              cyan: '#00B4D8',
+              cyanHover: '#0096b7',
+              emerald: '#10B981',
+              crimson: '#EF4444',
+              muted: '#8A99AD'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="base-typography">
+    body {
+      background-color: #080B10;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+<style data-purpose="custom-utilities">
+    .glow-cyan {
+      box-shadow: 0 0 16px -2px rgba(0, 180, 216, 0.25);
+    }
+    .stepper-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 48px;
+      height: 1px;
+      background-color: #1B2230;
+      transform: translateY(-50%);
+    }
+    .stepper-line-active::after {
+      background-color: #00B4D8;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-brand-void text-slate-200 flex flex-col justify-between selection:bg-brand-cyan/20 selection:text-brand-cyan">
+<!-- BEGIN: MainHeader -->
+<header class="border-b border-brand-border bg-brand-surface/80 backdrop-blur sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Left: Brand Telemetry Logo -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded border border-brand-cyan/40 bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shadow-[0_0_12px_rgba(0,180,216,0.2)]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+<polyline points="16 7 22 7 22 13"></polyline>
+</svg>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-bold tracking-tight text-white font-sans text-base">FLOATALPHA</span>
+<span class="font-mono-code text-[11px] text-brand-muted uppercase tracking-wider">CS2 Market Intelligence</span>
+</div>
+</div>
+<!-- Center: State Tabs Switcher for Flow Demonstration -->
+<div class="hidden md:flex items-center gap-1 bg-brand-card/90 border border-brand-border p-1 rounded-md">
+<button class="px-3 py-1 text-xs font-mono-code rounded transition-all bg-brand-cyan text-brand-void font-semibold" id="tab-btn-1" onclick="switchStep(1)">
+          01 // INTERESTS
+        </button>
+<button class="px-3 py-1 text-xs font-mono-code rounded transition-all text-brand-muted hover:text-white" id="tab-btn-2" onclick="switchStep(2)">
+          02 // CRITERIA
+        </button>
+<button class="px-3 py-1 text-xs font-mono-code rounded transition-all text-brand-muted hover:text-white" id="tab-btn-3" onclick="switchStep(3)">
+          03 // COMPLETE
+        </button>
+</div>
+<!-- Right: Action Meta -->
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span>
+<span class="font-mono-code text-[11px] text-brand-muted tracking-tight">MARKET OBSERVATIONS // 20-30s SETUP</span>
+</div>
+<a class="text-xs font-mono-code text-brand-muted hover:text-brand-cyan transition-colors flex items-center gap-1.5 pl-3 border-l border-brand-border" href="#terminal">
+          Skip to Terminal <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: FlowStepper -->
+<section class="max-w-[1440px] w-full mx-auto px-6 pt-8 pb-4">
+<div class="flex items-center justify-between border-b border-brand-border pb-6 max-w-4xl mx-auto">
+<!-- Step 1 Indicator -->
+<div class="flex items-center gap-3 cursor-pointer" id="step-indicator-1" onclick="switchStep(1)">
+<div class="w-7 h-7 rounded border border-brand-cyan bg-brand-cyan/20 text-brand-cyan font-mono-code text-xs font-bold flex items-center justify-center">01</div>
+<div>
+<p class="text-xs font-mono-code font-medium text-white tracking-wide">MARKET INTERESTS</p>
+<p class="text-[10px] font-mono-code text-brand-cyan">ACTIVE CONFIGURATION</p>
+</div>
+</div>
+<div class="h-[1px] w-12 md:w-24 bg-brand-border" id="stepper-connector-1"></div>
+<!-- Step 2 Indicator -->
+<div class="flex items-center gap-3 cursor-pointer opacity-50" id="step-indicator-2" onclick="switchStep(2)">
+<div class="w-7 h-7 rounded border border-brand-borderLight bg-brand-card text-brand-muted font-mono-code text-xs font-bold flex items-center justify-center">02</div>
+<div>
+<p class="text-xs font-mono-code font-medium text-slate-300 tracking-wide">MONITORING CONDITIONS</p>
+<p class="text-[10px] font-mono-code text-brand-muted">CRITERIA SELECTION</p>
+</div>
+</div>
+<div class="h-[1px] w-12 md:w-24 bg-brand-border" id="stepper-connector-2"></div>
+<!-- Step 3 Indicator -->
+<div class="flex items-center gap-3 cursor-pointer opacity-50" id="step-indicator-3" onclick="switchStep(3)">
+<div class="w-7 h-7 rounded border border-brand-borderLight bg-brand-card text-brand-muted font-mono-code text-xs font-bold flex items-center justify-center">03</div>
+<div>
+<p class="text-xs font-mono-code font-medium text-slate-300 tracking-wide">WORKSPACE READY</p>
+<p class="text-[10px] font-mono-code text-brand-muted">OBSERVATION DATA SEEDED</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FlowStepper -->
+<!-- BEGIN: InteractiveStepContainers -->
+<main class="max-w-[1440px] w-full mx-auto px-6 py-4 flex-1 flex flex-col justify-center">
+<!-- BEGIN: PanelStep1 -->
+<div class="transition-all duration-300" id="panel-step-1">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Category Selection (8 cols) -->
+<div class="lg:col-span-8 bg-brand-surface border border-brand-border rounded-lg p-6 sm:p-8">
+<!-- Step Meta Pill -->
+<div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-brand-card border border-brand-borderLight text-[11px] font-mono-code text-brand-cyan mb-4">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+            STEP 1 OF 2 // INITIAL TAXONOMY
+          </div>
+<h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
+            WHAT DO YOU FOLLOW?
+          </h1>
+<p class="mt-2 text-sm text-brand-muted max-w-2xl leading-relaxed">
+            Choose the CS2 asset categories you want FloatAlpha to prioritize. Configures your default Terminal and Screener universe filters.
+          </p>
+<!-- Top-Level Quick Preset Pill -->
+<div class="mt-6 flex items-center gap-2">
+<button class="px-3 py-1.5 rounded bg-brand-card border border-brand-borderLight hover:border-brand-cyan text-xs font-mono-code text-slate-300 hover:text-white transition-all flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-muted"></span>
+              ALL MARKET UNIVERSE
+            </button>
+<span class="text-xs text-brand-muted font-mono-code">or select target segments:</span>
+</div>
+<!-- Category Selection Grid (5 Items, No fabricated metrics) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 mt-4">
+<!-- Category 1: Cases (Selected) -->
+<label class="group relative flex items-center gap-3.5 p-4 rounded-md border border-brand-cyan bg-brand-card/90 cursor-pointer glow-cyan transition-all">
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1 flex items-center justify-between">
+<span class="font-mono-code font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">CASES</span>
+<span class="text-[10px] font-mono-code text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20 px-1.5 py-0.5 rounded font-semibold">SELECTED</span>
+</div>
+</label>
+<!-- Category 2: Weapon Skins (Selected) -->
+<label class="group relative flex items-center gap-3.5 p-4 rounded-md border border-brand-cyan bg-brand-card/90 cursor-pointer glow-cyan transition-all">
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1 flex items-center justify-between">
+<span class="font-mono-code font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">WEAPON SKINS</span>
+<span class="text-[10px] font-mono-code text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20 px-1.5 py-0.5 rounded font-semibold">SELECTED</span>
+</div>
+</label>
+<!-- Category 3: Knives (Selected) -->
+<label class="group relative flex items-center gap-3.5 p-4 rounded-md border border-brand-cyan bg-brand-card/90 cursor-pointer glow-cyan transition-all">
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1 flex items-center justify-between">
+<span class="font-mono-code font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">KNIVES</span>
+<span class="text-[10px] font-mono-code text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20 px-1.5 py-0.5 rounded font-semibold">SELECTED</span>
+</div>
+</label>
+<!-- Category 4: Gloves (Unselected) -->
+<label class="group relative flex items-center gap-3.5 p-4 rounded-md border border-brand-border bg-brand-card/40 hover:border-brand-borderLight cursor-pointer transition-all">
+<input class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1 flex items-center justify-between">
+<span class="font-mono-code font-medium text-sm text-slate-300 group-hover:text-white transition-colors">GLOVES</span>
+<span class="text-[10px] font-mono-code text-brand-muted border border-brand-border px-1.5 py-0.5 rounded">UNSELECTED</span>
+</div>
+</label>
+<!-- Category 5: Stickers & Capsules (Unselected - span 2 on md) -->
+<label class="group relative flex items-center gap-3.5 p-4 rounded-md border border-brand-border bg-brand-card/40 hover:border-brand-borderLight cursor-pointer transition-all md:col-span-2">
+<input class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1 flex items-center justify-between">
+<span class="font-mono-code font-medium text-sm text-slate-300 group-hover:text-white transition-colors">STICKERS &amp; CAPSULES</span>
+<span class="text-[10px] font-mono-code text-brand-muted border border-brand-border px-1.5 py-0.5 rounded">UNSELECTED</span>
+</div>
+</label>
+</div>
+<!-- Panel Actions Footer -->
+<div class="mt-8 pt-5 border-t border-brand-border flex items-center justify-between">
+<button class="text-xs font-mono-code text-brand-muted hover:text-white transition-colors" onclick="switchStep(2)">
+              Skip for now
+            </button>
+<button class="px-6 py-2.5 bg-brand-cyan hover:bg-brand-cyanHover text-brand-void font-mono-code font-bold text-xs uppercase tracking-wider rounded transition-all flex items-center gap-2 shadow-lg shadow-brand-cyan/20" onclick="switchStep(2)">
+              CONTINUE <span aria-hidden="true">→</span>
+</button>
+</div>
+</div>
+<!-- Right: YOUR MARKET VIEW Preview Rail (4 cols) -->
+<div class="lg:col-span-4 bg-brand-surface border border-brand-border rounded-lg p-6">
+<div class="flex items-center justify-between border-b border-brand-border pb-3">
+<span class="text-[11px] font-mono-code text-brand-muted uppercase tracking-wider">YOUR MARKET VIEW</span>
+<span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+</div>
+<!-- Structured Grounded Sections -->
+<div class="mt-5 space-y-4">
+<!-- Section 1 -->
+<div class="border border-brand-border bg-brand-card/50 rounded p-3.5">
+<p class="text-[10px] font-mono-code text-brand-muted uppercase tracking-wider">TERMINAL DEFAULT</p>
+<p class="text-sm font-mono-code text-brand-cyan mt-1 font-semibold">Cases · Weapon Skins · Knives</p>
+</div>
+<!-- Section 2 -->
+<div class="border border-brand-border bg-brand-card/50 rounded p-3.5">
+<p class="text-[10px] font-mono-code text-brand-muted uppercase tracking-wider">SCREENER DEFAULT</p>
+<p class="text-sm font-mono-code text-slate-200 mt-1 font-medium">Selected Categories</p>
+</div>
+<!-- Section 3 -->
+<div class="border border-brand-border bg-brand-card/50 rounded p-3.5">
+<p class="text-[10px] font-mono-code text-brand-muted uppercase tracking-wider">MONITORING</p>
+<p class="text-sm font-mono-code text-slate-400 mt-1">Configured in Step 2</p>
+</div>
+</div>
+<!-- Bottom Notes -->
+<div class="mt-5 pt-4 border-t border-brand-border space-y-3">
+<p class="text-[11px] font-mono-code text-slate-400">
+            You can change these preferences anytime in Settings.
+          </p>
+<div class="p-3 rounded bg-brand-void/80 border border-brand-border text-xs text-brand-muted leading-relaxed">
+<div class="flex items-start gap-2">
+<span class="text-brand-cyan font-mono-code">ℹ</span>
+<span class="text-[11px]">FloatAlpha observations update continuously without requiring Steam credentials or inventory access.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END: PanelStep1 -->
+<!-- BEGIN: PanelStep2 -->
+<div class="hidden transition-all duration-300" id="panel-step-2">
+<div class="bg-brand-surface border border-brand-border rounded-lg p-6 sm:p-8 max-w-5xl mx-auto">
+<!-- Step Meta Pill -->
+<div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-brand-card border border-brand-borderLight text-[11px] font-mono-code text-brand-cyan mb-4">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+          STEP 2 OF 2 // SURVEILLANCE CRITERIA
+        </div>
+<h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
+          WHAT DO YOU WANT TO MONITOR?
+        </h1>
+<p class="mt-2 text-sm text-brand-muted max-w-3xl leading-relaxed">
+          Choose the market conditions you care about most. Directs which divergence signals, net liquidity anomalies, and volume alerts are prioritized in your terminal view.
+        </p>
+<!-- Condition Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-6">
+<!-- Condition 1: Price Movement -->
+<label class="p-4 rounded-md border border-brand-border bg-brand-card/40 hover:border-brand-borderLight cursor-pointer transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-code text-xs font-bold text-white tracking-wide">PRICE MOVEMENT</span>
+<input class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0" type="checkbox"/>
+</div>
+<p class="text-xs text-brand-muted mt-2 leading-normal">
+                Changes in observed asset prices across verified transaction ticks and rapid re-pricing.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-brand-border/60">
+<span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-brand-void text-slate-300 border border-brand-borderLight">SIGNAL: PRICE VARIANCE</span>
+</div>
+</label>
+<!-- Condition 2: Supply Changes (Default Selected) -->
+<label class="p-4 rounded-md border border-brand-cyan bg-brand-card/90 glow-cyan cursor-pointer transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-code text-xs font-bold text-brand-cyan tracking-wide">SUPPLY CHANGES</span>
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0" type="checkbox"/>
+</div>
+<p class="text-xs text-slate-300 mt-2 leading-normal">
+                Unusual changes in available listing quantities, net inventory drawdown, and delisting activity.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-brand-border/60 flex items-center justify-between">
+<span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">SUPPLY CONTRACTION</span>
+<span class="text-[10px] font-mono-code text-brand-emerald font-semibold">RECOMMENDED</span>
+</div>
+</label>
+<!-- Condition 3: Activity Anomalies (Default Selected) -->
+<label class="p-4 rounded-md border border-brand-cyan bg-brand-card/90 glow-cyan cursor-pointer transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-code text-xs font-bold text-brand-cyan tracking-wide">ACTIVITY ANOMALIES</span>
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0" type="checkbox"/>
+</div>
+<p class="text-xs text-slate-300 mt-2 leading-normal">
+                Sales cadence changing relative to recent 7D and 30D baseline cadence observations.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-brand-border/60 flex items-center justify-between">
+<span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/30">ACTIVITY ACCELERATING</span>
+<span class="text-[10px] font-mono-code text-brand-emerald font-semibold">RECOMMENDED</span>
+</div>
+</label>
+<!-- Condition 4: Volatility -->
+<label class="p-4 rounded-md border border-brand-border bg-brand-card/40 hover:border-brand-borderLight cursor-pointer transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-code text-xs font-bold text-white tracking-wide">VOLATILITY &amp; DISPERSION</span>
+<input class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0" type="checkbox"/>
+</div>
+<p class="text-xs text-brand-muted mt-2 leading-normal">
+                Assets experiencing unusually wide trade price dispersion and bid/ask spreads.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-brand-border/60">
+<span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-brand-void text-slate-300 border border-brand-borderLight">SIGNAL: DISPERSION SPREAD</span>
+</div>
+</label>
+<!-- Condition 5: Price/Supply Divergence (Default Selected) -->
+<label class="p-4 rounded-md border border-brand-cyan bg-brand-card/90 glow-cyan cursor-pointer transition-all flex flex-col justify-between md:col-span-2 lg:col-span-2">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-code text-xs font-bold text-brand-cyan tracking-wide">PRICE / SUPPLY DIVERGENCE</span>
+<input checked="" class="rounded border-brand-borderLight bg-brand-void text-brand-cyan focus:ring-0" type="checkbox"/>
+</div>
+<p class="text-xs text-slate-300 mt-2 leading-normal">
+                Identifies scenarios where price remains flat while supply drops sharply, or activity surges without price realization.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-brand-border/60 flex items-center justify-between">
+<span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">DIVERGENCE MODEL</span>
+<span class="text-[10px] font-mono-code text-brand-cyan font-semibold">OBSERVATION SIGNAL</span>
+</div>
+</label>
+</div>
+<!-- Optional Asset Seed Search Section -->
+<div class="mt-8 pt-6 border-t border-brand-border">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono-code text-slate-300 font-bold uppercase tracking-wider">ADD YOUR FIRST WATCHLIST ASSETS</span>
+<span class="text-[11px] font-mono-code text-brand-muted">OPTIONAL // 0-5 ASSETS</span>
+</div>
+<!-- Search Input & Pre-selected Chips -->
+<div class="mt-3 flex flex-wrap items-center gap-2 p-2 bg-brand-void border border-brand-borderLight rounded-md focus-within:border-brand-cyan">
+<!-- Chip 1 -->
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-brand-card border border-brand-cyan/40 text-xs font-mono-code text-white">
+<span class="text-brand-cyan font-semibold">AK-47 | Fire Serpent</span>
+<span class="text-slate-400 text-[10px]">FT</span>
+<button aria-label="Remove AK-47" class="text-brand-muted hover:text-brand-crimson transition-colors ml-1">×</button>
+</div>
+<!-- Chip 2 -->
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-brand-card border border-brand-cyan/40 text-xs font-mono-code text-white">
+<span class="text-brand-cyan font-semibold">Dreams &amp; Nightmares Case</span>
+<button aria-label="Remove Dreams and Nightmares Case" class="text-brand-muted hover:text-brand-crimson transition-colors ml-1">×</button>
+</div>
+<!-- Input Box -->
+<input class="flex-1 min-w-[200px] bg-transparent border-0 text-xs font-mono-code text-white placeholder-slate-500 focus:ring-0 py-1" placeholder="Search AK-47, Case, Knife..." type="text"/>
+<span class="text-[10px] font-mono-code text-brand-muted pr-2">3 SLOTS OPEN</span>
+</div>
+</div>
+<!-- Panel Actions Footer -->
+<div class="mt-8 pt-5 border-t border-brand-border flex items-center justify-between">
+<button class="text-xs font-mono-code text-brand-muted hover:text-white transition-colors flex items-center gap-1" onclick="switchStep(1)">
+<span aria-hidden="true">←</span> BACK
+          </button>
+<button class="px-6 py-2.5 bg-brand-cyan hover:bg-brand-cyanHover text-brand-void font-mono-code font-bold text-xs uppercase tracking-wider rounded transition-all flex items-center gap-2 shadow-lg shadow-brand-cyan/20" onclick="switchStep(3)">
+            ENTER FLOATALPHA <span aria-hidden="true">→</span>
+</button>
+</div>
+</div>
+</div>
+<!-- END: PanelStep2 -->
+<!-- BEGIN: PanelStep3 -->
+<div class="hidden transition-all duration-300" id="panel-step-3">
+<div class="bg-brand-surface border border-brand-border rounded-lg p-6 sm:p-10 max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
+<!-- Subtle Top Glow Accent -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent"></div>
+<!-- Completion Header -->
+<div class="text-center max-w-lg mx-auto">
+<div class="w-12 h-12 rounded-full border border-brand-emerald bg-brand-emerald/10 text-brand-emerald flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<span class="text-[11px] font-mono-code text-brand-cyan uppercase tracking-widest font-semibold">CONFIGURATION COMPLETE</span>
+<h1 class="text-3xl font-extrabold text-white tracking-tight font-sans mt-1">
+            FLOATALPHA IS READY.
+          </h1>
+<p class="mt-2 text-xs sm:text-sm text-brand-muted leading-relaxed">
+            Your analytical workspace has been tailored to your surveillance criteria. These preferences can be modified at any time in Workspace Settings.
+          </p>
+</div>
+<!-- Summary Audit Card -->
+<div class="mt-8 border border-brand-border bg-brand-card/70 rounded-md p-5 font-mono-code text-xs space-y-3.5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-border pb-2.5 gap-1">
+<span class="text-brand-muted text-[11px]">SURVEILLANCE MARKETS:</span>
+<span class="text-white font-semibold">Cases · Weapon Skins · Knives <span class="text-brand-cyan">(3 of 5 active)</span></span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-border pb-2.5 gap-1">
+<span class="text-brand-muted text-[11px]">PRIORITY CONDITIONS:</span>
+<span class="text-white font-semibold">Supply Changes · Activity Anomalies · Divergence</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-border pb-2.5 gap-1">
+<span class="text-brand-muted text-[11px]">SEEDED WATCHLIST:</span>
+<span class="text-brand-emerald font-semibold">2 Assets Configured (AK-47 | Fire Serpent, Dreams Case)</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<span class="text-brand-muted text-[11px]">DEFAULT TERMINAL VIEW:</span>
+<span class="text-slate-300 font-semibold">Macro Breadth + Supply Contraction Monitor</span>
+</div>
+</div>
+<!-- Transparent Data Notice -->
+<div class="mt-6 p-3.5 rounded bg-brand-void/80 border border-brand-borderLight text-xs text-brand-muted leading-relaxed flex items-start gap-2.5">
+<svg class="w-4 h-4 text-brand-cyan flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<line x1="12" x2="12" y1="16" y2="12"></line>
+<line x1="12" x2="12.01" y1="8" y2="8"></line>
+</svg>
+<span class="text-[11px]">
+            Some historical analytics are still collecting baseline data. Available metrics will unlock automatically as continuous Skinport observation history grows. No Steam inventory connection or credentials required.
+          </span>
+</div>
+<!-- Action Row -->
+<div class="mt-8 flex flex-col sm:flex-row items-center gap-3">
+<button class="w-full sm:flex-1 py-3 bg-brand-cyan hover:bg-brand-cyanHover text-brand-void font-mono-code font-bold text-xs uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-cyan/20">
+            OPEN TERMINAL <span aria-hidden="true">→</span>
+</button>
+<button class="w-full sm:w-auto px-5 py-3 border border-brand-borderLight hover:border-slate-500 bg-brand-card text-slate-300 hover:text-white font-mono-code text-xs rounded transition-all">
+            Go to Screener
+          </button>
+<button class="w-full sm:w-auto px-5 py-3 border border-brand-borderLight hover:border-slate-500 bg-brand-card text-slate-300 hover:text-white font-mono-code text-xs rounded transition-all">
+            View Watchlist
+          </button>
+</div>
+</div>
+</div>
+<!-- END: PanelStep3 -->
+</main>
+<!-- END: InteractiveStepContainers -->
+<!-- BEGIN: MainFooter -->
+<footer class="border-t border-brand-border bg-brand-surface/40 mt-12 py-5">
+<div class="max-w-[1440px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono-code text-slate-500 gap-3">
+<div>
+        © 2025 FloatAlpha Technologies LLC • Skinport Grounded Market Observations • No Steam Inventory Connection or Credentials Required
+      </div>
+<div class="flex items-center gap-4 text-slate-400">
+<a class="hover:text-brand-cyan transition-colors" href="#privacy">Privacy</a>
+<a class="hover:text-brand-cyan transition-colors" href="#terms">Terms</a>
+<a class="hover:text-brand-cyan transition-colors" href="#datasources">Data Sources</a>
+<a class="hover:text-brand-cyan transition-colors" href="#security">Security</a>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- BEGIN: StateControllerScript -->
+<script data-purpose="onboarding-stepper-logic">
+    function switchStep(stepNumber) {
+      // Hide all panels
+      document.getElementById('panel-step-1').classList.add('hidden');
+      document.getElementById('panel-step-2').classList.add('hidden');
+      document.getElementById('panel-step-3').classList.add('hidden');
+
+      // Show target panel
+      document.getElementById('panel-step-' + stepNumber).classList.remove('hidden');
+
+      // Reset tabs styling
+      const tabs = [1, 2, 3];
+      tabs.forEach(num => {
+        const btn = document.getElementById('tab-btn-' + num);
+        const indicator = document.getElementById('step-indicator-' + num);
+        
+        if (num === stepNumber) {
+          btn.className = "px-3 py-1 text-xs font-mono-code rounded transition-all bg-brand-cyan text-brand-void font-semibold";
+          indicator.classList.remove('opacity-50');
+        } else {
+          btn.className = "px-3 py-1 text-xs font-mono-code rounded transition-all text-brand-muted hover:text-white";
+          indicator.classList.add('opacity-50');
+        }
+      });
+    }
+  </script>
+<!-- END: StateControllerScript -->
+</body></html>
