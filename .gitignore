@@ -11,3 +11,7 @@ config/candidates.json
 # Local setup artifacts installed by the Vercel Neon integration.
 .agents/
 skills-lock.json
+
+# Local browser verification artifacts.
+playwright-report/
+test-results/

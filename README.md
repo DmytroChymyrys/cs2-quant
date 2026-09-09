@@ -1,6 +1,10 @@
 # cs2-quant
 
-A data feasibility POC: can we collect, validate, persist and audit CS2 market snapshots reliably and cheaply enough to justify a larger product? This is an internal backend with a minimal landing page. It has no trading, portfolio, accounts, AI or recommendation features.
+CS2 market observation software built on an audited Skinport collector. This product branch adds the supplied dark terminal UI, market explorer, accounts, watchlists, transition alerts, manual holdings and Free/Pro billing. It uses the **cs2-quant** name throughout.
+
+See [product implementation status and integration setup](docs/product/IMPLEMENTATION_STATUS.md) for delivered screens, semantics, validation, environment variables and remaining provider checks. The new product migration has **not** been applied to production. Use an isolated database and `npm run db:migrate:product` for product validation; the general migration command now includes the additive product schema as well.
+
+The existing production deployment continues the approved 100-asset collection experiment. Product work preserves its collector semantics and schedule. The sections below document that collector and its operational history.
 
 ## Architecture
 
@@ -52,7 +56,7 @@ Migrations are checked in. For schema changes run `npm run db:generate -- --name
 
 ### Selecting assets
 
-`config/tracked-assets.json` intentionally starts empty. Discovery performs one market-wide items request, searches a keyword, displays the top 100 matches by quantity, and exports all matching **unversioned** candidates to a gitignored file. It never tracks assets automatically. Wait at least five minutes between discovery, seed and collection requests, since these tools share the upstream rate budget.
+`config/tracked-assets.json` now contains the approved 100-asset universe. For a new installation, Discovery performs one market-wide items request, searches a keyword, displays the top 100 matches by quantity, and exports all matching **unversioned** candidates to a gitignored file. It never tracks assets automatically. Wait at least five minutes between discovery, seed and collection requests, since these tools share the upstream rate budget.
 
 Each approved entry contains `marketHashName` copied exactly from discovery and optional nullable `category`. Aim for about 20 cases, 20 capsules/stickers, 30 liquid weapon skins, 15 knives and 15 gloves. Category labels are manually supplied; naming conventions are not heuristically parsed. Seed accepts 1–200 unique names, verifies them against a fresh unversioned and unambiguous items snapshot, and atomically upserts assets and Skinport mappings. The list is authoritative: removed entries become untracked, preserving their UUIDs and history. An empty list is rejected to prevent accidental untracking of everything.
 
@@ -73,7 +77,7 @@ This command reads saved snapshots and does not fetch or track anything. Categor
 
 The full [100-asset proposal](reports/poc-100-assets.md) is for review, not automatic activation. It contains 20 cases, 20 stickers/capsules, 30 weapons, 15 knives and 15 gloves, retaining all five smoke-test names. Each explicitly selected name has a reason and live snapshot price, quantity and sales-volume evidence. Activity labels are disclosed category-relative sales-volume bands, not a liquidity score. All candidates are checked for exactly one unversioned Items and History row.
 
-The proposal lives in `config/poc-100-proposed.json`; the active seed input `config/tracked-assets.json` still contains only five names. To regenerate the offline report from its recorded snapshots:
+The proposal lives in `config/poc-100-proposed.json`; the active seed input `config/tracked-assets.json` now contains all 100 approved names. To regenerate the offline report from its recorded snapshots:
 
 ```bash
 npm run poc:report -- /tmp/cs2-quant-poc-items.json /tmp/cs2-quant-poc-history.json
@@ -229,7 +233,7 @@ Skinport REST is cached for approximately five minutes and documented at eight r
 
 WebSocket collection is intentionally deferred: Skinport's [live feed](https://docs.skinport.com/websocket/sale-feed) provides `listed` and `sold`, not price changes/cancellations, and requires a persistent Socket.IO connection with a msgpack parser. A future external worker can contribute source events alongside these snapshots; no speculative infrastructure is implemented. Additional sources and derived analytics require their own verified adapters and identity decisions.
 
-Neon migrations and Vercel deployment are complete. The approved 100-asset universe passed fresh identity validation, production collection, and duplicate-window checks; see [manual acceptance](reports/poc-100-manual-acceptance.md). cron-job.org job 8416189 was saved by the user and its scheduled production execution was observed. The experiment begins 2026-09-09 at 17:55 UTC and its first 24-hour period ends 2026-09-10 at 17:55 UTC; see [experiment record](reports/collection-experiment.json). Scheduler management API access remains unavailable (401), so configuration readback is not independently verified. Historical five-asset reports describe earlier checkpoints, not the current tracked universe.
+Collector Neon migrations and Vercel deployment are complete; the new product migration and deployment remain pending. The approved 100-asset universe passed fresh identity validation, production collection, and duplicate-window checks; see [manual acceptance](reports/poc-100-manual-acceptance.md). cron-job.org job 8416189 was saved by the user and its scheduled production execution was observed. The experiment begins 2026-09-09 at 17:55 UTC and its first 24-hour period ends 2026-09-10 at 17:55 UTC; see [experiment record](reports/collection-experiment.json). Scheduler management API access remains unavailable (401), so configuration readback is not independently verified. Historical five-asset reports describe earlier checkpoints, not the current tracked universe.
 
 ## Approved 100-asset collection experiment
 

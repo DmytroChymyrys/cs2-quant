@@ -7,3 +7,9 @@ config/candidates.json
 # Local setup artifacts installed by the Vercel Neon integration.
 .agents/
 skills-lock.json
+
+# Product reference material and local browser artifacts are not deployment inputs.
+docs/
+e2e/
+playwright-report/
+test-results/
