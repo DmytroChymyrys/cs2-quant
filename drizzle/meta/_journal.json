@@ -15,6 +15,13 @@
       "when": 1788968586983,
       "tag": "0001_protect_observation_history",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788996195484,
+      "tag": "0002_product_accounts_monitoring_billing",
+      "breakpoints": true
     }
   ]
 }
