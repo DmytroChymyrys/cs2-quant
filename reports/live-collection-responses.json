@@ -1,0 +1,37 @@
+{
+  "origin": "https://cs2-quant.vercel.app",
+  "attempts": [
+    {
+      "requestedAt": "2026-09-09T17:05:21.997Z",
+      "receivedAt": "2026-09-09T17:05:28.867Z",
+      "httpStatus": 200,
+      "body": {
+        "collectorRunId": "3cb5685b-33cd-405b-9cd9-6416bcf75586",
+        "trackedAssets": 5,
+        "itemsReceived": 25413,
+        "historyItemsReceived": 36864,
+        "itemsMatched": 5,
+        "itemsMissing": 0,
+        "observationsInserted": 5,
+        "itemsHttpStatus": 200,
+        "historyHttpStatus": 200,
+        "status": "SUCCESS",
+        "finishedAt": "2026-09-09T17:05:28.711Z",
+        "durationMs": 5946,
+        "errorCode": null,
+        "errorMessage": null
+      }
+    },
+    {
+      "requestedAt": "2026-09-09T17:05:28.868Z",
+      "receivedAt": "2026-09-09T17:05:29.257Z",
+      "httpStatus": 200,
+      "body": {
+        "collectorRunId": "223a951d-027c-49f2-84e8-197f8282ec0c",
+        "status": "PARTIAL",
+        "skipped": true,
+        "errorCode": "DUPLICATE_WINDOW"
+      }
+    }
+  ]
+}

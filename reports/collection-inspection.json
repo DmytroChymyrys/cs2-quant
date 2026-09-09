@@ -1,0 +1,95 @@
+{
+  "inspectedAt": "2026-09-09T17:05:50.330Z",
+  "collectorRuns": [
+    {
+      "id": "223a951d-027c-49f2-84e8-197f8282ec0c",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:05:00+00",
+      "claim_key": null,
+      "started_at": "2026-09-09 17:05:29.062+00",
+      "finished_at": "2026-09-09 17:05:29.125+00",
+      "status": "PARTIAL",
+      "items_http_status": null,
+      "history_http_status": null,
+      "items_received": 0,
+      "history_items_received": 0,
+      "tracked_assets": 0,
+      "items_matched": 0,
+      "items_missing": 0,
+      "observations_inserted": 0,
+      "duration_ms": 63,
+      "error_code": "DUPLICATE_WINDOW",
+      "error_message": "Window already claimed; no upstream requests made.",
+      "metadata": {},
+      "created_at": "2026-09-09 17:05:29.15754+00"
+    },
+    {
+      "id": "3cb5685b-33cd-405b-9cd9-6416bcf75586",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:05:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:05:00.000Z",
+      "started_at": "2026-09-09 17:05:22.765+00",
+      "finished_at": "2026-09-09 17:05:28.711+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25413,
+      "history_items_received": 36864,
+      "tracked_assets": 5,
+      "items_matched": 5,
+      "items_missing": 0,
+      "observations_inserted": 5,
+      "duration_ms": 5946,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:05:22.942Z",
+          "finishedAt": "2026-09-09T17:05:28.536Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:05:22.943Z",
+          "finishedAt": "2026-09-09T17:05:26.861Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:05:22.843394+00"
+    }
+  ],
+  "assetObservationCounts": [
+    {
+      "market_hash_name": "Sticker | Team Liquid | Paris 2023",
+      "observations": "1",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:05:28.71+00"
+    },
+    {
+      "market_hash_name": "SSG 08 | Acid Fade (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:05:28.71+00"
+    },
+    {
+      "market_hash_name": "★ Bowie Knife | Tiger Tooth (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:05:28.71+00"
+    },
+    {
+      "market_hash_name": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:05:28.71+00"
+    },
+    {
+      "market_hash_name": "Danger Zone Case",
+      "observations": "1",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:05:28.71+00"
+    }
+  ]
+}

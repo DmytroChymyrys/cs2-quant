@@ -1,0 +1,93 @@
+{
+  "requestedAt": "2026-09-09T17:05:52.266Z",
+  "httpStatus": 200,
+  "response": {
+    "source": "SKINPORT",
+    "asOf": "2026-09-09T17:05:52.059Z",
+    "lastRun": {
+      "id": "3cb5685b-33cd-405b-9cd9-6416bcf75586",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:05:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:05:00.000Z",
+      "started_at": "2026-09-09 17:05:22.765+00",
+      "finished_at": "2026-09-09 17:05:28.711+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25413,
+      "history_items_received": 36864,
+      "tracked_assets": 5,
+      "items_matched": 5,
+      "items_missing": 0,
+      "observations_inserted": 5,
+      "duration_ms": 5946,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:05:22.942Z",
+          "finishedAt": "2026-09-09T17:05:28.536Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:05:22.943Z",
+          "finishedAt": "2026-09-09T17:05:26.861Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:05:22.843394+00"
+    },
+    "health24h": {
+      "runs": 1,
+      "successful": 1,
+      "partial": 0,
+      "failed": 0,
+      "running": 0,
+      "abandoned": 0,
+      "averageLatencyMs": "5946.0000000000000000",
+      "p95LatencyMs": 5946,
+      "http429Runs": 0,
+      "http5xxRuns": 0,
+      "malformedPayloadRuns": 0,
+      "successRate": 1,
+      "successOrPartialRate": 1,
+      "expectedScheduledWindows": 288,
+      "missingScheduledWindows": 287
+    },
+    "coverage": {
+      "trackedAssets": 5,
+      "staleAssets": 0,
+      "latestRunCoverage": 1
+    },
+    "observations": {
+      "last24h": 5,
+      "tableAndIndexesBytes": "81920",
+      "estimatedRowsMonthAtObservedRate": 150
+    },
+    "capacity": [
+      {
+        "assets": 100,
+        "rowsDay": 28800,
+        "rowsMonth": 864000
+      },
+      {
+        "assets": 1000,
+        "rowsDay": 288000,
+        "rowsMonth": 8640000
+      },
+      {
+        "assets": 10000,
+        "rowsDay": 2880000,
+        "rowsMonth": 86400000
+      },
+      {
+        "assets": 25413,
+        "rowsDay": 7318944,
+        "rowsMonth": 219568320
+      }
+    ]
+  }
+}

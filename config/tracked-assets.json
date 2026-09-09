@@ -1,0 +1,502 @@
+[
+  {
+    "marketHashName": "Danger Zone Case",
+    "category": "cases",
+    "reason": "Retain smoke asset; very high listing quantity and active seven-day sales baseline."
+  },
+  {
+    "marketHashName": "Dreams & Nightmares Case",
+    "category": "cases",
+    "reason": "High daily sales and deep listings at a low unit price."
+  },
+  {
+    "marketHashName": "Kilowatt Case",
+    "category": "cases",
+    "reason": "Cheapest selected case; low-value decimal precision with active turnover."
+  },
+  {
+    "marketHashName": "Recoil Case",
+    "category": "cases",
+    "reason": "Cheap case with very deep listings and high weekly sales."
+  },
+  {
+    "marketHashName": "Fracture Case",
+    "category": "cases",
+    "reason": "Sub-dollar case with substantial daily and weekly turnover."
+  },
+  {
+    "marketHashName": "Clutch Case",
+    "category": "cases",
+    "reason": "Low price with high daily activity; compare against other cheap cases."
+  },
+  {
+    "marketHashName": "Fever Case",
+    "category": "cases",
+    "reason": "Cheap case with deep supply but lower daily sales than Dreams & Nightmares."
+  },
+  {
+    "marketHashName": "Chroma 2 Case",
+    "category": "cases",
+    "reason": "Mid-priced case with strong daily turnover and deep listings."
+  },
+  {
+    "marketHashName": "Spectrum 2 Case",
+    "category": "cases",
+    "reason": "Mid-priced case with particularly deep supply and high weekly activity."
+  },
+  {
+    "marketHashName": "Operation Breakout Weapon Case",
+    "category": "cases",
+    "reason": "Higher mid-price with deep supply and high weekly sales."
+  },
+  {
+    "marketHashName": "Glove Case",
+    "category": "cases",
+    "reason": "Higher mid-price with lower sales activity relative to abundant supply."
+  },
+  {
+    "marketHashName": "Operation Broken Fang Case",
+    "category": "cases",
+    "reason": "Mid-price and medium weekly activity versus high-volume cases."
+  },
+  {
+    "marketHashName": "Shattered Web Case",
+    "category": "cases",
+    "reason": "Mid-price, medium weekly sales and a quieter current day."
+  },
+  {
+    "marketHashName": "Operation Riptide Case",
+    "category": "cases",
+    "reason": "Medium weekly activity despite only one sale in the latest day."
+  },
+  {
+    "marketHashName": "eSports 2013 Case",
+    "category": "cases",
+    "reason": "Rare expensive case; just two weekly sales and zero latest-day sales."
+  },
+  {
+    "marketHashName": "CS:GO Weapon Case",
+    "category": "cases",
+    "reason": "Most expensive selected case; shallow relative supply and sparse weekly sales."
+  },
+  {
+    "marketHashName": "Operation Bravo Case",
+    "category": "cases",
+    "reason": "Expensive case with low weekly activity and zero daily volume."
+  },
+  {
+    "marketHashName": "Operation Hydra Case",
+    "category": "cases",
+    "reason": "Expensive case with relatively few listings and low weekly activity."
+  },
+  {
+    "marketHashName": "Huntsman Weapon Case",
+    "category": "cases",
+    "reason": "Mid-priced case with low weekly sales despite many listings."
+  },
+  {
+    "marketHashName": "Winter Offensive Weapon Case",
+    "category": "cases",
+    "reason": "Mid-priced scarce case with only five weekly sales."
+  },
+  {
+    "marketHashName": "Sticker | Team Liquid | Paris 2023",
+    "category": "capsules/stickers",
+    "reason": "Retain smoke asset; two-cent price and deep listings despite low daily sales."
+  },
+  {
+    "marketHashName": "Paris 2023 Contenders Sticker Capsule",
+    "category": "capsules/stickers",
+    "reason": "High weekly activity and huge listing count, but zero latest-day sales."
+  },
+  {
+    "marketHashName": "Budapest 2025 Legends Sticker Capsule",
+    "category": "capsules/stickers",
+    "reason": "Cheap capsule with high weekly turnover and many listings."
+  },
+  {
+    "marketHashName": "Antwerp 2022 Legends Sticker Capsule",
+    "category": "capsules/stickers",
+    "reason": "Highest weekly sales among eligible stickers/capsules; low price."
+  },
+  {
+    "marketHashName": "Stockholm 2021 Challengers Sticker Capsule",
+    "category": "capsules/stickers",
+    "reason": "Mid-priced capsule with high observed weekly sales."
+  },
+  {
+    "marketHashName": "Sticker | High Heat",
+    "category": "capsules/stickers",
+    "reason": "Cheap individual sticker with high sales activity; compare with capsules."
+  },
+  {
+    "marketHashName": "Sticker | Winding Scorch (Foil)",
+    "category": "capsules/stickers",
+    "reason": "Mid-priced foil sticker with active sales and substantial supply."
+  },
+  {
+    "marketHashName": "Sticker Capsule 2",
+    "category": "capsules/stickers",
+    "reason": "More expensive capsule with medium weekly activity and a wide min/median gap."
+  },
+  {
+    "marketHashName": "Stockholm 2021 Legends Sticker Capsule",
+    "category": "capsules/stickers",
+    "reason": "Cheap capsule with medium weekly activity and a large min/median gap."
+  },
+  {
+    "marketHashName": "Sticker | Dragon Lore (Foil)",
+    "category": "capsules/stickers",
+    "reason": "Mid-priced foil with medium weekly sales and zero latest-day volume."
+  },
+  {
+    "marketHashName": "Sticker | Titan | Cluj-Napoca 2015",
+    "category": "capsules/stickers",
+    "reason": "Higher mid-price, limited listings and medium weekly activity."
+  },
+  {
+    "marketHashName": "Sticker | Crown (Foil)",
+    "category": "capsules/stickers",
+    "reason": "Expensive sticker with nonzero medium weekly activity; avoids only dormant expensive picks."
+  },
+  {
+    "marketHashName": "Sticker | Virtus.pro | Katowice 2015",
+    "category": "capsules/stickers",
+    "reason": "Mid-priced older sticker with low weekly activity and thin listings."
+  },
+  {
+    "marketHashName": "Sticker | 100 Thieves | 2020 RMR",
+    "category": "capsules/stickers",
+    "reason": "Cheap abundant sticker with only one weekly sale; supply is not liquidity."
+  },
+  {
+    "marketHashName": "Sticker | Bad News Eagles | Paris 2023",
+    "category": "capsules/stickers",
+    "reason": "Very deep cheap supply with one weekly sale and zero daily volume."
+  },
+  {
+    "marketHashName": "Sticker | iBUYPOWER | Cologne 2014",
+    "category": "capsules/stickers",
+    "reason": "Upper-mid price, thin supply and low weekly sales."
+  },
+  {
+    "marketHashName": "Sticker | Titan (Holo) | Cologne 2014",
+    "category": "capsules/stickers",
+    "reason": "Expensive holo with thin supply and one weekly sale."
+  },
+  {
+    "marketHashName": "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+    "category": "capsules/stickers",
+    "reason": "Expensive holo with zero seven-day sales; exercise empty recent history periods."
+  },
+  {
+    "marketHashName": "Sticker | Howling Dawn",
+    "category": "capsules/stickers",
+    "reason": "One expensive listing with zero recent sales; singleton price statistics."
+  },
+  {
+    "marketHashName": "Sticker | Reason Gaming (Holo) | Katowice 2014",
+    "category": "capsules/stickers",
+    "reason": "Extreme price tail and one listing, zero recent sales; deliberate outlier rather than typical market proxy."
+  },
+  {
+    "marketHashName": "SSG 08 | Acid Fade (Factory New)",
+    "category": "weapons",
+    "reason": "Retain smoke asset; cheap weapon with deep supply and high weekly activity."
+  },
+  {
+    "marketHashName": "AK-47 | Crane Flight (Field-Tested)",
+    "category": "weapons",
+    "reason": "High weekly sales in a mid-price weapon with moderate listing supply."
+  },
+  {
+    "marketHashName": "Desert Eagle | Printstream (Field-Tested)",
+    "category": "weapons",
+    "reason": "High-turnover mid-priced pistol baseline."
+  },
+  {
+    "marketHashName": "M4A1-S | Black Lotus (Field-Tested)",
+    "category": "weapons",
+    "reason": "Cheap rifle with deep supply and high weekly activity."
+  },
+  {
+    "marketHashName": "AK-47 | Inheritance (Field-Tested)",
+    "category": "weapons",
+    "reason": "High-turnover mid-priced rifle, distinct finish family."
+  },
+  {
+    "marketHashName": "USP-S | Printstream (Field-Tested)",
+    "category": "weapons",
+    "reason": "High weekly activity on a silenced pistol; compare with Desert Eagle."
+  },
+  {
+    "marketHashName": "Glock-18 | Candy Apple (Factory New)",
+    "category": "weapons",
+    "reason": "Cheap pistol with deep supply and high weekly sales."
+  },
+  {
+    "marketHashName": "AWP | Atheris (Field-Tested)",
+    "category": "weapons",
+    "reason": "Cheap sniper with high weekly activity."
+  },
+  {
+    "marketHashName": "AK-47 | Redline (Field-Tested)",
+    "category": "weapons",
+    "reason": "Deep-supply mid-priced rifle with high weekly sales."
+  },
+  {
+    "marketHashName": "AK-47 | Olive Polycam (Factory New)",
+    "category": "weapons",
+    "reason": "Cheap, deep listings and high weekly volume despite zero current-day sales."
+  },
+  {
+    "marketHashName": "M4A1-S | Decimator (Field-Tested)",
+    "category": "weapons",
+    "reason": "Mid-priced rifle with medium weekly sales."
+  },
+  {
+    "marketHashName": "M4A4 | Neo-Noir (Field-Tested)",
+    "category": "weapons",
+    "reason": "Medium weekly activity on a distinct rifle type."
+  },
+  {
+    "marketHashName": "P250 | Asiimov (Field-Tested)",
+    "category": "weapons",
+    "reason": "Mid-priced pistol with medium weekly volume."
+  },
+  {
+    "marketHashName": "AWP | Asiimov (Field-Tested)",
+    "category": "weapons",
+    "reason": "Expensive sniper with medium weekly activity and many listings."
+  },
+  {
+    "marketHashName": "AK-47 | Vulcan (Field-Tested)",
+    "category": "weapons",
+    "reason": "Expensive rifle with medium weekly sales and moderate supply."
+  },
+  {
+    "marketHashName": "AK-47 | Vulcan (Factory New)",
+    "category": "weapons",
+    "reason": "Same finish as field-tested pick, different wear/price and lower sales volume."
+  },
+  {
+    "marketHashName": "M4A1-S | Blue Phosphor (Factory New)",
+    "category": "weapons",
+    "reason": "Expensive finish with medium weekly activity and a large min/median spread."
+  },
+  {
+    "marketHashName": "M4A1-S | Hot Rod (Factory New)",
+    "category": "weapons",
+    "reason": "Four-digit price with some recent sales; thin but non-dormant expensive market."
+  },
+  {
+    "marketHashName": "AK-47 | Bloodsport (Field-Tested)",
+    "category": "weapons",
+    "reason": "Expensive rifle with medium weekly turnover."
+  },
+  {
+    "marketHashName": "AWP | Atheris (Well-Worn)",
+    "category": "weapons",
+    "reason": "Wear comparison with cheap Atheris field-tested; lower sales activity."
+  },
+  {
+    "marketHashName": "AUG | Storm (Field-Tested)",
+    "category": "weapons",
+    "reason": "Two-cent weapon with thousands of listings but only three weekly sales."
+  },
+  {
+    "marketHashName": "AUG | Contractor (Field-Tested)",
+    "category": "weapons",
+    "reason": "Two-cent deep-supply weapon with one weekly sale; inactivity despite availability."
+  },
+  {
+    "marketHashName": "P250 | Sand Dune (Minimal Wear)",
+    "category": "weapons",
+    "reason": "Very cheap low-activity pistol with many listings."
+  },
+  {
+    "marketHashName": "M4A1-S | Decimator (Battle-Scarred)",
+    "category": "weapons",
+    "reason": "Lower-sales wear comparison within Decimator family."
+  },
+  {
+    "marketHashName": "Glock-18 | Sand Dune (Field-Tested)",
+    "category": "weapons",
+    "reason": "Mid-priced pistol with four listings and one weekly sale."
+  },
+  {
+    "marketHashName": "AUG | Hot Rod (Factory New)",
+    "category": "weapons",
+    "reason": "Expensive low-activity weapon with only four listings."
+  },
+  {
+    "marketHashName": "AWP | Dragon Lore (Factory New)",
+    "category": "weapons",
+    "reason": "Five-figure price, sparse listings and one weekly sale."
+  },
+  {
+    "marketHashName": "AK-47 | Wild Lotus (Factory New)",
+    "category": "weapons",
+    "reason": "Five-figure singleton with zero recent sales; extreme price and history-null stress case."
+  },
+  {
+    "marketHashName": "StatTrak™ M4A4 | Howl (Factory New)",
+    "category": "weapons",
+    "reason": "Rare StatTrak canonical name with two listings and zero recent sales; source version remains null."
+  },
+  {
+    "marketHashName": "Souvenir AWP | Dragon Lore (Factory New)",
+    "category": "weapons",
+    "reason": "Rare Souvenir canonical name, one listing and zero recent sales; source version remains null."
+  },
+  {
+    "marketHashName": "★ Bowie Knife | Tiger Tooth (Factory New)",
+    "category": "knives",
+    "reason": "Retain smoke asset; relatively deep knife supply with medium weekly activity."
+  },
+  {
+    "marketHashName": "★ Survival Knife",
+    "category": "knives",
+    "reason": "Cheap vanilla knife with highest observed weekly knife sales."
+  },
+  {
+    "marketHashName": "★ Paracord Knife",
+    "category": "knives",
+    "reason": "Cheap vanilla knife with high category-relative weekly activity."
+  },
+  {
+    "marketHashName": "★ Talon Knife | Tiger Tooth (Factory New)",
+    "category": "knives",
+    "reason": "Upper-mid knife price with high weekly activity for the category."
+  },
+  {
+    "marketHashName": "★ Skeleton Knife | Tiger Tooth (Factory New)",
+    "category": "knives",
+    "reason": "Mid-priced knife with high category-relative weekly activity."
+  },
+  {
+    "marketHashName": "★ Butterfly Knife | Tiger Tooth (Factory New)",
+    "category": "knives",
+    "reason": "Expensive knife with high observed activity, balancing dormant expensive picks."
+  },
+  {
+    "marketHashName": "★ Kukri Knife | Fade (Factory New)",
+    "category": "knives",
+    "reason": "Mid-priced unversioned Fade with deep knife supply and active weekly sales."
+  },
+  {
+    "marketHashName": "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+    "category": "knives",
+    "reason": "Cheap knife with medium weekly activity and modest listing count."
+  },
+  {
+    "marketHashName": "★ Nomad Knife | Slaughter (Minimal Wear)",
+    "category": "knives",
+    "reason": "Mid-price and medium weekly activity on another knife family."
+  },
+  {
+    "marketHashName": "★ Bayonet | Forest DDPAT (Field-Tested)",
+    "category": "knives",
+    "reason": "Mid-price with thin supply and medium weekly activity."
+  },
+  {
+    "marketHashName": "★ Butterfly Knife | Slaughter (Minimal Wear)",
+    "category": "knives",
+    "reason": "Expensive knife with medium weekly activity and zero current-day sales."
+  },
+  {
+    "marketHashName": "★ Navaja Knife | Scorched (Field-Tested)",
+    "category": "knives",
+    "reason": "Cheap knife with ten listings and only one weekly sale."
+  },
+  {
+    "marketHashName": "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+    "category": "knives",
+    "reason": "Cheap low-activity knife pair with only five listings."
+  },
+  {
+    "marketHashName": "★ Karambit | Crimson Web (Factory New)",
+    "category": "knives",
+    "reason": "Expensive singleton with zero recent sales; unversioned source row only."
+  },
+  {
+    "marketHashName": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+    "category": "knives",
+    "reason": "Extreme observed singleton asking price with no recent sales; tests outlier retention without treating ask as fair value."
+  },
+  {
+    "marketHashName": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+    "category": "gloves",
+    "reason": "Retain smoke asset; deep glove supply and high category-relative sales."
+  },
+  {
+    "marketHashName": "★ Hand Wraps | Duct Tape (Field-Tested)",
+    "category": "gloves",
+    "reason": "Cheap gloves with the highest observed weekly activity in this category."
+  },
+  {
+    "marketHashName": "★ Driver Gloves | Racing Green (Field-Tested)",
+    "category": "gloves",
+    "reason": "Low-price gloves with deep supply and high observed sales."
+  },
+  {
+    "marketHashName": "★ Driver Gloves | Snow Leopard (Field-Tested)",
+    "category": "gloves",
+    "reason": "Mid-priced gloves with high category-relative weekly activity."
+  },
+  {
+    "marketHashName": "★ Sport Gloves | Vice (Field-Tested)",
+    "category": "gloves",
+    "reason": "Upper-mid gloves with high weekly activity, contrasting expensive low-activity wear."
+  },
+  {
+    "marketHashName": "★ Sport Gloves | Bronze Morph (Field-Tested)",
+    "category": "gloves",
+    "reason": "Cheap gloves with medium activity and over one hundred listings."
+  },
+  {
+    "marketHashName": "★ Moto Gloves | Turtle (Field-Tested)",
+    "category": "gloves",
+    "reason": "Cheap gloves with medium weekly activity and substantial supply."
+  },
+  {
+    "marketHashName": "★ Moto Gloves | Turtle (Minimal Wear)",
+    "category": "gloves",
+    "reason": "Mid-priced wear comparison with fewer listings and lower weekly activity."
+  },
+  {
+    "marketHashName": "★ Hydra Gloves | Mangrove (Field-Tested)",
+    "category": "gloves",
+    "reason": "Cheap alternative glove family with medium weekly sales."
+  },
+  {
+    "marketHashName": "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+    "category": "gloves",
+    "reason": "Cheap wear comparison with only six listings and medium weekly activity."
+  },
+  {
+    "marketHashName": "★ Hydra Gloves | Mangrove (Well-Worn)",
+    "category": "gloves",
+    "reason": "Cheap thin-supply gloves with only two weekly sales."
+  },
+  {
+    "marketHashName": "★ Specialist Gloves | Fade (Minimal Wear)",
+    "category": "gloves",
+    "reason": "Expensive gloves with thin supply and one weekly sale."
+  },
+  {
+    "marketHashName": "★ Sport Gloves | Pandora's Box (Field-Tested)",
+    "category": "gloves",
+    "reason": "Expensive gloves with sparse listings and one weekly sale."
+  },
+  {
+    "marketHashName": "★ Moto Gloves | Spearmint (Minimal Wear)",
+    "category": "gloves",
+    "reason": "Expensive two-listing market with zero weekly sales."
+  },
+  {
+    "marketHashName": "★ Sport Gloves | Vice (Factory New)",
+    "category": "gloves",
+    "reason": "Extreme glove price tail with two listings and zero recent sales; wear comparison to active field-tested market."
+  }
+]

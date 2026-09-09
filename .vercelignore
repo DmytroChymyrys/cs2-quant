@@ -1,0 +1,9 @@
+.env*
+reports/
+tests/
+config/candidates.json
+*.tsbuildinfo
+
+# Local setup artifacts installed by the Vercel Neon integration.
+.agents/
+skills-lock.json

@@ -1,0 +1,84 @@
+{
+  "verifiedAt": "2026-09-09T16:05:13.111Z",
+  "origin": "https://cs2-quant.vercel.app",
+  "checks": [
+    {
+      "name": "landing",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "collection unauthorized",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "name": "health unauthorized",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "name": "authenticated health",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "health": {
+        "source": "SKINPORT",
+        "asOf": "2026-09-09T16:05:12.994Z",
+        "lastRun": null,
+        "health24h": {
+          "runs": 0,
+          "successful": 0,
+          "partial": 0,
+          "failed": 0,
+          "running": 0,
+          "abandoned": 0,
+          "averageLatencyMs": null,
+          "p95LatencyMs": null,
+          "http429Runs": 0,
+          "http5xxRuns": 0,
+          "malformedPayloadRuns": 0,
+          "successRate": null,
+          "successOrPartialRate": null,
+          "expectedScheduledWindows": 288,
+          "missingScheduledWindows": 288
+        },
+        "coverage": {
+          "trackedAssets": 0,
+          "staleAssets": 0,
+          "latestRunCoverage": null
+        },
+        "observations": {
+          "last24h": 0,
+          "tableAndIndexesBytes": "40960",
+          "estimatedRowsMonthAtObservedRate": 0
+        },
+        "capacity": [
+          {
+            "assets": 100,
+            "rowsDay": 28800,
+            "rowsMonth": 864000
+          },
+          {
+            "assets": 1000,
+            "rowsDay": 288000,
+            "rowsMonth": 8640000
+          },
+          {
+            "assets": 10000,
+            "rowsDay": 2880000,
+            "rowsMonth": 86400000
+          },
+          {
+            "assets": 0,
+            "rowsDay": 0,
+            "rowsMonth": 0
+          }
+        ]
+      }
+    }
+  ]
+}

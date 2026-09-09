@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+coverage/
+config/candidates.json
+
+.vercel/
+
+# Local setup artifacts installed by the Vercel Neon integration.
+.agents/
+skills-lock.json

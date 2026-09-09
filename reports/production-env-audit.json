@@ -1,0 +1,131 @@
+{
+  "checkedAt": "2026-09-09T18:00:35.534Z",
+  "productionVariables": [
+    {
+      "key": "COLLECTION_SCHEDULE_STARTED_AT",
+      "type": "plain"
+    },
+    {
+      "key": "CRON_JOB_ORG_API_KEY",
+      "type": "encrypted"
+    },
+    {
+      "key": "CRON_SECRET",
+      "type": "encrypted"
+    },
+    {
+      "key": "SKINPORT_CURRENCY",
+      "type": "plain"
+    },
+    {
+      "key": "SKINPORT_REQUEST_TIMEOUT_MS",
+      "type": "plain"
+    },
+    {
+      "key": "SOURCE_STALE_AFTER_MINUTES",
+      "type": "plain"
+    },
+    {
+      "key": "NEON_PROJECT_ID",
+      "type": "encrypted"
+    },
+    {
+      "key": "PGPASSWORD",
+      "type": "encrypted"
+    },
+    {
+      "key": "PGDATABASE",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_USER",
+      "type": "encrypted"
+    },
+    {
+      "key": "PGHOST_UNPOOLED",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_URL_NO_SSL",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_URL_NON_POOLING",
+      "type": "encrypted"
+    },
+    {
+      "key": "PGUSER",
+      "type": "encrypted"
+    },
+    {
+      "key": "PGHOST",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_PRISMA_URL",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_HOST",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_PASSWORD",
+      "type": "encrypted"
+    },
+    {
+      "key": "DATABASE_URL",
+      "type": "encrypted"
+    },
+    {
+      "key": "DATABASE_URL_UNPOOLED",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_DATABASE",
+      "type": "encrypted"
+    },
+    {
+      "key": "POSTGRES_URL",
+      "type": "encrypted"
+    }
+  ],
+  "checks": [
+    {
+      "key": "DATABASE_URL",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    },
+    {
+      "key": "CRON_SECRET",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    },
+    {
+      "key": "SKINPORT_CURRENCY",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    },
+    {
+      "key": "SKINPORT_REQUEST_TIMEOUT_MS",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    },
+    {
+      "key": "SOURCE_STALE_AFTER_MINUTES",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    },
+    {
+      "key": "COLLECTION_SCHEDULE_STARTED_AT",
+      "present": true,
+      "valueReadable": true,
+      "matchesLocal": true
+    }
+  ]
+}

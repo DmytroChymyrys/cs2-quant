@@ -1,0 +1,12 @@
+{
+  "exactlyFiveTracked": true,
+  "successfulRun": true,
+  "bothSources200": true,
+  "allFiveMatched": true,
+  "exactlyFiveStored": true,
+  "sameWindow": true,
+  "duplicateSkipped": true,
+  "allObservationsBelongToFirstRun": true,
+  "normalizationAndJoinChecksPassed": true,
+  "healthMatchesDatabase": true
+}

@@ -1,0 +1,36 @@
+{
+  "status": "APPROVED_FOR_FIVE_ASSET_SMOKE_TEST",
+  "snapshotReport": "discovery-summary.md",
+  "candidates": [
+    {
+      "marketHashName": "Danger Zone Case",
+      "category": "cases",
+      "listingQuantity": 93635,
+      "sales24hVolume": 205
+    },
+    {
+      "marketHashName": "Sticker | Team Liquid | Paris 2023",
+      "category": "capsules/stickers",
+      "listingQuantity": 12218,
+      "sales24hVolume": 1
+    },
+    {
+      "marketHashName": "SSG 08 | Acid Fade (Factory New)",
+      "category": "weapons",
+      "listingQuantity": 3145,
+      "sales24hVolume": 7
+    },
+    {
+      "marketHashName": "★ Bowie Knife | Tiger Tooth (Factory New)",
+      "category": "knives",
+      "listingQuantity": 82,
+      "sales24hVolume": 2
+    },
+    {
+      "marketHashName": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+      "category": "gloves",
+      "listingQuantity": 156,
+      "sales24hVolume": 6
+    }
+  ]
+}

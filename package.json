@@ -1,0 +1,45 @@
+{
+  "name": "cs2-quant",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "discover": "tsx scripts/discover.ts",
+    "seed": "tsx scripts/seed.ts",
+    "inspect:collection": "tsx scripts/inspect-collection.ts",
+    "discovery:report": "node --import tsx scripts/discovery-report.ts",
+    "inspect:smoke": "node --import tsx scripts/inspect-smoke.ts",
+    "poc:report": "node --import tsx scripts/prepare-poc-universe.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "lossless-json": "^4.3.1",
+    "next": "^16.3.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/node": "^26.5.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.4",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0"
+  },
+  "type": "module"
+}

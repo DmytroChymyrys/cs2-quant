@@ -1,0 +1,428 @@
+{
+  "checkedAt": "2026-09-09T18:02:37.834Z",
+  "results": [
+    {
+      "path": "/",
+      "method": "GET",
+      "authenticated": false,
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/api/internal/data-health",
+      "method": "GET",
+      "authenticated": false,
+      "status": 401,
+      "cacheControl": "no-store"
+    },
+    {
+      "path": "/api/internal/collect/skinport",
+      "method": "POST",
+      "authenticated": false,
+      "status": 401,
+      "cacheControl": "no-store"
+    },
+    {
+      "path": "/api/internal/collect/skinport",
+      "method": "GET",
+      "authenticated": true,
+      "status": 405,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/api/internal/data-health",
+      "method": "GET",
+      "authenticated": true,
+      "status": 200,
+      "cacheControl": "no-store",
+      "body": {
+        "source": "SKINPORT",
+        "asOf": "2026-09-09T18:02:37.592Z",
+        "schedule": {
+          "startedAt": "2026-09-09T17:55:00.000Z",
+          "from": "2026-09-09T17:55:00.000Z",
+          "throughExclusive": "2026-09-09T18:00:00.000Z",
+          "expectedWindows": 1
+        },
+        "lastRun": {
+          "id": "25a8667f-b0eb-426d-906f-293cbfae7f07",
+          "source": "SKINPORT",
+          "window_start": "2026-09-09 18:00:00+00",
+          "claim_key": "SKINPORT:2026-09-09T18:00:00.000Z",
+          "started_at": "2026-09-09 18:00:18.329+00",
+          "finished_at": "2026-09-09 18:00:26.11+00",
+          "status": "SUCCESS",
+          "items_http_status": 200,
+          "history_http_status": 200,
+          "items_received": 25417,
+          "history_items_received": 36864,
+          "tracked_assets": 100,
+          "items_matched": 100,
+          "items_missing": 0,
+          "observations_inserted": 100,
+          "duration_ms": 7781,
+          "error_code": null,
+          "error_message": null,
+          "metadata": {
+            "itemsFetch": {
+              "startedAt": "2026-09-09T18:00:18.439Z",
+              "bodySha256": "9fb093f689b8d20a5aa323eae432ddf3c74a5e543c96296b3179f9a67c0126a6",
+              "finishedAt": "2026-09-09T18:00:22.003Z",
+              "responseBytes": 10448467,
+              "bodyReceivedAt": "2026-09-09T18:00:19.937Z"
+            },
+            "historyFetch": {
+              "startedAt": "2026-09-09T18:00:18.441Z",
+              "bodySha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed",
+              "finishedAt": "2026-09-09T18:00:25.824Z",
+              "responseBytes": 20864033,
+              "bodyReceivedAt": "2026-09-09T18:00:22.336Z"
+            },
+            "missingAssets": [],
+            "missingHistory": [],
+            "upstreamErrors": [],
+            "excludedVariantItemRows": 361,
+            "excludedVariantHistoryRows": 974
+          },
+          "created_at": "2026-09-09 18:00:18.405745+00"
+        },
+        "health24h": {
+          "runs": 5,
+          "successful": 5,
+          "partial": 0,
+          "failed": 0,
+          "running": 0,
+          "abandoned": 0,
+          "averageLatencyMs": "6681.0000000000000000",
+          "p95LatencyMs": 7588,
+          "http429Runs": 0,
+          "http5xxRuns": 0,
+          "malformedPayloadRuns": 0,
+          "successRate": 1,
+          "successOrPartialRate": 1,
+          "expectedScheduledWindows": 1,
+          "claimedScheduledWindows": 1,
+          "missingScheduledWindows": 0
+        },
+        "coverage": {
+          "trackedAssets": 100,
+          "staleAssets": 0,
+          "latestRunCoverage": 1
+        },
+        "observations": {
+          "last24h": 405,
+          "tableAndIndexesBytes": "868352",
+          "estimatedRowsMonthAtObservedRate": 12150
+        },
+        "capacity": [
+          {
+            "assets": 100,
+            "rowsDay": 28800,
+            "rowsMonth": 864000
+          },
+          {
+            "assets": 1000,
+            "rowsDay": 288000,
+            "rowsMonth": 8640000
+          },
+          {
+            "assets": 10000,
+            "rowsDay": 2880000,
+            "rowsMonth": 86400000
+          },
+          {
+            "assets": 25417,
+            "rowsDay": 7320096,
+            "rowsMonth": 219602880
+          }
+        ]
+      }
+    },
+    {
+      "path": "/api/internal/assets/3ec521ae-28d5-43bd-8efa-653bfbebb002/history?from=2026-09-09T17:55:00Z&to=2026-09-10T17:55:00Z",
+      "method": "GET",
+      "authenticated": true,
+      "status": 200,
+      "cacheControl": "no-store",
+      "body": {
+        "latest": {
+          "id": "29c62dc7-e70d-4844-8d82-3c55cae13b86",
+          "assetId": "3ec521ae-28d5-43bd-8efa-653bfbebb002",
+          "source": "SKINPORT",
+          "collectorRunId": "25a8667f-b0eb-426d-906f-293cbfae7f07",
+          "observedAt": "2026-09-09T18:00:25.997Z",
+          "currency": "USD",
+          "suggestedPrice": "150.08000000",
+          "minPrice": "120.59000000",
+          "maxPrice": "588.55000000",
+          "meanPrice": "161.53000000",
+          "medianPrice": "152.42000000",
+          "quantity": 115,
+          "sourceCreatedAt": "2018-09-03T15:24:13.000Z",
+          "sourceUpdatedAt": "2026-09-09T17:55:12.000Z",
+          "sales24hMin": "114.38000000",
+          "sales24hMax": "125.47000000",
+          "sales24hAvg": "119.93000000",
+          "sales24hMedian": "119.92000000",
+          "sales24hVolume": 2,
+          "sales7dMin": "105.77000000",
+          "sales7dMax": "134.09000000",
+          "sales7dAvg": "118.72000000",
+          "sales7dMedian": "116.31000000",
+          "sales7dVolume": 27,
+          "sales30dMin": "105.77000000",
+          "sales30dMax": "145.39000000",
+          "sales30dAvg": "123.74000000",
+          "sales30dMedian": "123.67000000",
+          "sales30dVolume": 109,
+          "sales90dMin": "105.77000000",
+          "sales90dMax": "155.04000000",
+          "sales90dAvg": "134.63000000",
+          "sales90dMedian": "137.08000000",
+          "sales90dVolume": 387,
+          "rawItemPayload": {
+            "version": null,
+            "currency": "USD",
+            "quantity": 115,
+            "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+            "max_price": "588.55000000",
+            "min_price": "120.59000000",
+            "created_at": 1535988253,
+            "mean_price": "161.53000000",
+            "updated_at": 1788976512,
+            "market_page": "https://skinport.com/market/rifle/ak-47?item=Bloodsport",
+            "median_price": "152.42000000",
+            "suggested_price": "150.08000000",
+            "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+          },
+          "rawHistoryPayload": {
+            "version": null,
+            "currency": "USD",
+            "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+            "last_7_days": {
+              "avg": "118.72000000",
+              "max": "134.09000000",
+              "min": "105.77000000",
+              "median": "116.31000000",
+              "volume": 27
+            },
+            "market_page": "https://skinport.com/market?item=Bloodsport&cat=Rifle&type=AK-47",
+            "last_30_days": {
+              "avg": "123.74000000",
+              "max": "145.39000000",
+              "min": "105.77000000",
+              "median": "123.67000000",
+              "volume": 109
+            },
+            "last_90_days": {
+              "avg": "134.63000000",
+              "max": "155.04000000",
+              "min": "105.77000000",
+              "median": "137.08000000",
+              "volume": 387
+            },
+            "last_24_hours": {
+              "avg": "119.93000000",
+              "max": "125.47000000",
+              "min": "114.38000000",
+              "median": "119.92000000",
+              "volume": 2
+            },
+            "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+          },
+          "createdAt": "2026-09-09T18:00:26.088Z"
+        },
+        "summary": {
+          "firstPrice": "120.59000000",
+          "latestPrice": "120.59000000",
+          "firstQuantity": 115,
+          "latestQuantity": 115,
+          "firstObservedAt": "2026-09-09 17:41:21.709+00",
+          "lastObservedAt": "2026-09-09 18:00:25.997+00",
+          "sales24hVolume": 2,
+          "observationCount": 4,
+          "expectedObservationCount": 5,
+          "priceChangePercent": "0.00000000",
+          "quantityChangePercent": "0.00000000",
+          "missingIntervals": 1
+        },
+        "history": [
+          {
+            "id": "03ecb823-3386-4a8a-9fcf-079d202e72ab",
+            "assetId": "3ec521ae-28d5-43bd-8efa-653bfbebb002",
+            "source": "SKINPORT",
+            "collectorRunId": "b95e7b2b-8c54-47e5-a54b-158e46a3c7a2",
+            "observedAt": "2026-09-09T17:55:13.883Z",
+            "currency": "USD",
+            "suggestedPrice": "150.08000000",
+            "minPrice": "120.59000000",
+            "maxPrice": "588.55000000",
+            "meanPrice": "161.53000000",
+            "medianPrice": "152.42000000",
+            "quantity": 115,
+            "sourceCreatedAt": "2018-09-03T15:24:13.000Z",
+            "sourceUpdatedAt": "2026-09-09T17:50:12.000Z",
+            "sales24hMin": "114.38000000",
+            "sales24hMax": "125.47000000",
+            "sales24hAvg": "119.93000000",
+            "sales24hMedian": "119.92000000",
+            "sales24hVolume": 2,
+            "sales7dMin": "105.77000000",
+            "sales7dMax": "134.09000000",
+            "sales7dAvg": "118.72000000",
+            "sales7dMedian": "116.31000000",
+            "sales7dVolume": 27,
+            "sales30dMin": "105.77000000",
+            "sales30dMax": "145.39000000",
+            "sales30dAvg": "123.74000000",
+            "sales30dMedian": "123.67000000",
+            "sales30dVolume": 109,
+            "sales90dMin": "105.77000000",
+            "sales90dMax": "155.04000000",
+            "sales90dAvg": "134.63000000",
+            "sales90dMedian": "137.08000000",
+            "sales90dVolume": 387,
+            "rawItemPayload": {
+              "version": null,
+              "currency": "USD",
+              "quantity": 115,
+              "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+              "max_price": "588.55000000",
+              "min_price": "120.59000000",
+              "created_at": 1535988253,
+              "mean_price": "161.53000000",
+              "updated_at": 1788976212,
+              "market_page": "https://skinport.com/market/rifle/ak-47?item=Bloodsport",
+              "median_price": "152.42000000",
+              "suggested_price": "150.08000000",
+              "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+            },
+            "rawHistoryPayload": {
+              "version": null,
+              "currency": "USD",
+              "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+              "last_7_days": {
+                "avg": "118.72000000",
+                "max": "134.09000000",
+                "min": "105.77000000",
+                "median": "116.31000000",
+                "volume": 27
+              },
+              "market_page": "https://skinport.com/market?item=Bloodsport&cat=Rifle&type=AK-47",
+              "last_30_days": {
+                "avg": "123.74000000",
+                "max": "145.39000000",
+                "min": "105.77000000",
+                "median": "123.67000000",
+                "volume": 109
+              },
+              "last_90_days": {
+                "avg": "134.63000000",
+                "max": "155.04000000",
+                "min": "105.77000000",
+                "median": "137.08000000",
+                "volume": 387
+              },
+              "last_24_hours": {
+                "avg": "119.93000000",
+                "max": "125.47000000",
+                "min": "114.38000000",
+                "median": "119.92000000",
+                "volume": 2
+              },
+              "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+            },
+            "createdAt": "2026-09-09T17:55:13.957Z"
+          },
+          {
+            "id": "29c62dc7-e70d-4844-8d82-3c55cae13b86",
+            "assetId": "3ec521ae-28d5-43bd-8efa-653bfbebb002",
+            "source": "SKINPORT",
+            "collectorRunId": "25a8667f-b0eb-426d-906f-293cbfae7f07",
+            "observedAt": "2026-09-09T18:00:25.997Z",
+            "currency": "USD",
+            "suggestedPrice": "150.08000000",
+            "minPrice": "120.59000000",
+            "maxPrice": "588.55000000",
+            "meanPrice": "161.53000000",
+            "medianPrice": "152.42000000",
+            "quantity": 115,
+            "sourceCreatedAt": "2018-09-03T15:24:13.000Z",
+            "sourceUpdatedAt": "2026-09-09T17:55:12.000Z",
+            "sales24hMin": "114.38000000",
+            "sales24hMax": "125.47000000",
+            "sales24hAvg": "119.93000000",
+            "sales24hMedian": "119.92000000",
+            "sales24hVolume": 2,
+            "sales7dMin": "105.77000000",
+            "sales7dMax": "134.09000000",
+            "sales7dAvg": "118.72000000",
+            "sales7dMedian": "116.31000000",
+            "sales7dVolume": 27,
+            "sales30dMin": "105.77000000",
+            "sales30dMax": "145.39000000",
+            "sales30dAvg": "123.74000000",
+            "sales30dMedian": "123.67000000",
+            "sales30dVolume": 109,
+            "sales90dMin": "105.77000000",
+            "sales90dMax": "155.04000000",
+            "sales90dAvg": "134.63000000",
+            "sales90dMedian": "137.08000000",
+            "sales90dVolume": 387,
+            "rawItemPayload": {
+              "version": null,
+              "currency": "USD",
+              "quantity": 115,
+              "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+              "max_price": "588.55000000",
+              "min_price": "120.59000000",
+              "created_at": 1535988253,
+              "mean_price": "161.53000000",
+              "updated_at": 1788976512,
+              "market_page": "https://skinport.com/market/rifle/ak-47?item=Bloodsport",
+              "median_price": "152.42000000",
+              "suggested_price": "150.08000000",
+              "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+            },
+            "rawHistoryPayload": {
+              "version": null,
+              "currency": "USD",
+              "item_page": "https://skinport.com/item/ak-47-bloodsport-field-tested",
+              "last_7_days": {
+                "avg": "118.72000000",
+                "max": "134.09000000",
+                "min": "105.77000000",
+                "median": "116.31000000",
+                "volume": 27
+              },
+              "market_page": "https://skinport.com/market?item=Bloodsport&cat=Rifle&type=AK-47",
+              "last_30_days": {
+                "avg": "123.74000000",
+                "max": "145.39000000",
+                "min": "105.77000000",
+                "median": "123.67000000",
+                "volume": 109
+              },
+              "last_90_days": {
+                "avg": "134.63000000",
+                "max": "155.04000000",
+                "min": "105.77000000",
+                "median": "137.08000000",
+                "volume": 387
+              },
+              "last_24_hours": {
+                "avg": "119.93000000",
+                "max": "125.47000000",
+                "min": "114.38000000",
+                "median": "119.92000000",
+                "volume": 2
+              },
+              "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+            },
+            "createdAt": "2026-09-09T18:00:26.088Z"
+          }
+        ]
+      }
+    }
+  ]
+}

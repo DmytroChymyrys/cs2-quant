@@ -1,0 +1,22 @@
+[
+  {
+    "endpoint": "items",
+    "url": "https://api.skinport.com/v1/items?app_id=730&currency=USD&tradable=1",
+    "status": 200,
+    "startedAt": "2026-09-09T17:12:49.635Z",
+    "finishedAt": "2026-09-09T17:12:51.162Z",
+    "file": "/tmp/cs2-quant-poc-items.json",
+    "bytes": 10446839,
+    "sha256": "c134419ba16a4c8e315c20d0cfc58f11ac3ccfe1ba83da6f177383853e4044fd"
+  },
+  {
+    "endpoint": "sales/history",
+    "url": "https://api.skinport.com/v1/sales/history?app_id=730&currency=USD",
+    "status": 200,
+    "startedAt": "2026-09-09T17:12:49.663Z",
+    "finishedAt": "2026-09-09T17:12:50.103Z",
+    "file": "/tmp/cs2-quant-poc-history.json",
+    "bytes": 20864033,
+    "sha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed"
+  }
+]

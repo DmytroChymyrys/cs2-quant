@@ -1,0 +1,1083 @@
+{
+  "generatedAt": "2026-09-09T18:01:50.704Z",
+  "phase": "INTERIM — 24 hours have not elapsed",
+  "startedAt": "2026-09-09T17:55:00.000Z",
+  "reportDueAt": "2026-09-10T17:55:00.000Z",
+  "throughExclusive": "2026-09-09T18:00:00.000Z",
+  "expectedScheduledWindows": 1,
+  "actualClaimedWindows": 1,
+  "statusCounts": {
+    "SUCCESS": 1,
+    "PARTIAL": 0,
+    "FAILED": 0,
+    "RUNNING": 0
+  },
+  "successRate": 1,
+  "successRateOfExpectedWindows": 1,
+  "missingWindowCount": 0,
+  "missingWindows": [],
+  "http429Count": 0,
+  "upstream5xxCount": 0,
+  "malformedPayloadCount": 0,
+  "collectorDurationMs": {
+    "count": 1,
+    "min": 6251,
+    "average": 6251,
+    "p50": 6251,
+    "p95": 6251,
+    "max": 6251
+  },
+  "itemsFetch": {
+    "httpBodyLatencyMs": {
+      "count": 1,
+      "min": 4288,
+      "average": 4288,
+      "p50": 4288,
+      "p95": 4288,
+      "max": 4288
+    },
+    "fetchAndValidationLatencyMs": {
+      "count": 1,
+      "min": 5895,
+      "average": 5895,
+      "p50": 5895,
+      "p95": 5895,
+      "max": 5895
+    },
+    "missingTimingRuns": 0
+  },
+  "historyFetch": {
+    "httpBodyLatencyMs": {
+      "count": 1,
+      "min": 518,
+      "average": 518,
+      "p50": 518,
+      "p95": 518,
+      "max": 518
+    },
+    "fetchAndValidationLatencyMs": {
+      "count": 1,
+      "min": 4164,
+      "average": 4164,
+      "p50": 4164,
+      "p95": 4164,
+      "max": 4164
+    },
+    "missingTimingRuns": 0
+  },
+  "trackedAssetCoverage": [
+    {
+      "marketHashName": "Danger Zone Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Dreams & Nightmares Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Kilowatt Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Recoil Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Fracture Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Clutch Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Fever Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Chroma 2 Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Spectrum 2 Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Operation Breakout Weapon Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Glove Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Operation Broken Fang Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Shattered Web Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Operation Riptide Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "eSports 2013 Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "CS:GO Weapon Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Operation Bravo Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Operation Hydra Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Huntsman Weapon Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Winter Offensive Weapon Case",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Team Liquid | Paris 2023",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Paris 2023 Contenders Sticker Capsule",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Budapest 2025 Legends Sticker Capsule",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Antwerp 2022 Legends Sticker Capsule",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Stockholm 2021 Challengers Sticker Capsule",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | High Heat",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Winding Scorch (Foil)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker Capsule 2",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Stockholm 2021 Legends Sticker Capsule",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Dragon Lore (Foil)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Titan | Cluj-Napoca 2015",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Crown (Foil)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Virtus.pro | Katowice 2015",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | 100 Thieves | 2020 RMR",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Bad News Eagles | Paris 2023",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | iBUYPOWER | Cologne 2014",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Titan (Holo) | Cologne 2014",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Howling Dawn",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Sticker | Reason Gaming (Holo) | Katowice 2014",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "SSG 08 | Acid Fade (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Crane Flight (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Desert Eagle | Printstream (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A1-S | Black Lotus (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Inheritance (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "USP-S | Printstream (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Glock-18 | Candy Apple (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AWP | Atheris (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Redline (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Olive Polycam (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A1-S | Decimator (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A4 | Neo-Noir (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "P250 | Asiimov (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AWP | Asiimov (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Vulcan (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Vulcan (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A1-S | Blue Phosphor (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A1-S | Hot Rod (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Bloodsport (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AWP | Atheris (Well-Worn)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AUG | Storm (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AUG | Contractor (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "P250 | Sand Dune (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "M4A1-S | Decimator (Battle-Scarred)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Glock-18 | Sand Dune (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AUG | Hot Rod (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AWP | Dragon Lore (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "AK-47 | Wild Lotus (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "StatTrak™ M4A4 | Howl (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "Souvenir AWP | Dragon Lore (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Bowie Knife | Tiger Tooth (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Survival Knife",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Paracord Knife",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Talon Knife | Tiger Tooth (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Skeleton Knife | Tiger Tooth (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Butterfly Knife | Tiger Tooth (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Kukri Knife | Fade (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Nomad Knife | Slaughter (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Bayonet | Forest DDPAT (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Butterfly Knife | Slaughter (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Navaja Knife | Scorched (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Karambit | Crimson Web (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Hand Wraps | Duct Tape (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Driver Gloves | Racing Green (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Driver Gloves | Snow Leopard (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Sport Gloves | Vice (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Sport Gloves | Bronze Morph (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Moto Gloves | Turtle (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Moto Gloves | Turtle (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Hydra Gloves | Mangrove (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Hydra Gloves | Mangrove (Well-Worn)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Specialist Gloves | Fade (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Sport Gloves | Pandora's Box (Field-Tested)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Moto Gloves | Spearmint (Minimal Wear)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    },
+    {
+      "marketHashName": "★ Sport Gloves | Vice (Factory New)",
+      "observations": 1,
+      "expected": 1,
+      "missing": 0,
+      "distinctValues": 1,
+      "valueState": "insufficient observations"
+    }
+  ],
+  "missingItemOccurrences": 0,
+  "missingHistoryOccurrences": 0,
+  "staleAssetOccurrences": 0,
+  "staleDefinition": "At each closed window end, latest observation absent or older than 15 minutes; includes missed windows.",
+  "observations": {
+    "expected": 100,
+    "inserted": 100,
+    "missing": 0
+  },
+  "database": {
+    "sizes": [
+      {
+        "name": "assets",
+        "tableBytes": "49152",
+        "indexBytes": "32768",
+        "totalBytes": "81920"
+      },
+      {
+        "name": "asset_source_mappings",
+        "tableBytes": "49152",
+        "indexBytes": "65536",
+        "totalBytes": "114688"
+      },
+      {
+        "name": "market_observations",
+        "tableBytes": "704512",
+        "indexBytes": "163840",
+        "totalBytes": "868352"
+      },
+      {
+        "name": "collector_runs",
+        "tableBytes": "16384",
+        "indexBytes": "49152",
+        "totalBytes": "65536"
+      }
+    ],
+    "totalObservationRows": 405,
+    "approximateBytesPerObservation": 2144.079012345679,
+    "baseline": {
+      "observationTableAndIndexesBytes": "483328",
+      "observationRows": 205,
+      "databaseBytes": "8830976"
+    },
+    "bytesDefinition": "Whole observation table including TOAST and indexes divided by all stored observations; allocation overhead and pre-experiment rows included.",
+    "actualNeonUsage": {
+      "available": false,
+      "reason": "Provider metering has not been retrieved; database sizes are not billed Neon usage."
+    }
+  },
+  "sourceFreshnessSeconds": {
+    "count": 100,
+    "min": 301.883,
+    "average": 301.88300000000066,
+    "p50": 301.883,
+    "p95": 301.883,
+    "max": 301.883
+  },
+  "nullableMarketFields": {
+    "suggested_price": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "min_price": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "max_price": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "mean_price": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "median_price": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "quantity": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    }
+  },
+  "nullableSalesHistoryFields": {
+    "sales_24h_min": {
+      "count": 36,
+      "denominator": 100,
+      "frequency": 0.36
+    },
+    "sales_24h_max": {
+      "count": 36,
+      "denominator": 100,
+      "frequency": 0.36
+    },
+    "sales_24h_avg": {
+      "count": 36,
+      "denominator": 100,
+      "frequency": 0.36
+    },
+    "sales_24h_median": {
+      "count": 36,
+      "denominator": 100,
+      "frequency": 0.36
+    },
+    "sales_24h_volume": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "sales_7d_min": {
+      "count": 10,
+      "denominator": 100,
+      "frequency": 0.1
+    },
+    "sales_7d_max": {
+      "count": 10,
+      "denominator": 100,
+      "frequency": 0.1
+    },
+    "sales_7d_avg": {
+      "count": 10,
+      "denominator": 100,
+      "frequency": 0.1
+    },
+    "sales_7d_median": {
+      "count": 10,
+      "denominator": 100,
+      "frequency": 0.1
+    },
+    "sales_7d_volume": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "sales_30d_min": {
+      "count": 7,
+      "denominator": 100,
+      "frequency": 0.07
+    },
+    "sales_30d_max": {
+      "count": 7,
+      "denominator": 100,
+      "frequency": 0.07
+    },
+    "sales_30d_avg": {
+      "count": 7,
+      "denominator": 100,
+      "frequency": 0.07
+    },
+    "sales_30d_median": {
+      "count": 7,
+      "denominator": 100,
+      "frequency": 0.07
+    },
+    "sales_30d_volume": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    },
+    "sales_90d_min": {
+      "count": 6,
+      "denominator": 100,
+      "frequency": 0.06
+    },
+    "sales_90d_max": {
+      "count": 6,
+      "denominator": 100,
+      "frequency": 0.06
+    },
+    "sales_90d_avg": {
+      "count": 6,
+      "denominator": 100,
+      "frequency": 0.06
+    },
+    "sales_90d_median": {
+      "count": 6,
+      "denominator": 100,
+      "frequency": 0.06
+    },
+    "sales_90d_volume": {
+      "count": 0,
+      "denominator": 100,
+      "frequency": 0
+    }
+  },
+  "zeroSalesObservations": {
+    "24h": 36,
+    "7d": 10,
+    "30d": 7,
+    "90d": 6
+  },
+  "assetsChanged": [],
+  "assetsUnchanged": [],
+  "historyPayloads": {
+    "hashedResponses": 1,
+    "distinctHashes": 1,
+    "comparisons": 0,
+    "unchangedComparisons": 0,
+    "unchangedFrequency": null,
+    "contiguousComparisons": 0,
+    "contiguousUnchanged": 0,
+    "longestIdenticalResponseStreak": 1,
+    "changedAt": [],
+    "definition": "SHA-256 of complete decompressed UTF-8 History response, including untracked/versioned rows. Unchanged values remain valid observations."
+  },
+  "sourceSchemaAnomalies": [],
+  "upstreamErrors": []
+}

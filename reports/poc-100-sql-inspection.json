@@ -1,0 +1,729 @@
+{
+  "inspectedAt": "2026-09-09T17:41:48.467Z",
+  "collectorRuns": [
+    {
+      "id": "4800ac61-3442-4594-899f-b085b13ec873",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:40:00+00",
+      "claim_key": null,
+      "started_at": "2026-09-09 17:41:21.99+00",
+      "finished_at": "2026-09-09 17:41:22.006+00",
+      "status": "PARTIAL",
+      "items_http_status": null,
+      "history_http_status": null,
+      "items_received": 0,
+      "history_items_received": 0,
+      "tracked_assets": 0,
+      "items_matched": 0,
+      "items_missing": 0,
+      "observations_inserted": 0,
+      "duration_ms": 16,
+      "error_code": "DUPLICATE_WINDOW",
+      "error_message": "Window already claimed; no upstream requests made.",
+      "metadata": {},
+      "created_at": "2026-09-09 17:41:22.003106+00"
+    },
+    {
+      "id": "2faf64a2-266e-4f44-b9e8-0cd64ed29529",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:40:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:40:00.000Z",
+      "started_at": "2026-09-09 17:41:15.207+00",
+      "finished_at": "2026-09-09 17:41:21.818+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25417,
+      "history_items_received": 36864,
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6611,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:41:15.345Z",
+          "bodySha256": "f2b4a8ff580286005e65bff9c6ad71e24e6a38a02b82e7bbfc9cd653e398a583",
+          "finishedAt": "2026-09-09T17:41:21.180Z",
+          "responseBytes": 10448481,
+          "bodyReceivedAt": "2026-09-09T17:41:19.524Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:41:15.347Z",
+          "bodySha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed",
+          "finishedAt": "2026-09-09T17:41:19.404Z",
+          "responseBytes": 20864033,
+          "bodyReceivedAt": "2026-09-09T17:41:15.862Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:41:15.26549+00"
+    },
+    {
+      "id": "223a951d-027c-49f2-84e8-197f8282ec0c",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:05:00+00",
+      "claim_key": null,
+      "started_at": "2026-09-09 17:05:29.062+00",
+      "finished_at": "2026-09-09 17:05:29.125+00",
+      "status": "PARTIAL",
+      "items_http_status": null,
+      "history_http_status": null,
+      "items_received": 0,
+      "history_items_received": 0,
+      "tracked_assets": 0,
+      "items_matched": 0,
+      "items_missing": 0,
+      "observations_inserted": 0,
+      "duration_ms": 63,
+      "error_code": "DUPLICATE_WINDOW",
+      "error_message": "Window already claimed; no upstream requests made.",
+      "metadata": {},
+      "created_at": "2026-09-09 17:05:29.15754+00"
+    },
+    {
+      "id": "3cb5685b-33cd-405b-9cd9-6416bcf75586",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:05:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:05:00.000Z",
+      "started_at": "2026-09-09 17:05:22.765+00",
+      "finished_at": "2026-09-09 17:05:28.711+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25413,
+      "history_items_received": 36864,
+      "tracked_assets": 5,
+      "items_matched": 5,
+      "items_missing": 0,
+      "observations_inserted": 5,
+      "duration_ms": 5946,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:05:22.942Z",
+          "finishedAt": "2026-09-09T17:05:28.536Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:05:22.943Z",
+          "finishedAt": "2026-09-09T17:05:26.861Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:05:22.843394+00"
+    }
+  ],
+  "assetObservationCounts": [
+    {
+      "market_hash_name": "Sticker | Team Liquid | Paris 2023",
+      "observations": "2",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Bowie Knife | Tiger Tooth (Factory New)",
+      "observations": "2",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Danger Zone Case",
+      "observations": "2",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "SSG 08 | Acid Fade (Factory New)",
+      "observations": "2",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+      "observations": "2",
+      "min": "2026-09-09 17:05:28.71+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Winter Offensive Weapon Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Howling Dawn",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Operation Broken Fang Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Karambit | Crimson Web (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Skeleton Knife | Tiger Tooth (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "eSports 2013 Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Stockholm 2021 Legends Sticker Capsule",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Glock-18 | Candy Apple (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Hydra Gloves | Mangrove (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Crane Flight (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "CS:GO Weapon Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A1-S | Decimator (Battle-Scarred)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A1-S | Decimator (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Glove Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AWP | Atheris (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AWP | Atheris (Well-Worn)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Driver Gloves | Snow Leopard (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Operation Bravo Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Hand Wraps | Duct Tape (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Paracord Knife",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Kukri Knife | Fade (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Hydra Gloves | Mangrove (Well-Worn)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Talon Knife | Tiger Tooth (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Sport Gloves | Vice (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Moto Gloves | Spearmint (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AUG | Contractor (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Bayonet | Forest DDPAT (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Butterfly Knife | Tiger Tooth (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Dreams & Nightmares Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Fracture Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Survival Knife",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Olive Polycam (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker Capsule 2",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Shattered Web Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Spectrum 2 Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "P250 | Sand Dune (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Moto Gloves | Turtle (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Crown (Foil)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "P250 | Asiimov (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "StatTrak™ M4A4 | Howl (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Sport Gloves | Bronze Morph (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Stockholm 2021 Challengers Sticker Capsule",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AUG | Hot Rod (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Wild Lotus (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Reason Gaming (Holo) | Katowice 2014",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Bad News Eagles | Paris 2023",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Budapest 2025 Legends Sticker Capsule",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Operation Riptide Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A4 | Neo-Noir (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "USP-S | Printstream (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Winding Scorch (Foil)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Sport Gloves | Vice (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AUG | Storm (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Desert Eagle | Printstream (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Titan | Cluj-Napoca 2015",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Dragon Lore (Foil)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | iBUYPOWER | Cologne 2014",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AWP | Dragon Lore (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Souvenir AWP | Dragon Lore (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Recoil Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Paris 2023 Contenders Sticker Capsule",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Virtus.pro | Katowice 2015",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Driver Gloves | Racing Green (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A1-S | Black Lotus (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Glock-18 | Sand Dune (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Specialist Gloves | Fade (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Butterfly Knife | Slaughter (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Chroma 2 Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Bloodsport (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Huntsman Weapon Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Fever Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Clutch Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Nomad Knife | Slaughter (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AWP | Asiimov (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | Titan (Holo) | Cologne 2014",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Vulcan (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | 100 Thieves | 2020 RMR",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Redline (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Kilowatt Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Inheritance (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A1-S | Hot Rod (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Sticker | High Heat",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Moto Gloves | Turtle (Minimal Wear)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Antwerp 2022 Legends Sticker Capsule",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Operation Breakout Weapon Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "Operation Hydra Case",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "AK-47 | Vulcan (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Navaja Knife | Scorched (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "★ Sport Gloves | Pandora's Box (Field-Tested)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    },
+    {
+      "market_hash_name": "M4A1-S | Blue Phosphor (Factory New)",
+      "observations": "1",
+      "min": "2026-09-09 17:41:21.709+00",
+      "max": "2026-09-09 17:41:21.709+00"
+    }
+  ]
+}

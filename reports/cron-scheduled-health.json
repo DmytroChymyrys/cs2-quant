@@ -1,0 +1,106 @@
+{
+  "checkedAt": "2026-09-09T17:56:04.084Z",
+  "httpStatus": 200,
+  "body": {
+    "source": "SKINPORT",
+    "asOf": "2026-09-09T17:56:03.958Z",
+    "schedule": {
+      "startedAt": "2026-09-09T17:55:00.000Z",
+      "from": "2026-09-09T17:55:00.000Z",
+      "throughExclusive": "2026-09-09T17:55:00.000Z",
+      "expectedWindows": 0
+    },
+    "lastRun": {
+      "id": "b95e7b2b-8c54-47e5-a54b-158e46a3c7a2",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:55:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:55:00.000Z",
+      "started_at": "2026-09-09 17:55:07.734+00",
+      "finished_at": "2026-09-09 17:55:13.985+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25417,
+      "history_items_received": 36864,
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6251,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:55:07.821Z",
+          "bodySha256": "84292b1943bed1ff9b9b3509c0acb1caafc254028c3c86475a55be5de01e9d71",
+          "finishedAt": "2026-09-09T17:55:13.716Z",
+          "responseBytes": 10448470,
+          "bodyReceivedAt": "2026-09-09T17:55:12.109Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:55:07.824Z",
+          "bodySha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed",
+          "finishedAt": "2026-09-09T17:55:11.988Z",
+          "responseBytes": 20864033,
+          "bodyReceivedAt": "2026-09-09T17:55:08.342Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:55:07.786722+00"
+    },
+    "health24h": {
+      "runs": 4,
+      "successful": 4,
+      "partial": 0,
+      "failed": 0,
+      "running": 0,
+      "abandoned": 0,
+      "averageLatencyMs": "6406.0000000000000000",
+      "p95LatencyMs": 6785.25,
+      "http429Runs": 0,
+      "http5xxRuns": 0,
+      "malformedPayloadRuns": 0,
+      "successRate": 1,
+      "successOrPartialRate": 1,
+      "expectedScheduledWindows": 0,
+      "claimedScheduledWindows": 0,
+      "missingScheduledWindows": 0
+    },
+    "coverage": {
+      "trackedAssets": 100,
+      "staleAssets": 0,
+      "latestRunCoverage": 1
+    },
+    "observations": {
+      "last24h": 305,
+      "tableAndIndexesBytes": "663552",
+      "estimatedRowsMonthAtObservedRate": 9150
+    },
+    "capacity": [
+      {
+        "assets": 100,
+        "rowsDay": 28800,
+        "rowsMonth": 864000
+      },
+      {
+        "assets": 1000,
+        "rowsDay": 288000,
+        "rowsMonth": 8640000
+      },
+      {
+        "assets": 10000,
+        "rowsDay": 2880000,
+        "rowsMonth": 86400000
+      },
+      {
+        "assets": 25417,
+        "rowsDay": 7320096,
+        "rowsMonth": 219602880
+      }
+    ]
+  }
+}

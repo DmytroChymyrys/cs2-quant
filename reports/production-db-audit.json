@@ -1,0 +1,171 @@
+{
+  "checkedAt": "2026-09-09T18:01:25.215Z",
+  "issues": [],
+  "migrations": [
+    {
+      "id": 1,
+      "hash": "2a71047f8c50a73fa6057e453428fdf7b04ccae5aec8e64979920ff1ba41fc07",
+      "created_at": "1788968470562"
+    },
+    {
+      "id": 2,
+      "hash": "9f15169a6fe84e31568323553fe04a87d3d7b15a41041a3b3f13e4b5c4a156c4",
+      "created_at": "1788968586983"
+    }
+  ],
+  "tables": [
+    {
+      "table_name": "asset_source_mappings",
+      "columns": 7
+    },
+    {
+      "table_name": "assets",
+      "columns": 13
+    },
+    {
+      "table_name": "collector_runs",
+      "columns": 20
+    },
+    {
+      "table_name": "market_observations",
+      "columns": 37
+    }
+  ],
+  "indexes": [
+    {
+      "tablename": "asset_source_mappings",
+      "indexname": "asset_source_mappings_pkey",
+      "indexdef": "CREATE UNIQUE INDEX asset_source_mappings_pkey ON public.asset_source_mappings USING btree (id)"
+    },
+    {
+      "tablename": "asset_source_mappings",
+      "indexname": "mapping_asset_source",
+      "indexdef": "CREATE UNIQUE INDEX mapping_asset_source ON public.asset_source_mappings USING btree (asset_id, source)"
+    },
+    {
+      "tablename": "asset_source_mappings",
+      "indexname": "mapping_source_id",
+      "indexdef": "CREATE UNIQUE INDEX mapping_source_id ON public.asset_source_mappings USING btree (source, source_item_id)"
+    },
+    {
+      "tablename": "asset_source_mappings",
+      "indexname": "mapping_source_name",
+      "indexdef": "CREATE UNIQUE INDEX mapping_source_name ON public.asset_source_mappings USING btree (source, source_market_hash_name)"
+    },
+    {
+      "tablename": "assets",
+      "indexname": "assets_market_hash_name_unique",
+      "indexdef": "CREATE UNIQUE INDEX assets_market_hash_name_unique ON public.assets USING btree (market_hash_name)"
+    },
+    {
+      "tablename": "assets",
+      "indexname": "assets_pkey",
+      "indexdef": "CREATE UNIQUE INDEX assets_pkey ON public.assets USING btree (id)"
+    },
+    {
+      "tablename": "collector_runs",
+      "indexname": "collector_runs_claim_key_unique",
+      "indexdef": "CREATE UNIQUE INDEX collector_runs_claim_key_unique ON public.collector_runs USING btree (claim_key)"
+    },
+    {
+      "tablename": "collector_runs",
+      "indexname": "collector_runs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX collector_runs_pkey ON public.collector_runs USING btree (id)"
+    },
+    {
+      "tablename": "collector_runs",
+      "indexname": "runs_source_started",
+      "indexdef": "CREATE INDEX runs_source_started ON public.collector_runs USING btree (source, started_at DESC NULLS LAST)"
+    },
+    {
+      "tablename": "market_observations",
+      "indexname": "market_observations_pkey",
+      "indexdef": "CREATE UNIQUE INDEX market_observations_pkey ON public.market_observations USING btree (id)"
+    },
+    {
+      "tablename": "market_observations",
+      "indexname": "observations_asset_source_time",
+      "indexdef": "CREATE INDEX observations_asset_source_time ON public.market_observations USING btree (asset_id, source, observed_at DESC NULLS LAST)"
+    },
+    {
+      "tablename": "market_observations",
+      "indexname": "observations_run_asset",
+      "indexdef": "CREATE UNIQUE INDEX observations_run_asset ON public.market_observations USING btree (collector_run_id, asset_id)"
+    },
+    {
+      "tablename": "market_observations",
+      "indexname": "observations_source_time",
+      "indexdef": "CREATE INDEX observations_source_time ON public.market_observations USING btree (source, observed_at DESC NULLS LAST)"
+    }
+  ],
+  "triggers": [
+    {
+      "tgname": "observations_append_only",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER observations_append_only BEFORE DELETE OR UPDATE OR TRUNCATE ON public.market_observations FOR EACH STATEMENT EXECUTE FUNCTION reject_observation_mutation()"
+    }
+  ],
+  "trackedAssets": 100,
+  "recentClaimedRuns": [
+    {
+      "id": "25a8667f-b0eb-426d-906f-293cbfae7f07",
+      "window_start": "2026-09-09 18:00:00+00",
+      "started_at": "2026-09-09 18:00:18.329+00",
+      "status": "SUCCESS",
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 7781,
+      "actual_observations": 100
+    },
+    {
+      "id": "b95e7b2b-8c54-47e5-a54b-158e46a3c7a2",
+      "window_start": "2026-09-09 17:55:00+00",
+      "started_at": "2026-09-09 17:55:07.734+00",
+      "status": "SUCCESS",
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6251,
+      "actual_observations": 100
+    },
+    {
+      "id": "5ca35a61-3aed-454b-8f76-d714ca640059",
+      "window_start": "2026-09-09 17:45:00+00",
+      "started_at": "2026-09-09 17:49:50.008+00",
+      "status": "SUCCESS",
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6816,
+      "actual_observations": 100
+    },
+    {
+      "id": "2faf64a2-266e-4f44-b9e8-0cd64ed29529",
+      "window_start": "2026-09-09 17:40:00+00",
+      "started_at": "2026-09-09 17:41:15.207+00",
+      "status": "SUCCESS",
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6611,
+      "actual_observations": 100
+    },
+    {
+      "id": "3cb5685b-33cd-405b-9cd9-6416bcf75586",
+      "window_start": "2026-09-09 17:05:00+00",
+      "started_at": "2026-09-09 17:05:22.765+00",
+      "status": "SUCCESS",
+      "tracked_assets": 5,
+      "items_matched": 5,
+      "items_missing": 0,
+      "observations_inserted": 5,
+      "duration_ms": 5946,
+      "actual_observations": 5
+    }
+  ]
+}

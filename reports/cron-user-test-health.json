@@ -1,0 +1,102 @@
+{
+  "checkedAt": "2026-09-09T17:51:20.851Z",
+  "httpStatus": 200,
+  "jobId": 8416189,
+  "body": {
+    "source": "SKINPORT",
+    "asOf": "2026-09-09T17:51:20.740Z",
+    "schedule": null,
+    "lastRun": {
+      "id": "5ca35a61-3aed-454b-8f76-d714ca640059",
+      "source": "SKINPORT",
+      "window_start": "2026-09-09 17:45:00+00",
+      "claim_key": "SKINPORT:2026-09-09T17:45:00.000Z",
+      "started_at": "2026-09-09 17:49:50.008+00",
+      "finished_at": "2026-09-09 17:49:56.824+00",
+      "status": "SUCCESS",
+      "items_http_status": 200,
+      "history_http_status": 200,
+      "items_received": 25417,
+      "history_items_received": 36864,
+      "tracked_assets": 100,
+      "items_matched": 100,
+      "items_missing": 0,
+      "observations_inserted": 100,
+      "duration_ms": 6816,
+      "error_code": null,
+      "error_message": null,
+      "metadata": {
+        "itemsFetch": {
+          "startedAt": "2026-09-09T17:49:50.072Z",
+          "bodySha256": "3a120b209a9cd40c552bdf4a34844ce4d313ac8b81fade4bc76c52c76b66e38d",
+          "finishedAt": "2026-09-09T17:49:56.558Z",
+          "responseBytes": 10448463,
+          "bodyReceivedAt": "2026-09-09T17:49:54.506Z"
+        },
+        "historyFetch": {
+          "startedAt": "2026-09-09T17:49:50.073Z",
+          "bodySha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed",
+          "finishedAt": "2026-09-09T17:49:54.142Z",
+          "responseBytes": 20864033,
+          "bodyReceivedAt": "2026-09-09T17:49:50.580Z"
+        },
+        "missingAssets": [],
+        "missingHistory": [],
+        "upstreamErrors": [],
+        "excludedVariantItemRows": 361,
+        "excludedVariantHistoryRows": 974
+      },
+      "created_at": "2026-09-09 17:49:50.042839+00"
+    },
+    "health24h": {
+      "runs": 3,
+      "successful": 3,
+      "partial": 0,
+      "failed": 0,
+      "running": 0,
+      "abandoned": 0,
+      "averageLatencyMs": "6457.6666666666666667",
+      "p95LatencyMs": 6795.5,
+      "http429Runs": 0,
+      "http5xxRuns": 0,
+      "malformedPayloadRuns": 0,
+      "successRate": 1,
+      "successOrPartialRate": 1,
+      "expectedScheduledWindows": 0,
+      "claimedScheduledWindows": 0,
+      "missingScheduledWindows": 0
+    },
+    "coverage": {
+      "trackedAssets": 100,
+      "staleAssets": 0,
+      "latestRunCoverage": 1
+    },
+    "observations": {
+      "last24h": 205,
+      "tableAndIndexesBytes": "483328",
+      "estimatedRowsMonthAtObservedRate": 6150
+    },
+    "capacity": [
+      {
+        "assets": 100,
+        "rowsDay": 28800,
+        "rowsMonth": 864000
+      },
+      {
+        "assets": 1000,
+        "rowsDay": 288000,
+        "rowsMonth": 8640000
+      },
+      {
+        "assets": 10000,
+        "rowsDay": 2880000,
+        "rowsMonth": 86400000
+      },
+      {
+        "assets": 25417,
+        "rowsDay": 7320096,
+        "rowsMonth": 219602880
+      }
+    ]
+  }
+}
