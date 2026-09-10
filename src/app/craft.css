@@ -1,0 +1,10 @@
+/* Craft refinements: retain existing page composition and density. */
+body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
+.metric-value, .number, .mono, .chart-labels, .category-count,
+.lp-hero-metrics strong, .lp-table, .freshness-strip {
+  font-variant-numeric: tabular-nums lining-nums slashed-zero;
+}
+#main-content.market-workspace td.number,
+#main-content.market-workspace th.number { text-align: right; }
+#main-content.market-workspace th.number { font-family: var(--sans); }
+#main-content.market-workspace td.number { font-family: var(--mono); }

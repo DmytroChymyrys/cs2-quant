@@ -157,7 +157,21 @@ export default async function Portfolio({
                           "Details / manage",
                           "Inspect",
                         ].map((h) => (
-                          <th key={h}>{h}</th>
+                          <th
+                            key={h}
+                            className={
+                              [
+                                "Quantity",
+                                "Minimum · USD",
+                                "Observed value · USD",
+                                "Concentration",
+                              ].includes(h)
+                                ? "number"
+                                : undefined
+                            }
+                          >
+                            {h}
+                          </th>
                         ))}
                       </tr>
                     </thead>

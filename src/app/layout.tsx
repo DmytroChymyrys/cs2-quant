@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./visual-fidelity.css";
+import "./craft.css";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "FloatAlpha",

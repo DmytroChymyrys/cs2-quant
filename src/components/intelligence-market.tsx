@@ -26,10 +26,11 @@ import {
 export const marketValue = (
   v: string | number | null | undefined,
   suffix = "",
+  fractionDigits = suffix === "%" ? 2 : 0,
 ) =>
   v === null || v === undefined
     ? "Unavailable"
-    : `${Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 })}${suffix}`;
+    : `${Number(v).toLocaleString("en-US", { minimumFractionDigits: fractionDigits, maximumFractionDigits: 2 })}${suffix}`;
 const value = marketValue;
 export function EvidenceNotice({ dataset }: { dataset: MarketDataset }) {
   if (dataset.evidence === "UNAVAILABLE")
@@ -284,7 +285,23 @@ export function IntelligenceTable({
                 "Quality / explanation",
                 "Inspect",
               ].map((h) => (
-                <th key={h}>{h}</th>
+                <th
+                  key={h}
+                  className={
+                    [
+                      "Minimum · USD",
+                      "Return",
+                      "Listings",
+                      "Listings Δ · 1h",
+                      "Activity",
+                      "Volatility",
+                    ].includes(h)
+                      ? "number"
+                      : undefined
+                  }
+                >
+                  {h}
+                </th>
               ))}
             </tr>
           </thead>
@@ -309,7 +326,7 @@ export function IntelligenceTable({
                       : whySurfaced(a, screen)}
                   </small>
                 </td>
-                <td className="number">{value(a.minimum)}</td>
+                <td className="number">{value(a.minimum, "", 2)}</td>
                 <td className="number">
                   {value(a.returns[screen.horizon], "%")}
                 </td>
@@ -338,7 +355,7 @@ export function IntelligenceTable({
                       Volatility · {screen.horizon}:{" "}
                       {value(a.volatility[screen.horizon], "%")}
                     </p>
-                    <p>Median listing price: {value(a.median)} USD</p>
+                    <p>Median listing price: {value(a.median, "", 2)} USD</p>
                     <p>{whySurfaced(a, screen)}</p>
                     <p>
                       Other returns: 1h {value(a.returns["1h"], "%")} · 6h{" "}
@@ -413,7 +430,7 @@ export function IntelligenceInspection({
         <div className="inspection-metrics">
           <Metric
             label="Minimum listing"
-            value={value(a.minimum)}
+            value={value(a.minimum, "", 2)}
             note="USD · listing reference"
           />
           <Metric
