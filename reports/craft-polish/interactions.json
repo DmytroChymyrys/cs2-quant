@@ -1,0 +1,52 @@
+[
+  {
+    "width": 1440,
+    "showcaseStable": true,
+    "tabKeyboard": true,
+    "searchTypingSafe": true,
+    "escape": true,
+    "tooltipFits": true,
+    "rowStable": true,
+    "chartKeyboard": true
+  },
+  {
+    "width": 1280,
+    "showcaseStable": true,
+    "tabKeyboard": true,
+    "searchTypingSafe": true,
+    "escape": true,
+    "tooltipFits": true,
+    "rowStable": true,
+    "chartKeyboard": true
+  },
+  {
+    "width": 1024,
+    "showcaseStable": true,
+    "tabKeyboard": true,
+    "searchTypingSafe": true,
+    "escape": true,
+    "tooltipFits": true,
+    "rowStable": true,
+    "chartKeyboard": true
+  },
+  {
+    "width": 768,
+    "showcaseStable": true,
+    "tabKeyboard": true,
+    "searchTypingSafe": true,
+    "escape": true,
+    "tooltipFits": true,
+    "rowStable": true,
+    "chartKeyboard": true
+  },
+  {
+    "width": 390,
+    "showcaseStable": true,
+    "tabKeyboard": true,
+    "searchTypingSafe": true,
+    "escape": true,
+    "tooltipFits": true,
+    "rowStable": true,
+    "chartKeyboard": true
+  }
+]

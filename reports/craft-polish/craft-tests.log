@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 /Users/dmytro-chymyrys/MyProjects/cs2-quant
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  17:33:38
+   Duration  211ms (import 55%, transform 42%, worker 2%, tests 1%)
+

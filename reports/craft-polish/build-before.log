@@ -1,0 +1,65 @@
+
+> cs2-quant@0.1.0 build
+> next build
+
+▲ Next.js 16.3.4 (Turbopack)
+✓ Running next.config.ts took 907ms
+- Experiments (use with caution):
+  ✓ authInterrupts
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.8s
+  Running TypeScript ...
+  Finished TypeScript in 5.0s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/16) ...
+  Generating static pages using 11 workers (4/16) 
+  Generating static pages using 11 workers (8/16) 
+  Generating static pages using 11 workers (12/16) 
+✓ Generating static pages using 11 workers (16/16) in 149ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /alerts
+├ ƒ /api/asset-images/[name]
+├ ƒ /api/asset-images/status
+├ ƒ /api/auth/[...all]
+├ ƒ /api/internal/alerts/evaluate
+├ ƒ /api/internal/asset-images/health
+├ ƒ /api/internal/assets/[id]/history
+├ ƒ /api/internal/collect/skinport
+├ ƒ /api/internal/data-health
+├ ƒ /api/product/alerts
+├ ƒ /api/product/billing/checkout
+├ ƒ /api/product/billing/portal
+├ ƒ /api/product/portfolio
+├ ƒ /api/product/preferences
+├ ƒ /api/product/screener
+├ ƒ /api/product/screens
+├ ƒ /api/product/watchlist
+├ ƒ /api/stripe/webhook
+├ ƒ /asset/[id]
+├ ƒ /assets
+├ ○ /dev/components
+├ ƒ /forgot-password
+├ ƒ /login
+├ ƒ /onboarding
+├ ƒ /ops-c8e4/[[...section]]
+├ ƒ /ops-c8e4/api
+├ ƒ /portfolio
+├ ƒ /pricing
+├ ƒ /reset-password
+├ ƒ /screener
+├ ƒ /settings
+├ ƒ /signup
+├ ƒ /terminal
+└ ƒ /watchlist
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

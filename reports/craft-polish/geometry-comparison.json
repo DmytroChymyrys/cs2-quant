@@ -1,0 +1,88 @@
+[
+  {
+    "surface": "landing",
+    "width": 1440,
+    "metricHeightsUnchanged": null,
+    "rowHeightsUnchanged": true,
+    "note": "Baseline showcase used images; new real metric components have no baseline DOM metric counterpart."
+  },
+  {
+    "surface": "terminal",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "screener",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "assets",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "asset",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "portfolio",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "watchlist",
+    "width": 1440,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "landing",
+    "width": 390,
+    "metricHeightsUnchanged": null,
+    "rowHeightsUnchanged": true,
+    "note": "Baseline showcase used images; new real metric components have no baseline DOM metric counterpart."
+  },
+  {
+    "surface": "terminal",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "screener",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "assets",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "asset",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "portfolio",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  },
+  {
+    "surface": "watchlist",
+    "width": 390,
+    "metricHeightsUnchanged": true,
+    "rowHeightsUnchanged": true
+  }
+]

@@ -1,0 +1,620 @@
+[
+  {
+    "stage": "before",
+    "routes": [
+      {
+        "route": "/",
+        "medianTtfbMs": 6.93,
+        "medianTotalMs": 8.39,
+        "bodyBytes": 70544,
+        "samples": [
+          {
+            "ttfb": 12.677000000000021,
+            "total": 13.865999999999985,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 8.560624999999959,
+            "total": 9.807915999999977,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 7.116959000000065,
+            "total": 8.583417000000054,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 6.934833000000026,
+            "total": 8.241624999999999,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 6.337916999999948,
+            "total": 7.745166999999924,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 6.195334000000003,
+            "total": 7.4842499999999745,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 6.1413330000000315,
+            "total": 7.452291000000059,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 6.349040999999943,
+            "total": 8.38520799999992,
+            "htmlBytes": 70544
+          },
+          {
+            "ttfb": 7.167459000000008,
+            "total": 9.589249999999993,
+            "htmlBytes": 70544
+          }
+        ]
+      },
+      {
+        "route": "/assets",
+        "medianTtfbMs": 18.04,
+        "medianTotalMs": 20.55,
+        "bodyBytes": 162905,
+        "samples": [
+          {
+            "ttfb": 23.56616600000052,
+            "total": 25.719583000000057,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 20.554457999999613,
+            "total": 22.54804200000035,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 18.03937500000029,
+            "total": 20.19012500000008,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 17.844250000000102,
+            "total": 25.200165999999626,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 23.739416999999776,
+            "total": 25.81445900000017,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 17.959541000000172,
+            "total": 19.977665999999772,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 18.457374999999956,
+            "total": 20.550207999999657,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 17.48725000000013,
+            "total": 19.41516700000011,
+            "htmlBytes": 162905
+          },
+          {
+            "ttfb": 17.203459000000294,
+            "total": 19.1470419999996,
+            "htmlBytes": 162905
+          }
+        ]
+      },
+      {
+        "route": "/screener",
+        "medianTtfbMs": 17.02,
+        "medianTotalMs": 19.34,
+        "bodyBytes": 168079,
+        "samples": [
+          {
+            "ttfb": 16.70966700000008,
+            "total": 19.03649999999925,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 19.864291999999296,
+            "total": 22.06854199999998,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 16.37462499999947,
+            "total": 18.722249999999804,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 17.13933300000008,
+            "total": 19.34087499999987,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 17.230666999999812,
+            "total": 19.3623749999997,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 17.018833000000086,
+            "total": 19.37433300000066,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 17.023958000000675,
+            "total": 19.338458000000173,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 16.963332999999693,
+            "total": 19.044167000000016,
+            "htmlBytes": 168079
+          },
+          {
+            "ttfb": 18.64941599999929,
+            "total": 21.0054999999993,
+            "htmlBytes": 168079
+          }
+        ]
+      },
+      {
+        "route": "/api/asset-images/status",
+        "medianTtfbMs": 1.21,
+        "medianTotalMs": 1.28,
+        "bodyBytes": 93,
+        "samples": [
+          {
+            "ttfb": 2.651582999999846,
+            "total": 2.785874999999578,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.471958999999515,
+            "total": 1.5628749999996217,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.0740829999995185,
+            "total": 1.1322920000002341,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.1604170000000522,
+            "total": 1.2180000000007567,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.3647080000000642,
+            "total": 1.4475830000001224,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.008375000000342,
+            "total": 1.0867079999998168,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 0.9698749999997744,
+            "total": 1.0256250000002183,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.214708000000428,
+            "total": 1.2761250000003201,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.3988750000007713,
+            "total": 1.4877919999998994,
+            "htmlBytes": 93
+          }
+        ]
+      }
+    ],
+    "browserChecks": [
+      {
+        "route": "/",
+        "width": 1440,
+        "layoutShiftSum": 0.00004765154803240741,
+        "jsBytes": 172502,
+        "cssBytes": 20233,
+        "imageBytes": 141354,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1440,
+        "layoutShiftSum": 0.00009252678765190972,
+        "jsBytes": 164635,
+        "cssBytes": 16454,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "layoutShiftSum": 0.00006030899047851562,
+        "jsBytes": 172502,
+        "cssBytes": 20233,
+        "imageBytes": 141354,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1280,
+        "layoutShiftSum": 0.00009951934814453125,
+        "jsBytes": 164635,
+        "cssBytes": 16454,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "layoutShiftSum": 0.00009423279762268067,
+        "jsBytes": 172502,
+        "cssBytes": 20233,
+        "imageBytes": 141354,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1024,
+        "layoutShiftSum": 0.00004265704751014709,
+        "jsBytes": 164635,
+        "cssBytes": 16454,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "layoutShiftSum": 0.00011292724609375,
+        "jsBytes": 153608,
+        "cssBytes": 20233,
+        "imageBytes": 141354,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 768,
+        "layoutShiftSum": 0.00005926855468750001,
+        "jsBytes": 164635,
+        "cssBytes": 16454,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "layoutShiftSum": 0.00005048076923076923,
+        "jsBytes": 172502,
+        "cssBytes": 20233,
+        "imageBytes": 141354,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 390,
+        "layoutShiftSum": 0,
+        "jsBytes": 164635,
+        "cssBytes": 16454,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      }
+    ]
+  },
+  {
+    "stage": "after",
+    "routes": [
+      {
+        "route": "/",
+        "medianTtfbMs": 9.92,
+        "medianTotalMs": 12.45,
+        "bodyBytes": 179501,
+        "samples": [
+          {
+            "ttfb": 14.987041000000318,
+            "total": 17.40729100000317,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 11.474541999999929,
+            "total": 14.025499999999738,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.918166999999812,
+            "total": 12.329083000000537,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.922833000000537,
+            "total": 12.45104100000026,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.49645800000144,
+            "total": 11.835917000000336,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.195292000000336,
+            "total": 11.74029199999859,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 10.322082999999111,
+            "total": 12.729833000001236,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.584917000000132,
+            "total": 11.960291999999754,
+            "htmlBytes": 179501
+          },
+          {
+            "ttfb": 9.593542000002344,
+            "total": 12.52900000000227,
+            "htmlBytes": 179501
+          }
+        ]
+      },
+      {
+        "route": "/assets",
+        "medianTtfbMs": 24.01,
+        "medianTotalMs": 31.98,
+        "bodyBytes": 168382,
+        "samples": [
+          {
+            "ttfb": 23.686290999998164,
+            "total": 28.247832999997627,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 26.12591700000121,
+            "total": 35.11554199999955,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 26.358250000001135,
+            "total": 31.98016700000153,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 20.15441700000156,
+            "total": 22.149709000001167,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 36.53174999999828,
+            "total": 49.44499999999971,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 26.95012499999939,
+            "total": 35.922083000001294,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 23.23645899999974,
+            "total": 32.816249999999854,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 24.005165999999008,
+            "total": 30.10216600000058,
+            "htmlBytes": 168382
+          },
+          {
+            "ttfb": 19.406083000001672,
+            "total": 21.49933299999975,
+            "htmlBytes": 168382
+          }
+        ]
+      },
+      {
+        "route": "/screener",
+        "medianTtfbMs": 17.49,
+        "medianTotalMs": 19.74,
+        "bodyBytes": 173556,
+        "samples": [
+          {
+            "ttfb": 17.48675000000003,
+            "total": 19.71349999999802,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 18.062458000000333,
+            "total": 20.27937500000189,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 17.576207999998587,
+            "total": 19.80804100000023,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 19.66924999999901,
+            "total": 22.84125000000131,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 18.84679099999994,
+            "total": 21.151707999997598,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 17.152624999998807,
+            "total": 19.453041999997367,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 16.985082999999577,
+            "total": 19.05895800000144,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 16.28883300000234,
+            "total": 18.55354200000147,
+            "htmlBytes": 173556
+          },
+          {
+            "ttfb": 17.299166000000696,
+            "total": 19.737832999999227,
+            "htmlBytes": 173556
+          }
+        ]
+      },
+      {
+        "route": "/api/asset-images/status",
+        "medianTtfbMs": 1.37,
+        "medianTotalMs": 1.45,
+        "bodyBytes": 93,
+        "samples": [
+          {
+            "ttfb": 2.6672079999989364,
+            "total": 2.8207079999992857,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.116083000000799,
+            "total": 1.1902079999999842,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.4225420000002487,
+            "total": 1.4897080000009737,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.0778749999990396,
+            "total": 1.1606659999997646,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.4926669999986188,
+            "total": 1.5721249999987776,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.2226250000021537,
+            "total": 1.2914160000000265,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 0.921582999999373,
+            "total": 0.98725000000195,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.3780409999999392,
+            "total": 1.4522499999984575,
+            "htmlBytes": 93
+          },
+          {
+            "ttfb": 1.3650000000016007,
+            "total": 1.4677920000031008,
+            "htmlBytes": 93
+          }
+        ]
+      }
+    ],
+    "browserChecks": [
+      {
+        "route": "/",
+        "width": 1440,
+        "layoutShiftSum": 0.00004765154803240741,
+        "jsBytes": 172444,
+        "cssBytes": 22416,
+        "imageBytes": 83892,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1440,
+        "layoutShiftSum": 0,
+        "jsBytes": 168233,
+        "cssBytes": 18637,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "layoutShiftSum": 0.00006030899047851562,
+        "jsBytes": 172444,
+        "cssBytes": 22416,
+        "imageBytes": 83892,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1280,
+        "layoutShiftSum": 0.00009951934814453125,
+        "jsBytes": 168233,
+        "cssBytes": 18637,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 1024,
+        "layoutShiftSum": 0.00009423279762268067,
+        "jsBytes": 172444,
+        "cssBytes": 22416,
+        "imageBytes": 83892,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 1024,
+        "layoutShiftSum": 0.000043892145156860354,
+        "jsBytes": 168233,
+        "cssBytes": 18637,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 768,
+        "layoutShiftSum": 0.00011292724609375,
+        "jsBytes": 167066,
+        "cssBytes": 22416,
+        "imageBytes": 83892,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 768,
+        "layoutShiftSum": 0.00006098038736979167,
+        "jsBytes": 168233,
+        "cssBytes": 18637,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "layoutShiftSum": 0.00005048076923076923,
+        "jsBytes": 172444,
+        "cssBytes": 22416,
+        "imageBytes": 83892,
+        "horizontalOverflow": false
+      },
+      {
+        "route": "/screener",
+        "width": 390,
+        "layoutShiftSum": 0,
+        "jsBytes": 168233,
+        "cssBytes": 18637,
+        "imageBytes": 2489270,
+        "horizontalOverflow": false
+      }
+    ]
+  }
+]
