@@ -33,3 +33,19 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
   background-image: none;
 }
 .dialog::backdrop { background: rgb(8 11 16 / 80%); backdrop-filter: blur(8px); }
+
+/* Selected rows keep a solid marker; hover/focus adds no displacement. */
+#main-content.market-workspace .results-surface tbody tr {
+  transition: background-color 120ms ease;
+}
+#main-content.market-workspace .results-surface tbody tr:not(.selected-row):is(:hover, :focus-within) {
+  background: #171f2b;
+}
+#main-content.market-workspace .results-surface tbody tr:not(.selected-row):is(:hover, :focus-within) > td:first-child {
+  box-shadow: inset 2px 0 rgb(0 180 216 / 45%);
+}
+#main-content.market-workspace .results-surface tbody tr.selected-row:is(:hover, :focus-within) { background: #222d3d; }
+#main-content.market-workspace .results-surface a:focus-visible { outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  #main-content.market-workspace .results-surface tbody tr { transition: none; }
+}
