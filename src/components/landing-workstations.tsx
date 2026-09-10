@@ -63,10 +63,10 @@ export function LandingWorkstations() {
       synthetic
     />
   );
-  const categories = (
+  const categories = (active: "all" | "rifles") => (
     <div className="showcase-categories" aria-label="Example category context">
-      <span>ALL ASSETS</span>
-      <span className="active">RIFLES</span>
+      <span className={active === "all" ? "active" : undefined}>ALL ASSETS</span>
+      <span className={active === "rifles" ? "active" : undefined}>RIFLES</span>
       <span>KNIVES</span>
       <span>GLOVES</span>
       <span>CASES</span>
@@ -77,7 +77,7 @@ export function LandingWorkstations() {
       {[
         <div key="terminal" className="showcase-content">
           {identity}
-          {categories}
+          {categories("rifles")}
           {metrics}
           {chart}
           <Link className="showcase-open" href="/terminal">
@@ -89,7 +89,7 @@ export function LandingWorkstations() {
             <h3>CS2 market screener</h3>
             <span>DEMO · SELECTED EXAMPLES</span>
           </div>
-          {categories}
+          {categories("all")}
           <div className="showcase-presets">
             ALL ASSETS <span>ACTIVITY · RETURNS · LISTINGS</span>
           </div>
