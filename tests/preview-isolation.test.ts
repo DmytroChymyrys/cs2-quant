@@ -5,6 +5,7 @@ import { NextRequest } from "next/server";
 import {
   isDemoPreview,
   syntheticDataAllowed,
+  usesBundledDemoArtwork,
   assertPreviewIsolation,
 } from "../src/lib/preview";
 import { proxy } from "../src/proxy";
@@ -49,6 +50,32 @@ it("renders bundled artwork immediately without a database and respects manual d
     status: "DISABLED",
   });
 });
+it("keeps local demo artwork enabled independently of missing CDN health, with manual false winning", async () => {
+  vi.stubEnv("NODE_ENV", "development");
+  vi.stubEnv("VERCEL_ENV", "");
+  vi.stubEnv("FLOATALPHA_DEMO_PREVIEW", "");
+  expect(usesBundledDemoArtwork()).toBe(true);
+  // The mocked image store throws: bundled demo state must not depend on it.
+  expect(await assetImageState()).toMatchObject({
+    effectiveEnabled: true,
+    source: "BUNDLED_DEMO",
+  });
+  vi.stubEnv("ASSET_IMAGES_ENABLED", "false");
+  expect(await assetImageState()).toMatchObject({
+    effectiveEnabled: false,
+    status: "DISABLED",
+  });
+});
+it.each(["database", "fixture"])(
+  "does not bypass CDN health for local %s mode",
+  (mode) => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("VERCEL_ENV", "");
+    vi.stubEnv("FLOATALPHA_DEMO_PREVIEW", "");
+    vi.stubEnv("PRODUCT_ANALYTICS_MODE", mode);
+    expect(usesBundledDemoArtwork()).toBe(false);
+  },
+);
 it.each(["production", "development", ""])(
   "rejects preview flag in Vercel environment %s",
   (env) => {
@@ -61,6 +88,7 @@ it("rejects actual production even if NODE_ENV is misconfigured", () => {
   vi.stubEnv("NODE_ENV", "development");
   vi.stubEnv("FLOATALPHA_DEMO_PREVIEW", "");
   expect(syntheticDataAllowed()).toBe(false);
+  expect(usesBundledDemoArtwork()).toBe(false);
   expect(assertDemoAllowed).toThrow();
 });
 it.each([

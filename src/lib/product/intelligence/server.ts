@@ -21,7 +21,7 @@ import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
 import { DEMO_UNIVERSE } from "./demo-universe";
 import {
-  isDemoPreview,
+  usesBundledDemoArtwork,
   syntheticDataAllowed,
   assertPreviewIsolation,
 } from "../../preview";
@@ -105,7 +105,7 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           if (demoMode()) {
             const item = DEMO_UNIVERSE.find((a) => a.id === asset.id);
             asset.artwork = item?.artwork ?? null;
-            if (item && isDemoPreview())
+            if (item && usesBundledDemoArtwork())
               asset.artwork = {
                 ...item.artwork,
                 url: `/demo-artwork/${item.id}.png`,

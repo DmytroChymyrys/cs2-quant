@@ -12,6 +12,14 @@ export function syntheticDataAllowed() {
   return process.env.NODE_ENV !== "production" || isDemoPreview();
 }
 
+// Demo artwork is checked in with the app, so CDN health cannot hide it.
+// Actual production never enters this path, even with a stray demo-mode flag.
+export function usesBundledDemoArtwork() {
+  return (
+    syntheticDataAllowed() && process.env.PRODUCT_ANALYTICS_MODE === "demo"
+  );
+}
+
 export function assertPreviewIsolation() {
   if (process.env.FLOATALPHA_DEMO_PREVIEW !== "true") return;
   if (!isDemoPreview()) throw Error("DEMO_PREVIEW_ENVIRONMENT_REQUIRED");

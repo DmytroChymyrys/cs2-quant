@@ -5,7 +5,7 @@ import { fetchAssetImage, imageProvider } from "./provider";
 import { evaluateImageHealth, probeImages } from "./health";
 import { readImageRecord, writeImageRecord } from "./store";
 import { revalidateTag } from "next/cache";
-import { isDemoPreview, assertPreviewIsolation } from "../preview";
+import { usesBundledDemoArtwork, assertPreviewIsolation } from "../preview";
 export const HEALTH_MAX_AGE_MS = 20 * 60_000;
 // Reads only persisted state. Cache misses NEVER probe the CDN.
 const readHealth = unstable_cache(
@@ -51,8 +51,8 @@ export async function assetImageState() {
   assertPreviewIsolation();
   const enabled = areAssetImagesConfiguredEnabled();
   if (!enabled) return effectiveImageState(false, "DISABLED");
-  // Preview serves checked-in bytes, independent of the production CDN circuit breaker.
-  if (isDemoPreview())
+  // Local and isolated Preview demos serve checked-in bytes, independent of CDN health.
+  if (usesBundledDemoArtwork())
     return { ...effectiveImageState(true, "HEALTHY"), source: "BUNDLED_DEMO" };
   try {
     const record = await readHealth();
