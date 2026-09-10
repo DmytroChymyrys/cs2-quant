@@ -20,10 +20,14 @@ import { summary, seriesPoint, historyContract } from "./map";
 import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
 import { DEMO_UNIVERSE } from "./demo-universe";
+import {
+  isDemoPreview,
+  syntheticDataAllowed,
+  assertPreviewIsolation,
+} from "../../preview";
 export function demoMode() {
   return (
-    process.env.NODE_ENV !== "production" &&
-    process.env.PRODUCT_ANALYTICS_MODE === "demo"
+    syntheticDataAllowed() && process.env.PRODUCT_ANALYTICS_MODE === "demo"
   );
 }
 function previewDataset() {
@@ -32,7 +36,7 @@ function previewDataset() {
 let pool: Pool | undefined;
 export function syntheticMode() {
   return (
-    process.env.NODE_ENV !== "production" &&
+    syntheticDataAllowed() &&
     ["fixture", "demo"].includes(process.env.PRODUCT_ANALYTICS_MODE ?? "")
   );
 }
@@ -48,6 +52,7 @@ function connection() {
   }));
 }
 export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
+  assertPreviewIsolation();
   const asOf = syntheticMode()
     ? demoMode()
       ? DEMO_AS_OF
@@ -100,6 +105,11 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           if (demoMode()) {
             const item = DEMO_UNIVERSE.find((a) => a.id === asset.id);
             asset.artwork = item?.artwork ?? null;
+            if (item && isDemoPreview())
+              asset.artwork = {
+                ...item.artwork,
+                url: `/demo-artwork/${item.id}.png`,
+              };
             if (item) asset.identity = demoIdentity(item.name, item.category);
           }
           return asset;

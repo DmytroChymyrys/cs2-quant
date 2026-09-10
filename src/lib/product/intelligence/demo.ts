@@ -1,11 +1,12 @@
 import { derive } from "../../derived-market/features";
 import { STEP, type Input } from "../../derived-market/model";
 import { DEMO_UNIVERSE, type Archetype } from "./demo-universe";
+import { syntheticDataAllowed, assertPreviewIsolation } from "../../preview";
 export const DEMO_AS_OF = "2026-09-09T17:55:00.000Z";
 export const DEMO_SEED = 7302026;
 export function assertDemoAllowed() {
-  if (process.env.NODE_ENV === "production")
-    throw Error("DEMO_DISABLED_IN_PRODUCTION");
+  assertPreviewIsolation();
+  if (!syntheticDataAllowed()) throw Error("DEMO_DISABLED_IN_PRODUCTION");
 }
 function random(seed: number) {
   let state = seed >>> 0;
