@@ -1,6 +1,7 @@
 import { AssetImagesProvider } from "@/components/asset-image";
 import { assetImageState } from "@/lib/asset-images/service";
 import "../asset-images.css";
+import "./market-presentation.css";
 import { AppShell } from "@/components/shell";
 export const dynamic = "force-dynamic";
 export default async function MarketLayout({

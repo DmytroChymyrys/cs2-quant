@@ -116,7 +116,7 @@ export async function evaluateAlerts() {
       try {
         await sendEmail(
           email,
-          "cs2-quant: your alert condition became true",
+          "FloatAlpha: your alert condition became true",
           `Your configured condition was satisfied. Review the observation and thresholds at ${process.env.BETTER_AUTH_URL}/alerts. This is an observation, not a recommendation.`,
           event.id,
         );

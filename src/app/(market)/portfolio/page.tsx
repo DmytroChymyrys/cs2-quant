@@ -1,196 +1,299 @@
-import { AssetImage } from "@/components/asset-image";
+import { DEMO_HOLDINGS } from "@/lib/product/intelligence/demo-universe";
 import Link from "next/link";
-import Decimal from "@/lib/product/decimal";
+import { AssetImage } from "@/components/asset-image";
 import { eq } from "drizzle-orm";
 import { currentUser } from "@/lib/product/auth";
 import { productDatabase } from "@/lib/product/db";
 import { holdings } from "@/lib/product/schema";
-import { marketSnapshot, categoryNames } from "@/lib/product/market";
-import { money, integer } from "@/lib/product/format";
-import { valueHolding } from "@/lib/product/portfolio";
 import {
-  Panel,
+  readMarketDataset,
+  readAssetDetail,
+  syntheticMode,
+  demoMode,
+} from "@/lib/product/intelligence/server";
+import { portfolioIntelligence } from "@/lib/product/intelligence/portfolio";
+import { displayed } from "@/lib/product/intelligence/contract";
+import { explain, screenInput } from "@/lib/product/intelligence/screener";
+import { AuthRequired } from "@/components/auth-required";
+import {
   PageHeading,
   Metric,
-  DataState,
-  SemanticBadge,
+  Panel,
   Notice,
-  ConfidenceBadge,
+  DataState,
+  LinkButton,
 } from "@/components/ui";
-import { AuthRequired } from "@/components/auth-required";
+import {
+  EvidenceNotice,
+  Quality,
+  IntelligenceInspection,
+  marketValue,
+} from "@/components/intelligence-market";
 import { HoldingForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
-export default async function Portfolio() {
-  const user = await currentUser();
-  if (!user) return <AuthRequired feature="portfolio" />;
-  const snapshot = await marketSnapshot();
-  const owned = await productDatabase()
-    .select()
-    .from(holdings)
-    .where(eq(holdings.userId, user.app.id));
-  const rows = owned.map((h) => {
-    const asset = snapshot.assets.find((a) => a.id === h.assetId);
-    return {
-      ...h,
-      asset,
-      ...valueHolding(h.quantity, asset?.median ?? null, h.unitCost),
-    };
-  });
-  const known = rows.reduce(
-    (n, h) => (h.value === null ? n : n.plus(h.value)),
-    new Decimal(0),
-  );
-  const missing = rows.filter((h) => h.value === null).length;
-  const pnlRows = rows.filter((h) => h.pnl !== null);
-  const pnl = pnlRows.reduce((n, h) => n.plus(h.pnl!), new Decimal(0));
-  const concentration = known.isZero()
-    ? null
-    : rows
-        .map((h) => new Decimal(h.value ?? 0))
-        .sort((a, b) => b.cmp(a))
-        .slice(0, 3)
-        .reduce((n, v) => n.plus(v), new Decimal(0))
-        .div(known)
-        .times(100)
-        .toFixed(2);
+export default async function Portfolio({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
+  const params = await searchParams,
+    demo = syntheticMode(),
+    user = await currentUser();
+  if (!user && !demo) return <AuthRequired feature="portfolio" />;
+  const dataset = await readMarketDataset();
+  const owned = demoMode()
+    ? DEMO_HOLDINGS
+    : demo
+      ? dataset.assets
+          .slice(0, 3)
+          .map((a, i) => ({ assetId: a.id, quantity: i + 1, unitCost: null }))
+      : await productDatabase()
+          .select()
+          .from(holdings)
+          .where(eq(holdings.userId, user!.app.id));
+  const p = portfolioIntelligence(owned, dataset.assets),
+    focus =
+      p.rows.find((r) => r.assetId === params.asset) ??
+      p.rows.find((r) => r.asset),
+    detail = focus?.asset ? await readAssetDetail(focus.assetId, "1h") : null;
   return (
-    <>
+    <div className="personal-workstation portfolio-workstation">
       <PageHeading
-        eyebrow="Manual holdings · Observed valuation"
+        eyebrow="Manual holdings · Listing-reference valuation"
         title="Portfolio intelligence"
-        description="Understand concentration and exposure using current observed median prices."
-        action={<HoldingForm assets={snapshot.assets} />}
+        description="Observed references, concentration and data completeness."
+        action={!demo && <HoldingForm assets={dataset.assets} />}
       />
-      <div className="metric-grid">
-        <Metric
-          label={missing ? "Known observed subtotal" : "Total observed value"}
-          value={money(known.toFixed(8))}
-          note={`${rows.length - missing}/${rows.length} holdings priced`}
-        />
-        <Metric label="Holdings" value={rows.length} />
-        <Metric
-          label="Top 3 concentration"
-          value={concentration === null ? "—" : `${concentration}%`}
-          note="Share of known observed value"
-        />
-        <Metric
-          label="Confidence exposure"
-          value={<ConfidenceBadge />}
-          note="100% unclassified"
-        />
-        <Metric
-          label="Needs attention"
-          value={
-            rows.filter(
-              (h) => h.asset?.state !== "GROUNDED" || h.value === null,
-            ).length
-          }
-        />
-        <Metric
-          label="Observed P&L"
-          value={pnlRows.length ? money(pnl.toFixed(8)) : "—"}
-          note={`${pnlRows.length}/${rows.length} holdings have cost basis`}
-        />
-      </div>
-      {missing > 0 && (
-        <Notice>
-          {missing} holdings have unavailable prices and are excluded from the
-          subtotal. This is not a complete portfolio valuation.
-        </Notice>
+      <EvidenceNotice dataset={dataset} />
+      {demo && (
+        <p className="subordinate-note">
+          Example holdings use synthetic quantities. This preview is not your
+          account or a production valuation.
+        </p>
       )}
-      {rows.length ? (
-        <>
-          <Panel title="All holdings" note="MANUAL QUANTITIES">
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Asset</th>
-                    <th className="number">Quantity</th>
-                    <th className="number">Observed median</th>
-                    <th className="number">Observed value</th>
-                    <th className="number">Unit cost</th>
-                    <th className="number">Observed P&L</th>
-                    <th>Data</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((h) => (
-                    <tr key={h.id}>
-                      <td>
-                        <Link href={`/asset/${h.assetId}`}>
-                          {h.asset && <AssetImage name={h.asset.name} media={h.asset.catalog?.media} />}
-                          {h.asset?.name ?? "Asset unavailable"}
-                        </Link>
-                      </td>
-                      <td className="number">{integer(h.quantity)}</td>
-                      <td className="number">{money(h.asset?.median)}</td>
-                      <td className="number">{money(h.value)}</td>
-                      <td className="number">{money(h.unitCost)}</td>
-                      <td className="number">{money(h.pnl)}</td>
-                      <td>
-                        <SemanticBadge
-                          state={h.asset?.state ?? "UNAVAILABLE"}
-                        />
-                      </td>
-                      <td>
-                        <div className="row">
-                          <HoldingForm assets={snapshot.assets} holding={h} />
-                          <MutationButton
-                            label="Remove"
-                            endpoint="/api/product/portfolio"
-                            method="DELETE"
-                            body={{ id: h.id }}
-                            confirm={`Remove ${h.quantity} units of ${h.asset?.name ?? "this holding"} from your portfolio?`}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="chart-caption">
-              Valuation = quantity × observed median. This is not a guaranteed
-              sale price and excludes fees. Cost basis is supplied by you.
-            </div>
-          </Panel>
-          <div className="two-columns">
-            <Panel title="Category exposure">
-              <div className="pad stack">
-                {Object.entries(categoryNames).map(([key, label]) => {
-                  const value = rows
-                    .filter((h) => h.asset?.category === key)
-                    .reduce((n, h) => n.plus(h.value ?? 0), new Decimal(0));
-                  return (
-                    <div className="row between" key={key}>
-                      <span>{label}</span>
-                      <span className="mono">{money(value.toFixed(8))}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </Panel>
-            <Panel title="Price confidence exposure">
-              <DataState
-                state="UNAVAILABLE"
-                title="Classification not validated"
-                description="All holdings remain unclassified. No diversification score or predictive valuation is inferred."
-              />
-            </Panel>
-          </div>
-        </>
-      ) : (
-        <Panel title="Portfolio holdings">
+      {!p.rows.length ? (
+        <Panel title="Your holdings">
           <DataState
             state="EMPTY"
             title="Build your portfolio view"
-            description="Add a tracked asset, quantity, and optional cost basis. No Steam inventory connection is required."
-            action={<HoldingForm assets={snapshot.assets} />}
+            description="Add a holding to see its observed listing reference, concentration and data coverage."
+            action={!demo && <HoldingForm assets={dataset.assets} />}
           />
         </Panel>
+      ) : (
+        <>
+          <div className="metric-grid">
+            <Metric
+              label={
+                p.totalValue === null
+                  ? "Known listing-reference subtotal"
+                  : "Portfolio listing-reference value"
+              }
+              value={marketValue(p.knownSubtotal, " USD")}
+              note={`${p.priced}/${p.holdings} holdings priced`}
+            />
+            <Metric
+              label="24h observed reference change"
+              value={marketValue(p.totalChange24h, " USD")}
+              note="Rounded reference change; not realized profit"
+            />
+            <Metric
+              label="Most active holding"
+              value={displayed(p.mostActive)}
+            />
+            <Metric
+              label="Highest 24h observed volatility"
+              value={displayed(p.highestVolatility)}
+            />
+          </div>
+          {p.priced < p.holdings && (
+            <Notice>
+              Partial valuation: {p.priced} of {p.holdings} holdings have a
+              listing reference. Subtotal and concentration cover only those
+              holdings; complete portfolio value and change are unavailable.
+            </Notice>
+          )}
+          <div className="attention-grid">
+            <section>
+              <h3>VALUATION COMPLETENESS</h3>
+              <strong>
+                {p.priced} of {p.holdings} holdings priced
+              </strong>
+              <p>
+                Missing references are excluded from the known subtotal. Stale
+                references retain their age and coverage.
+              </p>
+            </section>
+            <section>
+              <h3>MANUAL HOLDINGS</h3>
+              <strong>
+                {p.rows.filter((r) => r.unitCost !== null).length} of{" "}
+                {p.holdings} with acquisition references
+              </strong>
+              <p>
+                Quantities and optional cost references are supplied by you.
+                Observed listing value is not guaranteed liquidation value.
+              </p>
+            </section>
+          </div>
+          <div className="personal-desk-grid">
+            <div className="results-surface">
+              <Panel title="All holdings" note="MANUAL QUANTITIES">
+                <div
+                  className="table-wrap"
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Portfolio holdings; scroll for details"
+                >
+                  <table>
+                    <thead>
+                      <tr>
+                        {[
+                          "Asset",
+                          "Quantity",
+                          "Minimum · USD",
+                          "Observed value · USD",
+                          "Concentration",
+                          "Details / manage",
+                          "Inspect",
+                        ].map((h) => (
+                          <th key={h}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {p.rows.map((r) => (
+                        <tr
+                          key={r.assetId}
+                          className={
+                            r.assetId === focus?.assetId
+                              ? "selected-row"
+                              : undefined
+                          }
+                        >
+                          <td>
+                            <Link
+                              className="asset-name"
+                              href={`/asset/${r.assetId}`}
+                            >
+                              {r.asset && (
+                                <AssetImage
+                                  name={r.asset.name}
+                                  media={r.asset.artwork}
+                                />
+                              )}
+                              {r.asset?.name ?? r.assetId}
+                            </Link>
+                          </td>
+                          <td className="number">{r.quantity}</td>
+                          <td className="number">
+                            {marketValue(r.asset?.minimum)}
+                          </td>
+                          <td className="number">
+                            {marketValue(r.observedValue)}
+                          </td>
+                          <td className="number">
+                            {marketValue(r.concentrationPct, "%")}
+                          </td>
+                          <td>
+                            <details className="valuation-details">
+                              <summary>
+                                {r.asset?.quality.state.replaceAll("_", " ") ??
+                                  "Reference unavailable"}
+                              </summary>
+                              <p>
+                                Acquisition reference:{" "}
+                                {marketValue(r.unitCost, " USD")}
+                              </p>
+                              <p>
+                                Activity: {marketValue(r.asset?.activity)} · 24h
+                                volatility:{" "}
+                                {marketValue(r.asset?.volatility["24h"], "%")}
+                              </p>
+                              {r.asset ? (
+                                <Quality quality={r.asset.quality} />
+                              ) : (
+                                <p>No current reference is available.</p>
+                              )}
+                              {!demo && (
+                                <div className="personal-toolbar">
+                                  <HoldingForm
+                                    assets={
+                                      r.asset
+                                        ? dataset.assets
+                                        : [
+                                            ...dataset.assets,
+                                            {
+                                              id: r.assetId,
+                                              name: `${r.assetId} · reference unavailable`,
+                                            },
+                                          ]
+                                    }
+                                    holding={r}
+                                  />
+                                  <MutationButton
+                                    label="Remove"
+                                    endpoint="/api/product/portfolio"
+                                    method="DELETE"
+                                    body={{ assetId: r.assetId }}
+                                  />
+                                </div>
+                              )}
+                            </details>
+                          </td>
+                          <td>
+                            <Link
+                              className="btn"
+                              aria-label={`Inspect holding ${r.asset?.name ?? r.assetId}`}
+                              href={`/portfolio?asset=${r.assetId}`}
+                            >
+                              ›
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Panel>
+              <p className="chart-caption">
+                Concentration is the share of known listing-reference value.
+                Missing data stays unavailable.
+              </p>
+            </div>
+            {focus?.asset ? (
+              <IntelligenceInspection
+                compact
+                asset={focus.asset}
+                detail={detail}
+                explanation={explain(focus.asset, screenInput({}))}
+              />
+            ) : (
+              <Panel title="Holding reference">
+                <DataState
+                  state="SOURCE_UNAVAILABLE"
+                  title="Reference unavailable"
+                  description="This holding remains saved. Its current listing reference is unavailable."
+                  action={
+                    <LinkButton href="/assets">
+                      Browse available assets
+                    </LinkButton>
+                  }
+                />
+              </Panel>
+            )}
+          </div>
+        </>
       )}
-    </>
+      <details className="subordinate-note">
+        <summary>Valuation methodology</summary>
+        <p>
+          Listing-reference value is not guaranteed liquidation value. The 24h
+          change is reconstructed from rounded observed returns and is not
+          realized profit. Concentration covers known references; missing or
+          stale data remains visible.
+        </p>
+      </details>
+    </div>
   );
 }

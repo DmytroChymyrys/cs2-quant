@@ -7,10 +7,7 @@ export default async function Onboarding() {
   if (!user) return <AuthRequired feature="market preferences" />;
   const snapshot = await marketSnapshot();
   return (
-    <div
-      className="panel pad stack"
-      style={{ maxWidth: 720, margin: "30px auto", width: "100%" }}
-    >
+    <div className="onboarding-workstation">
       <span className="eyebrow">Personalize your terminal</span>
       <h1>Make the market relevant.</h1>
       <PreferencesForm

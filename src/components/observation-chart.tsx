@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
+import { IntelligenceChart } from "./intelligence-chart";
+import type { MarketSeriesPoint } from "@/lib/product/intelligence/contract";
 import { type HistoryPoint } from "@/lib/product/market";
 import { DataState } from "./ui";
 import { money, integer, timestamp } from "@/lib/product/format";
-export function ObservationChart({ points }: { points: HistoryPoint[] }) {
+function LegacyObservationChart({ points }: { points: HistoryPoint[] }) {
   const [metric, setMetric] = useState<"median" | "quantity" | "sales">(
     "median",
   );
@@ -64,6 +66,7 @@ export function ObservationChart({ points }: { points: HistoryPoint[] }) {
         </div>
         <svg
           viewBox="0 0 1000 245"
+          preserveAspectRatio="none"
           role="img"
           aria-label={`${metric} from ${timestamp(points[0].at)} to ${timestamp(points.at(-1)!.at)}. Minimum ${minimum}, maximum ${maximum}.`}
         >
@@ -135,5 +138,17 @@ export function ObservationChart({ points }: { points: HistoryPoint[] }) {
         </div>
       </details>
     </>
+  );
+}
+
+export function ObservationChart(
+  props:
+    | { points: HistoryPoint[]; series?: never }
+    | { series: MarketSeriesPoint[]; points?: never; synthetic?: boolean },
+) {
+  return props.series ? (
+    <IntelligenceChart points={props.series} synthetic={props.synthetic} />
+  ) : (
+    <LegacyObservationChart points={props.points} />
   );
 }

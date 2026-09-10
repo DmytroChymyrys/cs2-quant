@@ -1,26 +1,26 @@
+import Link from "next/link";
 import {
   Activity,
-  Layers3,
+  Network,
   ChartNoAxesCombined,
-  ScanSearch,
+  ListFilter,
+  PanelsTopLeft,
   Eye,
   Bell,
-  ArrowRight,
   ShieldCheck,
-  Database,
-  Star,
+  BadgeCheck,
+  FlaskConical,
+  Hourglass,
+  Sigma,
+  Check,
+  Info,
+  UserRound,
 } from "lucide-react";
-import { PublicShell } from "@/components/shell";
-import {
-  Panel,
-  SemanticBadge,
-  LinkButton,
-  Metric,
-  DataState,
-} from "@/components/ui";
 import { marketSnapshot, marketHistory } from "@/lib/product/market";
-import { money, integer } from "@/lib/product/format";
-import { ObservationChart } from "@/components/observation-chart";
+import { money, integer, percent } from "@/lib/product/format";
+import { LandingChart } from "@/components/landing-chart";
+import { LandingShowcase } from "@/components/landing-showcase";
+import "./landing.css";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const snapshot = await marketSnapshot();
@@ -30,248 +30,702 @@ export default async function Home() {
   const history = asset
     ? await marketHistory(asset.id)
     : { points: [], error: true };
+  const byQuantity = snapshot.assets
+    .filter((a) => a.quantity !== null)
+    .sort((a, b) => b.quantity! - a.quantity!);
+  const comparison = [byQuantity[0], byQuantity.at(-1)];
+  const delta = (value: string | null | undefined) =>
+    value == null ? "COLLECTING" : percent(value);
   return (
-    <PublicShell>
-      <section className="public-section hero">
-        <div>
-          <span className="eyebrow">
-            Quantitative market intelligence · Skinport grounded
-          </span>
-          <h1>
-            See what price alone <span className="cyan">doesn’t show.</span>
-          </h1>
-          <p>
-            Observe price, listing supply, and sales activity together.
-            Investigate changing market conditions across a deliberately
-            selected CS2 pilot universe.
-          </p>
-          <div className="row">
-            <LinkButton href="/signup" primary>
-              Explore cs2-quant <ArrowRight size={14} />
-            </LinkButton>
-            <LinkButton href="/terminal">View the terminal</LinkButton>
-          </div>
-          <div className="hero-proof">
-            <span>OBSERVE THE MARKET</span>
-            <span>NO PREDICTIONS</span>
-            <span>NO INVENTED HISTORY</span>
-          </div>
+    <div className="lp">
+      <a className="skip-link" href="#landing-main">
+        Skip to content
+      </a>
+      <header className="lp-header">
+        <div className="lp-brand-group">
+          <Link href="/" className="lp-brand" aria-label="FloatAlpha home">
+            <Activity size={24} />
+            <strong>FloatAlpha</strong>
+          </Link>
+          <span>CS2 Market Intelligence</span>
         </div>
-        <Panel title="Beneath the price" note="CURRENT OBSERVATION">
-          {asset ? (
-            <>
-              <div className="pad stack">
-                <SemanticBadge state={asset.state} />
-                <h2>{asset.name}</h2>
-                <div className="three-columns">
-                  <Metric label="Median" value={money(asset.median)} />
-                  <Metric label="Listings" value={integer(asset.quantity)} />
-                  <Metric label="24h sales" value={integer(asset.sales24h)} />
+        <nav aria-label="Main navigation">
+          <Link href="/terminal">Platform</Link>
+          <a href="#methodology">Methodology</a>
+          <Link href="/pricing">Pricing</Link>
+          <a href="#data">Data Provenance</a>
+        </nav>
+        <div className="lp-header-actions">
+          <Link href="/login">Sign In</Link>
+          <Link href="/signup" className="lp-button primary">
+            Explore FloatAlpha
+          </Link>
+          <Link href="/settings" className="lp-account" aria-label="Account">
+            <UserRound size={18} />
+          </Link>
+        </div>
+      </header>
+      <main id="landing-main">
+        <section className="lp-hero">
+          <div className="lp-container lp-hero-grid">
+            <div className="lp-hero-copy">
+              <span className="lp-overline">
+                <i /> Quantitative CS2 market surveillance · Skinport grounded
+              </span>
+              <h1>
+                See what price alone
+                <br />
+                <em>doesn’t show.</em>
+              </h1>
+              <p>
+                FloatAlpha tracks price, listing supply, and sales activity
+                together. Investigate changing market conditions across a
+                deliberately selected CS2 pilot universe.
+              </p>
+              <div className="lp-actions">
+                <Link href="/signup" className="lp-button primary">
+                  Explore FloatAlpha
+                </Link>
+                <Link href="/terminal" className="lp-button">
+                  View live terminal
+                </Link>
+              </div>
+              <div className="lp-telemetry">
+                <span>
+                  Universe:{" "}
+                  {snapshot.error
+                    ? "Unavailable"
+                    : `${snapshot.assets.length} pilot assets`}
+                </span>
+                <span>Source: Skinport</span>
+                <span>Stored observations</span>
+              </div>
+            </div>
+            <div className="lp-hero-widget">
+              <div className="lp-widget-heading">
+                <strong>
+                  <i /> Price · Supply · Activity
+                </strong>
+                <span>Core observation // Skinport</span>
+              </div>
+              <div className="lp-asset-meta">
+                <div>
+                  <h3>{asset?.name ?? "Observation unavailable"}</h3>
+                  <p>
+                    Canonical unversioned asset · USD ·{" "}
+                    {asset?.state ?? "UNAVAILABLE"}
+                  </p>
+                </div>
+                <div>
+                  <span>Confidence</span>
+                  <b>UNAVAILABLE</b>
                 </div>
               </div>
-              <ObservationChart points={history.points} />
-            </>
-          ) : (
-            <DataState
-              state="UNAVAILABLE"
-              title="Observation preview unavailable"
-              description="The terminal displays current stored data when the source is available."
-            />
-          )}
-        </Panel>
-      </section>
-      <section className="section-border">
-        <div className="public-section">
-          <span className="eyebrow">Three market dimensions</span>
-          <h2>More than a price chart.</h2>
-          <p className="intro">
-            A price is a starting point. Understand the availability and
-            activity behind the observation.
-          </p>
-          <div className="three-columns">
-            {[
-              [
-                ChartNoAxesCombined,
-                "01 / Price",
-                "Price structure",
-                "Inspect observed minimum, median, mean, and maximum prices. See what was actually published.",
-              ],
-              [
-                Layers3,
-                "02 / Listings",
-                "Supply conditions",
-                "Monitor listing quantity and compare observations when enough history has accumulated.",
-              ],
-              [
-                Activity,
-                "03 / Activity",
-                "Sales activity",
-                "Read Skinport’s published sales aggregates without mistaking them for individual trade events.",
-              ],
-            ].map(([Icon, label, title, description]) => {
-              const I = Icon as typeof Activity;
-              return (
-                <article className="panel feature" key={String(title)}>
-                  <I size={20} />
-                  <span className="eyebrow">{String(label)}</span>
-                  <h3>{String(title)}</h3>
-                  <p>{String(description)}</p>
-                </article>
-              );
-            })}
+              <div className="lp-hero-metrics">
+                <div>
+                  <span>Price Δ · 24h</span>
+                  <strong
+                    className={asset?.priceChange == null ? "collecting" : ""}
+                  >
+                    {asset?.priceChange == null
+                      ? "—.—%"
+                      : delta(asset.priceChange)}
+                  </strong>
+                  {asset?.priceChange == null && (
+                    <span className="lp-collecting-label">Collecting data</span>
+                  )}
+                  <small>{money(asset?.median ?? null)} median</small>
+                  <span>Observed price</span>
+                </div>
+                <div>
+                  <span>Listings Δ · 24h</span>
+                  <strong
+                    className={asset?.listingChange == null ? "collecting" : ""}
+                  >
+                    {asset?.listingChange == null
+                      ? "—.—%"
+                      : delta(asset.listingChange)}
+                  </strong>
+                  {asset?.listingChange == null && (
+                    <span className="lp-collecting-label">Collecting data</span>
+                  )}
+                  <small>{integer(asset?.quantity ?? null)} listings</small>
+                  <span>Published quantity</span>
+                </div>
+                <div>
+                  <span>Sales activity Δ</span>
+                  <strong
+                    className={
+                      asset?.activityChange == null ? "collecting" : ""
+                    }
+                  >
+                    {asset?.activityChange == null
+                      ? "—.—%"
+                      : delta(asset.activityChange)}
+                  </strong>
+                  {asset?.activityChange == null && (
+                    <span className="lp-collecting-label">Collecting data</span>
+                  )}
+                  <small>{integer(asset?.sales24h ?? null)} sales / 24h</small>
+                  <span>Rolling aggregate</span>
+                </div>
+              </div>
+              <LandingChart points={history.points} />
+              <div className="lp-widget-callout">
+                <span>“Look at the market beneath the displayed price.”</span>
+                <BadgeCheck size={18} />
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="section-border">
-        <div className="public-section">
-          <span className="eyebrow">Observe. Investigate. Monitor.</span>
-          <h2>The surveillance workflow.</h2>
-          <p className="intro">
-            Move from the tracked universe to the assets you care about, with
-            the evidence always in view.
-          </p>
-          <div className="three-columns">
-            {[
-              [
-                "01",
-                "Monitor the market",
-                "Open the terminal for current observations and emerging comparisons.",
-                "/terminal",
-              ],
-              [
-                "02",
-                "Find unusual conditions",
-                "Filter the tracked universe by category, price, and available metrics.",
-                "/screener",
-              ],
-              [
-                "03",
-                "Understand the asset",
-                "Inspect price structure, listings, source aggregates, and provenance.",
-                "/assets",
-              ],
-            ].map(([n, title, desc, href]) => (
-              <article className="panel feature" key={n}>
-                <span className="eyebrow">Step {n}</span>
-                <h3>{title}</h3>
-                <p>{desc}</p>
-                <LinkButton href={href}>Explore →</LinkButton>
+        </section>
+        <section className="lp-section alternate" id="methodology">
+          <div className="lp-container">
+            <div className="lp-heading">
+              <span className="lp-label">Tri-vector analysis</span>
+              <h2>More than a price chart</h2>
+              <p>
+                A single price cannot describe the whole market. Inspect three
+                complementary dimensions, grounded in the same source
+                observations.
+              </p>
+            </div>
+            <div className="lp-grid three">
+              {[
+                [
+                  "01",
+                  "Observed prices",
+                  "Price dispersion",
+                  "Inspect minimum, median, mean, and maximum listing prices. Trace changes back to stored source observations without inventing a trade tape.",
+                  "Metric: observed median",
+                  money(asset?.median ?? null),
+                ],
+                [
+                  "02",
+                  "Listing supply",
+                  "Supply contraction",
+                  "Track how available listing quantities change through time. Comparisons remain collecting until an observed baseline is available.",
+                  "Metric: listing Δ · 24h",
+                  delta(asset?.listingChange),
+                ],
+                [
+                  "03",
+                  "Sales aggregates",
+                  "Sales activity",
+                  "Read recent source-published sales aggregates alongside listing supply. Rolling windows are not individual trades or independent daily totals.",
+                  "Metric: sales · 24h",
+                  integer(asset?.sales24h ?? null),
+                ],
+              ].map(([n, label, title, description, metric, value]) => (
+                <article className="lp-card lp-vector" key={n}>
+                  <div className="lp-card-meta">
+                    <b>
+                      {n}
+                      {" // VECTOR"}
+                    </b>
+                    <span>{label}</span>
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                  <div className="lp-card-readout">
+                    <span>{metric}</span>
+                    <b>{value}</b>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="lp-confluence">
+              <div>
+                <span className="lp-confluence-icon">
+                  <Network size={26} />
+                </span>
+                <div>
+                  <h4>Triangulated market intelligence</h4>
+                  <p>
+                    Consider price, supply, and activity together, with source
+                    evidence in view.
+                  </p>
+                </div>
+              </div>
+              <span className="lp-code-tag">
+                Price + supply + activity → observed context
+              </span>
+            </div>
+          </div>
+        </section>
+        <section className="lp-section">
+          <div className="lp-container">
+            <div className="lp-heading">
+              <span className="lp-label">Methodical extraction</span>
+              <h2>The surveillance workflow</h2>
+            </div>
+            <div className="lp-grid three">
+              <article className="lp-card lp-workflow">
+                <div className="lp-workflow-bar">
+                  <b>Step 01</b>
+                  <span>TERMINAL.VIEW</span>
+                </div>
+                <div className="lp-workflow-body">
+                  <h3>
+                    <Link href="/terminal">Monitor the market</Link>
+                  </h3>
+                  <p>
+                    The terminal brings the tracked universe into one view:
+                    observed prices, listing availability, and published sales
+                    activity, with comparisons as history accumulates.
+                  </p>
+                  <div className="lp-mini">
+                    <div>
+                      <span>Tracked universe</span>
+                      <b>
+                        {integer(
+                          snapshot.error ? null : snapshot.assets.length,
+                        )}{" "}
+                        assets
+                      </b>
+                    </div>
+                    <div className="lp-neutral-track" />
+                    <div>
+                      <span>24h comparison</span>
+                      <span>
+                        {snapshot.assets.some((a) => a.baselineAt)
+                          ? "AVAILABLE BASELINES"
+                          : "COLLECTING"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </article>
-            ))}
+              <article className="lp-card lp-workflow">
+                <div className="lp-workflow-bar">
+                  <b>Step 02</b>
+                  <span>SCREENER.QUERY</span>
+                </div>
+                <div className="lp-workflow-body">
+                  <h3>
+                    <Link href="/screener">Find unusual conditions</Link>
+                  </h3>
+                  <p>
+                    Filter the tracked universe by category and observed price.
+                    Pro adds AND conditions on supported fields, saved screens,
+                    and exports of the matching observations.
+                  </p>
+                  <div className="lp-mini">
+                    <div>
+                      <span>Query: tracked universe</span>
+                      <b>
+                        {integer(
+                          snapshot.error ? null : snapshot.assets.length,
+                        )}{" "}
+                        results
+                      </b>
+                    </div>
+                    {snapshot.assets.slice(0, 2).map((a) => (
+                      <div key={a.id}>
+                        <span className="lp-truncate">{a.name}</span>
+                        <span>{money(a.median)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+              <article className="lp-card lp-workflow">
+                <div className="lp-workflow-bar">
+                  <b>Step 03</b>
+                  <span>INTEL.ANALYZE</span>
+                </div>
+                <div className="lp-workflow-body">
+                  <h3>
+                    <Link href={asset ? `/asset/${asset.id}` : "/assets"}>
+                      Understand the asset
+                    </Link>
+                  </h3>
+                  <p>
+                    Asset Intelligence combines available observation history,
+                    price structure, listing supply, and sales aggregates.
+                    Source timestamps keep the evidence visible.
+                  </p>
+                  <div className="lp-mini">
+                    <div>
+                      <span>Available chart points</span>
+                      <b>
+                        {history.error
+                          ? "UNAVAILABLE"
+                          : integer(history.points.length)}
+                      </b>
+                    </div>
+                    <div>
+                      <span>Price confidence</span>
+                      <span>UNAVAILABLE</span>
+                    </div>
+                    <div>
+                      <span>Source grounding</span>
+                      <b>Skinport observations</b>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="section-border">
-        <div className="public-section">
-          <span className="eyebrow">Core product</span>
-          <h2>Built for market investigation.</h2>
-          <p className="intro">
-            A calm workspace for dense observations, transparent comparisons,
-            and personal monitoring.
-          </p>
-          <div className="three-columns">
-            {[
-              [
-                Activity,
-                "Market terminal",
-                "Your overview of the tracked pilot universe.",
-              ],
-              [
-                ScanSearch,
-                "Quantitative screener",
-                "Find assets using grounded filters.",
-              ],
-              [
-                Eye,
-                "Asset intelligence",
-                "Trace every visible metric back to its data.",
-              ],
-              [
-                ShieldCheck,
-                "Price confidence",
-                "Reliability, not price direction. Classification awaits validation.",
-              ],
-              [
-                Star,
-                "Watchlist & portfolio",
-                "Store a watchlist and manual holdings with optional cost basis.",
-              ],
-              [
-                Bell,
-                "Condition alerts",
-                "Notify when configured conditions newly become true.",
-              ],
-            ].map(([Icon, title, desc]) => {
-              const I = Icon as typeof Activity;
-              return (
-                <article className="panel feature" key={String(title)}>
-                  <I size={19} />
-                  <h3>{String(title)}</h3>
-                  <p>{String(desc)}</p>
+        </section>
+        <section className="lp-section alternate">
+          <div className="lp-container">
+            <div className="lp-heading">
+              <span className="lp-label">Capability arsenal</span>
+              <h2>Core feature matrix</h2>
+              <p>
+                A dense research workspace for observed market data, transparent
+                comparisons, and personal monitoring.
+              </p>
+            </div>
+            <div className="lp-grid three lp-features">
+              {[
+                [
+                  ChartNoAxesCombined,
+                  "Market terminal",
+                  "View the tracked pilot universe through current prices, listing quantities, sales aggregates, and available historical comparisons.",
+                ],
+                [
+                  ListFilter,
+                  "Quantitative screener",
+                  "Filter observed assets by category and price. Combine supported conditions, save screens, and export matching observations with Pro.",
+                ],
+                [
+                  PanelsTopLeft,
+                  "Asset intelligence",
+                  "Inspect the observations behind an asset: available history, price structure, listing supply, sales aggregates, and source provenance.",
+                ],
+                [
+                  ShieldCheck,
+                  "Price confidence",
+                  "Keep the evidence behind a price visible. Confidence classification remains unavailable until a methodology is validated.",
+                ],
+                [
+                  Eye,
+                  "Portfolio watchlists",
+                  "Track saved assets and manual holdings. Compare acknowledged observations and inspect cost basis, valuation, and concentration.",
+                ],
+                [
+                  Bell,
+                  "Condition alerts",
+                  "Save conditions on supported metrics. Scheduled evaluation notifies once when a configured condition changes from false to true.",
+                ],
+              ].map(([Icon, title, description]) => {
+                const I = Icon as typeof Activity;
+                return (
+                  <article key={String(title)} className="lp-card">
+                    <span className="lp-feature-icon">
+                      <I size={20} />
+                    </span>
+                    <h4>{String(title)}</h4>
+                    <p>{String(description)}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+        <section className="lp-section">
+          <div className="lp-container">
+            <div className="lp-heading">
+              <span className="lp-label">Liquidity auditing</span>
+              <h2>Not every price is equally reliable</h2>
+              <p>
+                Listing supply and sales activity provide context for a
+                displayed price. These facts alone do not establish a validated
+                confidence classification.
+              </p>
+            </div>
+            <div className="lp-grid two">
+              {comparison.map((a, i) => (
+                <article className="lp-card lp-confidence" key={i}>
+                  <div className="lp-confidence-heading">
+                    <h4>{a?.name ?? "No observation available"}</h4>
+                    <span className="lp-state">Confidence: unavailable</span>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Listing quantity</dt>
+                      <dd>{integer(a?.quantity ?? null)} published listings</dd>
+                    </div>
+                    <div>
+                      <dt>Sales activity (24h)</dt>
+                      <dd>{integer(a?.sales24h ?? null)} source aggregate</dd>
+                    </div>
+                    <div>
+                      <dt>Observed median price</dt>
+                      <dd>{money(a?.median ?? null)}</dd>
+                    </div>
+                    <div>
+                      <dt>Observation comparison</dt>
+                      <dd>{a?.historyState ?? "UNAVAILABLE"}</dd>
+                    </div>
+                  </dl>
+                  <p className="lp-verdict">
+                    {i === 0
+                      ? "Higher listing availability within the tracked universe. This is source context, not a confidence grade or an execution guarantee."
+                      : "Lower listing availability within the tracked universe. The observed price remains a source fact; its confidence classification is unavailable."}
+                  </p>
                 </article>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="section-border" id="data">
-        <div className="public-section">
-          <span className="eyebrow">Transparent methods</span>
-          <h2>Built on observations, not hype.</h2>
-          <p className="intro">
-            The pilot currently tracks{" "}
-            {snapshot.error ? "a selected universe of" : snapshot.assets.length}{" "}
-            assets from Skinport. It is not a benchmark of the entire CS2
-            market.
-          </p>
-          <div className="three-columns">
-            <article className="panel feature">
-              <Database size={20} />
-              <SemanticBadge state="GROUNDED" />
-              <h3>Published source facts</h3>
+        </section>
+        <section className="lp-section alternate" id="data">
+          <div className="lp-container">
+            <div className="lp-heading">
+              <span className="lp-label">Auditable architecture</span>
+              <h2>Built on observations, not hype</h2>
               <p>
-                Faithfully normalized pricing, listing quantity, and aggregated
-                sales activity.
+                Skinport observations · 100-asset pilot universe · Stored source
+                timestamps and explicit data states, without synthetic volume
+                padding.
               </p>
-            </article>
-            <article className="panel feature">
-              <SemanticBadge state="DERIVED" />
-              <h3>Explained comparisons</h3>
-              <p>
-                Changes use stored observations and documented time windows.
-                Missing baselines stay missing.
-              </p>
-            </article>
-            <article className="panel feature">
-              <SemanticBadge state="COLLECTING" />
-              <h3>Honest limits</h3>
-              <p>
-                New history takes time. Unavailable analytics and unvalidated
-                models are labelled explicitly.
-              </p>
-            </article>
+            </div>
+            <div className="lp-grid four">
+              {[
+                [
+                  BadgeCheck,
+                  "01",
+                  "Grounded observations",
+                  "Published source values preserved with observation timestamps. Real zero quantities and zero sales remain valid observations.",
+                ],
+                [
+                  Sigma,
+                  "02",
+                  "Derived metrics",
+                  "Comparisons calculated from stored observations. Missing baselines do not become invented changes or substitute zero values.",
+                ],
+                [
+                  FlaskConical,
+                  "03",
+                  "Experimental metrics",
+                  "Experimental methods require explicit labeling and validation. No prototype score or statistical classification is presented as established.",
+                ],
+                [
+                  Hourglass,
+                  "04",
+                  "Collecting / unavailable",
+                  "Clearly identified when history is still accumulating or a value cannot be calculated. No synthetic backfill or interpolation.",
+                ],
+              ].map(([Icon, n, title, description]) => {
+                const I = Icon as typeof Activity;
+                return (
+                  <article key={String(n)} className="lp-card lp-tier">
+                    <span className="lp-label">
+                      <I size={18} /> Tier {String(n)}
+                    </span>
+                    <h4>{String(title)}</h4>
+                    <p>{String(description)}</p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="section-border">
-        <div className="public-section public-cta">
-          <span className="eyebrow">Look beneath the price</span>
-          <h2>Start with the observation.</h2>
-          <p className="muted">
-            Explore the tracked universe. Build your own monitoring workflow.
-          </p>
-          <div className="row">
-            <LinkButton href="/terminal" primary>
-              Open the terminal →
-            </LinkButton>
-            <LinkButton href="/pricing">Free & Pro</LinkButton>
+        </section>
+        <section className="lp-section">
+          <div className="lp-container">
+            <LandingShowcase />
           </div>
-          <small>
-            Market analytics, not investment advice. cs2-quant is not affiliated
-            with Valve or Counter-Strike.
-          </small>
+        </section>
+        <section className="lp-section alternate">
+          <div className="lp-container lp-centered">
+            <div className="lp-heading">
+              <span className="lp-label">Subscription architecture</span>
+              <h2>Start with FloatAlpha</h2>
+              <p>
+                Start with grounded market observations. Add deeper history
+                access and personal monitoring when those capabilities fit your
+                workflow.
+              </p>
+            </div>
+            <div className="lp-grid two lp-plans">
+              {[
+                {
+                  name: "Community access",
+                  tier: "Free",
+                  description:
+                    "Explore the tracked universe and core asset observations with the same underlying market facts.",
+                  features: [
+                    "Market terminal and core asset intelligence",
+                    "Basic category and price filters",
+                    "20 watchlist assets and manual holdings",
+                    "Up to 7 days of collected history",
+                  ],
+                  href: "/signup",
+                  action: "Create a free account",
+                },
+                {
+                  name: "FloatAlpha Pro",
+                  tier: "Extended capability",
+                  description:
+                    "Advanced screening, saved conditions, and personal monitoring over the same source observations.",
+                  features: [
+                    "Advanced AND conditions and saved screens",
+                    "100 watchlist assets and manual holdings",
+                    "Condition alerts and CSV export",
+                    "Up to 30 days of collected history",
+                  ],
+                  href: "/pricing",
+                  action: "Compare plans & capabilities",
+                },
+              ].map((p, i) => (
+                <article
+                  key={p.name}
+                  className={`lp-card lp-plan ${i ? "pro" : ""}`}
+                >
+                  {i === 1 && (
+                    <span className="lp-plan-ribbon">Extended monitoring</span>
+                  )}
+                  <div className="lp-card-meta">
+                    <h3>{p.name}</h3>
+                    <span>{p.tier}</span>
+                  </div>
+                  <p>{p.description}</p>
+                  <ul>
+                    {p.features.map((f) => (
+                      <li key={f}>
+                        <Check size={16} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="lp-plan-action">
+                    <Link
+                      href={p.href}
+                      className={`lp-button ${i ? "primary" : ""}`}
+                    >
+                      {p.action}
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="lp-section">
+          <div className="lp-container">
+            <div className="lp-heading lp-centered">
+              <span className="lp-label">Product principles</span>
+              <h2 className="lp-small-heading">Operating pillars</h2>
+            </div>
+            <div className="lp-grid five">
+              {[
+                [
+                  "No buy / sell signals",
+                  "Descriptive market observations only. No predictive financial tips.",
+                ],
+                [
+                  "Transparent methods",
+                  "Source facts and comparisons stay distinguishable, with their observation context.",
+                ],
+                [
+                  "Source-aware data",
+                  "Explicit source provenance and separate observation and update timestamps.",
+                ],
+                [
+                  "Confidence-aware",
+                  "Unvalidated classifications remain unavailable. Evidence is never a prediction.",
+                ],
+                [
+                  "No fabricated metrics",
+                  "Missing data is explicitly flagged. Zero synthetic interpolation.",
+                ],
+              ].map(([title, description], i) => (
+                <article key={title} className="lp-card lp-pillar">
+                  <span className="lp-label">
+                    0{i + 1}
+                    {" //"}
+                  </span>
+                  <h4>{title}</h4>
+                  <p>{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="lp-final">
+          <div className="lp-container lp-centered">
+            <div className="lp-heading">
+              <span className="lp-label">Observed CS2 intelligence</span>
+              <h2>Look beneath the price.</h2>
+              <p>
+                Explore the market through price, listing supply, and sales
+                activity together, with the source evidence in view.
+              </p>
+              <Link href="/terminal" className="lp-button primary">
+                Open FloatAlpha
+              </Link>
+            </div>
+            <div className="lp-notice">
+              <h4>
+                <Info size={16} /> Market & data notice
+              </h4>
+              <p>
+                FloatAlpha provides descriptive CS2 market information.
+                Observations are not investment advice and do not guarantee
+                future prices or sales activity. Data comes from stored Skinport
+                snapshots. FloatAlpha is not affiliated with, sponsored by, or
+                endorsed by Valve, Counter-Strike, or Skinport.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="lp-footer">
+        <div className="lp-footer-grid">
+          <div>
+            <Link href="/" className="lp-brand">
+              <Activity size={24} />
+              <strong>FloatAlpha</strong>
+            </Link>
+            <p>
+              CS2 market observations. Price, supply, and activity intelligence
+              grounded in the tracked Skinport pilot universe.
+            </p>
+          </div>
+          {[
+            [
+              "Platform",
+              [
+                ["Market terminal", "/terminal"],
+                ["Quantitative screener", "/screener"],
+                ["Asset intelligence", "/assets"],
+              ],
+            ],
+            [
+              "Data & methodology",
+              [
+                ["Market dimensions", "#methodology"],
+                ["Data provenance", "#data"],
+                ["Subscription tiers", "/pricing"],
+              ],
+            ],
+            [
+              "Account",
+              [
+                ["Sign in", "/login"],
+                ["Create account", "/signup"],
+                ["Account & billing", "/settings"],
+              ],
+            ],
+          ].map(([heading, links]) => (
+            <div key={String(heading)}>
+              <h4>{String(heading)}</h4>
+              {(links as string[][]).map(([name, href]) => (
+                <Link key={name} href={href}>
+                  {name}
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
-      </section>
-    </PublicShell>
+        <div className="lp-footer-bottom">
+          <span>FloatAlpha · CS2 market intelligence</span>
+          <span>
+            Skinport observations. Not affiliated with Valve or Counter-Strike.
+          </span>
+        </div>
+      </footer>
+    </div>
   );
 }

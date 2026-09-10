@@ -1,7 +1,8 @@
 import "./globals.css";
+import "./visual-fidelity.css";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "cs2-quant",
+  title: "FloatAlpha",
   description: "CS2 market intelligence grounded in Skinport observations",
 };
 export default function Layout({

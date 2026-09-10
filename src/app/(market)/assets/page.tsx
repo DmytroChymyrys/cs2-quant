@@ -1,118 +1,64 @@
-import { AssetImage } from "@/components/asset-image";
-import { currentUser } from "@/lib/product/auth";
-import { marketSnapshot, categoryNames } from "@/lib/product/market";
-import { money, integer, timestamp } from "@/lib/product/format";
+import { MarketCategoryTabs } from "@/components/market-category-tabs";
+import { categoryCounts } from "@/lib/product/intelligence/browse-state";
+import { PageHeading, DataState } from "@/components/ui";
 import {
-  Panel,
-  PageHeading,
-  SemanticBadge,
-  DataState,
-  LinkButton,
-  ConfidenceBadge,
-} from "@/components/ui";
-import { MarketTable } from "@/components/market-table";
-import { WatchButton } from "@/components/watch-button";
+  EvidenceNotice,
+  IntelligenceFilters,
+  IntelligenceTable,
+  IntelligenceInspection,
+} from "@/components/intelligence-market";
+import {
+  readMarketDataset,
+  readAssetDetail,
+} from "@/lib/product/intelligence/server";
+import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
 export default async function Assets({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const params = await searchParams;
-  const user = await currentUser();
-  const snapshot = await marketSnapshot();
-  const assets = snapshot.assets.filter(
-    (a) =>
-      (!params.q || a.name.toLowerCase().includes(params.q.toLowerCase())) &&
-      (!params.category || a.category === params.category),
-  );
-  const selected = assets.find((a) => a.id === params.selected) ?? assets[0];
+  const p = await searchParams,
+    dataset = await readMarketDataset(),
+    screen = screenInput(p),
+    result = screenAssets(dataset.assets, screen);
+  const focus = result.assets.find((a) => a.id === p.asset) ?? result.assets[0];
+  const detail = focus ? await readAssetDetail(focus.id, screen.horizon) : null;
   return (
-    <>
+    <div className="data-workstation explorer-workstation">
       <PageHeading
         eyebrow="Asset directory"
         title="Assets explorer"
-        description={`${snapshot.assets.length} tracked assets · Pilot universe · Skinport grounded`}
-        action={<SemanticBadge state="GROUNDED" />}
+        description="The tracked research universe, observed listing references and data quality."
       />
-      {snapshot.error ? (
-        <DataState state="SOURCE_UNAVAILABLE" />
+      <EvidenceNotice dataset={dataset} />
+      <MarketCategoryTabs
+        path="/assets"
+        params={p}
+        selected={screen.category}
+        counts={categoryCounts(dataset.assets)}
+      />
+      <IntelligenceFilters screen={screen} path="/assets" />
+      {dataset.error ? (
+        <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />
       ) : (
         <div className="terminal-grid">
-          <Panel title="Tracked universe" note={`${assets.length} RESULTS`}>
-            <form className="filters" action="/assets">
-              <input
-                className="input"
-                name="q"
-                defaultValue={params.q}
-                placeholder="Search market hash name…"
-                aria-label="Search assets"
-              />
-              <select
-                name="category"
-                defaultValue={params.category ?? ""}
-                aria-label="Category"
-              >
-                <option value="">All categories</option>
-                {Object.entries(categoryNames).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-              <button className="btn primary">Search</button>
-              <LinkButton href="/assets">Reset</LinkButton>
-            </form>
-            {snapshot.assets.length ? (
-              <MarketTable assets={assets} />
-            ) : (
-              <DataState state="UNAVAILABLE" title="No tracked data" />
-            )}
-          </Panel>
-          <aside className="rail stack">
-            {selected ? (
-              <Panel title="Asset inspection">
-                <div className="pad stack">
-                  <AssetImage name={selected.name} media={selected.catalog?.media} large />
-                  <SemanticBadge state={selected.state} />
-                  <h2 className="asset-name">{selected.name}</h2>
-                  <p>{categoryNames[selected.category ?? ""]}</p>
-                </div>
-                <dl>
-                  <dt>Observed median</dt>
-                  <dd>{money(selected.median)}</dd>
-                  <dt>Observed minimum</dt>
-                  <dd>{money(selected.minimum)}</dd>
-                  <dt>Listing quantity</dt>
-                  <dd>{integer(selected.quantity)}</dd>
-                  <dt>24h sales activity</dt>
-                  <dd>{integer(selected.sales24h)}</dd>
-                  <dt>7d sales activity</dt>
-                  <dd>{integer(selected.sales7d)}</dd>
-                  <dt>Price confidence</dt>
-                  <dd>
-                    <ConfidenceBadge />
-                  </dd>
-                </dl>
-                <div className="pad stack">
-                  <p>
-                    Observed: {timestamp(selected.observedAt)}
-                    <br />
-                    Source update: {timestamp(selected.sourceUpdatedAt)}
-                  </p>
-                  <LinkButton href={`/asset/${selected.id}`} primary>
-                    Open asset intelligence →
-                  </LinkButton>
-                  <WatchButton assetId={selected.id} authenticated={Boolean(user)} />
-                </div>
-              </Panel>
-            ) : (
-              <Panel title="Inspection rail">
-                <DataState state="NO_RESULTS" title="Select an asset" />
-              </Panel>
-            )}
-          </aside>
+          <div className="results-surface">
+            <IntelligenceTable
+              result={result}
+              screen={screen}
+              params={p}
+              path="/assets"
+            />
+          </div>
+          {focus && (
+            <IntelligenceInspection
+              asset={focus}
+              detail={detail}
+              explanation={result.explanations[focus.id]}
+            />
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 }

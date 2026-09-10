@@ -6,9 +6,9 @@ test("public pages, navigation, honest auth gates, and responsive containment", 
   page.on("pageerror", (e) => errors.push(e.message));
   for (const [route, heading] of [
     ["/", "See what price alone"],
-    ["/pricing", "Choose your monitoring depth."],
-    ["/login", "Return to your terminal"],
-    ["/signup", "Look beneath the price"],
+    ["/pricing", "Market intelligence"],
+    ["/login", "Welcome back"],
+    ["/signup", "Create your FloatAlpha account"],
     ["/forgot-password", "Reset your password"],
     ["/watchlist", "watchlist"],
     ["/portfolio", "portfolio"],
@@ -39,7 +39,7 @@ test("grounded explorer filters, inspection links, and chart metric controls", a
   const search = page.getByRole("textbox", { name: "Search assets" });
   await search.fill("Danger Zone Case");
   await page.getByRole("button", { name: "Search", exact: true }).click();
-  await expect(page.locator("tbody tr")).toHaveCount(1);
+  await expect(page.locator(".results-surface tbody tr")).toHaveCount(1);
   await page
     .getByRole("link", { name: "Danger Zone Case", exact: true })
     .click();
@@ -61,9 +61,10 @@ test("grounded explorer filters, inspection links, and chart metric controls", a
 });
 test("product mutations require identity and collector stays protected", async ({
   request,
+  baseURL,
 }) => {
   const watch = await request.post("/api/product/watchlist", {
-    headers: { Origin: "http://127.0.0.1:3000" },
+    headers: { Origin: baseURL! },
     data: { assetId: "00000000-0000-4000-8000-000000000001" },
   });
   expect(watch.status()).toBe(401);

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { desc, eq } from "drizzle-orm";
 import { currentUser } from "@/lib/product/auth";
 import { productDatabase } from "@/lib/product/db";
@@ -18,7 +19,11 @@ import {
 import { AuthRequired } from "@/components/auth-required";
 import { AlertForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
-export default async function Alerts() {
+export default async function Alerts({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="alerts" />;
   const caps = await entitlements(user.app.id);
@@ -44,12 +49,16 @@ export default async function Alerts() {
       .orderBy(desc(alertEvents.createdAt))
       .limit(50),
   ]);
+  const selected = rules[0];
+  const selectedId = (await searchParams).rule;
+  const rule = rules.find((r) => r.id === selectedId) ?? selected;
+  const asset = snapshot.assets.find((a) => a.id === rule?.assetId);
   return (
-    <>
+    <div className="personal-workstation alerts-workstation">
       <PageHeading
         eyebrow="Monitoring / Conditions"
         title="Alerts"
-        description="Notify once when a condition newly becomes true. Re-arm after it becomes false."
+        description="Continuous monitoring of observed price, listing quantity and sales activity. Notify once on a false-to-true transition."
         action={
           <AlertForm
             assets={snapshot.assets}
@@ -59,137 +68,282 @@ export default async function Alerts() {
       />
       {process.env.ALERT_SCHEDULE_ENABLED !== "true" && (
         <Notice>
-          Automatic alert evaluation has not been enabled for this deployment.
-          Saved rules will not notify until the evaluator is scheduled.
+          Automatic evaluation has not been enabled. Saved rules notify only
+          after the evaluator is scheduled.
         </Notice>
       )}
       <div className="metric-grid">
-        <Metric label="Rules" value={rules.length} />
         <Metric
-          label="Active"
-          value={rules.filter((r) => r.state === "ACTIVE" && !r.paused).length}
+          label="Configured rules"
+          value={rules.length}
+          note={`${rules.filter((r) => !r.paused).length} enabled · ${rules.filter((r) => r.paused).length} paused`}
         />
-        <Metric
-          label="Collecting"
-          value={
-            rules.filter((r) => r.state === "COLLECTING" && !r.paused).length
-          }
-        />
-        <Metric label="Paused" value={rules.filter((r) => r.paused).length} />
         <Metric
           label="Recent conditions satisfied"
           value={events.length}
-          note="Latest 50 events"
+          note="Latest 50 recorded events"
         />
         <Metric
-          label="Email delivery"
-          value={emailConfigured() ? "Available" : "Unavailable"}
+          label="Monitored assets"
+          value={new Set(rules.map((r) => r.assetId)).size}
+          note="Canonical Skinport assets"
+        />
+        <Metric
+          label="Evaluation status"
+          value={
+            process.env.ALERT_SCHEDULE_ENABLED === "true"
+              ? "ENABLED"
+              : "NOT SCHEDULED"
+          }
+          note={`${rules.filter((r) => r.state === "COLLECTING").length} rules collecting history`}
         />
       </div>
-      <div className="terminal-grid">
-        <Panel title="Condition rules">
+      <h3 className="section-kicker">
+        Recent evaluations // Conditions satisfied
+      </h3>
+      <div className="attention-grid alert-recent">
+        {events.length ? (
+          events.slice(0, 2).map((event) => (
+            <section key={event.id}>
+              <SemanticBadge state="DERIVED" />
+              <strong>
+                {String(
+                  (event.details as { name?: string }).name ??
+                    "Condition satisfied",
+                )}
+              </strong>
+              <p>{timestamp(event.createdAt.toISOString())}</p>
+              <span>
+                Email: {event.emailState.toLowerCase().replaceAll("_", " ")}
+              </span>
+            </section>
+          ))
+        ) : (
+          <>
+            <section>
+              <h3>Recent conditions</h3>
+              <strong>No conditions satisfied yet</strong>
+              <p>
+                Events appear here after a false-to-true transition. A
+                continuously true condition does not notify again.
+              </p>
+              <SemanticBadge state="EMPTY" />
+            </section>
+            <section>
+              <h3>Delivery state</h3>
+              <strong>In-app event history</strong>
+              <p>
+                No delivery is implied by an unevaluated rule. Each event
+                retains its recorded timestamp and email delivery state.
+              </p>
+              <span className="cyan">
+                DURABLE EVENT HISTORY · {events.length} EVENTS
+              </span>
+            </section>
+          </>
+        )}
+      </div>
+      <div className="personal-desk-grid alerts-desk">
+        <Panel
+          title={`Condition rules · ${rules.length}`}
+          note="DURABLE STATE TRANSITIONS"
+        >
           {rules.length ? (
-            <div className="stack pad">
-              {rules.map((r) => (
-                <section className="panel" key={r.id}>
-                  <div className="panel-head">
-                    <h3>{r.name}</h3>
-                    <SemanticBadge state={r.paused ? "PAUSED" : r.state} />
-                  </div>
-                  <div className="pad stack">
-                    <p>
-                      {snapshot.assets.find((a) => a.id === r.assetId)?.name}
-                    </p>
-                    <div className="table-wrap">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Metric</th>
-                            <th>Operator</th>
-                            <th>Threshold</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {r.conditions.map((c, i) => (
-                            <tr key={i}>
-                              <td>{c.metric}</td>
-                              <td>{c.operator}</td>
-                              <td className="mono">
-                                {c.threshold}
-                                {c.upper ? ` to ${c.upper}` : ""}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <details>
-                      <summary>Latest evaluation matrix</summary>
-                      <pre style={{ whiteSpace: "pre-wrap" }}>
-                        {r.lastEvaluation
-                          ? JSON.stringify(r.lastEvaluation, null, 2)
-                          : "No evaluation yet."}
-                      </pre>
-                    </details>
-                    <div className="row">
-                      <MutationButton
-                        label={r.paused ? "Resume" : "Pause"}
-                        endpoint="/api/product/alerts"
-                        method="PATCH"
-                        body={{ id: r.id, paused: !r.paused }}
-                      />
-                      <MutationButton
-                        label="Delete alert"
-                        endpoint="/api/product/alerts"
-                        method="DELETE"
-                        body={{ id: r.id }}
-                        confirm={`Delete ${r.name} and its saved alert events?`}
-                      />
-                    </div>
-                  </div>
-                </section>
-              ))}
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Alert name</th>
+                    <th>Target asset</th>
+                    <th>Configured conditions</th>
+                    <th>Status</th>
+                    <th>Channels</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rules.map((r) => (
+                    <tr
+                      key={r.id}
+                      className={r.id === rule?.id ? "selected-row" : ""}
+                    >
+                      <td>
+                        <Link href={`/alerts?rule=${r.id}`}>{r.name}</Link>
+                      </td>
+                      <td>
+                        <Link href={`/asset/${r.assetId}`}>
+                          {snapshot.assets.find((a) => a.id === r.assetId)
+                            ?.name ?? "Asset unavailable"}
+                        </Link>
+                      </td>
+                      <td className="mono">
+                        {r.conditions.map((c, i) => (
+                          <div key={i}>
+                            {i > 0 ? "AND " : ""}
+                            {c.metric}{" "}
+                            {c.operator === "gt"
+                              ? ">"
+                              : c.operator === "lt"
+                                ? "<"
+                                : "BETWEEN"}{" "}
+                            {c.threshold}
+                            {c.upper ? ` / ${c.upper}` : ""}
+                          </div>
+                        ))}
+                      </td>
+                      <td>
+                        <SemanticBadge state={r.paused ? "PAUSED" : r.state} />
+                      </td>
+                      <td className="mono">
+                        IN-APP{r.email ? " · EMAIL" : ""}
+                      </td>
+                      <td>
+                        <div className="row">
+                          <Link className="cyan" href={`/alerts?rule=${r.id}`}>
+                            INSPECT
+                          </Link>
+                          <MutationButton
+                            label={r.paused ? "Resume" : "Pause"}
+                            endpoint="/api/product/alerts"
+                            method="PATCH"
+                            body={{ id: r.id, paused: !r.paused }}
+                          />
+                          <MutationButton
+                            label="Delete"
+                            endpoint="/api/product/alerts"
+                            method="DELETE"
+                            body={{ id: r.id }}
+                            confirm={`Delete ${r.name} and its saved alert events?`}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
             <DataState
               state="EMPTY"
               title="No alert rules"
               description="Choose an asset and a condition to monitor."
-              action={
-                <AlertForm
-                  assets={snapshot.assets}
-                  emailAvailable={emailConfigured()}
-                />
-              }
             />
           )}
+          <div className="condition-types">
+            <h3>Condition types // Existing rule builder</h3>
+            <div>
+              {[
+                "Median price",
+                "Listing quantity",
+                "Sales activity",
+                "Compound AND",
+              ].map((label) => (
+                <section key={label}>
+                  <strong>{label}</strong>
+                  <small>Observed values · explicit thresholds</small>
+                </section>
+              ))}
+            </div>
+          </div>
+          <div className="event-history">
+            <h3>In-app notification history</h3>
+            {events.length ? (
+              events.map((event) => (
+                <div key={event.id}>
+                  <span>{timestamp(event.createdAt.toISOString())}</span>
+                  <b>
+                    {String(
+                      (event.details as { name?: string }).name ??
+                        "Condition satisfied",
+                    )}
+                  </b>
+                  <span>{event.emailState}</span>
+                </div>
+              ))
+            ) : (
+              <p>No events have been recorded.</p>
+            )}
+          </div>
         </Panel>
-        <Panel title="In-app notifications">
-          {events.length ? (
-            events.map((event) => (
-              <article className="notification-item stack" key={event.id}>
-                <SemanticBadge state="DERIVED" />
+        <aside className="rule-inspection">
+          <div className="row between">
+            <span>INSPECTION RAIL // ALERT</span>
+            {rule && (
+              <SemanticBadge state={rule.paused ? "PAUSED" : rule.state} />
+            )}
+          </div>
+          {rule ? (
+            <>
+              <h2>{asset?.name ?? "Asset unavailable"}</h2>
+              <p className="muted">Canonical unversioned asset · Skinport</p>
+              <div className="rule-definition">
                 <h3>
-                  {String(
-                    (event.details as { name?: string }).name ??
-                      "Condition satisfied",
-                  )}
+                  Rule definition <span>BOOLEAN AND</span>
                 </h3>
-                <p>{timestamp(event.createdAt.toISOString())}</p>
+                <strong>{rule.name}</strong>
                 <p>
-                  Email: {event.emailState.toLowerCase().replaceAll("_", " ")}
+                  All configured conditions must become true together. The saved
+                  state controls notification and re-arm behavior.
                 </p>
-              </article>
-            ))
+              </div>
+              <h3>Configured evaluation matrix</h3>
+              <div className="evaluation-matrix">
+                {rule.conditions.map((c, i) => (
+                  <div key={i}>
+                    <span>
+                      {c.metric}
+                      <small>
+                        Target: {c.operator} {c.threshold}
+                        {c.upper ? ` / ${c.upper}` : ""}
+                      </small>
+                    </span>
+                    <SemanticBadge state={rule.state} />
+                  </div>
+                ))}
+              </div>
+              <details className="stored-evaluation" open>
+                <summary>Latest recorded evaluation</summary>
+                <pre>
+                  {rule.lastEvaluation
+                    ? JSON.stringify(rule.lastEvaluation, null, 2)
+                    : "No evaluation has been recorded yet."}
+                </pre>
+              </details>
+              <div className="dispatch-log">
+                <h3>Dispatch log</h3>
+                <p>
+                  {events.filter((e) => e.ruleId === rule.id).length} recorded
+                  events for this rule.
+                </p>
+                <p>
+                  No simulated deliveries or current condition truth is
+                  substituted for stored evaluation results.
+                </p>
+              </div>
+              <LinkButton href={`/asset/${rule.assetId}`} primary>
+                OPEN ASSET INTELLIGENCE ↗
+              </LinkButton>
+              <div className="row">
+                <MutationButton
+                  label={rule.paused ? "Resume alert" : "Pause alert"}
+                  endpoint="/api/product/alerts"
+                  method="PATCH"
+                  body={{ id: rule.id, paused: !rule.paused }}
+                />
+                <MutationButton
+                  label="Delete alert"
+                  endpoint="/api/product/alerts"
+                  method="DELETE"
+                  body={{ id: rule.id }}
+                  confirm={`Delete ${rule.name} and its saved alert events?`}
+                />
+              </div>
+            </>
           ) : (
-            <DataState
-              state="EMPTY"
-              title="No conditions satisfied yet"
-              description="Events appear here only after a false-to-true transition."
-            />
+            <DataState state="EMPTY" title="Select a rule" />
           )}
-        </Panel>
+        </aside>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,177 +1,167 @@
-import { AssetImage } from "@/components/asset-image";
+import { DEMO_WATCHLIST } from "@/lib/product/intelligence/demo-universe";
 import Link from "next/link";
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { currentUser } from "@/lib/product/auth";
 import { productDatabase } from "@/lib/product/db";
-import { marketSnapshot } from "@/lib/product/market";
-import { money, integer, timestamp } from "@/lib/product/format";
+import { watchEntries } from "@/lib/product/schema";
 import {
-  Panel,
+  readMarketDataset,
+  readAssetDetail,
+  syntheticMode,
+  demoMode,
+} from "@/lib/product/intelligence/server";
+import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
+import { AuthRequired } from "@/components/auth-required";
+import {
   PageHeading,
+  Panel,
+  Notice,
   Metric,
   DataState,
   LinkButton,
-  SemanticBadge,
 } from "@/components/ui";
-import { AuthRequired } from "@/components/auth-required";
-import { WatchButton } from "@/components/watch-button";
+import {
+  EvidenceNotice,
+  IntelligenceTable,
+  IntelligenceInspection,
+  IntelligenceFilters,
+} from "@/components/intelligence-market";
 import { MutationButton } from "@/components/product-actions";
-export default async function Watchlist() {
-  const user = await currentUser();
-  if (!user) return <AuthRequired feature="watchlist" />;
-  const snapshot = await marketSnapshot();
-  const data = await productDatabase().execute(
-    sql`select w.asset_id as "assetId",o.id as "observationId",o.median_price as median,o.quantity,o.sales_24h_volume as sales,b.median_price as "previousMedian",b.quantity as "previousQuantity",b.sales_24h_volume as "previousSales",b.observed_at::text as "previousAt" from watchlist_entries w left join lateral(select * from market_observations where asset_id=w.asset_id and source='SKINPORT' order by observed_at desc limit 1)o on true left join market_observations b on b.id=w.checkpoint_observation_id where w.user_id=${user.app.id}::uuid order by w.created_at`,
-  );
-  const rows = data.rows as {
-    assetId: string;
-    observationId: string | null;
-    median: string | null;
-    quantity: number | null;
-    sales: number | null;
-    previousMedian: string | null;
-    previousQuantity: number | null;
-    previousSales: number | null;
-    previousAt: string | null;
-  }[];
-  const changed = rows.filter(
-    (r) =>
-      r.previousAt &&
-      (r.median !== r.previousMedian ||
-        r.quantity !== r.previousQuantity ||
-        r.sales !== r.previousSales),
-  );
+export default async function Watchlist({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
+  const params = await searchParams;
+  const demo = syntheticMode(),
+    user = await currentUser();
+  if (!user && !demo) return <AuthRequired feature="watchlist" />;
+  const dataset = await readMarketDataset();
+  const watched = demoMode()
+    ? DEMO_WATCHLIST
+    : demo
+      ? dataset.assets.slice(0, 3).map((a) => ({ assetId: a.id }))
+      : await productDatabase()
+          .select({ assetId: watchEntries.assetId })
+          .from(watchEntries)
+          .where(eq(watchEntries.userId, user!.app.id));
+  const ids = new Set(watched.map((w) => w.assetId)),
+    screen = screenInput(params),
+    result = screenAssets(
+      dataset.assets.filter((a) => ids.has(a.id)),
+      screen,
+    );
+  const focus =
+    result.assets.find((a) => a.id === params.asset) ?? result.assets[0];
+  const detail = focus ? await readAssetDetail(focus.id, screen.horizon) : null;
+  const watchedAssets = dataset.assets.filter((a) => ids.has(a.id));
   return (
-    <>
+    <div className="personal-workstation watch-workstation">
       <PageHeading
         eyebrow="Personal monitoring"
         title="Watchlist"
-        description="One default watchlist. Compare stored observations with your last acknowledged visit."
+        description="Watch assets without owning them. Compare observed prices, activity and freshness."
         action={
-          <LinkButton href="/assets" primary>
-            + Add assets
-          </LinkButton>
+          <Link className="btn primary" href="/assets">
+            Add assets
+          </Link>
         }
       />
-      <div className="metric-grid">
-        <Metric label="Watched assets" value={rows.length} />
-        <Metric label="Changed since visit" value={changed.length} />
-        <Metric
-          label="Price confidence"
-          value={<SemanticBadge state="UNAVAILABLE" />}
-        />
-        <Metric
-          label="Previous checkpoint"
-          value={user.app.watchVisitedAt ? "Saved" : "First visit"}
-        />
-        <Metric
-          label="Missing observations"
-          value={rows.filter((r) => !r.observationId).length}
-        />
-        <Metric
-          label="History basis"
-          value="Stored"
-          note="No fabricated deltas"
-        />
-      </div>
-      {!rows.length ? (
+      <EvidenceNotice dataset={dataset} />
+      {demo && (
+        <p className="subordinate-note">
+          Synthetic watchlist example. Account records are unchanged in this
+          preview.
+        </p>
+      )}
+      {watched.length > 0 && (
+        <div className="metric-grid">
+          <Metric label="Watched assets" value={watched.length} />
+          <Metric
+            label="Available references"
+            value={watchedAssets.filter((a) => a.minimum !== null).length}
+          />
+          <Metric
+            label="Full coverage"
+            value={
+              watchedAssets.filter((a) => a.quality.coveragePct === 100).length
+            }
+          />
+          <Metric
+            label="Stale observations"
+            value={
+              watchedAssets.filter((a) => a.quality.state === "STALE_SOURCE")
+                .length
+            }
+          />
+        </div>
+      )}
+      <IntelligenceFilters screen={screen} path="/watchlist" />
+      {!watched.length ? (
         <Panel title="Your watchlist">
           <DataState
             state="EMPTY"
-            title="Your watchlist is empty"
-            description="Choose assets from the explorer to monitor price, listings, and sales activity."
+            title="Keep your research in one place"
+            description="Open an asset and add it to your watchlist to follow its observed prices, activity and data quality."
             action={
-              <LinkButton href="/assets" primary>
-                Browse assets
+              <LinkButton primary href="/assets">
+                Find an asset
               </LinkButton>
             }
           />
         </Panel>
       ) : (
-        <Panel
-          title="Since last visit"
-          action={
-            <MutationButton
-              label="Mark current observations as seen"
-              endpoint="/api/product/watchlist"
-              method="PATCH"
-              body={{
-                observationIds: rows.flatMap((r) =>
-                  r.observationId ? [r.observationId] : [],
-                ),
-              }}
+        <div className="personal-desk-grid">
+          <div className="results-surface">
+            <IntelligenceTable
+              result={result}
+              screen={screen}
+              params={params}
+              path="/watchlist"
             />
-          }
-        >
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Asset</th>
-                  <th className="number">Observed median</th>
-                  <th className="number">Listings</th>
-                  <th className="number">24h sales activity</th>
-                  <th>Previous checkpoint</th>
-                  <th>Watch</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => {
-                  const a = snapshot.assets.find((a) => a.id === row.assetId);
-                  return (
-                    <tr key={row.assetId}>
-                      <td>
-                        <Link href={`/asset/${row.assetId}`}>
-                          {a && <AssetImage name={a.name} media={a.catalog?.media} />}
-                          {a?.name ?? "Asset unavailable"}
-                        </Link>
-                        {a && (
-                          <small>
-                            <SemanticBadge state={a.state} />
-                          </small>
-                        )}
-                      </td>
-                      <td className="number">
-                        {row.previousAt
-                          ? `${money(row.previousMedian)} → `
-                          : ""}
-                        {money(row.median)}
-                      </td>
-                      <td className="number">
-                        {row.previousAt
-                          ? `${integer(row.previousQuantity)} → `
-                          : ""}
-                        {integer(row.quantity)}
-                      </td>
-                      <td className="number">
-                        {row.previousAt
-                          ? `${integer(row.previousSales)} → `
-                          : ""}
-                        {integer(row.sales)}
-                      </td>
-                      <td>
-                        <small>
-                          {row.previousAt
-                            ? timestamp(row.previousAt)
-                            : "No checkpoint yet"}
-                        </small>
-                      </td>
-                      <td>
-                        <WatchButton assetId={row.assetId} initial authenticated />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
           </div>
-          <div className="chart-caption">
-            Marking observations as seen stores these specific observation IDs.
-            Background collection cannot move the checkpoint past what you
-            viewed.
-          </div>
+          {focus ? (
+            <IntelligenceInspection
+              compact
+              asset={focus}
+              detail={detail}
+              explanation={result.explanations[focus.id]}
+            />
+          ) : (
+            <Panel title="Watched asset detail">
+              <DataState
+                state="NO_RESULTS"
+                title="No matching references"
+                description="Adjust your filters. Saved entries with unavailable references remain in your watchlist."
+              />
+            </Panel>
+          )}
+        </div>
+      )}
+      {!demo && watched.length > 0 && (
+        <Panel title="Manage watched assets">
+          {watched.map((w) => (
+            <div key={w.assetId} className="personal-toolbar">
+              <span>
+                {dataset.assets.find((a) => a.id === w.assetId)?.name ??
+                  w.assetId}
+              </span>
+              <MutationButton
+                label="Remove"
+                endpoint="/api/product/watchlist"
+                method="DELETE"
+                body={{ assetId: w.assetId }}
+              />
+            </div>
+          ))}
         </Panel>
       )}
-    </>
+      {watched.some((w) => !dataset.assets.some((a) => a.id === w.assetId)) && (
+        <Notice>
+          Some watched assets have no available derived snapshot. They remain
+          saved and can still be removed.
+        </Notice>
+      )}
+    </div>
   );
 }

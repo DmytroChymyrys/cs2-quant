@@ -1,25 +1,22 @@
-import { AssetImage } from "@/components/asset-image";
-import { currentUser } from "@/lib/product/auth";
-import { entitlements, capabilities } from "@/lib/product/entitlements";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { currentUser } from "@/lib/product/auth";
+import { entitlements, capabilities } from "@/lib/product/entitlements";
 import {
-  marketSnapshot,
-  marketHistory,
-  categoryNames,
-} from "@/lib/product/market";
-import { money, integer, percent, timestamp } from "@/lib/product/format";
-import {
-  Panel,
-  PageHeading,
-  SemanticBadge,
-  DataState,
-  Metric,
-  Notice,
-  ConfidenceBadge,
-} from "@/components/ui";
-import { ObservationChart } from "@/components/observation-chart";
+  readMarketDataset,
+  readAssetDetail,
+} from "@/lib/product/intelligence/server";
+import type { Horizon } from "@/lib/product/intelligence/contract";
+import { screenInput, explain } from "@/lib/product/intelligence/screener";
+import { PageHeading, Panel, Metric, DataState, Notice } from "@/components/ui";
+import { AssetImage } from "@/components/asset-image";
 import { WatchButton } from "@/components/watch-button";
+import {
+  EvidenceNotice,
+  Quality,
+  marketValue,
+} from "@/components/intelligence-market";
+import { ObservationChart } from "@/components/observation-chart";
 export default async function Asset({
   params,
   searchParams,
@@ -29,224 +26,183 @@ export default async function Asset({
 }) {
   const { id } = await params;
   if (!/^[a-f0-9-]{36}$/i.test(id)) notFound();
-  const snapshot = await marketSnapshot();
-  if (snapshot.error) return <DataState state="SOURCE_UNAVAILABLE" />;
-  const asset = snapshot.assets.find((a) => a.id === id);
-  if (!asset) notFound();
-  const user = await currentUser();
-  const caps = user ? await entitlements(user.app.id) : capabilities(false);
-  const requested = Number((await searchParams).days ?? 1);
-  const days = [1, 7, 30].includes(requested) ? requested : 1;
-  const allowed = days <= caps.historyWindowDays;
-  const history = allowed
-    ? await marketHistory(id, days)
-    : { points: [], error: false };
+  const p = await searchParams,
+    dataset = await readMarketDataset();
+  if (dataset.error)
+    return <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />;
+  const user = await currentUser(),
+    caps = user ? await entitlements(user.app.id) : capabilities(false);
+  const h = (
+    ["1h", "6h", "24h", "7d"].includes(p.horizon ?? "") ? p.horizon : "24h"
+  ) as Horizon | "7d";
+  const permitted = h !== "7d" || caps.historyWindowDays >= 7;
+  const detail = await readAssetDetail(id, permitted ? h : "24h");
+  if (!detail) notFound();
+  const a = detail.asset;
   return (
-    <>
-      <AssetImage name={asset.name} media={asset.catalog?.media} large />
-      <PageHeading
-        eyebrow={`${categoryNames[asset.category ?? ""]} / Asset intelligence`}
-        title={asset.name}
-        description="Canonical unversioned asset · Skinport · USD"
-        action={<WatchButton assetId={id} authenticated={Boolean(user)} />}
-      />
-      {asset.state !== "GROUNDED" && (
-        <Notice>
-          This asset’s latest observation is {asset.state.toLowerCase()}.
-          Inspect the timestamps before interpreting its values.
-        </Notice>
-      )}
-      <div className="metric-grid">
-        <Metric
-          label="Observed median"
-          value={money(asset.median)}
-          note="Current listing median"
-        />
-        <Metric
-          label="Observed minimum"
-          value={money(asset.minimum)}
-          note="Lowest published listing price"
-        />
-        <Metric
-          label="Price change · 24h"
-          value={
-            asset.priceChange === null ? (
-              <SemanticBadge state={asset.historyState} />
-            ) : (
-              percent(asset.priceChange)
-            )
+    <div className="asset-intelligence">
+      <div className="asset-top">
+        <AssetImage name={a.name} media={a.artwork} large />
+        <PageHeading
+          eyebrow="Asset intelligence · Listing references"
+          title={a.name}
+          description={
+            dataset.evidence === "SYNTHETIC"
+              ? "Simulated listing prices, activity and data quality."
+              : "Observed listing prices, activity and data quality."
           }
-          note="Own observation comparison"
         />
-        <Metric
-          label="Listing quantity"
-          value={integer(asset.quantity)}
-          note="Zero is a valid value"
-        />
-        <Metric
-          label="Sales activity · 24h"
-          value={integer(asset.sales24h)}
-          note="Skinport published aggregate"
-        />
-        <Metric
-          label="Price confidence"
-          value={<ConfidenceBadge />}
-          note="No validated classification"
-        />
+        <EvidenceNotice dataset={dataset} />
+        <div className="metric-grid">
+          <Metric
+            label="Minimum listing reference"
+            value={marketValue(a.minimum, " USD")}
+          />
+          <Metric
+            label={
+              dataset.evidence === "SYNTHETIC"
+                ? "Simulated median"
+                : "Observed median"
+            }
+            value={marketValue(a.median, " USD")}
+          />
+          <Metric
+            label="Venue listing quantity"
+            value={marketValue(a.listings)}
+          />
+          <Metric
+            label={
+              dataset.evidence === "SYNTHETIC"
+                ? "Simulated activity · 1h"
+                : "Observed activity · 1h"
+            }
+            value={marketValue(a.activity, " / 100")}
+          />
+          <Metric
+            label="24h volatility"
+            value={marketValue(a.volatility["24h"], "%")}
+            note={
+              a.volatility["24h"] === null
+                ? "Requires 289 consecutive observations"
+                : "Sample standard deviation of minimum-listing log returns"
+            }
+          />
+        </div>
+        {dataset.evidence === "SYNTHETIC" ? (
+          <p className="chart-caption">
+            Synthetic assets cannot be saved to a real account.
+          </p>
+        ) : (
+          <WatchButton assetId={a.id} authenticated={!!user} />
+        )}
       </div>
       <div className="terminal-grid">
         <div className="stack">
           <Panel
-            title="Observation history"
-            note={`AVAILABLE HISTORY · UP TO ${days}D`}
+            title={
+              dataset.evidence === "SYNTHETIC"
+                ? "Simulated price, listings and activity"
+                : "Observed price, listings and activity"
+            }
           >
-            <div className="chart-controls tabs">
-              {[1, 7, 30].map((d) => (
+            <nav className="tabs" aria-label="Chart horizon">
+              {["1h", "6h", "24h", "7d"].map((x) => (
                 <Link
-                  key={d}
-                  className={d === days ? "active" : ""}
-                  href={`/asset/${id}?days=${d}`}
+                  key={x}
+                  className={h === x ? "active" : ""}
+                  href={`/asset/${id}?horizon=${x}`}
                 >
-                  {d}D{d > caps.historyWindowDays ? " · PRO" : ""}
+                  {x.toUpperCase()}
                 </Link>
               ))}
-            </div>
-            {!allowed ? (
-              <DataState
-                state="PRO_LOCKED"
-                title="Extended observation history"
-                description="Pro unlocks up to 30 days of data that has actually been collected."
-              />
-            ) : history.error ? (
-              <DataState state="SOURCE_UNAVAILABLE" />
+            </nav>
+            {permitted ? (
+              detail.error ? (
+                <DataState
+                  state="SOURCE_UNAVAILABLE"
+                  description={detail.error}
+                />
+              ) : (
+                <ObservationChart
+                  series={detail.series}
+                  synthetic={detail.evidence === "SYNTHETIC"}
+                />
+              )
             ) : (
-              <ObservationChart points={history.points} />
+              <DataState state="PRO_LOCKED" />
             )}
+            {h === "7d" &&
+              dataset.scope &&
+              Date.parse(dataset.scope.to) - Date.parse(dataset.scope.from) <
+                604800000 && (
+                <Notice>
+                  7D history: collecting data. The chart contains only the
+                  available portion of this snapshot.
+                </Notice>
+              )}
           </Panel>
-          <div className="three-columns">
-            <Panel title="Price structure">
-              <div className="pad stack">
-                <span>
-                  Median <strong className="mono">{money(asset.median)}</strong>
-                </span>
-                <span>
-                  Minimum{" "}
-                  <strong className="mono">{money(asset.minimum)}</strong>
-                </span>
-                <span>
-                  Mean <strong className="mono">{money(asset.mean)}</strong>
-                </span>
-                <span>
-                  Maximum{" "}
-                  <strong className="mono">{money(asset.maximum)}</strong>
-                </span>
-                <SemanticBadge state="GROUNDED" />
-              </div>
-            </Panel>
-            <Panel title="Listing supply">
-              <div className="pad stack">
-                <strong className="metric-value">
-                  {integer(asset.quantity)}
-                </strong>
-                <span>
-                  24h change:{" "}
-                  {asset.listingChange === null ? (
-                    <SemanticBadge state={asset.historyState} />
-                  ) : (
-                    <span className="mono cyan">
-                      {percent(asset.listingChange)}
-                    </span>
-                  )}
-                </span>
-                <p className="muted">
-                  Listing quantity is availability, not bid/ask depth.
-                </p>
-              </div>
-            </Panel>
-            <Panel title="Sales activity">
-              <div className="pad stack">
-                {[
-                  ["24h", asset.sales24h],
-                  ["7d", asset.sales7d],
-                  ["30d", asset.sales30d],
-                  ["90d", asset.sales90d],
-                ].map(([label, value]) => (
-                  <div className="row between" key={label}>
-                    <span>{label} aggregate</span>
-                    <strong className="mono">
-                      {integer(value as number | null)}
-                    </strong>
-                  </div>
-                ))}
-                <p className="muted">
-                  Overlapping source windows; do not sum them.
-                </p>
-              </div>
-            </Panel>
-          </div>
-          <Panel title="Observed condition">
-            <div className="pad stack">
-              <SemanticBadge state={asset.historyState} />
-              <p>
-                {asset.listingChange === null
-                  ? "A 24-hour comparison is not available yet. Current listing and sales facts are shown above."
-                  : `Listing quantity changed ${percent(asset.listingChange)} compared with an observation approximately 24 hours earlier.`}
-              </p>
-              <p className="muted">
-                These are descriptive observations. They do not predict price
-                direction.
-              </p>
-            </div>
+          <Panel title="Why this asset appears">
+            <ul>
+              {explain(a, screenInput({ horizon: h === "7d" ? "24h" : h })).map(
+                (x) => (
+                  <li key={x}>{x}</li>
+                ),
+              )}
+            </ul>
           </Panel>
         </div>
-        <aside className="stack rail">
-          <Panel title="Price confidence">
-            <div className="pad stack">
-              <ConfidenceBadge />
-              <h2>Support for a price, not its direction.</h2>
+        <aside className="stack">
+          <Panel title="Data quality and provenance">
+            <Quality quality={a.quality} />
+            <details>
+              <summary>Observation timestamps and scope</summary>
+              <p>Latest observation: {a.quality.observedAt}</p>
+              <p>Scheduled window: {a.quality.scheduledWindow}</p>
               <p>
-                A confidence formula and its calibration have not been
-                validated. Available evidence includes {integer(asset.quantity)}{" "}
-                listings and {integer(asset.sales24h)} source-reported sales in
-                24 hours, but no HIGH, MEDIUM, or LOW classification is
-                assigned.
+                Snapshot:{" "}
+                <span className="mono">{dataset.snapshotId?.slice(0, 12)}</span>
               </p>
-            </div>
+              <p>
+                Coverage describes the full snapshot; the chart displays{" "}
+                {detail.series.length} points in [{detail.from}, {detail.to}).
+              </p>
+            </details>
           </Panel>
-          <Panel title="Data provenance">
-            <div className="pad stack">
-              <SemanticBadge state={asset.state} />
-              <p>
-                Observed at
-                <br />
-                <span className="mono">{timestamp(asset.observedAt)}</span>
-              </p>
-              <p>
-                Source updated at
-                <br />
-                <span className="mono">{timestamp(asset.sourceUpdatedAt)}</span>
-              </p>
-              <p>
-                First observation
-                <br />
-                <span className="mono">{timestamp(asset.firstObservedAt)}</span>
-              </p>
-              <p>
-                Items and sales-history responses use separate source caches.
-                They are joined by the canonical unversioned market hash name,
-                not an atomic snapshot guarantee.
-              </p>
-            </div>
+          <Panel title="History versions — slow-changing data">
+            {detail.historyVersions.length ? (
+              detail.historyVersions.map((v) => (
+                <div key={v.version}>
+                  <p>
+                    Version {v.version} · {v.hash.slice(0, 12)}
+                  </p>
+                  <p>
+                    {v.leftCensored
+                      ? "First seen in this snapshot (earlier publication unknown)"
+                      : "Observed version change"}
+                    : {v.firstSeenAt}
+                  </p>
+                  <p>Last seen: {v.lastSeenAt}</p>
+                </div>
+              ))
+            ) : (
+              <p>Unavailable — no History metadata.</p>
+            )}
+            <p>
+              No authoritative History publication timestamp is available.
+              Version observations are not five-minute sales measurements.
+            </p>
           </Panel>
-          <Panel title="Comparables & advanced metrics">
-            <DataState
-              state="UNAVAILABLE"
-              title="Methodology not established"
-              description="No similarity rankings, volatility estimates, or price models are substituted from the mockup."
-            />
+          <Panel title="Methodology">
+            <p>
+              Minimum and median prices describe listings, not trades. Activity
+              counts transitions over 12 complete five-minute pairs. Volatility
+              is unannualized sample standard deviation of log returns. Venue
+              listing quantity is not circulating supply. No prediction or
+              causal classification is assigned.
+            </p>
           </Panel>
         </aside>
       </div>
-    </>
+    </div>
   );
 }

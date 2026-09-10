@@ -1,6 +1,6 @@
-# cs2-quant
+# FloatAlpha
 
-CS2 market observation software built on an audited Skinport collector. This product branch adds the supplied dark terminal UI, market explorer, accounts, watchlists, transition alerts, manual holdings and Free/Pro billing. It uses the **cs2-quant** name throughout.
+CS2 market observation software built on an audited Skinport collector. This product branch adds the supplied dark terminal UI, market explorer, accounts, watchlists, transition alerts, manual holdings and Free/Pro billing. The public product name is **FloatAlpha**. The repository, package, existing deployment identifiers, and billing idempotency keys retain `cs2-quant`; this branding change does not migrate infrastructure.
 
 See [product implementation status and integration setup](docs/product/IMPLEMENTATION_STATUS.md) for delivered screens, semantics, validation, environment variables and remaining provider checks. The new product migration has **not** been applied to production. Use an isolated database and `npm run db:migrate:product` for product validation; the general migration command now includes the additive product schema as well.
 

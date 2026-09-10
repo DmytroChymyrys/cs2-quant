@@ -59,7 +59,10 @@ export function HoldingForm({
           <label>
             Tracked asset
             <select name="asset" defaultValue={holding?.assetId} required>
-              {assets.map((a) => (
+              {(holding
+                ? assets.filter((a) => a.id === holding.assetId)
+                : assets
+              ).map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name}
                 </option>

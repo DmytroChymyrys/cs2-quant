@@ -1,3 +1,4 @@
+import { AuthNarrative } from "@/components/auth-narrative";
 import { AuthForm } from "@/components/auth-form";
 import { authConfiguration } from "@/lib/product/auth";
 export default async function Page({
@@ -7,15 +8,24 @@ export default async function Page({
 }) {
   const params = await searchParams;
   return (
-    <section className="panel auth-card">
-      <span className="eyebrow">cs2-quant / Account access</span>
-      <h1>Look beneath the price</h1>
-      <p className="muted">Create your account. Start with the Free plan.</p>
-      <AuthForm
-        mode="signup"
-        configuration={authConfiguration()}
-        token={params.token}
-      />
-    </section>
+    <>
+      <AuthNarrative mode="signup" />
+      <div className="auth-column auth-column-signup">
+        <section className="panel auth-card">
+          <span className="eyebrow">FloatAlpha / Account access</span>
+          <h1>Create your FloatAlpha account</h1>
+          <p className="muted">Start exploring CS2 market intelligence.</p>
+          <AuthForm
+            mode="signup"
+            configuration={authConfiguration()}
+            token={params.token}
+          />
+        </section>
+        <p className="auth-privacy-note">
+          Low friction onboarding. No credit card, phone, or Steam credentials
+          needed.
+        </p>
+      </div>
+    </>
   );
 }

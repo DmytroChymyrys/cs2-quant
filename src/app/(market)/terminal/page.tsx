@@ -1,266 +1,346 @@
-import { median } from "@/lib/product/statistics";
-import { currentUser } from "@/lib/product/auth";
+import Form from "next/form";
+import { MarketCategoryTabs } from "@/components/market-category-tabs";
+import {
+  categoryCounts,
+  browseUrl,
+} from "@/lib/product/intelligence/browse-state";
+import { DEMO_FOCUS } from "@/lib/product/intelligence/demo-universe";
+import { AssetImage } from "@/components/asset-image";
 import Link from "next/link";
+import { PageHeading, Panel, Metric, DataState } from "@/components/ui";
 import {
-  marketSnapshot,
-  marketHistory,
-  categoryNames,
-} from "@/lib/product/market";
-import { integer, percent } from "@/lib/product/format";
-import {
-  Panel,
-  Metric,
-  SemanticBadge,
-  DataState,
-  PageHeading,
-  Notice,
-} from "@/components/ui";
-import { MarketTable } from "@/components/market-table";
+  EvidenceNotice,
+  IntelligenceFilters,
+  IntelligenceMonitor,
+  PresetDefinitions,
+} from "@/components/intelligence-market";
 import { ObservationChart } from "@/components/observation-chart";
+import {
+  readMarketDataset,
+  readAssetDetail,
+} from "@/lib/product/intelligence/server";
+import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
+import { displayed } from "@/lib/product/intelligence/contract";
 export default async function Terminal({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const params = await searchParams;
-  const user = await currentUser();
-  const preferredCategory =
-    !params.category && user?.app.categories.length === 1
-      ? user.app.categories[0]
-      : params.category;
-  const snapshot = await marketSnapshot();
-  if (snapshot.error)
-    return (
-      <DataState
-        state="SOURCE_UNAVAILABLE"
-        title="Market observations unavailable"
-        description="Stored market data could not be read. Try again later; no replacement figures are shown."
-      />
-    );
-  const assets = snapshot.assets.filter(
-    (a) => !preferredCategory || a.category === preferredCategory,
-  );
-  const focus = assets.find((a) => a.id === params.asset) ?? assets[0];
-  const history = focus
-    ? await marketHistory(focus.id)
-    : { points: [], error: false };
-  const grounded = assets.filter((a) => a.state === "GROUNDED").length;
-  const sales = assets.every((a) => a.sales24h !== null)
-    ? assets.reduce((n, a) => n + a.sales24h!, 0)
-    : null;
-  const listings = assets.every((a) => a.quantity !== null)
-    ? assets.reduce((n, a) => n + a.quantity!, 0)
-    : null;
-  const deltas = assets
-    .map((a) => a.priceChange)
-    .filter((x): x is string => x !== null);
-  const movers = assets
-    .filter((a) => a.priceChange !== null)
-    .sort(
-      (a, b) =>
-        Math.abs(Number(b.priceChange)) - Math.abs(Number(a.priceChange)),
-    )
-    .slice(0, 5);
-  const supply = assets
-    .filter((a) => a.listingChange !== null && Number(a.listingChange) < 0)
-    .sort((a, b) => Number(a.listingChange) - Number(b.listingChange))
-    .slice(0, 8);
+  const p = await searchParams,
+    dataset = await readMarketDataset(),
+    screen = screenInput({
+      ...p,
+      preset: p.preset ?? "all",
+      horizon: p.horizon ?? (dataset.preview === "DEMO" ? "24h" : "1h"),
+    }),
+    result = screenAssets(dataset.assets, screen);
+  const focus =
+      result.assets.find((a) => a.id === p.asset) ??
+      (dataset.preview === "DEMO" && !p.preset
+        ? result.assets.find((a) => a.id === DEMO_FOCUS)
+        : undefined) ??
+      result.assets[0],
+    detail = focus ? await readAssetDetail(focus.id, screen.horizon) : null;
+  const movers = screenAssets(dataset.assets, {
+    ...screen,
+    preset: "movers",
+    sort: "absReturn",
+    direction: "desc",
+    page: 1,
+  }).assets.slice(0, 6);
+  const contracting = screenAssets(dataset.assets, {
+    ...screen,
+    preset: "contracting",
+    sort: "listingChange",
+    direction: "asc",
+    page: 1,
+  }).assets.slice(0, 6);
+  const active = screenAssets(dataset.assets, {
+    ...screen,
+    preset: "active",
+    sort: "activity",
+    direction: "desc",
+    page: 1,
+  }).assets.slice(0, 6);
+  const fmt = (v: string | number | null, suffix = "") =>
+    v === null
+      ? "Unavailable"
+      : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 }) +
+        suffix;
+  const count = (n: number) => (dataset.error ? "Unavailable" : n);
   return (
-    <>
+    <div className="terminal terminal-desk terminal-restored">
       <PageHeading
-        eyebrow="Market overview"
         title="Terminal"
-        description={`${snapshot.assets.length} tracked assets · Pilot universe · Skinport observations`}
-        action={<SemanticBadge state="GROUNDED" />}
+        eyebrow="Tracked market research"
+        description={
+          dataset.evidence === "SYNTHETIC"
+            ? "Simulated listing prices, activity and data quality."
+            : "Observed listing prices, activity and data quality."
+        }
       />
-      {grounded < assets.length && (
-        <Notice>
-          {assets.length - grounded} assets have stale or unavailable
-          observations. Source age is shown separately on each asset.
-        </Notice>
-      )}
+      <EvidenceNotice dataset={dataset} />
       <div className="metric-grid">
         <Metric
           label="Tracked assets"
-          value={assets.length}
-          note="Selected pilot scope"
+          value={count(dataset.assets.length)}
+          note="Selected snapshot scope"
         />
         <Metric
-          label="24h price change"
-          value={
-            deltas.length ? (
-              percent(median(deltas))
-            ) : (
-              <SemanticBadge state="COLLECTING" />
-            )
-          }
-          note={`${deltas.length} assets with a 24h baseline`}
+          label="Price returns available"
+          value={count(
+            dataset.assets.filter((a) => a.returns[screen.horizon] !== null)
+              .length,
+          )}
+          note={`${screen.horizon} comparison history`}
         />
         <Metric
-          label="Sales activity · 24h"
-          value={integer(sales)}
-          note="Sum of source aggregates"
+          label="Active markets"
+          value={count(
+            screenAssets(dataset.assets, {
+              ...screen,
+              preset: "active",
+              sort: "activity",
+              direction: "desc",
+              page: 1,
+            }).total,
+          )}
+          note="Activity ≥ 50 / 100"
         />
         <Metric
-          label="Listing quantity"
-          value={integer(listings)}
-          note="Current selected observations"
+          label="Full coverage"
+          value={count(
+            dataset.assets.filter((a) => a.quality.coveragePct === 100).length,
+          )}
+          note="Complete snapshot observations"
         />
         <Metric
-          label="Observed volatility"
-          value={<SemanticBadge state="UNAVAILABLE" />}
-          note="Methodology not validated"
+          label="Volatility available"
+          value={count(
+            dataset.assets.filter((a) => a.volatility[screen.horizon] !== null)
+              .length,
+          )}
+          note={`${screen.horizon} complete windows`}
         />
         <Metric
-          label="Fresh observations"
-          value={`${grounded} / ${assets.length}`}
-          note="Collected within 15 minutes"
+          label="Stale observations"
+          value={count(
+            dataset.assets.filter((a) => a.quality.state === "STALE_SOURCE")
+              .length,
+          )}
+          note="Source or observation > 15m"
         />
       </div>
-      <div className="terminal-grid">
-        <div className="stack">
-          <Panel title="Observation history" note="ONE ASSET · GROUNDED">
-            <form className="filters">
-              <label>
-                Category
-                <select name="category" defaultValue={preferredCategory ?? ""}>
-                  <option value="">All categories</option>
-                  {Object.entries(categoryNames).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Asset
-                <select name="asset" defaultValue={focus?.id}>
-                  {assets.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button className="btn">Apply</button>
-            </form>
-            <div className="pad row between">
-              <Link href={focus ? `/asset/${focus.id}` : "/assets"}>
-                {focus?.name ?? "No observations"}
-              </Link>
-              <SemanticBadge state="GROUNDED" />
-            </div>
-            {history.error ? (
-              <DataState state="SOURCE_UNAVAILABLE" />
-            ) : (
-              <ObservationChart points={history.points} />
-            )}
-            <div className="chart-caption">
-              A single asset’s available history. A composite pilot index is
-              unavailable until a methodology is validated.
-            </div>
-          </Panel>
-          <div className="two-columns">
-            <Panel title="Supply contraction monitor" note="24H BASELINE">
-              {supply.length ? (
-                <MarketTable assets={supply} compact />
-              ) : (
-                <DataState
-                  state={deltas.length ? "NO_RESULTS" : "COLLECTING"}
-                  title={
-                    deltas.length
-                      ? "No observed contraction"
-                      : "Building a 24h baseline"
-                  }
-                  description="Listing change is neutral supply information. It is not a profit/loss signal."
-                />
-              )}
-            </Panel>
-            <Panel title="Activity changes" note="SOURCE AGGREGATES">
-              {assets.some((a) => a.activityChange !== null) ? (
-                <div className="pad stack">
-                  {assets
-                    .filter((a) => a.activityChange !== null)
-                    .slice(0, 8)
-                    .map((a) => (
-                      <Link
-                        key={a.id}
-                        className="row between"
-                        href={`/asset/${a.id}`}
-                      >
-                        <span>{a.name}</span>
-                        <span className="mono cyan">
-                          {percent(a.activityChange)}
-                        </span>
-                      </Link>
-                    ))}
+      {dataset.error ? (
+        <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />
+      ) : (
+        <div className="terminal-grid">
+          <div className="stack">
+            <Panel
+              title="FloatAlpha · Asset observation history"
+              note="MINIMUM LISTING · USD"
+              className="primary-intelligence"
+            >
+              {dataset.preview === "DEMO" && focus && (
+                <div className="demo-focus-identity">
+                  <AssetImage name={focus.name} media={focus.artwork} large />
+                  <span>{focus.name}</span>
                 </div>
-              ) : (
-                <DataState
-                  state="COLLECTING"
-                  title="Collecting activity comparisons"
-                  description="Activity changes compare source aggregates stored 24 hours apart. Repeated aggregates remain valid observations."
-                />
               )}
-            </Panel>
-          </div>
-        </div>
-        <aside className="stack">
-          <Panel title="Market breadth" note="24H OBSERVED MEDIAN">
-            {deltas.length ? (
-              <div className="three-columns pad">
-                {["Advancing", "Unchanged", "Declining"].map((label, i) => (
-                  <Metric
-                    key={label}
-                    label={label}
-                    value={
-                      deltas.filter((d) =>
-                        i === 0
-                          ? Number(d) > 0
-                          : i === 1
-                            ? Number(d) === 0
-                            : Number(d) < 0,
-                      ).length
-                    }
-                    note={`${deltas.length} evaluable assets`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <DataState
-                state="COLLECTING"
-                title="History is building"
-                description="Breadth requires actual 24-hour comparison observations."
+              <MarketCategoryTabs
+                path="/terminal"
+                params={p}
+                selected={screen.category}
+                counts={categoryCounts(dataset.assets)}
               />
-            )}
-          </Panel>
-          <Panel title="Top movers" note="24H PRICE CHANGE">
-            {movers.length ? (
-              <MarketTable assets={movers} compact />
-            ) : (
-              <DataState state="COLLECTING" title="Movers are not ready" />
-            )}
-          </Panel>
-          <Panel title="Sales activity leaders" note="PUBLISHED 24H AGGREGATES">
-            <div className="pad stack">
-              {[...assets]
-                .filter((a) => a.sales24h !== null)
-                .sort((a, b) => b.sales24h! - a.sales24h!)
-                .slice(0, 5)
-                .map((a) => (
+              <nav className="category-tabs" aria-label="Market presets">
+                {Object.entries({
+                  all: "All assets",
+                  active: "Most active",
+                  up: "Price up",
+                  down: "Price down",
+                  contracting: "Listings contracting",
+                  volatility: "Volatility",
+                }).map(([k, v]) => (
                   <Link
-                    key={a.id}
-                    href={`/asset/${a.id}`}
-                    className="row between"
+                    key={k}
+                    className={screen.preset === k ? "active" : ""}
+                    href={browseUrl("/terminal", p, {
+                      preset: k,
+                      horizon: screen.horizon,
+                    })}
+                    scroll={false}
                   >
-                    <span>{a.name}</span>
-                    <span className="mono cyan">{integer(a.sales24h)}</span>
+                    {v}
                   </Link>
                 ))}
+              </nav>
+              <Form
+                key={JSON.stringify(p)}
+                className="chart-selection"
+                action="/terminal"
+                scroll={false}
+              >
+                {Object.entries(p)
+                  .filter(
+                    ([key, value]) =>
+                      !["preset", "horizon", "asset", "page"].includes(key) &&
+                      value !== undefined,
+                  )
+                  .map(([key, value]) => (
+                    <input key={key} type="hidden" name={key} value={value} />
+                  ))}
+                <input type="hidden" name="preset" value={screen.preset} />
+                <label>
+                  Asset
+                  <select name="asset" defaultValue={focus?.id}>
+                    {result.assets.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Horizon
+                  <select name="horizon" defaultValue={screen.horizon}>
+                    {["1h", "6h", "24h"].map((h) => (
+                      <option key={h}>{h}</option>
+                    ))}
+                  </select>
+                </label>
+                <button className="btn">Apply</button>
+              </Form>
+              {focus && (
+                <div className="inline-metrics">
+                  <Metric
+                    label="Minimum listing reference"
+                    value={fmt(focus.minimum, " USD")}
+                  />
+                  <Metric
+                    label={`Price return · ${screen.horizon}`}
+                    value={fmt(focus.returns[screen.horizon], "%")}
+                  />
+                  <Metric label="Venue listings" value={fmt(focus.listings)} />
+                  <Metric
+                    label={
+                      dataset.evidence === "SYNTHETIC"
+                        ? "Simulated activity · 1h"
+                        : "Observed activity · 1h"
+                    }
+                    value={fmt(focus.activity)}
+                  />
+                </div>
+              )}
+              {detail ? (
+                detail.error ? (
+                  <DataState
+                    state="SOURCE_UNAVAILABLE"
+                    description={detail.error}
+                  />
+                ) : (
+                  <ObservationChart
+                    series={detail.series}
+                    synthetic={detail.evidence === "SYNTHETIC"}
+                  />
+                )
+              ) : (
+                <DataState
+                  state="INSUFFICIENT_HISTORY"
+                  description="No asset matches the selected screen."
+                />
+              )}
+              {focus && (
+                <Link className="chart-caption" href={`/asset/${focus.id}`}>
+                  Open Asset Intelligence ↗
+                </Link>
+              )}
+              <details className="terminal-screen-options">
+                <summary>Screen filters &amp; methodology</summary>
+                <IntelligenceFilters screen={screen} path="/terminal" />
+                <PresetDefinitions />
+              </details>
+            </Panel>
+            <div className="two-columns">
+              <Panel
+                title="Listings contraction monitor"
+                note="1H VENUE CHANGE"
+              >
+                <IntelligenceMonitor
+                  assets={contracting}
+                  metric="listings"
+                  params={p}
+                  horizon={screen.horizon}
+                />
+                <p className="chart-caption">
+                  Venue listing quantity, not circulating supply.
+                </p>
+              </Panel>
+              <Panel
+                title={
+                  dataset.evidence === "SYNTHETIC"
+                    ? "Simulated market activity"
+                    : "Observed market activity"
+                }
+                note="1H TRANSITIONS"
+              >
+                <IntelligenceMonitor
+                  assets={active}
+                  metric="activity"
+                  params={p}
+                  horizon={screen.horizon}
+                />
+              </Panel>
             </div>
-          </Panel>
-        </aside>
-      </div>
-    </>
+          </div>
+          <aside className="stack">
+            <Panel title="Market coverage & freshness" note="SELECTED SNAPSHOT">
+              <div className="inspection-metrics">
+                <Metric
+                  label="Coverage"
+                  value={`${dataset.assets.filter((a) => a.quality.coveragePct === 100).length} / ${dataset.assets.length}`}
+                  note="Assets with full observations"
+                />
+                <Metric
+                  label="Fresh observations"
+                  value={`${dataset.assets.filter((a) => a.quality.state === "FULL_COVERAGE" || a.quality.state === "PARTIAL_COVERAGE").length} / ${dataset.assets.length}`}
+                  note="Source and observation ≤ 15m"
+                />
+              </div>
+              <p className="chart-caption">
+                Unavailable metrics remain unavailable. Unchanged observations
+                remain valid.
+              </p>
+            </Panel>
+            <Panel
+              title="Top price movers"
+              note={`${screen.horizon.toUpperCase()} LISTING RETURN`}
+            >
+              <IntelligenceMonitor
+                assets={movers}
+                horizon={screen.horizon}
+                params={p}
+              />
+            </Panel>
+            {focus && (
+              <Panel title="Selected asset provenance">
+                <div className="inspection-chart">
+                  <p>Observed {displayed(focus.quality.observedAt)}</p>
+                  <p>
+                    Current source age{" "}
+                    {fmt(focus.quality.sourceAgeSeconds, "s")}
+                  </p>
+                  <p>
+                    Captured source age{" "}
+                    {fmt(focus.quality.capturedSourceAgeSeconds ?? null, "s")}
+                  </p>
+                  <p>History version {displayed(focus.history?.version)}</p>
+                </div>
+              </Panel>
+            )}
+          </aside>
+        </div>
+      )}
+    </div>
   );
 }

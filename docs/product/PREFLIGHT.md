@@ -8,7 +8,7 @@ Existing: Next.js 16.3.4, React 19.2.8, TypeScript 6.0.3; App Router with an uns
 
 Protected boundary: collector, market schemas/migrations, identity, normalization, schedule and experiment must remain unchanged. Product additions use separate modules and additive migrations. No product migrations or deployments are applied to production as part of local implementation without first validating the new integration requirements.
 
-Conflicts resolved: mockup FloatAlpha branding becomes cs2-quant. Source facts and DATA_SEMANTICS override invented price indices, unsupported order books, trade feeds, confidence scores and historical windows. Confidence has no approved calibrated methodology: show UNAVAILABLE and an explanation, not invented HIGH/MEDIUM/LOW classifications. Free/Pro prices come from configured Stripe products, never screenshot numbers.
+Current branding override: the user subsequently selected FloatAlpha as the public product name. Existing cs2-quant repository and infrastructure identifiers remain unchanged. Source facts and DATA_SEMANTICS override invented price indices, unsupported order books, trade feeds, confidence scores and historical windows. Confidence has no approved calibrated methodology: show UNAVAILABLE and an explanation, not invented HIGH/MEDIUM/LOW classifications. Free/Pro prices come from configured Stripe products, never screenshot numbers.
 
 Integration prerequisites currently absent: Better Auth secret/base URL, Google OAuth client credentials, transactional email provider credentials/sender, Turnstile site/secret keys, Stripe secret/webhook keys and price IDs. Configuration absence must produce explicit unavailable states; no fabricated successful login, email, checkout, or paid account.
 

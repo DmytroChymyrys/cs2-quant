@@ -31,10 +31,11 @@ export function PreferencesForm({
   const [step, setStep] = useState(1),
     [busy, setBusy] = useState(false),
     [message, setMessage] = useState("");
+  const [visualCategories, setVisualCategories] = useState(initialCategories);
   const router = useRouter();
   return (
     <form
-      className="form-grid"
+      className={onboarding ? "form-grid onboarding-form" : "form-grid"}
       onSubmit={async (e) => {
         e.preventDefault();
         const f = new FormData(e.currentTarget);
@@ -64,24 +65,44 @@ export function PreferencesForm({
       }}
     >
       {onboarding && (
-        <>
-          <div className="row between">
-            <span className="eyebrow">Step {step} of 2</span>
-            <Link href="/terminal" className="muted">
-              Skip to Terminal →
-            </Link>
-          </div>
-          <div className="progress">
-            <span style={{ width: step === 1 ? "50%" : "100%" }} />
-          </div>
-        </>
+        <div className="onboarding-stepper">
+          <span className={step === 1 ? "active" : ""}>
+            <b>01</b>
+            <span>
+              MARKET INTERESTS
+              <small>
+                {step === 1 ? "ACTIVE CONFIGURATION" : "CATEGORIES SELECTED"}
+              </small>
+            </span>
+          </span>
+          <i />
+          <span className={step === 2 ? "active" : ""}>
+            <b>02</b>
+            <span>
+              MONITORING CONDITIONS<small>CRITERIA SELECTION</small>
+            </span>
+          </span>
+          <i />
+          <span>
+            <b>03</b>
+            <span>
+              WORKSPACE READY<small>SAVE YOUR PREFERENCES</small>
+            </span>
+          </span>
+        </div>
+      )}
+      {onboarding && (
+        <div className="onboarding-step-label">
+          STEP {step} OF 2 //{" "}
+          {step === 1 ? "INITIAL TAXONOMY" : "MONITORING FOCUS"}
+        </div>
       )}
       <fieldset
         hidden={onboarding && step !== 1}
         style={{ border: 0, padding: 0, margin: 0 }}
       >
         <legend>
-          <h2>Your market focus</h2>
+          <h2>{onboarding ? "What do you follow?" : "Your market focus"}</h2>
         </legend>
         <p className="muted">Choose the categories you want to follow.</p>
         <div className="check-grid" style={{ marginTop: 15 }}>
@@ -92,8 +113,20 @@ export function PreferencesForm({
                 name="categories"
                 value={value}
                 defaultChecked={initialCategories.includes(value)}
+                onChange={(e) =>
+                  setVisualCategories((current) =>
+                    e.target.checked
+                      ? [...current, value]
+                      : current.filter((v) => v !== value),
+                  )
+                }
               />
               {label}
+              {onboarding && (
+                <span className="selection-label">
+                  {visualCategories.includes(value) ? "SELECTED" : "UNSELECTED"}
+                </span>
+              )}
             </label>
           ))}
         </div>
@@ -135,12 +168,47 @@ export function PreferencesForm({
           </details>
         )}
       </fieldset>
+      {onboarding && (
+        <aside className="onboarding-preview">
+          <h3>
+            Your market view <span className="dot" />
+          </h3>
+          <section>
+            <span>TERMINAL PREFERENCES</span>
+            <strong>
+              {visualCategories.length
+                ? categories
+                    .filter(([key]) => visualCategories.includes(key))
+                    .map(([, label]) => label)
+                    .join(" · ")
+                : "All categories"}
+            </strong>
+          </section>
+          <section>
+            <span>MARKET FACTS</span>
+            <strong>Same grounded observations</strong>
+          </section>
+          <section>
+            <span>MONITORING</span>
+            <strong>
+              {step === 1 ? "Configure in Step 2" : "Select your interests"}
+            </strong>
+          </section>
+          <p>You can change these preferences in Settings.</p>
+          <small>No Steam credentials or inventory access are required.</small>
+        </aside>
+      )}
       <Notice>
         Preferences affect your starting filters and focus, never the underlying
         market facts.
       </Notice>
       {message && <p role="status">{message}</p>}
-      <div className="row">
+      <div className={onboarding ? "row onboarding-actions" : "row"}>
+        {onboarding && (
+          <Link href="/terminal" className="muted">
+            Skip for now
+          </Link>
+        )}
         {onboarding && step === 2 && (
           <Button type="button" onClick={() => setStep(1)}>
             Back

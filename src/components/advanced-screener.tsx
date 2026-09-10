@@ -52,7 +52,7 @@ export function AdvancedScreener() {
         );
         const a = document.createElement("a");
         a.href = url;
-        a.download = "cs2-quant-screen.csv";
+        a.download = "floatalpha-screen.csv";
         a.click();
         URL.revokeObjectURL(url);
       } else setAssets(data.assets);

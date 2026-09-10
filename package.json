@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3338",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -22,7 +22,15 @@
     "db:migrate:product": "node --import tsx scripts/migrate-product.ts",
     "db:migrate:imagery": "tsx scripts/migrate-asset-images.ts",
     "catalog:sync": "tsx scripts/catalog-sync.ts",
-    "db:migrate:catalog": "tsx scripts/migrate-catalog.ts"
+    "db:migrate:catalog": "tsx scripts/migrate-catalog.ts",
+    "analytics:report": "node --import tsx scripts/derived-market/run.ts --mode report",
+    "analytics:health": "node --import tsx scripts/derived-market/run.ts --mode health",
+    "analytics:storage": "node --import tsx scripts/derived-market/run.ts --mode storage",
+    "db:migrate:derived": "node --import tsx scripts/derived-market/migrate.ts",
+    "analytics:snapshot": "node --import tsx scripts/derived-market/snapshot.ts",
+    "analytics:research": "node --import tsx scripts/derived-market/research.ts",
+    "check:demo": "node scripts/check-demo-market.mjs",
+    "check:qa": "node scripts/check-qa-market.mjs"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.3",

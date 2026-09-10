@@ -1,6 +1,6 @@
 # cs2-quant product implementation
 
-This branch implements the supplied product handoff with the user's cs2-quant name. The original mockups are retained as visual references, not claims about source capability.
+This branch implements the supplied product handoff with the user's current FloatAlpha product name (repository and deployment identifiers remain cs2-quant). The original mockups are retained as visual references, not claims about source capability.
 
 ## Implemented
 

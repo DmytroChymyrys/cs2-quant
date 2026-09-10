@@ -35,7 +35,7 @@ export function authConfiguration() {
 export function authService() {
   if (!authConfiguration().configured) return null;
   return betterAuth({
-    appName: "cs2-quant",
+    appName: "FloatAlpha",
     baseURL: process.env.BETTER_AUTH_URL,
     secret: process.env.BETTER_AUTH_SECRET,
     database: drizzleAdapter(productDatabase(), {
@@ -89,7 +89,7 @@ export function authService() {
       sendResetPassword: async ({ user, url }) => {
         await sendEmail(
           user.email,
-          "Reset your cs2-quant password",
+          "Reset your FloatAlpha password",
           `Reset your password: ${url}`,
         );
       },
@@ -99,7 +99,7 @@ export function authService() {
       sendVerificationEmail: async ({ user, url }) => {
         await sendEmail(
           user.email,
-          "Verify your cs2-quant email",
+          "Verify your FloatAlpha email",
           `Verify your email address: ${url}`,
         );
       },

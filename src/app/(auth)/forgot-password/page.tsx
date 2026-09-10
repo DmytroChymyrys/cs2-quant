@@ -1,3 +1,4 @@
+import { AuthNarrative } from "@/components/auth-narrative";
 import { AuthForm } from "@/components/auth-form";
 import { authConfiguration } from "@/lib/product/auth";
 export default async function Page({
@@ -7,17 +8,25 @@ export default async function Page({
 }) {
   const params = await searchParams;
   return (
-    <section className="panel auth-card">
-      <span className="eyebrow">cs2-quant / Account access</span>
-      <h1>Reset your password</h1>
-      <p className="muted">
-        Enter your email to request a password reset link.
-      </p>
-      <AuthForm
-        mode="forgot"
-        configuration={authConfiguration()}
-        token={params.token}
-      />
-    </section>
+    <>
+      <AuthNarrative mode="recovery" />
+      <div className="auth-column auth-column-forgot-password">
+        <section className="panel auth-card">
+          <span className="eyebrow">FloatAlpha / Account access</span>
+          <h1>Reset your password</h1>
+          <p className="muted">
+            Enter your email to request a password reset link.
+          </p>
+          <AuthForm
+            mode="forgot"
+            configuration={authConfiguration()}
+            token={params.token}
+          />
+        </section>
+        <p className="auth-privacy-note">
+          Your account credentials are never connected to your Steam inventory.
+        </p>
+      </div>
+    </>
   );
 }
