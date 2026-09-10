@@ -101,3 +101,10 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
   .lp .showcase-presets { flex-wrap: wrap; }
 }
 @media(prefers-reduced-motion:reduce) { .lp .showcase-panel { animation: none; } .lp .lp-screen-tabs button { transition: none; } }
+
+.intelligence-plot { position: relative; }
+.intelligence-plot > svg { cursor: crosshair; }
+.intelligence-plot > svg:focus-visible { outline-offset: -2px; }
+.chart-readout { position: absolute; top: 40px; pointer-events: none; display: grid; gap: 5px; max-width: calc(100% - 24px); padding: 10px 12px; background: rgb(14 18 26 / 96%); border: 1px solid #344155; border-radius: 3px; color: #b8c4d1; box-shadow: 0 2px 6px #0005; font: 11px/1.5 var(--mono); }
+.chart-readout strong { font-size: 15px; color: #f8fafc; }
+.chart-readout small { font-size: 10px; }

@@ -26,6 +26,7 @@ export function seriesPath(points: MarketSeriesPoint[], metric: ChartMetric) {
   return {
     min,
     max,
+    range,
     path: values
       .map((v, i) =>
         v === null || !Number.isFinite(v)
@@ -44,6 +45,7 @@ export function IntelligenceChart({
   synthetic?: boolean;
   compact?: boolean;
 }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [metric, setMetric] = useState<ChartMetric>("minimum"),
     id = useId();
   const labels: Record<ChartMetric, string> = {
@@ -55,6 +57,23 @@ export function IntelligenceChart({
     sourceAgeSeconds: "ITEMS AGE AT OBSERVATION",
   };
   const graph = points.length >= 2 ? seriesPath(points, metric) : null;
+  const active = activeIndex === null ? null : points[activeIndex];
+  const activeValue = active?.[metric] ?? null;
+  const activeX = active
+    ? 20 +
+      ((Date.parse(active.at) - Date.parse(points[0].at)) /
+        (Date.parse(points.at(-1)!.at) - Date.parse(points[0].at) || 1)) *
+        960
+    : null;
+  const formatted = (v: string | number | null) =>
+    v === null
+      ? "Unavailable"
+      : Number(v).toLocaleString("en-US", {
+          minimumFractionDigits:
+            metric === "listings" || metric === "sourceAgeSeconds" ? 0 : 2,
+          maximumFractionDigits:
+            metric === "listings" || metric === "sourceAgeSeconds" ? 0 : 2,
+        });
   return (
     <>
       <div className="chart-controls">
@@ -64,7 +83,10 @@ export function IntelligenceChart({
               key={k}
               aria-pressed={metric === k}
               className={metric === k ? "active" : ""}
-              onClick={() => setMetric(k as ChartMetric)}
+              onClick={() => {
+                setMetric(k as ChartMetric);
+                setActiveIndex(null);
+              }}
             >
               {v}
             </button>
@@ -82,17 +104,68 @@ export function IntelligenceChart({
           }
         />
       ) : (
-        <div className="chart">
+        <div className="chart intelligence-plot">
           <div className="chart-labels">
             <span>{labels[metric]}</span>
             <span>
-              {graph.min.toFixed(2)} — {graph.max.toFixed(2)}
+              {formatted(graph.min)} — {formatted(graph.max)}
             </span>
           </div>
-          <svg viewBox="0 0 1000 240" role="img" aria-labelledby={id}>
+          <svg
+            viewBox="0 0 1000 240"
+            role="img"
+            aria-labelledby={id}
+            aria-describedby={`${id}-instructions`}
+            tabIndex={0}
+            onPointerMove={(event) => {
+              const matrix = event.currentTarget.getScreenCTM();
+              if (!matrix) return;
+              const x = new DOMPoint(
+                event.clientX,
+                event.clientY,
+              ).matrixTransform(matrix.inverse()).x;
+              const time =
+                Date.parse(points[0].at) +
+                Math.max(0, Math.min(1, (x - 20) / 960)) *
+                  (Date.parse(points.at(-1)!.at) - Date.parse(points[0].at));
+              setActiveIndex(nearestObservation(points, time));
+            }}
+            onPointerLeave={(event) => {
+              if (document.activeElement !== event.currentTarget)
+                setActiveIndex(null);
+            }}
+            onFocus={() => setActiveIndex(points.length - 1)}
+            onBlur={() => setActiveIndex(null)}
+            onKeyDown={(event) => {
+              const index = activeIndex ?? points.length - 1;
+              const next =
+                event.key === "ArrowLeft"
+                  ? Math.max(0, index - 1)
+                  : event.key === "ArrowRight"
+                    ? Math.min(points.length - 1, index + 1)
+                    : event.key === "Home"
+                      ? 0
+                      : event.key === "End"
+                        ? points.length - 1
+                        : null;
+              if (next !== null) {
+                event.preventDefault();
+                setActiveIndex(next);
+              }
+              if (event.key === "Escape") {
+                event.preventDefault();
+                setActiveIndex(null);
+              }
+            }}
+          >
             <title
               id={id}
             >{`${labels[metric]} over ${synthetic ? "synthetic demo" : "observed"} time`}</title>
+            <desc id={`${id}-instructions`}>
+              Use Left and Right arrows to inspect recorded points; Home and End
+              jump to the endpoints. Escape dismisses the readout. Values are
+              not interpolated.
+            </desc>
             <defs>
               <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#00b4d8" stopOpacity="0.16" />
@@ -120,9 +193,22 @@ export function IntelligenceChart({
                 y1={y}
                 y2={y}
                 stroke="#263145"
-                strokeDasharray="3 4"
+                strokeOpacity={y === 120 ? 0.85 : 0.45}
+                strokeDasharray={y === 120 ? undefined : "2 5"}
+                vectorEffect="non-scaling-stroke"
               />
             ))}
+            {graph.min <= 0 && graph.max >= 0 && (
+              <line
+                x1="20"
+                x2="980"
+                y1={210 - ((0 - graph.min) / graph.range) * 170}
+                y2={210 - ((0 - graph.min) / graph.range) * 170}
+                stroke="#64748b"
+                strokeDasharray="5 4"
+                vectorEffect="non-scaling-stroke"
+              />
+            )}
             <path
               d={graph.path}
               fill="none"
@@ -130,7 +216,62 @@ export function IntelligenceChart({
               strokeWidth="2"
               vectorEffect="non-scaling-stroke"
             />
+            {activeX !== null && (
+              <g className="chart-crosshair" pointerEvents="none">
+                <line
+                  x1={activeX}
+                  x2={activeX}
+                  y1="28"
+                  y2="220"
+                  stroke="#94a3b8"
+                  strokeDasharray="3 3"
+                  vectorEffect="non-scaling-stroke"
+                />
+                {activeValue !== null &&
+                  Number.isFinite(Number(activeValue)) && (
+                    <circle
+                      cx={activeX}
+                      cy={
+                        210 -
+                        ((Number(activeValue) - graph.min) / graph.range) * 170
+                      }
+                      r="3"
+                      fill="#0e121a"
+                      stroke="#38bdf8"
+                      strokeWidth="2"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  )}
+              </g>
+            )}
           </svg>
+          {active && (
+            <div
+              className="chart-readout"
+              style={{
+                left: activeX! > 500 ? 12 : undefined,
+                right: activeX! <= 500 ? 12 : undefined,
+              }}
+              role="status"
+            >
+              <span>{timestamp(active.at)}</span>
+              <strong>
+                {formatted(activeValue)}
+                {activeValue !== null
+                  ? metric === "minimum" || metric === "median"
+                    ? " USD"
+                    : metric === "volatility"
+                      ? "%"
+                      : metric === "sourceAgeSeconds"
+                        ? "s"
+                        : ""
+                  : ""}
+              </strong>
+              <small>
+                {labels[metric]} · {synthetic ? "SYNTHETIC" : "OBSERVED"}
+              </small>
+            </div>
+          )}
           <div className="chart-labels">
             <span>{timestamp(points[0]?.at)}</span>
             <span>{timestamp(points.at(-1)?.at)}</span>
@@ -157,15 +298,15 @@ export function IntelligenceChart({
             <table>
               <thead>
                 <tr>
-                  <th>Observation · UTC</th>
-                  <th>{labels[metric]}</th>
+                  <th className="number">Observation · UTC</th>
+                  <th className="number">{labels[metric]}</th>
                 </tr>
               </thead>
               <tbody>
                 {points.map((p) => (
                   <tr key={p.at}>
-                    <td>{timestamp(p.at)}</td>
-                    <td>
+                    <td className="number">{timestamp(p.at)}</td>
+                    <td className="number">
                       {p[metric] === null ? "Unavailable" : String(p[metric])}
                     </td>
                   </tr>
@@ -177,4 +318,23 @@ export function IntelligenceChart({
       )}
     </>
   );
+}
+
+// Select an actual observation, including nulls, rather than inventing a value in a gap.
+export function nearestObservation(
+  points: Pick<MarketSeriesPoint, "at">[],
+  time: number,
+) {
+  let low = 0,
+    high = points.length - 1;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (Date.parse(points[middle].at) < time) low = middle + 1;
+    else high = middle;
+  }
+  return low > 0 &&
+    Math.abs(Date.parse(points[low - 1].at) - time) <=
+      Math.abs(Date.parse(points[low].at) - time)
+    ? low - 1
+    : low;
 }

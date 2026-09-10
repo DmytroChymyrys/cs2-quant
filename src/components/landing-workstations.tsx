@@ -57,7 +57,11 @@ export function LandingWorkstations() {
     </div>
   );
   const chart = (
-    <IntelligenceChart points={demo.series as MarketSeriesPoint[]} synthetic />
+    <IntelligenceChart
+      points={demo.series as MarketSeriesPoint[]}
+      compact
+      synthetic
+    />
   );
   const categories = (
     <div className="showcase-categories" aria-label="Example category context">
