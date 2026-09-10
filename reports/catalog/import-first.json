@@ -1,0 +1,2727 @@
+{
+  "revision": "be84e43a2eb379faf653158e409a2c90c4072312",
+  "normalizerVersion": "floatalpha-catalog-v1",
+  "sourceRecords": 48412,
+  "normalizedRecords": 48412,
+  "datasets": [
+    {
+      "name": "skins_not_grouped",
+      "records": 21407,
+      "bytes": 36669684,
+      "sha256": "d7ef9004f9bd26afdc93ea534333af55961fb24d4f0efcf35f68a6d15f41fb44",
+      "normalized": 21407
+    },
+    {
+      "name": "stickers",
+      "records": 11134,
+      "bytes": 19677783,
+      "sha256": "0a4c01383903686fc11b826539b822fa2b9257db286c2293a9f5dbc6fd8abb39",
+      "normalized": 11134
+    },
+    {
+      "name": "crates",
+      "records": 481,
+      "bytes": 8331773,
+      "sha256": "41cfc56c46cc4e0b180398a190f4731a5d66a697d061c67b0f3e5fa95f4afddb",
+      "normalized": 481
+    },
+    {
+      "name": "keychains",
+      "records": 78,
+      "bytes": 83748,
+      "sha256": "ec4f2951bed5f15613d4bbec813f75e9cd47dce87a1782001988faec0dd67bc1",
+      "normalized": 78
+    },
+    {
+      "name": "agents",
+      "records": 63,
+      "bytes": 93216,
+      "sha256": "819f7423f28202e7cd5830328bf66e2a7f8fd8a6f0ea6a630ec272e2ac93edb9",
+      "normalized": 63
+    },
+    {
+      "name": "patches",
+      "records": 112,
+      "bytes": 85374,
+      "sha256": "ebc71dffa1bb2f9ccf21b51624b56c0a0037b407bb77b7727777c1feaae8599d",
+      "normalized": 112
+    },
+    {
+      "name": "graffiti",
+      "records": 2111,
+      "bytes": 1926728,
+      "sha256": "199c8dd8dcb961bb7bebe0ee6a20558f73587844d476660fa96cc3190296cb16",
+      "normalized": 2111
+    },
+    {
+      "name": "music_kits",
+      "records": 189,
+      "bytes": 239119,
+      "sha256": "1e11c374cbfb41ad099339a3f72b1c8698c05b7ed3d6aabdbe9a469aeb048b43",
+      "normalized": 189
+    },
+    {
+      "name": "collectibles",
+      "records": 667,
+      "bytes": 520522,
+      "sha256": "9752f59dd67cd973b4fac86b4e488cc33d214529485f40b24abbc507462cbfc2",
+      "normalized": 667
+    },
+    {
+      "name": "keys",
+      "records": 39,
+      "bytes": 36685,
+      "sha256": "7789d988d13feece8357c13566c81efb84e06918af2b7df25d49012a08af4801",
+      "normalized": 39
+    },
+    {
+      "name": "tools",
+      "records": 4,
+      "bytes": 2141,
+      "sha256": "21f77d65beabf5c89303e123c69528bb1b5d9c4a66149c67599f14edbaa5a436",
+      "normalized": 4
+    },
+    {
+      "name": "base_weapons",
+      "records": 67,
+      "bytes": 37132,
+      "sha256": "e0a336d26efdc059a5899afced207b03288a1b1c80f1ec3a6df94a606157ede9",
+      "normalized": 67
+    },
+    {
+      "name": "highlights",
+      "records": 926,
+      "bytes": 1093070,
+      "sha256": "a862ed4bdc6533a5037e4338f936e34fd459bc49ad7c1f699fe20261d15fb11c",
+      "normalized": 926
+    },
+    {
+      "name": "sticker_slabs",
+      "records": 11134,
+      "bytes": 18239831,
+      "sha256": "d7a3601309eac5270590065adfad357ef0b52fb99e7b329932cd144f0d0253d8",
+      "normalized": 11134
+    }
+  ],
+  "byAssetType": {
+    "AGENT": 63,
+    "AUTOGRAPH_CAPSULE": 139,
+    "BASE_WEAPON": 67,
+    "CASE": 42,
+    "CHARM": 78,
+    "COLLECTIBLE": 667,
+    "CONTAINER": 9,
+    "GLOVES": 470,
+    "GRAFFITI": 2111,
+    "GRAFFITI_CONTAINER": 3,
+    "KEY": 39,
+    "KNIFE": 4020,
+    "MUSIC_KIT": 189,
+    "MUSIC_KIT_BOX": 13,
+    "PATCH": 112,
+    "PATCH_CAPSULE": 7,
+    "PIN_CONTAINER": 4,
+    "SOUVENIR_HIGHLIGHT": 926,
+    "SOUVENIR_HIGHLIGHT_CONTAINER": 14,
+    "SOUVENIR_PACKAGE": 150,
+    "STICKER": 11134,
+    "STICKER_CAPSULE": 100,
+    "STICKER_SLAB": 11134,
+    "TOOL": 4,
+    "WEAPON_SKIN": 16917
+  },
+  "created": 48412,
+  "updated": 0,
+  "unchanged": 0,
+  "deprecated": 0,
+  "invalid": 0,
+  "ambiguous": 122,
+  "duplicateSourceIds": [],
+  "duplicateMarketNames": [
+    {
+      "identity": "★ Bayonet | Doppler (Factory New)",
+      "candidates": [
+        "fa_dd00334fd2b0892aeccfe089c91bbc5810be43dc25acde268c6e760bb6d6fc0b",
+        "fa_5637669b83e7575de89e13d076e2a0ea9ae1f03b7c34c1eb2663b4f929a7eb9c",
+        "fa_c576daef74a9619d37007191d48bc385aaa25cbdbd404e3b064d58797bba70bd",
+        "fa_fcd1bf09529effe0e7b0cc754c01b6aca4bc71a8214ef5d3b4bb95721881ec10",
+        "fa_92b4c32f179278953caea0ccabd7d390433097a778df062f8f62cddbcb8dc0d8",
+        "fa_85cc820aa3592d0352c6f71d91e5fd79674074deecba98fb1b8e3c6811e532d2",
+        "fa_3f78a8b064d017e3c88121f63ec9a724bbeea7d7f551de59d70fc383ac735265"
+      ]
+    },
+    {
+      "identity": "★ Bayonet | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_0f1e5857376f29a4bf96374d6ce7153c434998ddb4a916fd39f56ad757321e5b",
+        "fa_ba8402372f07055e445d8e7d26c46b61274889ee5c0c16bc41ac33eb64674b6e",
+        "fa_bcf7b568c9a649549b706997ceaa02ebe57462b434f56d6270c65a8aefba60ce",
+        "fa_abae5389f44d60e59da78fff316a54e2c44fd4c5252d672c544e3a2321805561",
+        "fa_4d4571ca9f8c82573e38ef735046fa688b1a480b0e7e94ab9f4abad6d0b2be18",
+        "fa_f741d86d9d3497a1648de06fb438d075dcc2c2c1719379e1f6fa7650dc9ae7dd",
+        "fa_288d117ab61a001c60a3b91c4c8c132dec0c6ccc690f6401a32c96c5c3ec8c3a"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bayonet | Doppler (Factory New)",
+      "candidates": [
+        "fa_677886a3754810c3498e0c6f83aef1802050bf87b3aa90e8567ac6f2e52cf3ef",
+        "fa_5e927e81357e7c7a68b3c4f2235cb6947f48dc7f5f430aae52d422452dd81826",
+        "fa_4b9aa0db497f54c3ccef66a6fdfa64a7763c43e152b16638e4a84eae20aafc7f",
+        "fa_c69d55b0eae400c30d48ea32093bbce251021f6dd51a4f76f5f48af4829793c7",
+        "fa_c888e47865ec310d257f23c8cebda953f81a7e87b6106eed6012b9ab36ea1270",
+        "fa_91225e154ca959a9782a2535227d88b4f250789cf551d9d92e4c026f48593399",
+        "fa_ae5c55ac2d22157730a5f6cf5070b63fa0250e93a0051f45c1c00408fbc9d0c3"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bayonet | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_059b05de7b35b8fc18dee277a275996990261ff4b030e586945d2eec0f2879ae",
+        "fa_b69bc5edceccdaf58974ef3856c8453df947171ec5857be2695931e0e19c44b4",
+        "fa_f1b0cd1d6aa88ba27d8b7194ed99b1d296640ff76ea9dc6be02f16760853e9b0",
+        "fa_0231ba9056b16bd5439512d83f1c5a91163710dfe9b928b9f2d3d80e390a8b01",
+        "fa_8c85ecbfac359885f9e27f4a2b64e79d80fda3857ab15eb5f6f8574fb6e1ffc2",
+        "fa_6fd488b17c19aaaed0d774f90178f24f9f35fdc67882bcf476cfb191528a5087",
+        "fa_fd4fb937363633c7d50145e961019f29ff556bf271a0e06239427cc54ce914b2"
+      ]
+    },
+    {
+      "identity": "★ Bayonet | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_d8f7dc50a21bd286304e9418e1de68b8952dd5bccc8e7d51544af5ced925215b",
+        "fa_e3587a5270877d48d6060c28042c0f692fd438f1edb9787d1a25dde601831ed8",
+        "fa_3cce294d2b21b47efc4676e8b6b2226bcbf26560eb74b3d364376f449bc0dc87",
+        "fa_5096627595bcde1212adcffefed80856939545e9ce07ebd6b48907e35a0de893",
+        "fa_eb2972896f7b4f4a15156e13a8b29a9c55ea1d03f47a1f08dc4b8cd74bad5b74"
+      ]
+    },
+    {
+      "identity": "★ Bayonet | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_94ae056c435a8322e97d81256fa14577725d3e5b48b4ea8cd6f60296b5911838",
+        "fa_bab430f23a1dee52901fcd7165f6626c8d0cf5383844c823e8ea88fb3ed566d3",
+        "fa_a624b51e1c365a0a8aea88ab5ca093fa02f1c8aecf948d04f0ef12f2e019d285",
+        "fa_ab700df06d8e47b18deac3d3ffb3a1451ee410b2641b520ade0cbe148f92346f",
+        "fa_a8dfa20679ce13c5f63738c47146f9b6ad75fe6bfc3f8ba16ef2541539f496f5"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bayonet | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_fb663bf361478a47619c46619f637c6e0e4f4b5ef9d239fc0c6dfcf67fd147c6",
+        "fa_dd6e2816e8c6afd2a6441e9778925ac1ba98d900a1e7b427d3e8ed41ba828de6",
+        "fa_a063b206ccb77b959f99a156359ed09a364e2d0fc56ff8f31c95e8c69afadca0",
+        "fa_32a2c8fa42cf6e612d2682b2748b982785e86e866fea4d26c1c4bdefd204bfdd",
+        "fa_d02d1ca752164a9e0033cc77f10988fafda9fae7d79492110e48ba9b8bd79318"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bayonet | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_095b2f3a3e74a22ce39038abc1c0c4755315b9a27f292d4702d83573d17f42a9",
+        "fa_b962c735b733fb171eab976f765a503c0e9f11002f94eada436c6fafdf9f0bb2",
+        "fa_04fff7c7c8fcd5fca273bf8c4ecc6b89215fa396a887e4b8251d11781d13e0e4",
+        "fa_1a6e1e1bc64a4956cd28214fc03bd640fc32720476422379a5100b6eb8ec6b70",
+        "fa_be02a5470e0a477486de3ce9898c09deda3e74ee8f8e69c6c714911eccb7c4dd"
+      ]
+    },
+    {
+      "identity": "Glock-18 | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_998af08bf73e70c27a67df47425e6650ce8b9bd5b0324b01c654a917d5cc4e42",
+        "fa_e5c3451386b0571e57be6386ecadddfa23ac540f1187dad3a40fb222de6b0709",
+        "fa_f4746362031bc2ebfef93f39f4504db1265e0dc75fd4b2d44dadd6df6c0875f5",
+        "fa_602c84a467b2b78cc7b5f74d2465c5d86eac89f4e88564578798e8d39aa594c6",
+        "fa_623f6c1b46bb2deff3a42aea0073ba252083108a12e359269af8276a375873ba"
+      ]
+    },
+    {
+      "identity": "Glock-18 | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_e4de0105823cbaaa8cf8c7dfa54e377785ecfa5b84d692045472b7b58af274f9",
+        "fa_0b1146fda97696cd663df525786151ddfca5f34c5349f3d689e3d5f4448c6c7a",
+        "fa_a48920130ee19b01fec2365572bec525fe9530f0e85cb6f3105097601b00f988",
+        "fa_d5d81aa889bf600b1db498b831d4ee2e656fce4bb2e05e490602d724c7a68fc0",
+        "fa_187e983b90c64a2a638c1bbae0e3d2ccf998c6a6803bb40180a3577a2780293b"
+      ]
+    },
+    {
+      "identity": "Glock-18 | Gamma Doppler (Field-Tested)",
+      "candidates": [
+        "fa_421d590f89bb0c85b0cb4ff43e5ffdba502a998708232b15c56c9b9d996a46d4",
+        "fa_4c2a3a9339bd7872089e2fd3ba2776ed9e4acf9532cb57a145d24c271204b461",
+        "fa_48486d68b62ab57681234b296ebe79cdf100b9a486ba26882c4afbc4ffcc2eb1",
+        "fa_aaccc6996661473b73a0d67e3917cbfc4c3524a3052de58ec8a8e50d85592ee7",
+        "fa_acf2fd2e635415d0548f6f767f3895c4accc7d9dd34fb3baebca83b1deddf8ae"
+      ]
+    },
+    {
+      "identity": "Glock-18 | Gamma Doppler (Well-Worn)",
+      "candidates": [
+        "fa_fc63c5f4698292fe5f52012ae8179f3199c8cc319dc02de373ab98bbd899bdef",
+        "fa_ee9b8f0d7ce13c07f158d8f32d9f728109d2215408b8ab3a834f6432d7b1c85e",
+        "fa_0f1dcbad6dd43286d191b68742d0d6dbb33b9f823f5566671b8597c27ee909e1",
+        "fa_f95d5f18bbca289e9a60f804c60dc837d126a5f1d22866f93b89250024bf9949",
+        "fa_7298d53bdf6eb8f905242fc69b1733fcc00bffd4bdb332fea156be629583a5d9"
+      ]
+    },
+    {
+      "identity": "Glock-18 | Gamma Doppler (Battle-Scarred)",
+      "candidates": [
+        "fa_4f05f2204b3120fa59250af0a2992b6e7a7f2c609e6ceb1a6c3b17bb2ebb1d6e",
+        "fa_abe9675447626c0c761b7a6884e8463f12d33fdfd9a0042efdc3e3adfc8a1e93",
+        "fa_8bcad388524c18021a0026ad9be12bc2055fe602073ef5871004104a42cb7a28",
+        "fa_64164fb6b48c731e0d6f45e8e2fad2123f56977e8e483b8667d0f6996610fefe",
+        "fa_f1f5dd9169f44ba44864ccb371feafda41886fda3d0ed7eb817a4b285f42a5c3"
+      ]
+    },
+    {
+      "identity": "Souvenir Glock-18 | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_7e40902bdaf03ec17b12ea96280d623cc522cf61c8cb71d9e50f8770e89cafc5",
+        "fa_acf55baa070dc062a074450dc96adab9eca2575d4f4cda89d2805c7fd061f628",
+        "fa_c46ff87f0b171861d840a9eebe000d9429358c77bbe5c697b34e6ca7a77a266b",
+        "fa_7658f16391c688e24ebd27add57a195a1c273514358409d12f15fd37b289ffaf",
+        "fa_04caec572d9f620f5249f59cbbcac58e46db6121e721c953472def990aeb0c9d"
+      ]
+    },
+    {
+      "identity": "Souvenir Glock-18 | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a746df60e1fd0bf77f0a1301802cce11577c59607d706e631a7190281aa166fb",
+        "fa_937ebd76af353396ddb6e544628ba10b0875c9334212b55286958f97c2656f16",
+        "fa_701f837022d26d6c9895c671240f0fc8c53a9285ac040bf31962e2b596689081",
+        "fa_245f7e8e1e5870b624d8ab49f92722efe0528ad0a779fbb78a05db2e3a0a91bd",
+        "fa_fd86efc4c4d4e4e1c1c24781e8b4fbe0c237f1623d956c94678c535363c266d7"
+      ]
+    },
+    {
+      "identity": "Souvenir Glock-18 | Gamma Doppler (Field-Tested)",
+      "candidates": [
+        "fa_e6ef203b0ed9c7a55b21526ddf8fa7e86aa367641b79e209538d76e9267f3129",
+        "fa_afd5070e53a71801c73606c494394238161d8ebd4816e529075b3f2b960e4299",
+        "fa_440cb83dd26932cca8edafc877e3715cb839acfb7934c3fe88760f617d406ee6",
+        "fa_26bca6b020fd719a7f742c64237ac61c3bef0ef5f96b3a2e56ff9c002455b899",
+        "fa_3cfd310af3085cf5e03886a2168075073021ca8c800454a9038e3f4b2dfad08f"
+      ]
+    },
+    {
+      "identity": "Souvenir Glock-18 | Gamma Doppler (Well-Worn)",
+      "candidates": [
+        "fa_f71c86b8c17ccd8cd6211ca40f1ea7c22a2e70bc5a776d4034de1a7bfb277042",
+        "fa_bab5396cd02354748ced082e4d710129c8cbc140066baca9365adb11cf0aacce",
+        "fa_b6bd3fd42710715e1db1cbaf8abc245510c58c1b1d38bc6945a078d74a82bc80",
+        "fa_30a3185b176865804a3bc8d6762971fe6aaea2e48a91c7ba6a791a5f44514cb6",
+        "fa_6dbb3bd8570ab4ba2104887584b21f7fd252bd8058dbfefe8ccac8270f853606"
+      ]
+    },
+    {
+      "identity": "Souvenir Glock-18 | Gamma Doppler (Battle-Scarred)",
+      "candidates": [
+        "fa_29477919fb04e22e03a8bdeac2bdfcf06795c59e3757c93df19f635bf8b24831",
+        "fa_01b4ac3bdd467bfdb0d3070d1a57d8f19efed16f2f62bb606aff0dfa4bade73b",
+        "fa_1b6034f51ad665f80cd936758491d1a5b991f23dd3426f6990b97e6c9c513826",
+        "fa_dfe7f214fa083ea479e00ee1b2539e73c268fc59057eee1b74154ffdf8b54732",
+        "fa_c3c58f757ecd3f05375787233308b05929bbb42727aaf4026620f4893e1beaee"
+      ]
+    },
+    {
+      "identity": "★ Butterfly Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_1e167f69738872ed89b42898cbeb1eb1eb1ae56b488884d369bf0269ffd30eb5",
+        "fa_01d34298760e933b60661160a8886e82c949cc8468ea49f661c0dc9e5f1ff771",
+        "fa_f3a015fc8fa7ce5288d01aaed4c1c4f7e1db54aa043b0e71262aaf46592a5db9",
+        "fa_97f70c1564821afd860ec4c18494f8ca88292abddb92298b00d242d50b820f20",
+        "fa_88f41670bccc5aa7468f7bbfa944d67368713b6dff0d1138806fd75e9ec40a58",
+        "fa_b19d698738c86d5e832d2d6c5db2f3caf922f3bc6fcb017485de63ef4e5d2f06",
+        "fa_2ab075e580648930dd6c80c3b7e67e807f64ecaa1edaa1cad5bd816d12904310"
+      ]
+    },
+    {
+      "identity": "★ Butterfly Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_e4609ed80d81b5f7e46605fd01932d2676a54fd87eab12eafdcad407f4259d97",
+        "fa_08744b01dc62f78f5e5af9797112e1f9b388d9268ddf180a9565518cf0ad2b15",
+        "fa_350fa401e6cc4b262de871aea19d43414f530916688a3d026cf8900f4abaea7f",
+        "fa_9233019655f50a6a7d3a1cb8a17b44a61baa8ea862826f87ab9ace3ffb70f76f",
+        "fa_584f09e79ba4b16c11c97aac22bc5a7eb6196d179c2aae949e81e2327b4cda67",
+        "fa_c4fcc422e1b3d620ae01150f5a34d310ba33a2e4e0af7a231325023f051b374a",
+        "fa_a68e5d9dd5572d0f9b08acb5aeda955e3cc8515fbd6fbdb81ece40d02bda67cc"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Butterfly Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_4a68ae279adc57f3195ac09a79975b0c88113cec5a1f324ea2a05166345ad163",
+        "fa_20f50cd1215e6e61dec4c3c1204a65e9ee98171ce7bc386c9f725cdac9f12676",
+        "fa_30645a04f9680eab69fee37288e7b26744577b4c53c4196d79c1ab9ea825ef3e",
+        "fa_b882c5d5e602ecdf8eee7c38cc410594cc57fada9edf4d394e231eaf77034d3a",
+        "fa_9e81fb937a9d3f2b02cf5c8fb20cbc2a8ed551b3268cd7cac2faaa08dc7a7949",
+        "fa_8d03158816ff473acb7a8cfd6fd1c07184f4f475a8ea643ea894cbd92462190c",
+        "fa_401826a67ed272e5da47e39cfecbd7c460184dfe9eac812938a1aacbd1588c6b"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Butterfly Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_3059e4377eb1c4acd9bcaf30a4dc44a07763a0d51e1526fe24b497e43d9255ff",
+        "fa_adb36fd1ac2135a3d9f3812fa80d4c2dff145541d915e8077e7f32100fc752e6",
+        "fa_191e30cdf748d9bc5db2f525ed5f52074f7cdf5b84728e4b5bb52e6b2f5f6f26",
+        "fa_68d7ce7f5583c7490ecdcd0e1c8de58e738a1550b0a17655ce8d07b51281d685",
+        "fa_3b0d90c71082998b7e29bbe8ba591b173fa7efaf5f65649ed56475be9dee5766",
+        "fa_d07c8521f29b88566ab7a26927baff2e3c6c48d98486b2eb27db916fde3dd71a",
+        "fa_88165de9e27c1d61d7e0d1a704a939d67c150d140b81f78e196322867b3817a3"
+      ]
+    },
+    {
+      "identity": "★ Butterfly Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_e561c90aff5deeb6700fec42c19c0c1a9bd6b110458951661c9c0bd9e50eb138",
+        "fa_befeef4558f5bc7e271534c30c128a2266e2c772eb43f98dc4f4565d8e7b9f3c",
+        "fa_f73d191300e55ce030a3f31f11bd42a56c6d2f292977da85814d059dc8afe939",
+        "fa_20db226db805596430a3ec44cff439dd162947417767b7eb64f168925f4234d0",
+        "fa_00fdb92f89608b4fce922d921bbf4796643bd324b516696082f8bdc728357b97"
+      ]
+    },
+    {
+      "identity": "★ Butterfly Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_1b475367338942b09884f17b8f0e437771abe821946d402356cfcecc0ccd4ed2",
+        "fa_e6f30d031c3c2fbbb637d8a5c2c39b41329707f673c1def2607a704227049344",
+        "fa_3219f7bd021f94af61b83c6c33f06f9e8a279a7a94cf10e3699fa88d2d7d7c57",
+        "fa_14745908e39c21db633f93ab8c5a612f8e6f51fc31047fde0f44a0beb353c089",
+        "fa_8dbd028f81ca79817d530f93d96ee90d059f39eb82ac33ff4fcad5ced59eb63d"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Butterfly Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_d449ec7ed5ea94c1407302ff3e0c24e2922f255d994d10fc151062121d23c8e3",
+        "fa_cd1d4a25c6d49e09dffdce08e1b5b91e0ac674ad12a284412c5a3ed8ab2bc6c1",
+        "fa_ba4142940ba79aec1a4c2f609a5dc8131588221f3edf709d254f65e408fdfb21",
+        "fa_0dcfb2be137c776620cc72f6e9302eeafb82e6445c66c266c9ac950a68c8cc29",
+        "fa_684aea5c12c7f7b992049fcc4c1842fc455ed84d08b74b6b2947a7e2990d1086"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Butterfly Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_f687c54b834f92b1745371713e9a78e97463901461e653516432a1d62ec0b7bf",
+        "fa_3e54c82b152e705b2ab2cbe6286f8c8d98e56bc4b942e0236fc5d33154601ce1",
+        "fa_f6404cc51347a50be68cdcceb10f38850710ce1dd02f3ebc1cc5cb6d5599cdf3",
+        "fa_674a2179119fe86037adf6088d093c05af88139fc10e826bb6906b1cf8213d7d",
+        "fa_3d42a06182a10bc432a8ea804c9905da3971fc015b8a1424852aa8d7d995298d"
+      ]
+    },
+    {
+      "identity": "★ Survival Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_fd71104400e8b9b293c90bcfad8102b59a1f81e7360d22d6a7740d71d8d56195",
+        "fa_5add3ad3cbc6d8e9d8a565dfa8ebb846cf156568813e3d155d7fac3ec575c383",
+        "fa_1c5676d358dbc4bfa4ab53f774162ac652818a7ea79de1fbe15d786dd972b6fd",
+        "fa_e722c28b84d4d742eef4bd198d3edc86e323f25c8474e82dfc8c7a51bf27eb40",
+        "fa_5145276c659bd8abba92ee5d4e8a8a054e8015e38c35f31e71f9ed2a853b0b40",
+        "fa_5463a06aa655fddded2b30f0376392a141d57ceec00c2193857e81a345e97735",
+        "fa_edc6d23c83f583e694c0d6529d65fa4474426e85fea73f9c1d635ce7080c072f"
+      ]
+    },
+    {
+      "identity": "★ Survival Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_fe5905b2bb3d3abdf1f5219fa4b022a7e75a19a2d4b19863f851851693dd8d02",
+        "fa_048284d5cddb308053988603f78b770d9d0e5f318274ef93c7e1814891a5190b",
+        "fa_62fce7adce3f474c657d4583fe68045156c63eb5a8d51aa2c64b200f468a555e",
+        "fa_7c8aed7829031fd6924e9d68ecec427f9e720260c78a87753df871c52093f6bc",
+        "fa_fb365af934d38564eb531f3836cddd94a5d1b1b0affde7a65d6a44c10d77623f",
+        "fa_8b7ac4f3bbda797665b1bd4b35d08c8cced217f7f8c34bfe48b10e0ee4fb32e4",
+        "fa_9c9e06045781c278f91083507ee5e000c8ec48e4de2cd4ba26029a5465290c95"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Survival Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_35ce761668ec434ab194aa695aabb7a0088bd735804a891795f7463229eed220",
+        "fa_be594fa36fe71ff061490c933063070d3e9d11a7f89dc64399a3c7c0be818fde",
+        "fa_43c5827e3448a6d408ef63206fdb73da5e654e4dd6d23de6decca790272d2ed9",
+        "fa_120996f96c36821ccde2a60170e1eaef44b6512a69601d292700ef6ae150531e",
+        "fa_384531df43a1ca48a0f8da626cdc43a313e6e37721e346e9720b8f3c9c92d1a7",
+        "fa_ac87a2461fffcd5d63e2cf3e5e54e2116f29d0f2482e366c65ead75a34ae9124",
+        "fa_de3037b1259306a61ab7a7617232ddb329fd9afa26cf372190c56deb2a7c82b9"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Survival Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_dfb95d6957fc05d728ef8e46ccbfae09a510da60fe820feaea8e074c436debb8",
+        "fa_8494dc427c1e151b9a81cd132b04ee8a248fdffeade842fb789dbae379de9b66",
+        "fa_ea4469d1072d1cf1072a85cac82b05d368520dedbe869397296208b135bb95e6",
+        "fa_a5b514c8406f956bc8534971ca88333c6bd789e1592da75b7f9925fc338dfa4a",
+        "fa_9a428a070600e6ccee93f1a48b043e39e9d16e59dc57a364269df25f870153b3",
+        "fa_ad0c5713a9e8cf916285fb9933114d2717a6950ff69a96ac63715cafb626a72f",
+        "fa_61fa044b2fad23ac0c7b3e9860a5327d04828d2dd7abe9d3a0a1c5853bfbd2d2"
+      ]
+    },
+    {
+      "identity": "★ Paracord Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_85f9a8c16401a1c055048147f8e8e688452c190717376520fa8caa213d9a5de7",
+        "fa_ecb4e2dbcb1dde7c67084a4d348dd0427817a0b2970919a4b822baa83b845588",
+        "fa_36fa5f53308e40a19ed35f6d4cb47a7d69e3b4f2a7ee1207d602618787da9535",
+        "fa_bfb353fe43daa7a5120d1900d52d2fad6f3bad786f524bf02ebd8e13dd4bcb0f",
+        "fa_ef3eda7b3bec4e385e7b2a83b41553d8521c076fb07f59d45fc4d36d73225eb7",
+        "fa_37e967215d32456586f685f56ee5b88d407c1e3488a77fcc76858f86d9493185",
+        "fa_9cbc2b453d08e2f5c9cd640cda5f8092a4079644bb596c80217c01c8ee1c0bb8"
+      ]
+    },
+    {
+      "identity": "★ Paracord Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_c2fee225c60519504ce72cd8b0b93caf0be40f3aff9d82ee9e1b0789c5c12c7a",
+        "fa_aa334c94b1eade3ef472a3da7cd8bae6910acee019da451b6c93efe6bcd855e7",
+        "fa_4773fc4d61c9de5a35a66228fdb32e61bcf2ed4ddd4c0387f2c3457fdaeec7da",
+        "fa_8f92e185ac9086ea5df911af34d042396a9e731848d331fcc0b60ff02718edec",
+        "fa_fef03f4034a31ab2529cc045d747b82d38e10e02bd3c8d7cc02c9dde3f245a57",
+        "fa_2ef5657bca1c4b10f26ceec62e2508b3239aa3e11169aae5894c130f5fcda33d",
+        "fa_5ff052c43f3767a32a7f6a8c4955112a31727f3e2f3003a789e09ae9204f9af9"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Paracord Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_d7daa679c49d963fe092062971318eeb2698bd1d2a663b98b600e8d5bc940eb8",
+        "fa_d4963e978f09743294beafe8e138c218f9723320721e1e1c3f8d207d5b5e39e3",
+        "fa_4d766c48dcbca90b60a444c3e69c3f83a4154e42c6129cebc0a4f6851ffca8c4",
+        "fa_1d3d10366a8c03e81cca03cda181225580b2d3e79f52a82e52b93fea62428d41",
+        "fa_564b9d944b66b0d0d1df30baf162f6b0fb6bd34fcba7a5189644fcbd73bf9fef",
+        "fa_e1647407d0eaeadff26b852873658b826c963ddab204f5061899c846773704e8",
+        "fa_e65152bd69cb4b6e6aa1dff60a133d2d69f6c7c74c1316b0f93f710bee19a77f"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Paracord Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_cafb484aa677dfe97f8d570664a59b91fae397fb3d13b80f28bc5cd084e844be",
+        "fa_0eb48dcd78b086b78d7c0b870c55ba25c4ba57b25eeb10014e6cf374dd52238d",
+        "fa_ddcfc1360ecd4634a781eb14e61f1a6c182c7fe2852088c1155e8e6d793963a6",
+        "fa_4c1fa43ddb147dfa7eb4bab67996a1d6b073766cc761703230d6f678d6f7f4aa",
+        "fa_2fc612289de30dbbb2aede72b8a79783e785005c80b061646f2da3eecf58aee6",
+        "fa_f14bde58003dbec8fe500e350140b853935f1e4818b81a23b3f87b428b0c16d2",
+        "fa_6441775ecbd18ac49519c7d66f13b840dd8b43aabe4005d1262e8d9a314d2cb1"
+      ]
+    },
+    {
+      "identity": "★ Falchion Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_47132c9b603fa45243692677ee6fe907c2d899e97bf29208da186b1242ec776d",
+        "fa_0a1a5cfd59432c1de94f62693f896326557f2c17778fefd1ddfd37da36f78fda",
+        "fa_690ad24afcd37242df9707c1e251ab5b811a50371a739567e633482788b78200",
+        "fa_074fb86969521381d88b5d2dd612b40a79c359a3b43e8be6f57aee11a18f3a36",
+        "fa_a30677dd687355b3d94a2cda1fbc2e72925dbd63c7a5ae5a6282f4c6e1edcb53",
+        "fa_0163fb8953a5cf757ff6d1ec95e4d618065dc051662e3379166e771b30229ae5",
+        "fa_44600795f279a15d96bb085f2b3172c732733aa9b45ace2d04016c01635cdce9"
+      ]
+    },
+    {
+      "identity": "★ Falchion Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_c213c1e4af334493de85b1dfd81feb1fca5a28f5851649fc7a62d5e3bfa2d7a5",
+        "fa_594ce0357e39f85f9da93d11e03a238c7e89fbec01d73f9da0065c5dc1c8afa8",
+        "fa_febb1d5ae1802ff0626743706264e3594a156a38053c0ff6c2dd7bdf34e933f9",
+        "fa_c5c9af14c90fa5f5487ddd15bcb8e9af3360059c0b96850c8e024c36eb4a5147",
+        "fa_4b209d6a02dc1c03477a1398316ac150fedfee44bb84b9bf0029710d52a2f2c0",
+        "fa_93b66b8f86bbc693878776d8ee0c7a5288059a7cd3c328df40f65f69c36f3122",
+        "fa_d847fe175d64a5ef8fd507263cf6182ba61bf0bcd5c72f9b0d1ec79834149627"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Falchion Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_7dfb24bbfa5650e1edc6cc007601afcbe7ce7520830ee8a6f978fffe12816261",
+        "fa_bb400399d3394741585fd94d6045096cce0a07a75be304f7fc2b6657be89dbce",
+        "fa_fcddafc368f40cbce0c43b0eede4e1629204cb3258d5376bc168ab5252341a56",
+        "fa_3de99950c7f63060312bba5f3c2f7d18d9a71332c32a2cd61b67b04a454b2a45",
+        "fa_8aee14837d9d5ad60306af9d00bfc8ef7501cf6731eb02d37d1fd32f615e2626",
+        "fa_d3315cf06afb97658ef11c23eb61ad8943b89253624d70b622973bf301ec8a4d",
+        "fa_79f82fe26adc6b9a0516ffca17aaa298c0504fc9117fe9fb78d58421741e1379"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Falchion Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_4852f7f568bbf5d563b80f54c39b5c74baaa6d69cf431cc6ca70cdd98d96e5ca",
+        "fa_93b3ac5165443c5d733968d682f68cd84ce58c7ca3f3672ac74b94f815e8f12b",
+        "fa_0b1ed5bd3363542ab57b5eae6ad7c6998e10adbddb376fe1f39cdfa694c73891",
+        "fa_64ca6ffd406ed0fd960784add32ad60166d82eccc976335416e085920e4818b6",
+        "fa_18572a2106681682464363773ab9fc7aecda0157790d4884e51d2249e9fe6f50",
+        "fa_a27d36e390f3042534e9111853f9c7323adbccfca74e7ccb3c7a3743643e02ff",
+        "fa_1cbb743ba6d7f329651abbc06c6377b0e63dd69e23b69420050b7e44366d6ab7"
+      ]
+    },
+    {
+      "identity": "★ Falchion Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_5b60c7da34e21218e5889b10d936edc629f44e904f15b1e393e32eb0a5f64c37",
+        "fa_f78b037f5b2aeec5f84b4e7810cf3fc627dace80fc1190fd8c818d41f5b39f62",
+        "fa_b429096265630420b1820733d83ec4f3b726458b7c7443038d3ffb9651084fd8",
+        "fa_080dd851feba73d940f75cfb182df43492228fece2f38ff52707f9c769efa6ed",
+        "fa_891be800663b20163d98cd482a71e6cd4b2682b89d828d1a83114695a26a0b2a"
+      ]
+    },
+    {
+      "identity": "★ Falchion Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_9c08f5b2c01f0ea13b6e7a850604a763e4e6cc3f9261716582617954e34c06ec",
+        "fa_fc20244649af58228e48093061d38bdfb9ff7ab830f94fe2e5a605ef21a5d15c",
+        "fa_3e97c9a8d59019c622748940caa67f201a22266522cbda17f6fd335be0e8ee06",
+        "fa_b366f026f59f1dc82fa97793c4785630fda56baabe4cb26dbe76c317943e7bcd",
+        "fa_64beecaad15eb320913cce0a6573ccc1509f58f34469425145bfc96455573d4c"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Falchion Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_12a1269dead6c2183ece7674c074a1f5299e2c82b4626cafe64a23fa7818204d",
+        "fa_1ed6415bfcfd0b127a884e0e737e2534c9c41db861c92e49ff94045058c67278",
+        "fa_330a3609f69082ad6844d074b9fcfb12d3ebf6c516245e7f8e7c1beb60d6da06",
+        "fa_c790d8455a26aa5389c2bdae7137a865add2f3c21d7ddd6a55557234fc338032",
+        "fa_13755975d894b3bbed13cb437a7e0a42b623b9322b3b7bd10b15fa9db1c73168"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Falchion Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_e982742a0ae2f2f04bfb192d136a196754eb6d60eb0b3276e11699df2e98a6ae",
+        "fa_755dd078e715c29b212ede21528a72078de44661bf6e9c8df1a4a616321f8c6d",
+        "fa_f8f2777ba5a71afdd665f47317e22f55610f66b3b1334388d83d0f622949ecfe",
+        "fa_f18e07123472a38cb35e67e276e379fd85dc5574443c96637b46f23564ef2c4c",
+        "fa_f1ab7e3905a45253214d39fe9feb070d39565a12cf1c2482876adad79375cef3"
+      ]
+    },
+    {
+      "identity": "★ Flip Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_ff2ae4cf37e4f0d4e7f71a6576385a64872063d30a90dbb996fdcf555ad87433",
+        "fa_bc4f11b9a3aa36c4911a7e8b20fc2bfd90bf2c7331c977a075cb9814759fbd7b",
+        "fa_5e79d311f1b0045ed8d9ab4181d854d0b55a2ae8c61ebe0ed7d48bbc4e1ddce8",
+        "fa_9b2b2058dfb65e98028e9d05f690656ff275e17b3b5aa819fdd1b418ccd44432",
+        "fa_4feae437205d2f552b351b1db7ff4a43bc447f3009fb10dd9b6e06d26961a314",
+        "fa_a9f80ad626e5863b8dc06aa98a8ef19762e42345661ec8941c6f9da6d68575fd",
+        "fa_a88b11a38da56804c3d789d73d6ce84e8ea630c3476f929fd195304b1fff1480"
+      ]
+    },
+    {
+      "identity": "★ Flip Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_f15992101db751e31ebefba21ea1d9a0a543f3491d2147b02b0f17e000ab209c",
+        "fa_4906fba6753edf43f693d81f0ee3fe3bb749304e63688587085a60e409889b9b",
+        "fa_a65784e3f27c939a77409742786298f3eecf5f7c99c2c3a9a5a43dbc8e01381e",
+        "fa_1168e2267fe1540390bf56df37fca596007b7879fe7edd3113964d1bf79ec01f",
+        "fa_f93f2948d2475fc671258bcff38b9ef058b2d26decd885b7e5d1950d2418e1a2",
+        "fa_0b5cc6f7181c7f0b124382ec4f991d9d19746fcffd0605ba36711c399b5759d9",
+        "fa_a7001856db70bbea7a63db7f24d573c16cacb5b88031719e4cbe9cb735db5f9b"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Flip Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_273cf82f1b43759985d50d3119ce5524a1483a5417040c567cddab7c89cf5555",
+        "fa_ec6c74cb513f5ec704dc23d344e46df91fca7b9f9d1b044b090068348e1273e3",
+        "fa_57533d0cdb48942f55bff1020d4acd6239713f60d886cce35a6d12d234b69679",
+        "fa_970736bbe87a5a8e06dae0678e0e8aba27c7e24cf509deef531e51a673b4c105",
+        "fa_d4db48348dcffb3e944a91d991cc8e2ff5f41397e95b94b519101aa3e9a8cb71",
+        "fa_01249e1aca60177985b0f8d1384e21f812f86515282851b02a87b34647f72c13",
+        "fa_8301fac5fdeae43fe2d8036493242aaada25720e37387bd349d3f0b43f6137e4"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Flip Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_c7e3e77d1c75e35e1ce3632959edc220e8e26259a5b5ca2ddfa56fb00ea33018",
+        "fa_1f2df6cc064f3c550db6e26ee7b4e79d1fcf78e6f9d829d3d10a4074e596a981",
+        "fa_f641dbee216b1310db537083853363f439e6c580e7d61b028596c6f9c3acd274",
+        "fa_8823aaec57bbc61cc35e1451eaa20dc26a19c51a361ce01856a3f02fec025be0",
+        "fa_fb03b7175c3b96ba8d1a47802176908cf0531a10880d78317ff766ea4f6d2cc0",
+        "fa_d112de984a46c96e43820bf367839b83956610aa8783d0946ab7baa25bcc3e15",
+        "fa_77e7b601ba80507c9394c8153795bc095d393dd24a077032ab781fbd30f39189"
+      ]
+    },
+    {
+      "identity": "★ Flip Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_3aece11670fc942e17d0cf5f3b78c24ac7ff48857042113ab392bf217fcd7b87",
+        "fa_0ad8eaf6bf7bc68dec69d08aa1340835291512528901da32c29f5f85d838bbed",
+        "fa_baaf8ca4dfd86b4abea475df8e0d85d70e071d2cf2888c9df277fcfa98e5f4eb",
+        "fa_2ba1012d5d086b22bfb44b7b1bcdc5980c93bdc6a3ad5f0134447558ed82f43f",
+        "fa_dc1f4b220804a609b59c42a2747e9cc5fe4cf9c70c6998da23a33d363a5ef1ac"
+      ]
+    },
+    {
+      "identity": "★ Flip Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_8685aee88d4c6b03022c8ddd300f6a3d5c39484b090c32e0c004de0537a47cd2",
+        "fa_ef00ac53a97380938c7df3c3fbaffc1c7377a7232fa15e6895754a969fe6f065",
+        "fa_fffd8f754ebf2ceb0a2b1b86213ec5a0b4033449afcdb0b2d9b3ca50502e5a26",
+        "fa_5fe6cc06e7ef3f8f41ef4ff4d1256c95c0fe3846e6f149ff7fa1232c1195c8fc",
+        "fa_bbbd247adbf19a2d1fa3708e8bfd1284757d048584b39de7ac4f2d06486e0722"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Flip Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_d268037ec0b18db64a976177c8c3abbdf5949c45e0da32a24545d390d01c394d",
+        "fa_22daff296b0e67413b8114e32a1b8e4c5c848c0a50260ac99d282347cfda6283",
+        "fa_0d66dc5ec67992c68cec88ffdddec301e4d8aee7f4fbf81c92a757b99dfc5b56",
+        "fa_e4e2d7a8a766c713a2bd75c8cf562ed76c19a91fc8c1bbd9b63f2bebd2de58e1",
+        "fa_ad48d6a79d0a233d8c2e8cd807e760b92ea3c52c4f07969a7a857b03fe468c09"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Flip Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_225346c310b65e29edce8490e27eac2dfcad95f7e68e7dfe27bef91acf267202",
+        "fa_a57e69beee07b033640e9a6924669c39e72898d4432103f0b2cd2993c6055292",
+        "fa_95873698e9c7164bcb8cc07c5fa50f83a10f5fccfeec847df680cfb330f4e2f8",
+        "fa_159ef6189b75d461ac9632580076dac330dca1db2e2e84b9ee64fdc1441d571b",
+        "fa_71f5d9191db2e51b1f2b4bf503dffc08eb14815cdcf1bbd41446f91edd98732a"
+      ]
+    },
+    {
+      "identity": "★ Gut Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_084ebebd890d46deb9f324692644701d8bdeed81e1a2e08494935e319a96cebf",
+        "fa_f7d8406967da02edc8660faa8e1079d20433a0ecbaadc0b24f6a17761c068f4f",
+        "fa_38f72c8ed7caf8e0e41ba990c8f8fb25c1fb601fed540705052cfb591c94b0c4",
+        "fa_3513346addef32b196136b12bc9109c5019c3e1e13fb9e5e436084c2fcf67af6",
+        "fa_898dc60bd7383e4845cd3b25624c76796d3a0a5c49b121f6e638037bcad8fa7e",
+        "fa_fbfc996eac5cdf341b0ea43e8fdc435760b3095135803674594df03f32884f9f",
+        "fa_849f13af28852827ed1772d8f5cd1586d15f065f79f6b70eb45273f8d5dc0d67"
+      ]
+    },
+    {
+      "identity": "★ Gut Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_15364f282c85e6e5d2549f26e70ecf589c4ac995d4dde6f627eb1c624e266d28",
+        "fa_12438142a155370b3b0a48a4dd4fb8fa538cebe573b085ecbea1ec6e2d667ca8",
+        "fa_c9fa82705db26e223a2828fa48ef9313baddf834cb343c51c2f438c979704c0f",
+        "fa_c9b0bd2eb011580c6ab8513fbe7ad1eef215735f5f61272879f19564cea2d80b",
+        "fa_789ea8f840890182ccc344132ceac1be65dc0d046f0581db0eb81ca8e4604144",
+        "fa_504b0da12b071f3943789b5c86a2e5394bc902a9bec01db61e18600083c5d3b4",
+        "fa_9ff80d0848eb9eeb084f9d14ad7aff6e2976b647c4fa585f8294b925a36ca576"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Gut Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_13e0cebe7fb1388c1d73fe5116024465a2a97b8486e5b18ee0bfb4ac69de9682",
+        "fa_6fb90d844663aec285431ea5f4f936cf61078907eb472bcd687a91c6064c1137",
+        "fa_c2830c17af2b8d777ebb7801b37012491b6a874c9424049b9bbeb014b1c6bc44",
+        "fa_862bbf5a818830cbc8d51000621617e2307c1e4fdefa83325369753ccdf35a97",
+        "fa_623a2b38e18ab4396f929c735e89b076c97257bd8f5da7b71ae71791d6533e63",
+        "fa_05325db47347f6151b239e3cb28d6b53b18bd190f6ace2edf8494c18f7a6d6f7",
+        "fa_d2c7a17cdac5a51e18038609f2473c3cde23aef2a803bd9a85180769197d2914"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Gut Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_367719302c8aa5763c5c3f595594b0634fb9a666284eb1c1f3b706ef91d7074b",
+        "fa_4be189175cb5860982c4a460082491979749676fbd645f36a70c41df5876aa76",
+        "fa_0b35c6c2df64fd6fd8a90c41ddcc3a3fa790a9446afbbe086532f48950bb479f",
+        "fa_3082126f649334a0a15690ecfa871f3e09ee5e963a83922dd6710dfff28892c1",
+        "fa_fad46f8e577468ac787cefbd798928716056ec8826bd42c722be320ea3251ff4",
+        "fa_0ea6ba47fa8fd42a944eba42d918c9df2e4772cb7b4e532e56ff95ae3c54e509",
+        "fa_9b8cf362e3e5e16cc47e1d2dfae17c07497a4ad1734010ea028839b739702614"
+      ]
+    },
+    {
+      "identity": "★ Gut Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_55c11a2d46e61166d25d922969578d2ba43b7cde544bd70787d7470313c69c86",
+        "fa_375ab9920a8d67fc0853c7b2dae312a1e3dbd7035acc84f1d93bbf82a4174707",
+        "fa_26c02d4ad1df56c19b66019c50af220340834fc757694c84f042e40d2e1ef392",
+        "fa_4445416c452f2e6e2e8b6cb88188a83c4204dfaed6fa8066a809c56dbac7da8f",
+        "fa_759339d5bf87e650f0eef960d1f1d21f4d6e584f7477f2d7231ee727f6ef2218"
+      ]
+    },
+    {
+      "identity": "★ Gut Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_b51f8d89ebde7448ca3bffa95060b9008dbdc21342d13827ad9d322df4aaec4e",
+        "fa_22caacaccc65bbc6c2028d07aa84c9e79de9d520126b29851d9bcd00e63b9d48",
+        "fa_48d7b1b8097bac7e7ce8c252729d46f0fa6ee904b29791b065fcf5ca15fe8383",
+        "fa_3b2c896d3923a979d29dd8fd782d5b903815c178cd328c01d4268f550a1cb385",
+        "fa_bc7b747fe67e42f26a4acbd831ff1923b4aadfa54b925dc3975f89ce90f9eff6"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Gut Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_0ebfb05515aa8b3b23c604de82a748f1772c16d0a18d2cae91ee65e05994fb70",
+        "fa_a85c955252e60f64108491d29149dfb3153d56569e42e949744f4d7f83483e59",
+        "fa_6618f455966908bb72b84fe620eedb36838620033cfbd795b389a98c20da1f2b",
+        "fa_d31ab0936dcdd7ded3133e353893426ad5412fff93470a108ff27b63f734b109",
+        "fa_a1f3b82fa1c60c441a3344cdc9a0b0714f82d8a1361084d6276e118e1a8cf6e2"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Gut Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_58b99bdd4aca867fb61a2977f7c68aca449f237ad0bb856196f7610058c78db8",
+        "fa_b1a27f818fbf00ebdc2861727e440192ae2438bec57dc50e856eda7ea4497123",
+        "fa_0b37cdda3edeff25600457ced2132689a3d3b9316cac35f8748ed51cbe6a9f08",
+        "fa_0fe4775d2a7a81a22af5e8fd117a0c7121727d747527428d0084f3d31ead53fe",
+        "fa_9845fb798ede7e6e964a972fcdb381f772434464d5b9a045e75dc974a84b2131"
+      ]
+    },
+    {
+      "identity": "★ Navaja Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_d25da248f5e657260496b54b54cbfcfa1d0921da4eb530a8d5699e3d61334295",
+        "fa_4e53f8c11a5608a942bdf10a1590c30a87812fcca192f3a479e337a13befdd6a",
+        "fa_ed00256a360678b7ba613d3b99f711555a05b7cac09615b76645bdc3b558178e",
+        "fa_7871b3de532663e19138a9f4b3f2f1a3d4807c27521ad799bfe35a61f9d4a882",
+        "fa_8b60953ee0355258860c3ed19b5d6a37951710ada6d43683b554b4e945f12e3f",
+        "fa_f637fe839a781951b81b76be7cc453f6cb995cc047e499aaf6ab0c11d7e50711",
+        "fa_d540d83c9bff098666e9b41399c663ba68bcea5760b0290cefa8ef8b0ae62cb2"
+      ]
+    },
+    {
+      "identity": "★ Navaja Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a8e2ca225f38df62b4d70e6d044bf876ad3695d315d84ace506021e37d3c7f7a",
+        "fa_f2eba767fcd4ae579ec57df88a2606762609fed63892b03b36a6d6db505fc01b",
+        "fa_da1973d2f9ead97cda1506ddf2d4dc40455c0f94f50357de1071d6cd9b9e8e0a",
+        "fa_9b069bca697de484e464104c0e66d3e35cebe672f95152c1886c339ae76dbc4a",
+        "fa_5eb2f23c49a3e843ffb18cd80a8602cd60dded21ad2303ebff89e9551f6b60c6",
+        "fa_78d21d3bddc8b6e09868800bc6f2fa920be3cf9edde0216af5ef4690ea211d70",
+        "fa_a04ec87b269141ab8654bfe8313c1b29d2e56785ea05ad5ae95222f2dacf12f0"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Navaja Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_23ee075ae02f5f93029b37220b65ed04045e4150243426310b76bb9db684826c",
+        "fa_1f8281525e2c839225b6f3dbe64152a82203120196cfca9c2120015113e139d3",
+        "fa_3def77c4a8d652e585655c5cae821c467c08750a0ad692a20fd52bf89901141c",
+        "fa_d9f150ab5922ee58b27c8a6ba5d942859127710f8694fee4dd63cad10778c0c3",
+        "fa_e5dd83af4b8a9afeb43d69a4e1553e909c32578ebda8f75ecdc623b808bd0fe8",
+        "fa_de35e67bbeb4adecfa9b6b6a92e078bab5cbd1fcc72a8428867441a001bba8e7",
+        "fa_3db70a6b99dd2d7f3f5201b25b7099888a5f9d6f5e5403071224d529731e1e12"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Navaja Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_ff1066c251fed465b9f797beac047d064048b87884671efa5ac0d4d15836a374",
+        "fa_6783c7cb19b5dcc0dbbe2e447c3ad16bc81497ff3385b51946a282507891b076",
+        "fa_cad01fc536ea33aca59d987403d06e2cda19c36350d53e2db8967099de043c45",
+        "fa_a9a86643ab4d186d2f6a0fc22bb93312ec3b204ee81f4df065b70f97aec4be96",
+        "fa_79743285c7c1cd079dd56c82452bcb69492c6ee1f70f14bf141c6c4ee153f7fb",
+        "fa_5008e149003c50dac215d5a68159dcf56ded10b49d4e087ea0a71f1971e53da1",
+        "fa_8a869b1244ab404f1fbc278bd7141d89f3f1f536f765db1e75d7e267308344d9"
+      ]
+    },
+    {
+      "identity": "★ Karambit | Doppler (Factory New)",
+      "candidates": [
+        "fa_1d648d6b11051b1aeeedce34200073751cf5d7d3f6e493aa1eea30d5f148aa91",
+        "fa_1dc56b2da15658bd38a414d943690542ee69c8504ace6223d34eadee9a5eed00",
+        "fa_402f60b04e5404c4063ed83833aee678440a3b205ac3c2ab06cc6180344b0d58",
+        "fa_3184d24ef51c70712ed8092e70fcfd0de48510eae8a5ae8ea70ae4996a6add11",
+        "fa_c2cac2dd68b50ae9feb57428a24b5997d86223b6277b7e8175e313fc40340a01",
+        "fa_e89346e73d7dc9606f42bc651de672d3ac37f06105722d31d42475414df2d633",
+        "fa_697964bdece7f668e315480ef939ed294c7790408fd1b2abf50099049aa86c8e"
+      ]
+    },
+    {
+      "identity": "★ Karambit | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_d7a7a6ffcda023c9a4fa581828e012a9287024698b67db073dbb841829b08cbc",
+        "fa_da109d2f6f9098c2060c5d982735803ea32619c40879236b2821ece61d069f9b",
+        "fa_ec7968640bf499d073048706e35273bf9cc84c78e441fc42c32aa4716bf66a7b",
+        "fa_5de5890f32a8f77f2df70af66cdd83c2f4ead3d33c560483f7bc0100c389351d",
+        "fa_51ad422da6ef6ffc64ed67f0df31bcd0cdf439dccede2ace1df05d0d38584636",
+        "fa_0100609edf6b4853401263631d0d619983ee4b75670a1ff6deb75a5fed93dd0b",
+        "fa_56bd65d80d3fabad0211671810fe4bd95e9d1df37e5f70a4af771f5227eef1ec"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Karambit | Doppler (Factory New)",
+      "candidates": [
+        "fa_8f9d71907cb67a65d0c0e8200f74f460cdf57ea9b3e98b55f5775bd3b80e5336",
+        "fa_af50053d3105746c88502bb73f4c4b7b095823088a8000babb0fa4bffcf0e766",
+        "fa_0e9cdebb7eb5514472b3babe7dcfe02d5a9cd14b29966b7a23d5b8edf0f77b32",
+        "fa_b87877732c3c475b09f34fc4ceed4bd6274b6b460e0bf247dacb62635358ed90",
+        "fa_a2e30ad63bab354744f1fe3766808a2ea33c9a294265a47d89a6493801864900",
+        "fa_d9435e410823731fae8dd684124996c044644c8c88823d53efa616207cd21bb1",
+        "fa_332e24a6516f0be8d301229fb769df7d32721ee04f08daea5a2aa12447d69e12"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Karambit | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_53021c75d571a610e958dbf970a3872c93a68dbf3539ba346b247183e206f89b",
+        "fa_f05471362e440beb6114b4d7a9cf053ef3d9c063d15367b3a19881a224f31397",
+        "fa_2beb1beef56024542065dd104b6c4c51a2cc574aaa7e8c1bca6be1fbc4ec0856",
+        "fa_bf016c0e27799c82b1b282f42ea97a44abaf9d5e5958e0d58fff1472f7888f49",
+        "fa_1822928097835e1ef314694e3baeb8c8a1fa44f0e8aea67286e3e87f3093f487",
+        "fa_ab4060688a0b1986d97067c46ec967cffe85aba81fda6cf1f3b2a93785f2bc85",
+        "fa_4a6c5ff8b65de6432d6ce9f183d1af69661ed10160d8a06e110551347d0b30cd"
+      ]
+    },
+    {
+      "identity": "★ Karambit | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_a6554098757725862b37e33090127b0fc8c869c019830a6bdde8e6dd5d3a68c8",
+        "fa_00fadfe5f5415eafbcfb7e1c9be893d6ea45458cf465bd5d5ece57961059c4c8",
+        "fa_c40add856b1084f91e7e93c949642d3b5c0fc50bcc5001bd18399b75d7ffe0ed",
+        "fa_a5179895c8a44936e1e4540a2a3c5a1ef5c8df5e6e698734c447a65cb48cd943",
+        "fa_a77d6773d0d14e9990c54360b53f4938e892802f7266c36aa6d1b7efd2bcf0d0"
+      ]
+    },
+    {
+      "identity": "★ Karambit | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a3f76f6d0b96be2754f38f79eb9371ddd0bbcbc64d0c093c2841fa025615f50a",
+        "fa_18ed33dacb787306798837883208d844b4ae2ba00762d0fb6688414580e94b76",
+        "fa_8eb1df45e7ff7e15ad4ed77749804553e075ae219e260c7e814c724abd423325",
+        "fa_95cd581f93cc0031dbc960889610d1c43adb3ec3dedbccad6f416cb04766695f",
+        "fa_2e3fd6a263188cf2be12ffd069ba6512a899e77200a0d1cab6f4d5275b83cc0e"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Karambit | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_e51a977cbb3512646cb64531f176b528359c9b0c364263fd3876675f7e7e5e8a",
+        "fa_f0f61729272bbbb3516da85e42f5e3f8b1fa876167f0be9ad7d9b859b77eba36",
+        "fa_1409dae783d404be2a4af216e7444c41ba64b09eb1d9b9eef68e1d4df82c123b",
+        "fa_6a2af5c1062b29f8f6661d8091ff579b4035ca81dda45c6852053fd3ba1b122d",
+        "fa_a4bf08ba4fee0f0c0bc5d4619875c34394bf8c9183c53a2d005c242a1f661f60"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Karambit | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_11967b9872046f6589cedc3295b9343550188624429d6f82c6829310e8f6f02c",
+        "fa_6115d3f3839f74fa39ce039c077baa5806c5da6f4730b198b2d26581aab6a9eb",
+        "fa_91fe77766fedb1f14aa96168e64a93746d1e78707b0f733e78d0d90981642d54",
+        "fa_950b2f30551d59cdde7136f0010ebd41f7a6c73d1268389c60e3ef2ced52ddab",
+        "fa_b5431c18627b1f55576369e3b053aa893be460ae1811a3a8cc2d33d02f636e1c"
+      ]
+    },
+    {
+      "identity": "★ M9 Bayonet | Doppler (Factory New)",
+      "candidates": [
+        "fa_09f96c955466117a0a995a381d9da827a2c58f4637b47e6104aa33e426561eb6",
+        "fa_e88580f0b785523ca86433f12180c68034834c040aef5d8315859985164f23ea",
+        "fa_56a055f061dcb0b02bc3332ded8d56288b6348399c03a8ff21e851317e3285b3",
+        "fa_960e8b4a171f043fe3f8e94d36b29e4b805c2de3c1ae90a119067afba3d2637f",
+        "fa_d10704cafa5c2f555a067c98e1e1071f795a4829f558a7e07baee9e9743f7d12",
+        "fa_6e025c20f5810772fa935dcdef1caf2476610ff6bd0456f14ab0008f77b9dcee",
+        "fa_d7106f98bdace5a74991972948ba65df2004f3ae55dd58aaa8e5b36e17e10b84"
+      ]
+    },
+    {
+      "identity": "★ M9 Bayonet | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_7ef66e773567948558121120f660b715c2bf3ef112a0e670a48f2c6f6c5bfad7",
+        "fa_209b7eaca1180bd42396b2220a03a562848c2b8479164b27420623da525e61e5",
+        "fa_b3f749074902ad469b089a2c4d563b50b2c93a653a5eae5c41cc4d9368429ab8",
+        "fa_f54cfcf68e545aea7b178db77739b5ad608c06679e07c678ff924b278b1395d8",
+        "fa_9d75a6c421fa17506fdb4de490e835cd44bd261df8898f0d813f6dd57244ec24",
+        "fa_599c602074aee8ef09ef53fc0dd394e85a6a5aa82816aea91e948a3a80a0e61b",
+        "fa_2f303a712c153817287af0c89852bbc8f434d08dc2306fb9cfe944285a027b63"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ M9 Bayonet | Doppler (Factory New)",
+      "candidates": [
+        "fa_52a86aef1c4a8680b100620f62bbbac6cf1a2b775beb421435488ba608f1a6ae",
+        "fa_8ddc5f064b9ccae563c0a9ab5bcb276a4ea3c2eb726829ac4bdbc0af5b091fc0",
+        "fa_089d15eebc43cd98b8508b1294833e443051df5fd6da6146a745e2f2ccd4c812",
+        "fa_855308d24cf7ef0fa853078419b5d45e1dac6c0e75441ca3c98f3d0e0ec47333",
+        "fa_d6fe194efd1e714bb70fd07a8c6256fb86108bef83b41e9dcbdaf80fe0e8aae5",
+        "fa_46fd66517f899589208060ace627636daf5933451ed5e60b86d94752d8164942",
+        "fa_98262abc3d8d973c00e4b99e8a2b799b116fde043e3b1c2a067989b625d5f206"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ M9 Bayonet | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_8a19a5d960c037e4fd08818ed14d88517fddca760d73f0a33b6644e79e3e919a",
+        "fa_2c3c8412dd9ba827250f45cc3215b5e6474aabc6a67868e15873addaa8bf5588",
+        "fa_33ac6d786f72c3d5f819f4d2df32d01387d80694363f71c3c02428e1e1a73c2c",
+        "fa_da6f01cc3104fe66280779ee3556c524a53f1da536f1f29315c278bcbac18fa6",
+        "fa_3d16843f830d2f9d7329f07a80c0e0b26230cefbc6bb12cfee63d4f8e0fa7a3a",
+        "fa_d21e42c44cc83cd89dc39a89efc107477a4565cd9ec661756a0e0ae1ad12aa83",
+        "fa_0bbad0d13952acae788db02dc0ba5c35399928e9563d4d4b38251526400c0211"
+      ]
+    },
+    {
+      "identity": "★ M9 Bayonet | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_0a9b4cd31004c82a627e740fa08e1df34c5c9e460178158a65475864b7274105",
+        "fa_6a1244f2e3592b73d61c70e96a2af88b269524d2e271be4238b6eb4e2bfdd266",
+        "fa_9c9399e6c07a0052c855fbaa71febfdb4cccff5562efab65a03e7a02684e88d2",
+        "fa_67eea060c53e2902c1f661ae8020ae3cd0de7ac1c10b0ebd31ef84ba9ad5d2fd",
+        "fa_af6b930361ba478b0a7fa287b56879a95637475b482cb6c9836c393d39d9a056"
+      ]
+    },
+    {
+      "identity": "★ M9 Bayonet | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_cebe27082a8a18bd0a07bd40b8b5ee747a01d1fd58e19cec228513537169539e",
+        "fa_dfa6db5da80781501c9cf07bd6c0bfbb4ed0a7732e5e7447cdb21857c2d56ed2",
+        "fa_8fe0c3b9f0854130c294f3e7c751c674d59205596db44f136e3f29e9184f513b",
+        "fa_f7d847dacf919323145328384c83802385d7d03a1f7d66aa1c11ab1545b843d8",
+        "fa_45854b459f3a0de7b00cfc10f1c6e8ae7c3f48619acc4d074e9c2886d7ee834e"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ M9 Bayonet | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_439e10219d50ae9b68add2bcc7b3b9a229d00e2d78ecf5098dcd10000b50f9c1",
+        "fa_3fb4f24b05e0ae20af4ff9f0753a0aef26dce182e4145ea2461090416e1f92db",
+        "fa_f95a393b9af942f2f796236b527447fc71e60a51a89f2e7fedd75d9a1f37e807",
+        "fa_faddfd17d1f687ef773f60f017e0f2146d9ee27b4de4669143efd370fd4bff28",
+        "fa_8ff9c4828aefe9144e2e19f6505aa492b161d4cf86bc10a268a118f2c1624e8d"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ M9 Bayonet | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a194416854571390ecc74cdb9a3e1e90eda5e77c9ca3b462aaaed11025afd9e5",
+        "fa_618e88515d570700698c98f7b516abee109780aec4d3ffc010b3aad0e7beb534",
+        "fa_58e8fad49046bae56ed8a10dc3b0ed9575325a41a95b522d693c0a0978640928",
+        "fa_d5e80722c96321b2a5be8e0bb05febee8d6125344056793cb20a851db3c7aeb6",
+        "fa_37f80e25dc5396a162babec2476a0f406d482597e5b539159d5ff6e2d6e7ee6b"
+      ]
+    },
+    {
+      "identity": "★ Nomad Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_6c29c702dce86a0f039d148aa815fc675bdee1fa271aa81cfb3a0b537aab4284",
+        "fa_a30434e7ba01995e2faf41643ba15aadc6eca14d253153f8aaf14d67429e43f5",
+        "fa_9865bfa8025ded7d4fb76b9ac6b6c28badd9c6d421f8904f0c3561c394029c63",
+        "fa_967a1a976e5606ab536d7025c7b4331b6581b73bfb40fcba36636057d3b96c93",
+        "fa_0c76bbeebd72ccdb5d74e54d14a315d3573e739767cf96d3968027fc3b053f05",
+        "fa_944cc7a3d3a36611bb7dba53a44580126d9f713b0c51ef4d7185fab05918746c",
+        "fa_6d8b65eaa7f48d4d8dfaec869378f1af8b8b46101ab02ec2cec6c09ddfc79276"
+      ]
+    },
+    {
+      "identity": "★ Nomad Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_68b9248cdfa5038054629a347acb4d6ae51f96ce9645f5133bf0e04c7cd93d7e",
+        "fa_4ddefe2c52b6e2a82a0f986c4c4b81011449abd674a05d464fec70b8e518bb0a",
+        "fa_b5c6bf8f3421462f3d62532800069c9e8a023980523193e68b409d1416dc97f0",
+        "fa_70a4bd42bc6ee46b51755df7c4d7f5472006dfd7595e50a5e09a71eabd117222",
+        "fa_346b7b3fe60d9c62be13aa6347c874c531659656bf3d9576736b2c1e47603b0a",
+        "fa_b065f5829f098bcb255786755320fd7c1f0f4ae9c934b318c74c3eb286d3dff1",
+        "fa_e0401e26726f5285b1de8a0f3d6d18a6cf17d2eb58bbd624fa7ca814abc14b01"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Nomad Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_6a256c578bbcdb5b0839fc180a8ea60a33efd5d11fe32c43ed07e333f305213e",
+        "fa_d1c9a53955f8afbbd35a34c01d2c4c3e5480c0d60686f445c621ca6ce3aa7ac9",
+        "fa_0158095a2b9652c7e90c4c6e3f098d337daad0b7110f2c3da5656d864ec2404d",
+        "fa_03553a7d358dfa0d4af431d2d649f53732c44dac4ac4d43dfe101372106b374c",
+        "fa_a803c04b0e29e9a60276ff5c400b78c44d1ffd29d6ecb7467005f5cc8795d92e",
+        "fa_a1138b54b0b631dd1da2291e35ba75cc8f0214eaa9cfae612f32156551773403",
+        "fa_dcfcd0680344c15007cb93b641bf8055687d0b972ff1a9596d990e4e485e1139"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Nomad Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_97422c4107dc02d74b9abfcb5a42e654a48fea2c9cc44df3d1e27a90d7d68464",
+        "fa_805c234cd77a99b93b6a60f943d0dd84bf26a83c335c6fc848e65f8c346734d2",
+        "fa_924807cb19e4bbc3e513e5e50715f7b2c82d10aa262403e0a0d9c7502c09fb94",
+        "fa_0f661377355ce4ae59cf090531b9ffef2889045b6855af1d83c2bb48d1914b0e",
+        "fa_450747507f077c70e0e0875d13c4f616ccbdcfdbb34075c46af981e0e7dbf182",
+        "fa_35cd9da0a37b96e9a2c74d267501425285f7faa261d0acdcb5e01070da5b84a0",
+        "fa_ef1c891df29b497348360ee5a43efeb6a46b72fb965dfc1412e1b249b7a64e77"
+      ]
+    },
+    {
+      "identity": "★ Shadow Daggers | Doppler (Factory New)",
+      "candidates": [
+        "fa_1ca5091673aff93aca64443890bbcfcfb981eb1657720fee124babe042d73059",
+        "fa_09dde75a67cec35be82e46dd805e0a6fdbfd1b963828ada89658707fb117bc2d",
+        "fa_402774b33416d9e37e8ac958d571c4bee22f9490fa5043aca1ddac7a113ddbda",
+        "fa_4fcb37d32c120ef8bbd43ec096e073238685d434e076bee74e9b620cac50dfd0",
+        "fa_df556b4c953240839768b4afb388d49a3a995ad441f1ad93035c6a420ebd1cc9",
+        "fa_50bf2f3d54c99acde7a63b052723695df8a07c21a2a84952304701dc91806c39",
+        "fa_678bd39091c8bde800cde9a78b6e13bfbad0ea763d538e6239586f1c3fb6d356"
+      ]
+    },
+    {
+      "identity": "★ Shadow Daggers | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_5d424a1eaaf671ceb63bf58c159b0a57e29eece58da048d81e58bfe434b8e5e5",
+        "fa_92dec8eacaa0a357d25e6e192af058337c016d8b64690606660a230986815082",
+        "fa_db883d78be26e664103a280757da86d91f9448a1193583d89aaf80a9a6db4fa3",
+        "fa_beeb07e1f898ac81124db1ca727a51ee1b2fe3724f061bab7695f7da3e799fa3",
+        "fa_dead6951436215cf1670f6b5222fad88d98e7e69fbd6e70c62869ede01e4e981",
+        "fa_d83bd522be8fba983ba5d27b71df304ae056eda5ffa6bd296ef7d6692e72a1ac",
+        "fa_d82f5547d1019fe9741c022366ff83810a28697c3debd09b3538d75ac547afc3"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Shadow Daggers | Doppler (Factory New)",
+      "candidates": [
+        "fa_0b53365ffd3923474e03557e47104ceefbe2714cb7274084b464bf1cb54d83ee",
+        "fa_8eeca05b9ac5407c777f1ea3b68346d5fd0e61adead9bf60fb8bb6108746945e",
+        "fa_36629e6904ed3bd72548cc31e0f3e6c15bff5ce12cd493524d86fe9704ccb35a",
+        "fa_8cb05e4fadecef3a16f351a4f08d41d3e9638edf58e4a50cbc1b79555db1a4a7",
+        "fa_9ed9ae7c89cebc039df6fd5a6b0c545a4f8968dedc6f168d30815ee76cf1c182",
+        "fa_746dfa8d6b569f04dc6987193408a0ec59878d5be6dc0539b887e15e047789f4",
+        "fa_32aa5d21698a2a1036d7be10f3cefb9671ef2515d4c1416081bf377e2dbcf07f"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Shadow Daggers | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_1f6ce372b084b9280aeefce74bb13e0bad64cfc6a436d08fbb80687271d72864",
+        "fa_3a08416ab3f5bd507d748c756fd8c2ed2a81dc13fc92badb453e098ad10de7f5",
+        "fa_c9fce8eddb777f2b60aa7527f1e28f171b79e97ca3ba319513325d3f6d24eb08",
+        "fa_93770e37a3a0be1420620ee4f54954735e998f2bd2dcfabd9231102f0bf3588d",
+        "fa_116be78e84c741289b7b62d828de400f6956bccd42fb493e41708becb694ba2c",
+        "fa_ba84193da91dbdcda632962fc7d115d47329aa46a6dd9588a240447f4c0788fa",
+        "fa_090d63398f5c59da5b4a1be0cf5d3f8c404e94e1569b760ad7792b8c98ddb25a"
+      ]
+    },
+    {
+      "identity": "★ Shadow Daggers | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_067f8c80b5b23ffe98e7b8e688a879784045091af54e03420b3e25f0c8f1f094",
+        "fa_467608a8dbbe21ae5c49561a58316c902ea1f1ac4aed21dda097f976be36a5c2",
+        "fa_d735dd003a92e9022416631d5e19ee26c3e1146362767e26fb76e7ed805d803c",
+        "fa_2230679a2b4e8dbcc0803e0b6731040d4d95f0518b4fea24fcc420e6880e047f",
+        "fa_e54359cda0498f86745d765ccb57b4478d1753f970efcb5e3873dadaad344f7b"
+      ]
+    },
+    {
+      "identity": "★ Shadow Daggers | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_d4a60ffd89cdcc5e5c2655b9948638cb763ef8d2e3ec871f7573d7b0072126a7",
+        "fa_9373fae694b3c7c7be7c71956e3223f7097cb331bee2f4bcc3c6fa6859887b42",
+        "fa_d381ac41f6d3408733642a669ef481ec6f14c7cf1122ba66db9bd2f3d6b88295",
+        "fa_8abfeea7e51c39059666abb5083467ded7ffc8ee41c173118f230fe8f97c7127",
+        "fa_43a5ecc19e5cbeebeef29ea654bf64ef03fbd05fe67fb4bb21d094a795d87b61"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Shadow Daggers | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_050c88d432787d06defa9e1529f5883a79ef0c3d9a087d259ab379b78295265d",
+        "fa_81101f15ce4a6029780221a273738c479242dd483dcf8c65883ce09bb6bb7b87",
+        "fa_0e1a9b97e8e4e467dab8012b8c292f6738dc83e77990591dd52c6914ff45fa32",
+        "fa_e7fd80245f7968ba60f2fc40bc7cfa02e88bffc51a933e383caa13dd0a1c8fc3",
+        "fa_4bb9218a277dc5b2556bc6c250688d85715879a0075be7110aaea255f51ea1c6"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Shadow Daggers | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_f3b68b68fde23bba9bd36d28786390d545d6ab2844cc96d1f9abf6c98a8fd224",
+        "fa_1ff2f7df376c27cb790d99950f664e9d421ae2bdad1640f88fdef032264661f1",
+        "fa_240ba3beafa2fb7b2285456975e7d351682ce0689adc43bb8fff7cc9b765a46d",
+        "fa_3ce528dc0a8638e1c31054bc47ad6aeff5c87820cc04124d1d5f74feb769b5de",
+        "fa_9452de47515cbb2d3293d3c0b81758ab02a8b0005c965a6fd69db8dfa295d0c6"
+      ]
+    },
+    {
+      "identity": "★ Skeleton Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_3e605c51a7d954b89bac0d8da356bc00e52e56b68b53fee303425c33d3d5b6b6",
+        "fa_eb302190649feeda1a60329ae608a7ff2fa040700eaf3a2083c406ee887e0281",
+        "fa_a57a8d1dbc1bfa841ee30dc1b33d05c6f379c3a6ca37638c0db7a3b5595aca91",
+        "fa_7dfc2185a4beed4f250d47aea695282fc292dc8d767e07ad15502c03d4ac3106",
+        "fa_6679d24d00a880db6d82e3a263504dbf7bf25c16144b8fde06d165132d5cb72e",
+        "fa_973e0c6b887899494360acf254ba925970ccc0929bcd846fb308f7c5bcbcb22a",
+        "fa_a046cc8f3c56586dcd60c0827dda2f88cb2b0f21412b1ab260431d6e317205dd"
+      ]
+    },
+    {
+      "identity": "★ Skeleton Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a58a26e31dd9589b3e090d36548724df171f62b499a3ed6c7d3c359a1b8175a5",
+        "fa_3ada1a8c2c83b9fb61e1caedbd193da8e0d252685fdc36ff18f8fd82bc25746e",
+        "fa_f6d8854897c44f58ac0b32f676ba27748ff35a48363b5a8a4c1da5cdcb84958b",
+        "fa_36dbdc1d84e106adb52c062c780fb000cec771226640deef1ac66778b474fbf6",
+        "fa_f5ad69aa341e661bd5f13d014a0cfc9b4d25e51d082747f0bd6d8e31d8a5f06e",
+        "fa_bbca5872339edaa71c4cfce695c5bd89cc616694bf2c721e1445701aecb17ada",
+        "fa_ba2327921456ce87c13641291df6da1bd82ed7d2e12b653cf71301a0988f96cb"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Skeleton Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_ce4d0f0783f39cbab48e187de9d998e98cde8e561240b010f27aaec48e69af45",
+        "fa_ff22b6f87dcf50e2d8e335b5ca5623eb6bebabbbda06753ecf01fd631ec55409",
+        "fa_1d451cf06ea875b4aa601bb8ed69ed0e8a5270d92e7bf296d341e190f43a8923",
+        "fa_f602efcba73c6a0dcd59ae4a6ab00e8ed11127b2c9868afe49b5e55865bdb0a7",
+        "fa_3077f3b1fe91de404dbc0b47539e64b8bdbb986ed985b1d8a4b10a0d0f5f6ce7",
+        "fa_18b64077d67e818f7bb7c8febc8ce49ce13a36aede931c05d1571a149ff4a89b",
+        "fa_5070b4874f6127ac4193cf167ebbd6150d40ecd00f7f85e9995a6a0ba52be6e7"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Skeleton Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_4541db524c04c48c77a2c213dd163a5d735c9366888330498c26a947dac6fa5e",
+        "fa_bcd8ccb92d0410eb0194addbc87b5fe5777c7cbd83a45b99eafd7a2834d8c7da",
+        "fa_d652a86cb0746ebd966501719b885a5de1b53b596b5d6761f442ffcce05292b4",
+        "fa_65392e631f95a4be35a117d50311a950f9e3ceabd1602f45553b960f8f89260c",
+        "fa_05c058bf74b31c1c04848ebcbc92e86be4cce8c59f64390b57434b1e49d10c29",
+        "fa_f931c0927dfdf992c8f3393fbea3b3f03c934075a2f0bdfb2cd71e8fd6a46838",
+        "fa_0dfec881c9d656822d2b538d7f08ff21aa088b050e51361bbaf781c0f03783aa"
+      ]
+    },
+    {
+      "identity": "★ Stiletto Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_92c9939c2f814853400b33a9bfe7eae18dace0c2c8f8044ed1c11aa5f14d7687",
+        "fa_0c306d1f2bec8c344b56d0f5dd6d161d312f4af69848bbc35172b0d65e17a790",
+        "fa_05a015e1f89dec4169787748c7a7ed4d8f84191d93438898b28e6e0e4ebff6fa",
+        "fa_5448e3072f48632f8741cae2ddf787c3deb337dc480875184f10a823a0b234b2",
+        "fa_ad9493572d2f996629e815369f95b4b31e94f117c6dddf22fe791fa962bfb993",
+        "fa_dabda039b6bf457df94e89f6ab053a4d33b2c6a40df581362461df80202c83d9",
+        "fa_21c1a6536469178be7c812b24b0a4c11651c066abe79fe307c7e53df5a9f0675"
+      ]
+    },
+    {
+      "identity": "★ Stiletto Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_adefa371a2ad3eac127663cf3ccadcd681bda0adfed4bbc9e3f66d5c9cf9ca39",
+        "fa_3241405258296546abef87873d4cfe74ecc31e921e09593c531f680e376d81e2",
+        "fa_89eef791e6053a9b1d8a03b14ccabf27c17f1ef0d185c1df3589c9f0e4de5c0c",
+        "fa_5c49a2b5e0b0d0c561e14635e50fdd904e9fbb2b8c021f2440ece158332528c2",
+        "fa_c376588ef6cfbb652d00835244015343d6dd0c79c677ba1c531b4fd8c1525b1a",
+        "fa_1853f6b3907b17ba0e7c18532c0c3ba9ae33bbacbb86dcbfd76eda6f6e6dd698",
+        "fa_d866f722f422472335c2a211e4b7d90e6c5cf57c9048088b48d168fa36968d5f"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Stiletto Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_e686b8ec47f253c4e8b65b8fb1d0603c536226b21f54e73cfd427093fffbf6f0",
+        "fa_cf3640ea9184ad0c7f93de68b071cc5dc8c0f956d1777ec9be09ab3ad277d75d",
+        "fa_86b4843d454aa250c7d67d323ea2ad2ca1cb929368222b02b18f16ef07084477",
+        "fa_c2afbfd652fd3c9efa90b0149d658389b660d36c23860e101e9be22fe0657262",
+        "fa_363ef7c4b403d9116e3b45b01c4611f8ea328f9ddb029272734a2d580e7cd5c8",
+        "fa_4346c3e5e8130dd231072f2d33c86234205ea5eca77200cb184836aeb79efd4f",
+        "fa_c17cbe097120b7e829bf642ec2d05d10259d9b0a20d94e027d8ead70a0cf2e4f"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Stiletto Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_cf96138c2ef0a386568a711869016912490571c4b732e86615fe2a8af2d0b6b5",
+        "fa_33e35c92949ad8d97505fcf956a5ee7b41de7eacbdbc1beaffb5c4dcc85cd16d",
+        "fa_c51b6e40336047fd3fe0f972fb0ba40656d1e7fcfa49e296f4bc24c7b1ee86de",
+        "fa_fa2e575520ba35dff20d98aee18e123789b54fa3814569120e06b9a26370e2ca",
+        "fa_00c0c7e7fbfad10b9924f122ee7371c4a2ea810651a061cb59b4e1b396f8d000",
+        "fa_adab1a0af3bee15ab12c3de119e1ee2a9f78ed4d2e0d72308d90ef3030f7c620",
+        "fa_41f98b2f502b99ff6d35507a6531d5d8d75b7321be68fd3d04ed8c17caf9ba99"
+      ]
+    },
+    {
+      "identity": "★ Bowie Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_7983d8bcb2bfaa935e51e9626b396b5781a846b1185c58cbb92a1c64e7763022",
+        "fa_e1b04bc2a41ab81850d539fd74a0b3f68e95323b45e1e3fae20da2041d40ab3b",
+        "fa_db2838c2f8086a5e3361ec092eb863df1a95ebb6e59ac2b239fd89bbb862039b",
+        "fa_702589418fac082c882c72cbb16c2f153557c15e31276a52e01744b3a4eb00e9",
+        "fa_88996551d1fe59e441962c720a489e24c1386163643a10a8a56a803c99a9250d",
+        "fa_d4a82d9e1aa1bc0f44ac7d86237ce07bdff14fb12b8e51800885ac4c32f7bb24",
+        "fa_6bc6b8103dea554a75eb06bd47d160dad5c53019370f11cc89518a0c98c014fd"
+      ]
+    },
+    {
+      "identity": "★ Bowie Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_bc892556bff41b7a47147e3819fdf034d5efc5c26b41a00e4c17301a65020676",
+        "fa_e62aa2e4345671661280b89df6d39aab30f94cf22269a66625b9b95e13dad4db",
+        "fa_1eaf3ce0ad19937f3903b003a8ff142ecc79b583a2ca660b0029006852ee83f8",
+        "fa_03f691b087391d029f221356c51f1558958de8b15115554905856857c68ea8ea",
+        "fa_36232ed82a764a11178f24f1c7fd3c08357d51e67f98eb5abbb8b9f8cfe40666",
+        "fa_e829e5694a9e2424ccccbf6f4f781fb7c044eef57b731f5bb7f9fa9b02c869c4",
+        "fa_300bb70b73db61e3fd45bdf554d69cafe70d479446343cccbc13fa3a80fcf42f"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bowie Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_fa84b02cdcd1065000855e974ef416c27b05d4dddf79183711c18a6f01a7aabb",
+        "fa_ddcb9436923b0a5db07d78df9c074e96b67c00e10cf7874b42436c7aa58949a7",
+        "fa_7b1d6c9f931185be395f6e8de42852963f62521a20193063f6ed90c10960a692",
+        "fa_8188bca9b95b0e877672b4518b550bdcd32f723fa42e4861caab171dbb782cbd",
+        "fa_1e5449103dc718ab4575d4d59ed08e36e7f9492aa37187fce880dc6cb43f22c0",
+        "fa_ae39915a591c3c3268f94ff730befc8136b700b829ab1cc2ed1c77764b176e19",
+        "fa_de1ac91efe038625a298d11920ad61f41a3d6a20bc90783f86f968a8d60b3996"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bowie Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_a5df2f6b8154ff763c53899e5b5431d6129652643558a12f870cff91be139d97",
+        "fa_2079a8a04c774749d4fef4d6251b8417989b741212d9d3d1541df04de17bf455",
+        "fa_2d55317983966aa0b6df4ebe0c4a96baf4e5719984fb01746cdab2a91655829d",
+        "fa_d199d8a96a4445b8b3db67213817c708160348ab29e055a83d2cfb81732867b6",
+        "fa_4673563cf3bd24ed59cb4c91fa8b1196c771839d336c1da0c918a27d93893d11",
+        "fa_48a752d6ded8eff2817ab090c118c4227a19f5a161f381b8b2444ca07d110a30",
+        "fa_bafd8de90ab2d2956cb788eee1ca88196ffef69cf4caa65f12ad13e5ad47e455"
+      ]
+    },
+    {
+      "identity": "★ Bowie Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_b1bde4ffdcfa4b1eab55c7d45b5064ac007e6e4aacc3e9c2a19d2665bd74475e",
+        "fa_123600001e5bcb11133f0ec383be0de841d49bb5c85017b71147ed3b5218f58b",
+        "fa_35e0d6e8808d12f5cdab5480e4a3ac3e4465a18db4d049925826fa5d7a4abe47",
+        "fa_cf3370e4103044aa4820480c86e1b82bbdd691cea0bf3c74ebea13ba94dcccf9",
+        "fa_eb620ea7bdb063fd97974ce09b0d149ea71bad1776a5b8a60935821f476a3e5f"
+      ]
+    },
+    {
+      "identity": "★ Bowie Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_4d0f7d1a4831f6ab6a04785b5311741b8db7fad557256431dc49248b63f0529f",
+        "fa_a28a1d51d893cc13c8bc34df92a6222bcd9e81b3fc12462669e1d2100684b72c",
+        "fa_8eb53b2dd9c886aa49435ede9a4ff7003339ca7cedb1362dfee4df7ab4f5aa4f",
+        "fa_884035e631d56568577a17e729c9908794a463cea2fa2276298dc923c553171c",
+        "fa_00d5af9f6a14df7197a4e505baad557be8ca2b290a95bf1f921bc24a0e0cc8e1"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bowie Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_68b522d401bb081d3c6de3df3ba0923e48b1df34b6efdbe8fa6379e4c25064d5",
+        "fa_e15eb3d1a8443fe922cae48d6edf51a0a8e1f0aa5c85e7404d4c5538bbb05815",
+        "fa_e07f5fdd4e40a7910b97f49965e73c9e6fbd6cb4d9195a7a1219bfe73ef00dbf",
+        "fa_5d72d29a4cf9773662ae1f3fac306c03987f606c809233965c830a484d4309e0",
+        "fa_8be6f2c5534beccceb2d9f0d009af5d59de6045ca17f1fde277b7ce2853f9b1d"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Bowie Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_2e97c433beee8bcd01c7589fa3279335e9ac2e1f332236377467244348709997",
+        "fa_0c29d6906741ffcdf6eeda3caf98423cc2659e8b5c98da0556ad7e782bbd7fb5",
+        "fa_a470affb1650c79e0368895718da742bc507b4d79b4d3ab755b10caa0af54d9e",
+        "fa_d1d690c6eea98d0dc473b6f7414c4e1cd97a122a2a8ebec84269910be5a44540",
+        "fa_c79091d4993f0f6a2a909aa2516fe482162181b0cb49dbb579dd89c75e76cc71"
+      ]
+    },
+    {
+      "identity": "★ Huntsman Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_b484a4045af09f0d3cf30ca16b0d6adf69c921ca5e04b606526a29032023c21b",
+        "fa_ced8a05f52467c1cd1ba11fa6a7dac9ac49cd61efde0fdc29d568de7f064be0f",
+        "fa_ecca2fdfefde666c4f32f6a426d12ff0156f1651194f3f8e8a6d5c414aef7b04",
+        "fa_e183b48eb7220a70935bf1a78bdbb2e5c117a4bb78749a20bf10856afedc85c9",
+        "fa_efefde9a7934958caa044a7b8abb8bebcd69b6b76111bbd695f5b80fc7899fff",
+        "fa_977af0b82830d3781fc88f488e8ede51cd66306f2492ee839c1942dbf4b40646",
+        "fa_e94d01365a9ed2c230c85e3e7fa3598a1b455e62ef389785922e08130431b686"
+      ]
+    },
+    {
+      "identity": "★ Huntsman Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_eefe7fa684bae9db7b64670e6d44681f57901a2347b93204ca2610b63f0b8a0b",
+        "fa_2f4fb0d0d778957df52de626da5d5e3549d85f305377b819f51bf49243a3bc17",
+        "fa_0ceff9c7a3d49785b42980987c272ccef92f96bca84dc8c1335f030948b309e2",
+        "fa_5ac747482cd5354226804938e14b85450487744d60949cad74a5a7da5008b648",
+        "fa_8b4a5e421ebb27e2e79ad5ca942758b2b80264e4db6ce3feec071ed0a7c8fb9e",
+        "fa_13939b0d97cb1ce7bb650bad746895f99a74614d7b4f8b4f01c10be4add10be3",
+        "fa_048b05c02139cbcb8eefad262d865e6d4c18f219aa948bd3283bf96e20535fe3"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Huntsman Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_0d4300a39c33f9dfe5a6cb1d139b83d461846180053c3466c20361dd800e86bb",
+        "fa_c29ffbf41c785e8d738adbaa2f0934f3f2be77222370f1465d638ce76f32933e",
+        "fa_faa0a1f1618fd2bcc30ee694f3aa5e3964cb8778943567376ffc1b268807a837",
+        "fa_397e48b5b0a5b6bf128eff10016fb0cd8cf4531300d5b65a228969057e14d0b9",
+        "fa_59384d7e4c221da83862892a9920b60bf717256c58a71e1f3e14047739d245a9",
+        "fa_ef9b06e873bda0586c3f247e039c601617b5e30aa0a1d79054c61f20087b77da",
+        "fa_3bf61a19b0177a17569c7e2ed087e529f192f809301986619b162bba06576c2a"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Huntsman Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_8fc053043b3cf358c56ba697387cc48d5e35c4f5be6b14e373f3956cb75de152",
+        "fa_92cc912b5713394252a33eebdd4db0049b9ebbbfb1f36824a226682e61b0aa0f",
+        "fa_5f5f5132ecc9384b3dc8155fca61885e659c87374b4639ef7d12637219c8689a",
+        "fa_40d2788aae9b1f800b0fa814a9ba8e861b68a9eee714192a60350e6e3fe34105",
+        "fa_fdaac392546d5ccb2d71f09b5a8daa00afb54bf6a8da242075dbebf8dfe51ae9",
+        "fa_39de082890ff9dad85b93028c349e3c9372c2f3a47987c861375645e3db6f959",
+        "fa_c6faa1b38116d4d21f5ebc8a6548ea1e0c039402f297347e6876b16839a3bd20"
+      ]
+    },
+    {
+      "identity": "★ Huntsman Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_a4be658fb2e6bfe431da0d3032e2a4ad6a985a62b7e57675a9a95fcabc144aeb",
+        "fa_3a2344c1a6500bf8d697ea724c993bf23e5bc24a3270b0de6c4ebe86cfaadd32",
+        "fa_fcdede10ca63656c13792f232f72da5a6d82be13408d95b37800b008a8a54416",
+        "fa_d8dd10f435adf92d3be23a95f4a22dcec41776f1c8544fb3177b480eb4928c60",
+        "fa_f0a3fce63e17e8ce8c0807039f4c8a07aaa5f56cfe0a4ca2f78096d0449ead9b"
+      ]
+    },
+    {
+      "identity": "★ Huntsman Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_2f31fddee14af566422de49319e2de9515ecaf59b4cc7ea7c373cb16d47b6ca1",
+        "fa_d79e82fab4ee91aee8de092dcf3cad737262fba22aa4c61493ecb920f67cc80a",
+        "fa_50f6b7ea7b780baefdb5674e9008c52343b426bac80597afd1d107a0e0c5ce9f",
+        "fa_6066545065b96480e47b6c3277f0f994563f96b9835dd73acb280053465ad9db",
+        "fa_4a3c821a0aeeafc5f4bb487e58d6052e3961cafdb1592450064ff4d0d3f61455"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Huntsman Knife | Gamma Doppler (Factory New)",
+      "candidates": [
+        "fa_78bc13f02c716518d2a4ae9d872804273f5dd4f883dc25a234a782b2cff85a85",
+        "fa_b5560a78387583f5ce9c5795188b1707f13611efeefa752e353e054882ca389c",
+        "fa_3fc4e876b6e2bced67ac756a5bf243ba0d9774894948439acca1766a42b83de4",
+        "fa_8c9e0f3928b8b3c5d96202c02433b5dd5c667e445256118d05812a3ddbe9078c",
+        "fa_7fa868be39d89194506f60a31ab3c2cbf0ec70203b7f512f4fce6a6752bfbd84"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Huntsman Knife | Gamma Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_10a182715d3752bdf6c9b284985570bac6ddf05dadf7988cf6887de552e0f21f",
+        "fa_8da00e7f89df4c1e6d5f75b56192430f48879405e1413d52d3dd1995f18515fb",
+        "fa_7fa395c51b2da6c05474889c5b412c71ba33db4d8307e61e27800802985f2bc5",
+        "fa_77510fb0f7a1696be88ecb35edc4c14d7345642c1f7071318eecb9d106f1c8a3",
+        "fa_4736e242dd203d4f6b8e43cee6330e5b171ea36423bf4907e8a6f31a866d5715"
+      ]
+    },
+    {
+      "identity": "★ Ursus Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_f4bf3be67a18116f250b33bf76bcadd8c35b9210523b05838dcc286470a022ce",
+        "fa_5960b0da13fb1404b57e06fb2991d33f3a5ac43a98b5b4352ac3f6bdb2bd4e64",
+        "fa_aeda3b811848b39b7c239d01ac8d144992270a38f61cc1804dc2734498bc17ba",
+        "fa_bd07bce6b115228e2a99039c6de14695f883b1f3edc2146c0a72d4831a63cf10",
+        "fa_e12ae497d1497e983e1517e5a464fe48ce7b7ce25c3f741e5ec9c4785879047b",
+        "fa_f4d4f2a60a4ace222dbda6ed13042b4ff72309dcbfb9076602799450df3fcef8",
+        "fa_ba253c28f2617cd3db6af7677c1185dc1329171dacb053f3ba7a5263149806f5"
+      ]
+    },
+    {
+      "identity": "★ Ursus Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_d51ad6b405d9e7df87e6d284fcec1d0b46fb4a82a46d9b4cd9bc2e04bfd337e6",
+        "fa_ba83f04e59d2538d5dd24744d8effa2591e2f39f0cbd2b138b20a78bd81b5a05",
+        "fa_905627369a1b32912c07553e7ce76cab72821a51a2e38678c6a6a856054e4363",
+        "fa_211d7257d6008f9844e80f58ca6cb222b6a1923859000f8eed671e363e123a46",
+        "fa_1c7635ce61e360e84e5263d52decf6fecd9ceeff547a326b2646e7ce19a9771e",
+        "fa_f8f25cd20b7e0d5281ca3fb5a3460594252859ff8dfbcc325dec9562ba505918",
+        "fa_6a710b84aaace6e6de8179e6732c9919fc5d978790ca05f976656cf715e491a7"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Ursus Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_5530cd47dde22f7846bdc26b8bd6ef9eb439ba29054ff6827f334b4b720efd0c",
+        "fa_9140f12185323dd7e0c1f4deffa6e0f454b7ad4bfa95d5f2b0be9f429491247a",
+        "fa_fc047efe826e9d9347b711b37ed39188004cc281a3937631757e8d74ef3da00f",
+        "fa_1829d1aac9568e42228eae21629ab763f72d6eff65f77f0b18a80d15133e23b5",
+        "fa_85806d5588674015bb9b7a948c3acc311b5415cfe7dff8a52d7f4a46efced725",
+        "fa_1415452fe382bb856262212756c1780ded43b69a44ac80366248c3222bc34849",
+        "fa_132d5c74e8702328644e1a35fdf78ad8459abd385f590e4a3c52a0833e94bb30"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Ursus Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_82a6f3867ec4a3887cd95eefc4e128917de7f8afdc7ab3c107337f396a978116",
+        "fa_8015707da8f203c43e2d0150e0e47b4849f992c507a06b8ef4ef7199277fd852",
+        "fa_8a40df94ae9fd62999b53823c22dc29cff3d891c9262d13d2d78a9eb5ed1f8ad",
+        "fa_4e805461616482f153ea2dfd5fef06679ebaf0d9e81dddd896698d4594e78749",
+        "fa_67a04ddb0160311bf2bb3a390f14d161ae5ad65b613480df7ddd12402bda6c2d",
+        "fa_43d30056824cdc9d9f093dd509c2369e7ed6d80295f8dc9807163b203adba4d3",
+        "fa_a236ae0f9897dee38da43a90585485cc5207ee4866abfdb7f6477a5ed4b74f11"
+      ]
+    },
+    {
+      "identity": "★ Talon Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_0f216984145afe149565e4cf451b45992cd7643db86aa3c056f6d864c483a956",
+        "fa_59b052ce32dc2e751667fc0e2d669d1375eef2ef980e7f6c67785e0b9dfc64aa",
+        "fa_96a9ae404b597a185ab043814fff00c086bcfcda2116e369810a08832768a265",
+        "fa_98e8423204c34115795cafc453b16ef226fcdd932bddb9282649a9da1d5aa479",
+        "fa_2f559d373ffb2d55099639b7257897dc74174e50de93d551e792d273110c2cbc",
+        "fa_b4ab88be08edca6915bbe29521510332b3a7e76607c21e1f0a9a2c0edfe9a71f",
+        "fa_dc069338482f58361440d8e2e6409dc056674769887492362eec4a6aa293ec50"
+      ]
+    },
+    {
+      "identity": "★ Talon Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_1b960026d461d04064a6fd1f2313164c728cabdf75c57898cf8275689714df84",
+        "fa_3f3d083d454dbb9b50044d019c864df0ef3bf5da12bac572598c5b21c6020641",
+        "fa_29233ca6349d64f3aa57962cc4c80a23316d58fc9b8db5091e157aab792ae659",
+        "fa_81b5af107cd23f5bae917a991caadd8bc49a4241a490df55501ee64de5231b40",
+        "fa_27c43291925d187683a231118036880a7c0b6dd8353f53c679c8be42b7fd205b",
+        "fa_c6aed16c29e3134cc67586f5e9cc659ecb7c0d993d86108d788fc996437232c7",
+        "fa_6eadabca577104b9652ac0128c5ef9bc7ff0c6f44cc0c15790f4aea570e3904c"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Talon Knife | Doppler (Factory New)",
+      "candidates": [
+        "fa_806b0cac4a4d194203cec5c9f95cef43e285cbf5f1ea833887c107b6dde605a8",
+        "fa_2f6ea7cd5a45f664a091620e4356fd9ab31c7a5c2ac7230665ec135e11a84f4d",
+        "fa_6bd093c2aab518fc8c020452c02db85154e54e0ca4a21cc9c16bb699f59d755a",
+        "fa_0da86f3e884d53912bdab6123dcf9740f8a8f06658b6f32421581aca574df469",
+        "fa_1059c69eaf9eaeff5c4cac56ac10471cb66a161127d7f4daa078cbff39539b18",
+        "fa_fbe8018f3f21eda194a51beb68ea6cb18c011add3b50fe9e689a50ebfd9790f5",
+        "fa_9c57093c25bfc3a1b5546d39a017ec77a5705dce4965900e8dffc27da0604d60"
+      ]
+    },
+    {
+      "identity": "★ StatTrak™ Talon Knife | Doppler (Minimal Wear)",
+      "candidates": [
+        "fa_8f121e8c9697d37b27b36af2719383fcf0876ca0e626f00662e0c8b91af39ddb",
+        "fa_9c5631f2325a4633ff0fe25cb7ef7c2d99bb42b742af056239751f88f5912224",
+        "fa_b21b18ceb21697e512defb51deef8c277e2c5421ca1b7583a0c469635ae65834",
+        "fa_d7a75c90f6f9b8f7f7c639d3036b39ff44391fd01e0c97fd0dcc1a05fa1fc5c3",
+        "fa_3f7bde5d837bd28ba769f9f6a81a0b68ccdbabd9c1e5f7ad2544ab208b891e99",
+        "fa_ed2be25884c4c1928815e70b6fc5a5e1ea415c9f18c9cddf53058399b365a7c2",
+        "fa_6e24995178332d0be1316ccc7cf10cca5aeb86eabd199f5ac2929842388aa974"
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "media": {
+    "withUrl": 48412,
+    "withoutUrl": 0,
+    "byStatus": {
+      "AVAILABLE": 100,
+      "MISSING": 0,
+      "INVALID": 0,
+      "UNVERIFIED": 48312
+    }
+  },
+  "tracked": {
+    "total": 100,
+    "exact": 100,
+    "missing": 0,
+    "ambiguous": 0,
+    "withMedia": 100,
+    "withoutMedia": 0,
+    "records": [
+      {
+        "asset_id": "3ec521ae-28d5-43bd-8efa-653bfbebb002",
+        "market_hash_name": "AK-47 | Bloodsport (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_4b5bdfac94309d30eea52ee709bd08e5f10ba52288bbd24ad0153f8c481f802d",
+        "candidates": [
+          "fa_4b5bdfac94309d30eea52ee709bd08e5f10ba52288bbd24ad0153f8c481f802d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "dc750c40-0cb0-47b3-a9f5-33fac74cfcbf",
+        "market_hash_name": "AK-47 | Crane Flight (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6b571e46e4f26a861c0dbf76d9710523ada3ae5a0a1b46f5346059aa7b54b06f",
+        "candidates": [
+          "fa_6b571e46e4f26a861c0dbf76d9710523ada3ae5a0a1b46f5346059aa7b54b06f"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "556b6f21-023e-4813-8a36-752d107c5d02",
+        "market_hash_name": "AK-47 | Inheritance (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_e91fbdfb38d13a7911d459e852c845a50eb97d5f5158ecc90ae8352e13cffd60",
+        "candidates": [
+          "fa_e91fbdfb38d13a7911d459e852c845a50eb97d5f5158ecc90ae8352e13cffd60"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3dba5ce2-7269-4cb6-840f-441f4f21813b",
+        "market_hash_name": "AK-47 | Olive Polycam (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b7c3fe2e747ed0c9f4f6cd305d7f80b22a5a2d5a02532afa9c12b60514cab955",
+        "candidates": [
+          "fa_b7c3fe2e747ed0c9f4f6cd305d7f80b22a5a2d5a02532afa9c12b60514cab955"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "f75f1e81-4973-4f36-9752-119bfccfa2e0",
+        "market_hash_name": "AK-47 | Redline (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_026f17d2f2b1b8f1dc4d603034aafa7bf26861bc58b606dbbde9f70bc1ab3705",
+        "candidates": [
+          "fa_026f17d2f2b1b8f1dc4d603034aafa7bf26861bc58b606dbbde9f70bc1ab3705"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "7a066f04-48e3-41e6-9be0-a7c187c9d3f0",
+        "market_hash_name": "AK-47 | Vulcan (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c1975ee442299af5388817caab6059458edffa6bcb37f817adc1baa615c31e6c",
+        "candidates": [
+          "fa_c1975ee442299af5388817caab6059458edffa6bcb37f817adc1baa615c31e6c"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3ddb55fb-6ba8-4e4c-85e1-90f94aac8960",
+        "market_hash_name": "AK-47 | Vulcan (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_37bee53d0ecf187b0ea60870ca2f35a680bfca9cd25d832e6313f65a41db8f9d",
+        "candidates": [
+          "fa_37bee53d0ecf187b0ea60870ca2f35a680bfca9cd25d832e6313f65a41db8f9d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "6eb67429-b20c-43d6-97a2-58f78f97534e",
+        "market_hash_name": "AK-47 | Wild Lotus (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c568f0f5721628127dcce1b3a76bd3c0049755c86315d21dbdb7f1eb2f0b48ea",
+        "candidates": [
+          "fa_c568f0f5721628127dcce1b3a76bd3c0049755c86315d21dbdb7f1eb2f0b48ea"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "2be0bccd-cf8a-42df-8659-27b62894c7ec",
+        "market_hash_name": "AUG | Contractor (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_d19fdcc0db49dae033cee4472d9a5c702803e44c84498556d0706b825b0956a6",
+        "candidates": [
+          "fa_d19fdcc0db49dae033cee4472d9a5c702803e44c84498556d0706b825b0956a6"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "9d481da8-39f2-4026-98df-c98e5f092f18",
+        "market_hash_name": "AUG | Hot Rod (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c0096359e5ce0e4515f40e013e986a7577b739116aff354b9b890b302cbe868b",
+        "candidates": [
+          "fa_c0096359e5ce0e4515f40e013e986a7577b739116aff354b9b890b302cbe868b"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a829828a-1c20-4361-92f8-a62dc366fe0c",
+        "market_hash_name": "AUG | Storm (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_9c0e90e4a2d14acaeddd88c58bdbf3e376dfe9c04fa55661a1729db1f4441569",
+        "candidates": [
+          "fa_9c0e90e4a2d14acaeddd88c58bdbf3e376dfe9c04fa55661a1729db1f4441569"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "d2a17955-0cb0-4f8b-a995-2e177f99acfc",
+        "market_hash_name": "AWP | Asiimov (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_1bd9fd676f1b138f41cee4de65f8db47da9a494c72e209b389e5e5e96c89552a",
+        "candidates": [
+          "fa_1bd9fd676f1b138f41cee4de65f8db47da9a494c72e209b389e5e5e96c89552a"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3cfec1ad-5247-4429-8096-2814fc5b422f",
+        "market_hash_name": "AWP | Atheris (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_3ec87f44ad70e5d9997414133c6d6f7657e9ae716c343e1be98fd455ffac75f9",
+        "candidates": [
+          "fa_3ec87f44ad70e5d9997414133c6d6f7657e9ae716c343e1be98fd455ffac75f9"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "bbb784ab-1a13-45a2-bb30-c485332320bc",
+        "market_hash_name": "AWP | Atheris (Well-Worn)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_52178ef95750e14d805264c2b06a4132a3ff118bd172c72c5964c7bb92534a06",
+        "candidates": [
+          "fa_52178ef95750e14d805264c2b06a4132a3ff118bd172c72c5964c7bb92534a06"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "dd6cd3c8-32ab-42d3-b2b4-e7d955025e26",
+        "market_hash_name": "AWP | Dragon Lore (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_09d71a9585014304d967693c6ce81be8a28a9ff6780594e14b11e9b1891653ed",
+        "candidates": [
+          "fa_09d71a9585014304d967693c6ce81be8a28a9ff6780594e14b11e9b1891653ed"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "478d79ad-7be5-41e8-a78f-2834ea1e5fae",
+        "market_hash_name": "Antwerp 2022 Legends Sticker Capsule",
+        "status": "EXACT",
+        "catalogAssetId": "fa_cc284f69eadc6f6547e5af77d734a3283e6c4da18cc2f3cbc825442f226ead42",
+        "candidates": [
+          "fa_cc284f69eadc6f6547e5af77d734a3283e6c4da18cc2f3cbc825442f226ead42"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "dbd7619a-c3d7-4d97-91af-5315f064df09",
+        "market_hash_name": "Budapest 2025 Legends Sticker Capsule",
+        "status": "EXACT",
+        "catalogAssetId": "fa_f8c35d2570ac04ee1b9a16dc7cb4794cc64cc7a2370124225cce6e4bbe76d2fc",
+        "candidates": [
+          "fa_f8c35d2570ac04ee1b9a16dc7cb4794cc64cc7a2370124225cce6e4bbe76d2fc"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "ed00751a-caf8-4d18-a3b6-9845353df176",
+        "market_hash_name": "CS:GO Weapon Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_aef462e078da61f4aadbc64641d161427d646a894bdef564e62da3f3e3aaa627",
+        "candidates": [
+          "fa_aef462e078da61f4aadbc64641d161427d646a894bdef564e62da3f3e3aaa627"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "d4702564-18c9-44fe-bde9-8cf50bd5ab6e",
+        "market_hash_name": "Chroma 2 Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_d7da6ef65d27640fb223d9e6afab57b4215060d574c30d7424856cc19171794b",
+        "candidates": [
+          "fa_d7da6ef65d27640fb223d9e6afab57b4215060d574c30d7424856cc19171794b"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "bf4cfc89-4cb2-4d1c-8ad7-1c2dcb4b6624",
+        "market_hash_name": "Clutch Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_89192da8ac6747564cd359cdeca479adedf1e1d37e3caa3b28cea2c39cc24441",
+        "candidates": [
+          "fa_89192da8ac6747564cd359cdeca479adedf1e1d37e3caa3b28cea2c39cc24441"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "709d75f8-d6b8-46fc-abd7-64bf2aa16cf4",
+        "market_hash_name": "Danger Zone Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_f16aec1a1ede9b2b07bd011fabd4ee35a02db81390ea5a6e8113ee6c1c0524e6",
+        "candidates": [
+          "fa_f16aec1a1ede9b2b07bd011fabd4ee35a02db81390ea5a6e8113ee6c1c0524e6"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "eb99c428-6e64-4ba0-8d2a-c3b764529dd5",
+        "market_hash_name": "Desert Eagle | Printstream (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_5f7d504e26b0a1d21145cf651d3c5674f938c0f141718994fec15ddf8145ac8d",
+        "candidates": [
+          "fa_5f7d504e26b0a1d21145cf651d3c5674f938c0f141718994fec15ddf8145ac8d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "8533928c-939b-4bab-b603-29d9f6a93c99",
+        "market_hash_name": "Dreams & Nightmares Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_64547279f9b520ee5001c2275bdb27ca43ba5bf481544b3a2a1dd47807303330",
+        "candidates": [
+          "fa_64547279f9b520ee5001c2275bdb27ca43ba5bf481544b3a2a1dd47807303330"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e47eba82-88bc-4cb3-a05e-e68aba3c9f4d",
+        "market_hash_name": "Fever Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_1e1119d5e67cbd6b96f01d303d92c26973f8d91b1da7692a74d874958bb30c05",
+        "candidates": [
+          "fa_1e1119d5e67cbd6b96f01d303d92c26973f8d91b1da7692a74d874958bb30c05"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "f61b67a6-7c3c-4495-82f6-15f3ac7a0399",
+        "market_hash_name": "Fracture Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c3d6c027f838ca595ecbaafa4fef488bd4844b713b3dc9ca63a628b88ff9d59f",
+        "candidates": [
+          "fa_c3d6c027f838ca595ecbaafa4fef488bd4844b713b3dc9ca63a628b88ff9d59f"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "dc52c0ed-34bf-4fa5-8c68-dfb20f0c797b",
+        "market_hash_name": "Glock-18 | Candy Apple (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7a5a04e625daa819456d307d77e844b31da958f90f8d5ca94d1de80958392478",
+        "candidates": [
+          "fa_7a5a04e625daa819456d307d77e844b31da958f90f8d5ca94d1de80958392478"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "55be3fdf-ed93-4123-8bcf-41fd0c8bffd8",
+        "market_hash_name": "Glock-18 | Sand Dune (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_8afb1b33920bb56d5d6f407497413a2e150dcdf3263ba833392d2582b0baf8f2",
+        "candidates": [
+          "fa_8afb1b33920bb56d5d6f407497413a2e150dcdf3263ba833392d2582b0baf8f2"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "abcba2d7-481a-4bcd-8bb3-a64f23d8e636",
+        "market_hash_name": "Glove Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_53ec3bfd108da3c8c0c0b3ed540fa93140d686208b9115756e02f677c1c34153",
+        "candidates": [
+          "fa_53ec3bfd108da3c8c0c0b3ed540fa93140d686208b9115756e02f677c1c34153"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "824b1b4e-2aea-4918-8b2e-bbc2b10e6c73",
+        "market_hash_name": "Huntsman Weapon Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_a798d1c3f5e7de6efdc14c873686934095e5db87d8f84fa777433e8376adda20",
+        "candidates": [
+          "fa_a798d1c3f5e7de6efdc14c873686934095e5db87d8f84fa777433e8376adda20"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "6be7f5c8-1763-424c-9baa-df0d017d38ce",
+        "market_hash_name": "Kilowatt Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_542b902f9ac823f95978edce91b85d3e39f67eeec35c8eb91ec8562f7020115b",
+        "candidates": [
+          "fa_542b902f9ac823f95978edce91b85d3e39f67eeec35c8eb91ec8562f7020115b"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "0592dbbd-0fff-4f2d-bea0-5b654f59abdd",
+        "market_hash_name": "M4A1-S | Black Lotus (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_2ba94070e04c8545257f79d86e43574599fe7cf920eff2b9e12152d82eff9bf6",
+        "candidates": [
+          "fa_2ba94070e04c8545257f79d86e43574599fe7cf920eff2b9e12152d82eff9bf6"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "d2821fb4-a6ec-46e6-8fc3-f4c54099fcd9",
+        "market_hash_name": "M4A1-S | Blue Phosphor (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_a1186f80b75c64a6c24c0d9ead39eb5eb2731fbbc1badb0edacb8c122b063f75",
+        "candidates": [
+          "fa_a1186f80b75c64a6c24c0d9ead39eb5eb2731fbbc1badb0edacb8c122b063f75"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "1bf76085-b80e-425a-bc55-37a1be69e516",
+        "market_hash_name": "M4A1-S | Decimator (Battle-Scarred)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_e8c62030eb6f54d44c5f76359b16bd4f2e3f8a9a5a50a80eb0d52e547eaa11be",
+        "candidates": [
+          "fa_e8c62030eb6f54d44c5f76359b16bd4f2e3f8a9a5a50a80eb0d52e547eaa11be"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "0a0ef1db-64a8-4ecd-a769-4c993f3d57a5",
+        "market_hash_name": "M4A1-S | Decimator (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_295bb2566021a6c5d9bf86b9d50a9c9c9b315a96fd45516bd567354adc12366a",
+        "candidates": [
+          "fa_295bb2566021a6c5d9bf86b9d50a9c9c9b315a96fd45516bd567354adc12366a"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e981f494-477d-4eaa-8969-404035fd1c32",
+        "market_hash_name": "M4A1-S | Hot Rod (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_9ba7912aca0230d1e0d79b80acd0d0feaca23107f941660ba47dfe2a27c56114",
+        "candidates": [
+          "fa_9ba7912aca0230d1e0d79b80acd0d0feaca23107f941660ba47dfe2a27c56114"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "297670d4-767e-4039-ae12-fc6c4505022c",
+        "market_hash_name": "M4A4 | Neo-Noir (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_04bc7866d0af8e234e879470b04f1b06c4115ee873248fe85a905c7aaf91415c",
+        "candidates": [
+          "fa_04bc7866d0af8e234e879470b04f1b06c4115ee873248fe85a905c7aaf91415c"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "da74cd42-dfc4-4abd-a5fe-81ceda6a8c6b",
+        "market_hash_name": "Operation Bravo Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c318619998a2e4b077f9744ebaead8c116669124a196be75601782ad82ae46a5",
+        "candidates": [
+          "fa_c318619998a2e4b077f9744ebaead8c116669124a196be75601782ad82ae46a5"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "b7388cc7-cce1-40b0-b678-16b2e02505e2",
+        "market_hash_name": "Operation Breakout Weapon Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b3fce31eda9934a337a6a58ed15b2e1cf0c02b860960740f3dae242b2fe266c6",
+        "candidates": [
+          "fa_b3fce31eda9934a337a6a58ed15b2e1cf0c02b860960740f3dae242b2fe266c6"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "7c5cfd60-9771-4f10-8b88-445c755db7eb",
+        "market_hash_name": "Operation Broken Fang Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6927f82133e73b2c661962b081812e2f61bfe4b499485c5f598203ba188281dc",
+        "candidates": [
+          "fa_6927f82133e73b2c661962b081812e2f61bfe4b499485c5f598203ba188281dc"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "02a37db6-d5c3-4804-a796-6a0dc28aef75",
+        "market_hash_name": "Operation Hydra Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_2742aac40239c8e30ce03361475511de0145a00a11c5917ab11dcfd0b10a0ded",
+        "candidates": [
+          "fa_2742aac40239c8e30ce03361475511de0145a00a11c5917ab11dcfd0b10a0ded"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a29fca83-6d5d-42cc-97d2-322d115b1e3e",
+        "market_hash_name": "Operation Riptide Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_8d2c7161f17d9a49f3434e68c812b7d4c3b56d268039d88e8d464e8b81298933",
+        "candidates": [
+          "fa_8d2c7161f17d9a49f3434e68c812b7d4c3b56d268039d88e8d464e8b81298933"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "1008e8b5-1986-4f95-ab0e-dc2c13c26b95",
+        "market_hash_name": "P250 | Asiimov (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_aecb665c7d2881bfc1cc740b173da2d75205c7f0054809240b2bb4f3aecc4e73",
+        "candidates": [
+          "fa_aecb665c7d2881bfc1cc740b173da2d75205c7f0054809240b2bb4f3aecc4e73"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "f52fd44f-6ebc-445a-aac2-c2b79b7a123e",
+        "market_hash_name": "P250 | Sand Dune (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6202813c925d288c576d692198249c9e18e1781c8917655e941afc0493ecc653",
+        "candidates": [
+          "fa_6202813c925d288c576d692198249c9e18e1781c8917655e941afc0493ecc653"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "934e1953-15f8-4ac9-be1a-8daf26cd3444",
+        "market_hash_name": "Paris 2023 Contenders Sticker Capsule",
+        "status": "EXACT",
+        "catalogAssetId": "fa_d59e10024332652f32bbf19072874c5786687568362427a756bf90b23c353fd8",
+        "candidates": [
+          "fa_d59e10024332652f32bbf19072874c5786687568362427a756bf90b23c353fd8"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a16d5188-221a-4267-9c2d-84982ab7b532",
+        "market_hash_name": "Recoil Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_9d342c4f81431c92115895a13896a7986f6247f2794b0915416e826d4958d08e",
+        "candidates": [
+          "fa_9d342c4f81431c92115895a13896a7986f6247f2794b0915416e826d4958d08e"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "57ecf55e-93fc-4c3c-99a1-99869a0ea43f",
+        "market_hash_name": "SSG 08 | Acid Fade (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c78333bec66d721e223fa88be8e55b842f8f8bf4187f6a5cb87cf1339939aeef",
+        "candidates": [
+          "fa_c78333bec66d721e223fa88be8e55b842f8f8bf4187f6a5cb87cf1339939aeef"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "b1acdb13-babd-4212-8990-15118937e922",
+        "market_hash_name": "Shattered Web Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_5e63c78caf82583e7b47276abfb9173dd72df35cac3fe726a0ddda7df696eb90",
+        "candidates": [
+          "fa_5e63c78caf82583e7b47276abfb9173dd72df35cac3fe726a0ddda7df696eb90"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "b36297cf-daa5-4c52-a288-9e65aae440bf",
+        "market_hash_name": "Souvenir AWP | Dragon Lore (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_8d7c19ad0112de916421e7048fbc07cb3b8814ca6f7ff7f6ca402cd3d592e29d",
+        "candidates": [
+          "fa_8d7c19ad0112de916421e7048fbc07cb3b8814ca6f7ff7f6ca402cd3d592e29d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "63f52fc6-5211-46eb-af01-b3c36ff8f8de",
+        "market_hash_name": "Spectrum 2 Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7ee19358ac488a27b7318c3e31fcb6118e00097ee4272e4811b00fab968ba454",
+        "candidates": [
+          "fa_7ee19358ac488a27b7318c3e31fcb6118e00097ee4272e4811b00fab968ba454"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e500908a-c289-401a-825d-3e45ee6e7e1e",
+        "market_hash_name": "StatTrak™ M4A4 | Howl (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_59971f0a4f95d7588b24623c8cf67b785da41f2979b112421b7572730f257aae",
+        "candidates": [
+          "fa_59971f0a4f95d7588b24623c8cf67b785da41f2979b112421b7572730f257aae"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "05e33c8a-54b4-4626-92f4-9ff544eb11cf",
+        "market_hash_name": "Sticker Capsule 2",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7992d5187c88bd5b603402f143e69b60221c7b735f53698665417a7c01d24710",
+        "candidates": [
+          "fa_7992d5187c88bd5b603402f143e69b60221c7b735f53698665417a7c01d24710"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e4fb7819-4d71-42e5-b193-7eff00d9235c",
+        "market_hash_name": "Sticker | 100 Thieves | 2020 RMR",
+        "status": "EXACT",
+        "catalogAssetId": "fa_ff60253d4c7b9439cd6d4987c77e304fab0c67c400b15c7b6b0b5dde5b969b03",
+        "candidates": [
+          "fa_ff60253d4c7b9439cd6d4987c77e304fab0c67c400b15c7b6b0b5dde5b969b03"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3de42705-f4fa-49b1-8fa4-73c6e58f57c8",
+        "market_hash_name": "Sticker | Bad News Eagles | Paris 2023",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7d97adc9782994649731e2811605c6e75268ec3a3b8c78656272205909db15d9",
+        "candidates": [
+          "fa_7d97adc9782994649731e2811605c6e75268ec3a3b8c78656272205909db15d9"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "847be11f-adb4-44af-8b0b-48190182c04d",
+        "market_hash_name": "Sticker | Crown (Foil)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7c61b7d844cd2a2e11395f8b121b1fe20d6f8f18c2c8b71320a4fb4f46fdb4c1",
+        "candidates": [
+          "fa_7c61b7d844cd2a2e11395f8b121b1fe20d6f8f18c2c8b71320a4fb4f46fdb4c1"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e934863b-f79d-4675-b3be-7d798bc2bb95",
+        "market_hash_name": "Sticker | Dragon Lore (Foil)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_4e3b3726ad4bdeb71770ac3b42d2f0e8c2b02478097daf26c62b453d502ae7f9",
+        "candidates": [
+          "fa_4e3b3726ad4bdeb71770ac3b42d2f0e8c2b02478097daf26c62b453d502ae7f9"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "80906849-1d6b-4922-97ff-615c4ad86edc",
+        "market_hash_name": "Sticker | High Heat",
+        "status": "EXACT",
+        "catalogAssetId": "fa_cfb50b9b936ba78cadd486de0a4e575901b7453807d2ae74abac834d399e7f1d",
+        "candidates": [
+          "fa_cfb50b9b936ba78cadd486de0a4e575901b7453807d2ae74abac834d399e7f1d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "36ef9b9c-2505-4b20-ad1a-0da85db8feff",
+        "market_hash_name": "Sticker | Howling Dawn",
+        "status": "EXACT",
+        "catalogAssetId": "fa_bde73de12aafefb50eb0a2ae0f6c6e8faa2f266f0ec0f6c0c68d8b1588239efd",
+        "candidates": [
+          "fa_bde73de12aafefb50eb0a2ae0f6c6e8faa2f266f0ec0f6c0c68d8b1588239efd"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "d4c96140-e0ba-42fb-b13a-be5d354f0424",
+        "market_hash_name": "Sticker | Reason Gaming (Holo) | Katowice 2014",
+        "status": "EXACT",
+        "catalogAssetId": "fa_379b455fce7fa196194ada224101ea5f6f7ab1654d13ec36ab84d4eefca231aa",
+        "candidates": [
+          "fa_379b455fce7fa196194ada224101ea5f6f7ab1654d13ec36ab84d4eefca231aa"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "5cdb7fa8-3c4b-48d9-8c37-4652e61af8db",
+        "market_hash_name": "Sticker | Team Liquid | Paris 2023",
+        "status": "EXACT",
+        "catalogAssetId": "fa_8314faa44ee4a7de49dede85fc47e03a828831df2645f688b10aca05e3b28bba",
+        "candidates": [
+          "fa_8314faa44ee4a7de49dede85fc47e03a828831df2645f688b10aca05e3b28bba"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "6089e0c2-8ee8-4dcc-8d98-d340313a03f5",
+        "market_hash_name": "Sticker | Titan (Holo) | Cologne 2014",
+        "status": "EXACT",
+        "catalogAssetId": "fa_a32a10ee1f3e5473576a15cdcd0119ea78676f5fb6bca5043d5c71414795abe9",
+        "candidates": [
+          "fa_a32a10ee1f3e5473576a15cdcd0119ea78676f5fb6bca5043d5c71414795abe9"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "de2e2deb-1517-4655-9dac-4325acb0548e",
+        "market_hash_name": "Sticker | Titan | Cluj-Napoca 2015",
+        "status": "EXACT",
+        "catalogAssetId": "fa_1857ec4c5d20fe179e2b152ff3dd0b0749f127d8c0fc3f22712253942c468efb",
+        "candidates": [
+          "fa_1857ec4c5d20fe179e2b152ff3dd0b0749f127d8c0fc3f22712253942c468efb"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "5558aa00-ecb7-486a-8bd2-fcd26ce74466",
+        "market_hash_name": "Sticker | Virtus.pro | Katowice 2015",
+        "status": "EXACT",
+        "catalogAssetId": "fa_82684a24a3c26c575b158048b8014b9b170ee16c221b92058121132dfc5984bf",
+        "candidates": [
+          "fa_82684a24a3c26c575b158048b8014b9b170ee16c221b92058121132dfc5984bf"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3ca2873e-e1fe-4c39-a66a-f13b94e4ab03",
+        "market_hash_name": "Sticker | Winding Scorch (Foil)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b2770a81a5f87a3f7861a5ceb796503290a5de867cc17657c89894df3bed5026",
+        "candidates": [
+          "fa_b2770a81a5f87a3f7861a5ceb796503290a5de867cc17657c89894df3bed5026"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "c9a3e55f-70fc-444f-a4b8-2bfcc928a215",
+        "market_hash_name": "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+        "status": "EXACT",
+        "catalogAssetId": "fa_0c5842b861f3eeded54b7097d6af168ebab1d4e38e5568181178b5bf3d31793e",
+        "candidates": [
+          "fa_0c5842b861f3eeded54b7097d6af168ebab1d4e38e5568181178b5bf3d31793e"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "f140b549-3006-4d6a-b98b-5d4da1bc3440",
+        "market_hash_name": "Sticker | iBUYPOWER | Cologne 2014",
+        "status": "EXACT",
+        "catalogAssetId": "fa_8b4fc848a74a86c44c9d36535ce921d25141119e8c71c4682e5b9b130b7de1a8",
+        "candidates": [
+          "fa_8b4fc848a74a86c44c9d36535ce921d25141119e8c71c4682e5b9b130b7de1a8"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "53c8ccc5-cb3e-409c-b7c7-da9d3ca2690b",
+        "market_hash_name": "Stockholm 2021 Challengers Sticker Capsule",
+        "status": "EXACT",
+        "catalogAssetId": "fa_dcd9b51c15c9e3e2804c098b1d2c835f68fc0b5f3acb506e5678352e1beee5f4",
+        "candidates": [
+          "fa_dcd9b51c15c9e3e2804c098b1d2c835f68fc0b5f3acb506e5678352e1beee5f4"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "fce5f6ca-b296-4091-99c1-1664ffbfc2be",
+        "market_hash_name": "Stockholm 2021 Legends Sticker Capsule",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7c711b8541a1ba96b9307523af189967999f680889b5e8498fcd15fded18c949",
+        "candidates": [
+          "fa_7c711b8541a1ba96b9307523af189967999f680889b5e8498fcd15fded18c949"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "8576d7d5-0edc-49d0-a781-3e0766f8b669",
+        "market_hash_name": "USP-S | Printstream (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_30a8cf6326343f609e5f64411351d59128a6adb36695e281cb4453a1e51803ca",
+        "candidates": [
+          "fa_30a8cf6326343f609e5f64411351d59128a6adb36695e281cb4453a1e51803ca"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "33d65908-1bbd-4f62-b868-4b6dec2702c8",
+        "market_hash_name": "Winter Offensive Weapon Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_1ef486ffc6aa77416b30c6ab5131439b47eed93a99f96d1bf73dbfe365672a16",
+        "candidates": [
+          "fa_1ef486ffc6aa77416b30c6ab5131439b47eed93a99f96d1bf73dbfe365672a16"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "688ea3df-7662-4ab8-b608-3c13a3cf0c2d",
+        "market_hash_name": "eSports 2013 Case",
+        "status": "EXACT",
+        "catalogAssetId": "fa_f5dd5acd5e0ebeb739204a564e1b5aa96e920996e7a37c67d860bc33ed35469d",
+        "candidates": [
+          "fa_f5dd5acd5e0ebeb739204a564e1b5aa96e920996e7a37c67d860bc33ed35469d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "ead45bbc-a09f-4257-a3f3-d3525c95c71e",
+        "market_hash_name": "★ Bayonet | Forest DDPAT (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b167f77cad92f082c4cb52b78e0d8b8b4652c78828aa608b3b1a25d0b10a2f9a",
+        "candidates": [
+          "fa_b167f77cad92f082c4cb52b78e0d8b8b4652c78828aa608b3b1a25d0b10a2f9a"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a33d580e-7123-41af-a0d9-e1b2688d3098",
+        "market_hash_name": "★ Bowie Knife | Tiger Tooth (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6c5f86a48975141aa86e6f113999477da2beb8e4f65a8017d1cd1547eef5585d",
+        "candidates": [
+          "fa_6c5f86a48975141aa86e6f113999477da2beb8e4f65a8017d1cd1547eef5585d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "5b2133e7-5468-4785-bbf7-452cedb19c5e",
+        "market_hash_name": "★ Butterfly Knife | Slaughter (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b9d5089163aa0acaeaa2d510253c103479b0827b16f0665ba9e13533455dc6c3",
+        "candidates": [
+          "fa_b9d5089163aa0acaeaa2d510253c103479b0827b16f0665ba9e13533455dc6c3"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "ff03d35f-2e48-4b65-a0da-c1b29d89d965",
+        "market_hash_name": "★ Butterfly Knife | Tiger Tooth (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_f0f5713611fb82be5f8c973a2d7afff10b27a7b785acf27ac1464b033791a959",
+        "candidates": [
+          "fa_f0f5713611fb82be5f8c973a2d7afff10b27a7b785acf27ac1464b033791a959"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "dd8ae66b-43b7-404e-b8de-88389036d58a",
+        "market_hash_name": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_78686b0db03dd0896cf86e13c3236f1656a367e42d8fdd59d1e5ccd8f730d14a",
+        "candidates": [
+          "fa_78686b0db03dd0896cf86e13c3236f1656a367e42d8fdd59d1e5ccd8f730d14a"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "94ca7c05-064b-4845-9978-1d66ea8b2b45",
+        "market_hash_name": "★ Driver Gloves | Racing Green (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_56a6a49919fa53c30a4652fffae4b4d1a513ec827c2fed97e1169a5e1f5a695e",
+        "candidates": [
+          "fa_56a6a49919fa53c30a4652fffae4b4d1a513ec827c2fed97e1169a5e1f5a695e"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "aabdddc6-9d8c-4f11-aa89-21a9f70bad95",
+        "market_hash_name": "★ Driver Gloves | Snow Leopard (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_ed4de8c84c8883bee55ca837138856a20671875eb9bf213134570b86896234f6",
+        "candidates": [
+          "fa_ed4de8c84c8883bee55ca837138856a20671875eb9bf213134570b86896234f6"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "e27f4fba-7010-4c70-9999-767162c4265f",
+        "market_hash_name": "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_67d5dbc6e35540075c22411ac219be144e4f1f8b5dd0fc5697e2ab72628e541a",
+        "candidates": [
+          "fa_67d5dbc6e35540075c22411ac219be144e4f1f8b5dd0fc5697e2ab72628e541a"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "cdd40e36-e494-4fc4-9e28-ff13f3a90f00",
+        "market_hash_name": "★ Hand Wraps | Duct Tape (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_78986efb80c8371bd9b3f2676a28edceb5f5eff2f81880131af402ef97b03225",
+        "candidates": [
+          "fa_78986efb80c8371bd9b3f2676a28edceb5f5eff2f81880131af402ef97b03225"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "eaefed50-6118-49ae-a980-833edefc4cc9",
+        "market_hash_name": "★ Hydra Gloves | Mangrove (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_b2e4bfac4a7271bac9552f571b62c27b7db0019ffb1c98479f755b0ce375f2e9",
+        "candidates": [
+          "fa_b2e4bfac4a7271bac9552f571b62c27b7db0019ffb1c98479f755b0ce375f2e9"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a97524b5-d564-485c-96e7-050c956307b2",
+        "market_hash_name": "★ Hydra Gloves | Mangrove (Well-Worn)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_d80faf52e0c5e1fd5a094303696d436061bb3f502cd37978e592d5c2afa0da83",
+        "candidates": [
+          "fa_d80faf52e0c5e1fd5a094303696d436061bb3f502cd37978e592d5c2afa0da83"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a7890a90-0e48-418a-a877-7edce90c5e3f",
+        "market_hash_name": "★ Karambit | Crimson Web (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c44d5db6d923ae327fce5cdc613b5161adf4b6c111d72f95087c16e0ea58c76c",
+        "candidates": [
+          "fa_c44d5db6d923ae327fce5cdc613b5161adf4b6c111d72f95087c16e0ea58c76c"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3f7d5646-8b40-4268-a477-73871da9b59d",
+        "market_hash_name": "★ Kukri Knife | Fade (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_e5f500d89ee7a5fcb8179bc5deabb903462ab34db9e847f824b60b0bb412d946",
+        "candidates": [
+          "fa_e5f500d89ee7a5fcb8179bc5deabb903462ab34db9e847f824b60b0bb412d946"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "968eb1db-2efe-4e0f-9f5e-a74b7957b139",
+        "market_hash_name": "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_28ff59906a5cba0ca879efc2a5abc9512591c1abcf59728aaab8992a3deb1a4b",
+        "candidates": [
+          "fa_28ff59906a5cba0ca879efc2a5abc9512591c1abcf59728aaab8992a3deb1a4b"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "0b48a48f-2c9a-4d06-b7fd-191aa7774a0d",
+        "market_hash_name": "★ Moto Gloves | Spearmint (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_eb91d7c9f921e1dce9f0c8631cf3fc7d97180521f8fd862df6414b0eb5d3648d",
+        "candidates": [
+          "fa_eb91d7c9f921e1dce9f0c8631cf3fc7d97180521f8fd862df6414b0eb5d3648d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "f8f1664f-8e06-40f4-9ce9-ff37e7ecdba1",
+        "market_hash_name": "★ Moto Gloves | Turtle (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_f97ecf8ff6ef3445c1eed6200f2632f836c4c1460491c963e7e1cf160e62c712",
+        "candidates": [
+          "fa_f97ecf8ff6ef3445c1eed6200f2632f836c4c1460491c963e7e1cf160e62c712"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "a0c6487b-3d66-46d4-826f-37a0f5a2f374",
+        "market_hash_name": "★ Moto Gloves | Turtle (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_385c1efba1f6c5066e1d30257d1d7490fd3c80c6adcb53571dddc0897d756a67",
+        "candidates": [
+          "fa_385c1efba1f6c5066e1d30257d1d7490fd3c80c6adcb53571dddc0897d756a67"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "9e804836-9c08-4846-99f2-2ee8a2e69029",
+        "market_hash_name": "★ Navaja Knife | Scorched (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_40dd9aab4ef6d089ef016066a97ca5fb6768fe05e735dc0485ebdead46d11b3d",
+        "candidates": [
+          "fa_40dd9aab4ef6d089ef016066a97ca5fb6768fe05e735dc0485ebdead46d11b3d"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "2142bb65-8073-4fb0-8645-53899a7cb7ef",
+        "market_hash_name": "★ Nomad Knife | Slaughter (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_fc5f83ff6aac232afb0f750382ed4fa36d27b81ad5c63145317291e10b25700b",
+        "candidates": [
+          "fa_fc5f83ff6aac232afb0f750382ed4fa36d27b81ad5c63145317291e10b25700b"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "db786f2d-4480-4274-b83e-a5caf962cf19",
+        "market_hash_name": "★ Paracord Knife",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6e12484ec8036965d4f1414de3b3c42d4fcd0644ddb01063ed6ab45968def8b0",
+        "candidates": [
+          "fa_6e12484ec8036965d4f1414de3b3c42d4fcd0644ddb01063ed6ab45968def8b0"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "c8d08a94-e633-4fbe-9e91-36681c3b30b3",
+        "market_hash_name": "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_1af3dd1a61558c0cf3efbd6f9627beac4d1975aad9c52d9d338b6f3d0246c42e",
+        "candidates": [
+          "fa_1af3dd1a61558c0cf3efbd6f9627beac4d1975aad9c52d9d338b6f3d0246c42e"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "adf5da51-fbb5-4c78-acf5-3d8ce303955b",
+        "market_hash_name": "★ Skeleton Knife | Tiger Tooth (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_64dabcc7451a2a464e1f75e11e113b891766dd4733d1dd7017c6ccca724c6260",
+        "candidates": [
+          "fa_64dabcc7451a2a464e1f75e11e113b891766dd4733d1dd7017c6ccca724c6260"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "3d71f02f-cb2a-42b7-95c7-8b7f75cd288c",
+        "market_hash_name": "★ Specialist Gloves | Fade (Minimal Wear)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_a3a5234e4a66b0eeb7736f74bb4f319b9267806a8fd9335673153d017227ce8f",
+        "candidates": [
+          "fa_a3a5234e4a66b0eeb7736f74bb4f319b9267806a8fd9335673153d017227ce8f"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "64abab30-2728-499b-9e71-c637faf40016",
+        "market_hash_name": "★ Sport Gloves | Bronze Morph (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_90cc1ac38714f414bac61951c98693ae0de994d4cccb986821692a894f9abd72",
+        "candidates": [
+          "fa_90cc1ac38714f414bac61951c98693ae0de994d4cccb986821692a894f9abd72"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "d3ce5c6c-9fa3-45bf-8516-c442e7ce0aa3",
+        "market_hash_name": "★ Sport Gloves | Pandora's Box (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_c8b2d909f6133eeb14f9c730b2d8f8ca6034e2ca73552f3272b757b30f30a2a3",
+        "candidates": [
+          "fa_c8b2d909f6133eeb14f9c730b2d8f8ca6034e2ca73552f3272b757b30f30a2a3"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "6edc1cee-4728-4059-8c73-474de49ae534",
+        "market_hash_name": "★ Sport Gloves | Vice (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_6c90c1d34a010e344251f2ffcdc41ccd7bc76a0336149af6f5fac1559cf1c389",
+        "candidates": [
+          "fa_6c90c1d34a010e344251f2ffcdc41ccd7bc76a0336149af6f5fac1559cf1c389"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "cfa86247-82b8-4b7b-8a08-aa84ba1a3322",
+        "market_hash_name": "★ Sport Gloves | Vice (Field-Tested)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_da8c0c28bd1ff6cfca328c560cab9be4e29045fa0df5ef4899a3567464b04d0f",
+        "candidates": [
+          "fa_da8c0c28bd1ff6cfca328c560cab9be4e29045fa0df5ef4899a3567464b04d0f"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "458db61b-595c-4b3c-acdd-302c5753ff04",
+        "market_hash_name": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_7d5ffcbe0f7a0ea7c5851cb2e34e37b30450ba2121432a30cd35cfc81c43c6bf",
+        "candidates": [
+          "fa_7d5ffcbe0f7a0ea7c5851cb2e34e37b30450ba2121432a30cd35cfc81c43c6bf"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "6cfdf3f1-89a6-4ce8-ba05-16d7d1dc8e11",
+        "market_hash_name": "★ Survival Knife",
+        "status": "EXACT",
+        "catalogAssetId": "fa_3cee7307aba70f38ac99b7674cd80cd758713a81e1852b129f08b505cc828166",
+        "candidates": [
+          "fa_3cee7307aba70f38ac99b7674cd80cd758713a81e1852b129f08b505cc828166"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      },
+      {
+        "asset_id": "aa51cd82-9340-4dd4-a13f-6ea74179fbaf",
+        "market_hash_name": "★ Talon Knife | Tiger Tooth (Factory New)",
+        "status": "EXACT",
+        "catalogAssetId": "fa_504760f848fd1e080e27590b442a0bed680ef4344f1ea55e05658d81b1e01722",
+        "candidates": [
+          "fa_504760f848fd1e080e27590b442a0bed680ef4344f1ea55e05658d81b1e01722"
+        ],
+        "reason": "EXACT_MARKET_HASH_NAME",
+        "withMedia": true,
+        "mediaStatus": "AVAILABLE"
+      }
+    ]
+  }
+}

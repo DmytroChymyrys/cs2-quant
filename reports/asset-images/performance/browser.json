@@ -1,0 +1,64 @@
+{
+  "initialHtmlWells": true,
+  "initialHtmlSrc": true,
+  "watchlistRequests": [],
+  "misses": [
+    {
+      "name": "Antwerp 2022 Legends Sticker Capsule",
+      "runs": [
+        {
+          "status": 422,
+          "ms": 16,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        },
+        {
+          "status": 422,
+          "ms": 4,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "name": "Paris 2023 Contenders Sticker Capsule",
+      "runs": [
+        {
+          "status": 422,
+          "ms": 77,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        },
+        {
+          "status": 422,
+          "ms": 4,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "name": "Stockholm 2021 Legends Sticker Capsule",
+      "runs": [
+        {
+          "status": 422,
+          "ms": 13,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        },
+        {
+          "status": 422,
+          "ms": 4,
+          "state": "UNUSABLE",
+          "cache": "public, max-age=86400, s-maxage=86400"
+        }
+      ]
+    }
+  ],
+  "health": {
+    "configuredEnabled": true,
+    "status": "HEALTHY",
+    "effectiveEnabled": true,
+    "checkedAt": "2026-09-10T15:31:48.891Z"
+  }
+}

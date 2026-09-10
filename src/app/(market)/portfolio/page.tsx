@@ -1,3 +1,4 @@
+import { AssetImage } from "@/components/asset-image";
 import Link from "next/link";
 import Decimal from "@/lib/product/decimal";
 import { eq } from "drizzle-orm";
@@ -119,6 +120,7 @@ export default async function Portfolio() {
                     <tr key={h.id}>
                       <td>
                         <Link href={`/asset/${h.assetId}`}>
+                          {h.asset && <AssetImage name={h.asset.name} media={h.asset.catalog?.media} />}
                           {h.asset?.name ?? "Asset unavailable"}
                         </Link>
                       </td>

@@ -1,0 +1,519 @@
+{
+  "commit": "be84e43a2eb379faf653158e409a2c90c4072312",
+  "datasets": [
+    {
+      "name": "skins_not_grouped",
+      "records": 21407,
+      "bytes": 36669684,
+      "sha256": "d7ef9004f9bd26afdc93ea534333af55961fb24d4f0efcf35f68a6d15f41fb44",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 0,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [
+        "sfui_invpanel_filter_gloves",
+        "csgo_inventory_weapon_category_rifles",
+        "sfui_invpanel_filter_melee",
+        "csgo_inventory_weapon_category_smgs",
+        "csgo_inventory_weapon_category_pistols",
+        "csgo_inventory_weapon_category_heavy",
+        "loadoutslot_equipment"
+      ],
+      "fields": [
+        "category",
+        "description",
+        "id",
+        "image",
+        "legacy_model",
+        "market_hash_name",
+        "max_float",
+        "min_float",
+        "name",
+        "original",
+        "paint_index",
+        "pattern",
+        "phase",
+        "rarity",
+        "skin_id",
+        "souvenir",
+        "special_notes",
+        "stattrak",
+        "style",
+        "team",
+        "weapon",
+        "wear"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "stickers",
+      "records": 11134,
+      "bytes": 19677783,
+      "sha256": "0a4c01383903686fc11b826539b822fa2b9257db286c2293a9f5dbc6fd8abb39",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 701,
+      "withoutImage": 0,
+      "sourceTypes": [
+        "Event",
+        "Other",
+        "Team",
+        "Autograph"
+      ],
+      "sourceCategories": [],
+      "fields": [
+        "collections",
+        "crates",
+        "def_index",
+        "description",
+        "effect",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "player",
+        "rarity",
+        "special_notes",
+        "team",
+        "tournament",
+        "type"
+      ],
+      "imageHosts": [
+        "cdn.steamstatic.com",
+        "community.akamai.steamstatic.com",
+        "raw.githubusercontent.com"
+      ]
+    },
+    {
+      "name": "crates",
+      "records": 481,
+      "bytes": 8331773,
+      "sha256": "41cfc56c46cc4e0b180398a190f4731a5d66a697d061c67b0f3e5fa95f4afddb",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 14,
+      "withoutImage": 0,
+      "sourceTypes": [
+        "Case",
+        "Souvenir",
+        "Sticker Capsule",
+        "Autograph Capsule",
+        "Graffiti",
+        "Pins",
+        "Music Kit Box",
+        "Patch Capsule",
+        "Souvenir Highlight"
+      ],
+      "sourceCategories": [],
+      "fields": [
+        "contains",
+        "contains_rare",
+        "def_index",
+        "description",
+        "first_sale_date",
+        "id",
+        "image",
+        "loot_list",
+        "market_hash_name",
+        "model_player",
+        "name",
+        "original",
+        "rarity",
+        "rental",
+        "special_notes",
+        "type"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "cdn.steamstatic.com",
+        "raw.githubusercontent.com"
+      ]
+    },
+    {
+      "name": "keychains",
+      "records": 78,
+      "bytes": 83748,
+      "sha256": "ec4f2951bed5f15613d4bbec813f75e9cd47dce87a1782001988faec0dd67bc1",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 0,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "collections",
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "rarity"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "agents",
+      "records": 63,
+      "bytes": 93216,
+      "sha256": "819f7423f28202e7cd5830328bf66e2a7f8fd8a6f0ea6a630ec272e2ac93edb9",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 0,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "collections",
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "market_hash_name",
+        "model_player",
+        "name",
+        "original",
+        "rarity",
+        "team"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "patches",
+      "records": 112,
+      "bytes": 85374,
+      "sha256": "ebc71dffa1bb2f9ccf21b51624b56c0a0037b407bb77b7727777c1feaae8599d",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 0,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "rarity"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "graffiti",
+      "records": 2111,
+      "bytes": 1926728,
+      "sha256": "199c8dd8dcb961bb7bebe0ee6a20558f73587844d476660fa96cc3190296cb16",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 299,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "color_index",
+        "crates",
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "rarity",
+        "special_notes"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "cdn.steamstatic.com",
+        "raw.githubusercontent.com"
+      ]
+    },
+    {
+      "name": "music_kits",
+      "records": 189,
+      "bytes": 239119,
+      "sha256": "1e11c374cbfb41ad099339a3f72b1c8698c05b7ed3d6aabdbe9a469aeb048b43",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 6,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "def_index",
+        "description",
+        "exclusive",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "rarity"
+      ],
+      "imageHosts": [
+        "cdn.steamstatic.com",
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "collectibles",
+      "records": 667,
+      "bytes": 520522,
+      "sha256": "9752f59dd67cd973b4fac86b4e488cc33d214529485f40b24abbc507462cbfc2",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 590,
+      "withoutImage": 0,
+      "sourceTypes": [
+        "Tournament Finalist Trophy",
+        "Old Pick'Em Trophy",
+        "Fantasy Trophy",
+        "Operation Pass",
+        "Operation Coin",
+        "Map Contributor Coin",
+        "Service Medal",
+        "Tournament Pass",
+        "Pick'Em Coin",
+        "Souvenir Token",
+        "Stars for Operation",
+        "Pin",
+        "Premier Season Coin"
+      ],
+      "sourceCategories": [],
+      "fields": [
+        "def_index",
+        "description",
+        "genuine",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "premier_season",
+        "rarity",
+        "type"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "cdn.steamstatic.com"
+      ]
+    },
+    {
+      "name": "keys",
+      "records": 39,
+      "bytes": 36685,
+      "sha256": "7789d988d13feece8357c13566c81efb84e06918af2b7df25d49012a08af4801",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 12,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "crates",
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "market_hash_name",
+        "marketable",
+        "name",
+        "original"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "cdn.steamstatic.com"
+      ]
+    },
+    {
+      "name": "tools",
+      "records": 4,
+      "bytes": 2141,
+      "sha256": "21f77d65beabf5c89303e123c69528bb1b5d9c4a66149c67599f14edbaa5a436",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 4,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [],
+      "fields": [
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "name",
+        "original"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com"
+      ]
+    },
+    {
+      "name": "base_weapons",
+      "records": 67,
+      "bytes": 37132,
+      "sha256": "e0a336d26efdc059a5899afced207b03288a1b1c80f1ec3a6df94a606157ede9",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 67,
+      "withoutImage": 0,
+      "sourceTypes": [],
+      "sourceCategories": [
+        "csgo_inventory_weapon_category_pistols",
+        "csgo_inventory_weapon_category_rifles",
+        "csgo_inventory_weapon_category_heavy",
+        "csgo_inventory_weapon_category_smgs",
+        "loadoutslot_equipment",
+        "sfui_invpanel_filter_melee",
+        "loadoutslot_grenade",
+        "loadoutslot_c4",
+        "sfui_invpanel_filter_gloves"
+      ],
+      "fields": [
+        "category",
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "name"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "raw.githubusercontent.com"
+      ]
+    },
+    {
+      "name": "highlights",
+      "records": 926,
+      "bytes": 1093070,
+      "sha256": "a862ed4bdc6533a5037e4338f936e34fd459bc49ad7c1f699fe20261d15fb11c",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 0,
+      "withoutImage": 0,
+      "sourceTypes": [
+        "player",
+        "team"
+      ],
+      "sourceCategories": [],
+      "fields": [
+        "def_index",
+        "description",
+        "id",
+        "image",
+        "map",
+        "market_hash_name",
+        "name",
+        "original",
+        "stage",
+        "team0",
+        "team1",
+        "thumbnail",
+        "tournament_event",
+        "tournament_player",
+        "type",
+        "video"
+      ],
+      "imageHosts": [
+        "community.akamai.steamstatic.com",
+        "cdn.steamstatic.com"
+      ]
+    },
+    {
+      "name": "sticker_slabs",
+      "records": 11134,
+      "bytes": 18239831,
+      "sha256": "d7a3601309eac5270590065adfad357ef0b52fb99e7b329932cd144f0d0253d8",
+      "identityFields": [
+        "id",
+        "market_hash_name"
+      ],
+      "imageField": "image",
+      "withoutMarketHashName": 701,
+      "withoutImage": 0,
+      "sourceTypes": [
+        "Event",
+        "Other",
+        "Team",
+        "Autograph"
+      ],
+      "sourceCategories": [],
+      "fields": [
+        "collections",
+        "crates",
+        "def_index",
+        "description",
+        "effect",
+        "id",
+        "image",
+        "market_hash_name",
+        "name",
+        "original",
+        "player",
+        "rarity",
+        "special_notes",
+        "team",
+        "tournament",
+        "type"
+      ],
+      "imageHosts": [
+        "cdn.steamstatic.com",
+        "community.akamai.steamstatic.com",
+        "raw.githubusercontent.com"
+      ]
+    }
+  ]
+}

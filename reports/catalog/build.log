@@ -1,0 +1,59 @@
+
+> cs2-quant@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.3.4 (webpack)
+✓ Running next.config.ts took 18ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.8s
+  Running TypeScript ...
+  Finished TypeScript in 4.1s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/16) ...
+  Generating static pages using 11 workers (4/16)
+  Generating static pages using 11 workers (8/16)
+  Generating static pages using 11 workers (12/16)
+✓ Generating static pages using 11 workers (16/16) in 259ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /alerts
+├ ƒ /api/asset-images/[name]
+├ ƒ /api/asset-images/status
+├ ƒ /api/auth/[...all]
+├ ƒ /api/internal/alerts/evaluate
+├ ƒ /api/internal/asset-images/health
+├ ƒ /api/internal/assets/[id]/history
+├ ƒ /api/internal/collect/skinport
+├ ƒ /api/internal/data-health
+├ ƒ /api/product/alerts
+├ ƒ /api/product/billing/checkout
+├ ƒ /api/product/billing/portal
+├ ƒ /api/product/portfolio
+├ ƒ /api/product/preferences
+├ ƒ /api/product/screener
+├ ƒ /api/product/screens
+├ ƒ /api/product/watchlist
+├ ƒ /api/stripe/webhook
+├ ƒ /asset/[id]
+├ ƒ /assets
+├ ○ /dev/components
+├ ƒ /forgot-password
+├ ƒ /login
+├ ƒ /onboarding
+├ ƒ /portfolio
+├ ƒ /pricing
+├ ƒ /reset-password
+├ ƒ /screener
+├ ƒ /settings
+├ ƒ /signup
+├ ƒ /terminal
+└ ƒ /watchlist
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

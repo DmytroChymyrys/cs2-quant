@@ -1,3 +1,4 @@
+import { AssetImage } from "@/components/asset-image";
 import Link from "next/link";
 import { sql } from "drizzle-orm";
 import { currentUser } from "@/lib/product/auth";
@@ -121,6 +122,7 @@ export default async function Watchlist() {
                     <tr key={row.assetId}>
                       <td>
                         <Link href={`/asset/${row.assetId}`}>
+                          {a && <AssetImage name={a.name} media={a.catalog?.media} />}
                           {a?.name ?? "Asset unavailable"}
                         </Link>
                         {a && (
@@ -155,7 +157,7 @@ export default async function Watchlist() {
                         </small>
                       </td>
                       <td>
-                        <WatchButton assetId={row.assetId} initial />
+                        <WatchButton assetId={row.assetId} initial authenticated />
                       </td>
                     </tr>
                   );

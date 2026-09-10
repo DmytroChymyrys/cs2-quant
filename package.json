@@ -19,7 +19,10 @@
     "poc:report": "node --import tsx scripts/prepare-poc-universe.ts",
     "test:e2e": "playwright test",
     "format:product": "prettier --write src/components src/lib/product",
-    "db:migrate:product": "node --import tsx scripts/migrate-product.ts"
+    "db:migrate:product": "node --import tsx scripts/migrate-product.ts",
+    "db:migrate:imagery": "tsx scripts/migrate-asset-images.ts",
+    "catalog:sync": "tsx scripts/catalog-sync.ts",
+    "db:migrate:catalog": "tsx scripts/migrate-catalog.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.3",
@@ -37,6 +40,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "resend": "^6.27.0",
+    "sharp": "^0.35.4",
     "stripe": "^22.6.2",
     "zod": "^4.5.4"
   },

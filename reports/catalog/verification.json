@@ -1,0 +1,10 @@
+{
+  "unitTests": 175,
+  "testFiles": 21,
+  "browserTests": 14,
+  "typecheck": "PASS",
+  "lint": "PASS",
+  "productionBuild": "PASS (webpack, isolated copy)",
+  "productionWrites": false,
+  "productionDeployment": false
+}

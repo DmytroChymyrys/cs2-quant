@@ -2,10 +2,13 @@ import { cache } from "react";
 import { sql } from "drizzle-orm";
 import { database } from "../db";
 import { percentageChange } from "../analytics";
+import { catalogPresentation } from "../catalog/presentation";
+import type { CatalogPresentation } from "../catalog/model";
 export type MarketAsset = {
   id: string;
   name: string;
   category: string | null;
+  catalog?: CatalogPresentation | null;
   median: string | null;
   minimum: string | null;
   maximum: string | null;
@@ -77,7 +80,15 @@ export const marketSnapshot = cache(async (): Promise<MarketSnapshot> => {
             : "COLLECTING",
       } as MarketAsset;
     });
-    return { assets, error: false, asOf };
+    const catalog = await catalogPresentation(assets);
+    return {
+      assets: assets.map((asset) => ({
+        ...asset,
+        catalog: catalog.get(asset.id) ?? null,
+      })),
+      error: false,
+      asOf,
+    };
   } catch {
     return { assets: [], error: true, asOf };
   }

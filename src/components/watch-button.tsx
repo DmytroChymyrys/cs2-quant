@@ -6,15 +6,18 @@ import { Button } from "./ui";
 export function WatchButton({
   assetId,
   initial = false,
+  authenticated = false,
 }: {
   assetId: string;
   initial?: boolean;
+  authenticated?: boolean;
 }) {
   const router = useRouter();
   const [watched, setWatched] = useState(initial),
     [busy, setBusy] = useState(false),
     [message, setMessage] = useState("");
   useEffect(() => {
+    if (!authenticated) return;
     let active = true;
     void fetch("/api/product/watchlist")
       .then(async (r) => {
@@ -32,12 +35,16 @@ export function WatchButton({
     return () => {
       active = false;
     };
-  }, [assetId]);
+  }, [assetId, authenticated]);
   return (
     <div className="stack">
       <Button
         disabled={busy}
         onClick={async () => {
+          if (!authenticated) {
+            router.push("/login");
+            return;
+          }
           setBusy(true);
           setMessage("");
           try {

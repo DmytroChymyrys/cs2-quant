@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-09-10T14:16:59.061Z",
+  "source": "https://github.com/ByMykel/CSGO-API",
+  "datasets": [
+    "skins_not_grouped.json",
+    "crates.json",
+    "stickers.json"
+  ],
+  "datasetSha256": {
+    "skins": "d7ef9004f9bd26afdc93ea534333af55961fb24d4f0efcf35f68a6d15f41fb44",
+    "crates": "41cfc56c46cc4e0b180398a190f4731a5d66a697d061c67b0f3e5fa95f4afddb",
+    "stickers": "0a4c01383903686fc11b826539b822fa2b9257db286c2293a9f5dbc6fd8abb39"
+  },
+  "matchRule": "exact market_hash_name; reject multiple distinct image URLs",
+  "approved": 100,
+  "resolved": 100,
+  "missing": [],
+  "ambiguous": [],
+  "delivery": "Steam CDN"
+}

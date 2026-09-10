@@ -1,0 +1,9 @@
+{
+  "state": {
+    "configuredEnabled": false,
+    "status": "DISABLED",
+    "effectiveEnabled": false
+  },
+  "htmlContainsImageWell": false,
+  "htmlContainsArtworkSrc": false
+}

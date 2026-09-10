@@ -1,0 +1,1 @@
+{"status":200,"duration":1805.353625,"body":{"provider":"STEAM_CDN","status":"HEALTHY","checkedAt":"2026-09-10T15:31:48.891Z","bucket":5963514,"sampleSize":10,"successCount":10,"failureCount":0,"failureRate":0,"responseStatuses":[200,200,200,200,200,200,200,200,200,200]}}

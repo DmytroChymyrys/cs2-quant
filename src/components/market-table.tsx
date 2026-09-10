@@ -1,3 +1,4 @@
+import { AssetImage } from "@/components/asset-image";
 import Link from "next/link";
 import { Box, ChevronRight } from "lucide-react";
 import { type MarketAsset, categoryNames } from "@/lib/product/market";
@@ -49,6 +50,9 @@ export function MarketTable({
                   </span>
                   <div>
                     <Link className="asset-name" href={`/asset/${a.id}`}>
+                      {!compact && (
+                        <AssetImage name={a.name} media={a.catalog?.media} />
+                      )}
                       {a.name}
                     </Link>
                     <small>

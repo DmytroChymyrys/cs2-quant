@@ -1,0 +1,402 @@
+[
+  {
+    "asset_id": "3ec521ae-28d5-43bd-8efa-653bfbebb002",
+    "market_hash_name": "AK-47 | Bloodsport (Field-Tested)"
+  },
+  {
+    "asset_id": "dc750c40-0cb0-47b3-a9f5-33fac74cfcbf",
+    "market_hash_name": "AK-47 | Crane Flight (Field-Tested)"
+  },
+  {
+    "asset_id": "556b6f21-023e-4813-8a36-752d107c5d02",
+    "market_hash_name": "AK-47 | Inheritance (Field-Tested)"
+  },
+  {
+    "asset_id": "3dba5ce2-7269-4cb6-840f-441f4f21813b",
+    "market_hash_name": "AK-47 | Olive Polycam (Factory New)"
+  },
+  {
+    "asset_id": "f75f1e81-4973-4f36-9752-119bfccfa2e0",
+    "market_hash_name": "AK-47 | Redline (Field-Tested)"
+  },
+  {
+    "asset_id": "7a066f04-48e3-41e6-9be0-a7c187c9d3f0",
+    "market_hash_name": "AK-47 | Vulcan (Factory New)"
+  },
+  {
+    "asset_id": "3ddb55fb-6ba8-4e4c-85e1-90f94aac8960",
+    "market_hash_name": "AK-47 | Vulcan (Field-Tested)"
+  },
+  {
+    "asset_id": "6eb67429-b20c-43d6-97a2-58f78f97534e",
+    "market_hash_name": "AK-47 | Wild Lotus (Factory New)"
+  },
+  {
+    "asset_id": "2be0bccd-cf8a-42df-8659-27b62894c7ec",
+    "market_hash_name": "AUG | Contractor (Field-Tested)"
+  },
+  {
+    "asset_id": "9d481da8-39f2-4026-98df-c98e5f092f18",
+    "market_hash_name": "AUG | Hot Rod (Factory New)"
+  },
+  {
+    "asset_id": "a829828a-1c20-4361-92f8-a62dc366fe0c",
+    "market_hash_name": "AUG | Storm (Field-Tested)"
+  },
+  {
+    "asset_id": "d2a17955-0cb0-4f8b-a995-2e177f99acfc",
+    "market_hash_name": "AWP | Asiimov (Field-Tested)"
+  },
+  {
+    "asset_id": "3cfec1ad-5247-4429-8096-2814fc5b422f",
+    "market_hash_name": "AWP | Atheris (Field-Tested)"
+  },
+  {
+    "asset_id": "bbb784ab-1a13-45a2-bb30-c485332320bc",
+    "market_hash_name": "AWP | Atheris (Well-Worn)"
+  },
+  {
+    "asset_id": "dd6cd3c8-32ab-42d3-b2b4-e7d955025e26",
+    "market_hash_name": "AWP | Dragon Lore (Factory New)"
+  },
+  {
+    "asset_id": "478d79ad-7be5-41e8-a78f-2834ea1e5fae",
+    "market_hash_name": "Antwerp 2022 Legends Sticker Capsule"
+  },
+  {
+    "asset_id": "dbd7619a-c3d7-4d97-91af-5315f064df09",
+    "market_hash_name": "Budapest 2025 Legends Sticker Capsule"
+  },
+  {
+    "asset_id": "ed00751a-caf8-4d18-a3b6-9845353df176",
+    "market_hash_name": "CS:GO Weapon Case"
+  },
+  {
+    "asset_id": "d4702564-18c9-44fe-bde9-8cf50bd5ab6e",
+    "market_hash_name": "Chroma 2 Case"
+  },
+  {
+    "asset_id": "bf4cfc89-4cb2-4d1c-8ad7-1c2dcb4b6624",
+    "market_hash_name": "Clutch Case"
+  },
+  {
+    "asset_id": "709d75f8-d6b8-46fc-abd7-64bf2aa16cf4",
+    "market_hash_name": "Danger Zone Case"
+  },
+  {
+    "asset_id": "eb99c428-6e64-4ba0-8d2a-c3b764529dd5",
+    "market_hash_name": "Desert Eagle | Printstream (Field-Tested)"
+  },
+  {
+    "asset_id": "8533928c-939b-4bab-b603-29d9f6a93c99",
+    "market_hash_name": "Dreams & Nightmares Case"
+  },
+  {
+    "asset_id": "e47eba82-88bc-4cb3-a05e-e68aba3c9f4d",
+    "market_hash_name": "Fever Case"
+  },
+  {
+    "asset_id": "f61b67a6-7c3c-4495-82f6-15f3ac7a0399",
+    "market_hash_name": "Fracture Case"
+  },
+  {
+    "asset_id": "dc52c0ed-34bf-4fa5-8c68-dfb20f0c797b",
+    "market_hash_name": "Glock-18 | Candy Apple (Factory New)"
+  },
+  {
+    "asset_id": "55be3fdf-ed93-4123-8bcf-41fd0c8bffd8",
+    "market_hash_name": "Glock-18 | Sand Dune (Field-Tested)"
+  },
+  {
+    "asset_id": "abcba2d7-481a-4bcd-8bb3-a64f23d8e636",
+    "market_hash_name": "Glove Case"
+  },
+  {
+    "asset_id": "824b1b4e-2aea-4918-8b2e-bbc2b10e6c73",
+    "market_hash_name": "Huntsman Weapon Case"
+  },
+  {
+    "asset_id": "6be7f5c8-1763-424c-9baa-df0d017d38ce",
+    "market_hash_name": "Kilowatt Case"
+  },
+  {
+    "asset_id": "0592dbbd-0fff-4f2d-bea0-5b654f59abdd",
+    "market_hash_name": "M4A1-S | Black Lotus (Field-Tested)"
+  },
+  {
+    "asset_id": "d2821fb4-a6ec-46e6-8fc3-f4c54099fcd9",
+    "market_hash_name": "M4A1-S | Blue Phosphor (Factory New)"
+  },
+  {
+    "asset_id": "1bf76085-b80e-425a-bc55-37a1be69e516",
+    "market_hash_name": "M4A1-S | Decimator (Battle-Scarred)"
+  },
+  {
+    "asset_id": "0a0ef1db-64a8-4ecd-a769-4c993f3d57a5",
+    "market_hash_name": "M4A1-S | Decimator (Field-Tested)"
+  },
+  {
+    "asset_id": "e981f494-477d-4eaa-8969-404035fd1c32",
+    "market_hash_name": "M4A1-S | Hot Rod (Factory New)"
+  },
+  {
+    "asset_id": "297670d4-767e-4039-ae12-fc6c4505022c",
+    "market_hash_name": "M4A4 | Neo-Noir (Field-Tested)"
+  },
+  {
+    "asset_id": "da74cd42-dfc4-4abd-a5fe-81ceda6a8c6b",
+    "market_hash_name": "Operation Bravo Case"
+  },
+  {
+    "asset_id": "b7388cc7-cce1-40b0-b678-16b2e02505e2",
+    "market_hash_name": "Operation Breakout Weapon Case"
+  },
+  {
+    "asset_id": "7c5cfd60-9771-4f10-8b88-445c755db7eb",
+    "market_hash_name": "Operation Broken Fang Case"
+  },
+  {
+    "asset_id": "02a37db6-d5c3-4804-a796-6a0dc28aef75",
+    "market_hash_name": "Operation Hydra Case"
+  },
+  {
+    "asset_id": "a29fca83-6d5d-42cc-97d2-322d115b1e3e",
+    "market_hash_name": "Operation Riptide Case"
+  },
+  {
+    "asset_id": "1008e8b5-1986-4f95-ab0e-dc2c13c26b95",
+    "market_hash_name": "P250 | Asiimov (Field-Tested)"
+  },
+  {
+    "asset_id": "f52fd44f-6ebc-445a-aac2-c2b79b7a123e",
+    "market_hash_name": "P250 | Sand Dune (Minimal Wear)"
+  },
+  {
+    "asset_id": "934e1953-15f8-4ac9-be1a-8daf26cd3444",
+    "market_hash_name": "Paris 2023 Contenders Sticker Capsule"
+  },
+  {
+    "asset_id": "a16d5188-221a-4267-9c2d-84982ab7b532",
+    "market_hash_name": "Recoil Case"
+  },
+  {
+    "asset_id": "57ecf55e-93fc-4c3c-99a1-99869a0ea43f",
+    "market_hash_name": "SSG 08 | Acid Fade (Factory New)"
+  },
+  {
+    "asset_id": "b1acdb13-babd-4212-8990-15118937e922",
+    "market_hash_name": "Shattered Web Case"
+  },
+  {
+    "asset_id": "b36297cf-daa5-4c52-a288-9e65aae440bf",
+    "market_hash_name": "Souvenir AWP | Dragon Lore (Factory New)"
+  },
+  {
+    "asset_id": "63f52fc6-5211-46eb-af01-b3c36ff8f8de",
+    "market_hash_name": "Spectrum 2 Case"
+  },
+  {
+    "asset_id": "e500908a-c289-401a-825d-3e45ee6e7e1e",
+    "market_hash_name": "StatTrak™ M4A4 | Howl (Factory New)"
+  },
+  {
+    "asset_id": "05e33c8a-54b4-4626-92f4-9ff544eb11cf",
+    "market_hash_name": "Sticker Capsule 2"
+  },
+  {
+    "asset_id": "e4fb7819-4d71-42e5-b193-7eff00d9235c",
+    "market_hash_name": "Sticker | 100 Thieves | 2020 RMR"
+  },
+  {
+    "asset_id": "3de42705-f4fa-49b1-8fa4-73c6e58f57c8",
+    "market_hash_name": "Sticker | Bad News Eagles | Paris 2023"
+  },
+  {
+    "asset_id": "847be11f-adb4-44af-8b0b-48190182c04d",
+    "market_hash_name": "Sticker | Crown (Foil)"
+  },
+  {
+    "asset_id": "e934863b-f79d-4675-b3be-7d798bc2bb95",
+    "market_hash_name": "Sticker | Dragon Lore (Foil)"
+  },
+  {
+    "asset_id": "80906849-1d6b-4922-97ff-615c4ad86edc",
+    "market_hash_name": "Sticker | High Heat"
+  },
+  {
+    "asset_id": "36ef9b9c-2505-4b20-ad1a-0da85db8feff",
+    "market_hash_name": "Sticker | Howling Dawn"
+  },
+  {
+    "asset_id": "d4c96140-e0ba-42fb-b13a-be5d354f0424",
+    "market_hash_name": "Sticker | Reason Gaming (Holo) | Katowice 2014"
+  },
+  {
+    "asset_id": "5cdb7fa8-3c4b-48d9-8c37-4652e61af8db",
+    "market_hash_name": "Sticker | Team Liquid | Paris 2023"
+  },
+  {
+    "asset_id": "6089e0c2-8ee8-4dcc-8d98-d340313a03f5",
+    "market_hash_name": "Sticker | Titan (Holo) | Cologne 2014"
+  },
+  {
+    "asset_id": "de2e2deb-1517-4655-9dac-4325acb0548e",
+    "market_hash_name": "Sticker | Titan | Cluj-Napoca 2015"
+  },
+  {
+    "asset_id": "5558aa00-ecb7-486a-8bd2-fcd26ce74466",
+    "market_hash_name": "Sticker | Virtus.pro | Katowice 2015"
+  },
+  {
+    "asset_id": "3ca2873e-e1fe-4c39-a66a-f13b94e4ab03",
+    "market_hash_name": "Sticker | Winding Scorch (Foil)"
+  },
+  {
+    "asset_id": "c9a3e55f-70fc-444f-a4b8-2bfcc928a215",
+    "market_hash_name": "Sticker | iBUYPOWER (Holo) | Cologne 2014"
+  },
+  {
+    "asset_id": "f140b549-3006-4d6a-b98b-5d4da1bc3440",
+    "market_hash_name": "Sticker | iBUYPOWER | Cologne 2014"
+  },
+  {
+    "asset_id": "53c8ccc5-cb3e-409c-b7c7-da9d3ca2690b",
+    "market_hash_name": "Stockholm 2021 Challengers Sticker Capsule"
+  },
+  {
+    "asset_id": "fce5f6ca-b296-4091-99c1-1664ffbfc2be",
+    "market_hash_name": "Stockholm 2021 Legends Sticker Capsule"
+  },
+  {
+    "asset_id": "8576d7d5-0edc-49d0-a781-3e0766f8b669",
+    "market_hash_name": "USP-S | Printstream (Field-Tested)"
+  },
+  {
+    "asset_id": "33d65908-1bbd-4f62-b868-4b6dec2702c8",
+    "market_hash_name": "Winter Offensive Weapon Case"
+  },
+  {
+    "asset_id": "688ea3df-7662-4ab8-b608-3c13a3cf0c2d",
+    "market_hash_name": "eSports 2013 Case"
+  },
+  {
+    "asset_id": "ead45bbc-a09f-4257-a3f3-d3525c95c71e",
+    "market_hash_name": "★ Bayonet | Forest DDPAT (Field-Tested)"
+  },
+  {
+    "asset_id": "a33d580e-7123-41af-a0d9-e1b2688d3098",
+    "market_hash_name": "★ Bowie Knife | Tiger Tooth (Factory New)"
+  },
+  {
+    "asset_id": "5b2133e7-5468-4785-bbf7-452cedb19c5e",
+    "market_hash_name": "★ Butterfly Knife | Slaughter (Minimal Wear)"
+  },
+  {
+    "asset_id": "ff03d35f-2e48-4b65-a0da-c1b29d89d965",
+    "market_hash_name": "★ Butterfly Knife | Tiger Tooth (Factory New)"
+  },
+  {
+    "asset_id": "dd8ae66b-43b7-404e-b8de-88389036d58a",
+    "market_hash_name": "★ Driver Gloves | Imperial Plaid (Field-Tested)"
+  },
+  {
+    "asset_id": "94ca7c05-064b-4845-9978-1d66ea8b2b45",
+    "market_hash_name": "★ Driver Gloves | Racing Green (Field-Tested)"
+  },
+  {
+    "asset_id": "aabdddc6-9d8c-4f11-aa89-21a9f70bad95",
+    "market_hash_name": "★ Driver Gloves | Snow Leopard (Field-Tested)"
+  },
+  {
+    "asset_id": "e27f4fba-7010-4c70-9999-767162c4265f",
+    "market_hash_name": "★ Hand Wraps | Duct Tape (Battle-Scarred)"
+  },
+  {
+    "asset_id": "cdd40e36-e494-4fc4-9e28-ff13f3a90f00",
+    "market_hash_name": "★ Hand Wraps | Duct Tape (Field-Tested)"
+  },
+  {
+    "asset_id": "eaefed50-6118-49ae-a980-833edefc4cc9",
+    "market_hash_name": "★ Hydra Gloves | Mangrove (Field-Tested)"
+  },
+  {
+    "asset_id": "a97524b5-d564-485c-96e7-050c956307b2",
+    "market_hash_name": "★ Hydra Gloves | Mangrove (Well-Worn)"
+  },
+  {
+    "asset_id": "a7890a90-0e48-418a-a877-7edce90c5e3f",
+    "market_hash_name": "★ Karambit | Crimson Web (Factory New)"
+  },
+  {
+    "asset_id": "3f7d5646-8b40-4268-a477-73871da9b59d",
+    "market_hash_name": "★ Kukri Knife | Fade (Factory New)"
+  },
+  {
+    "asset_id": "968eb1db-2efe-4e0f-9f5e-a74b7957b139",
+    "market_hash_name": "★ Kukri Knife | Forest DDPAT (Field-Tested)"
+  },
+  {
+    "asset_id": "0b48a48f-2c9a-4d06-b7fd-191aa7774a0d",
+    "market_hash_name": "★ Moto Gloves | Spearmint (Minimal Wear)"
+  },
+  {
+    "asset_id": "f8f1664f-8e06-40f4-9ce9-ff37e7ecdba1",
+    "market_hash_name": "★ Moto Gloves | Turtle (Field-Tested)"
+  },
+  {
+    "asset_id": "a0c6487b-3d66-46d4-826f-37a0f5a2f374",
+    "market_hash_name": "★ Moto Gloves | Turtle (Minimal Wear)"
+  },
+  {
+    "asset_id": "9e804836-9c08-4846-99f2-2ee8a2e69029",
+    "market_hash_name": "★ Navaja Knife | Scorched (Field-Tested)"
+  },
+  {
+    "asset_id": "2142bb65-8073-4fb0-8645-53899a7cb7ef",
+    "market_hash_name": "★ Nomad Knife | Slaughter (Minimal Wear)"
+  },
+  {
+    "asset_id": "db786f2d-4480-4274-b83e-a5caf962cf19",
+    "market_hash_name": "★ Paracord Knife"
+  },
+  {
+    "asset_id": "c8d08a94-e633-4fbe-9e91-36681c3b30b3",
+    "market_hash_name": "★ Shadow Daggers | Black Laminate (Battle-Scarred)"
+  },
+  {
+    "asset_id": "adf5da51-fbb5-4c78-acf5-3d8ce303955b",
+    "market_hash_name": "★ Skeleton Knife | Tiger Tooth (Factory New)"
+  },
+  {
+    "asset_id": "3d71f02f-cb2a-42b7-95c7-8b7f75cd288c",
+    "market_hash_name": "★ Specialist Gloves | Fade (Minimal Wear)"
+  },
+  {
+    "asset_id": "64abab30-2728-499b-9e71-c637faf40016",
+    "market_hash_name": "★ Sport Gloves | Bronze Morph (Field-Tested)"
+  },
+  {
+    "asset_id": "d3ce5c6c-9fa3-45bf-8516-c442e7ce0aa3",
+    "market_hash_name": "★ Sport Gloves | Pandora's Box (Field-Tested)"
+  },
+  {
+    "asset_id": "6edc1cee-4728-4059-8c73-474de49ae534",
+    "market_hash_name": "★ Sport Gloves | Vice (Factory New)"
+  },
+  {
+    "asset_id": "cfa86247-82b8-4b7b-8a08-aa84ba1a3322",
+    "market_hash_name": "★ Sport Gloves | Vice (Field-Tested)"
+  },
+  {
+    "asset_id": "458db61b-595c-4b3c-acdd-302c5753ff04",
+    "market_hash_name": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)"
+  },
+  {
+    "asset_id": "6cfdf3f1-89a6-4ce8-ba05-16d7d1dc8e11",
+    "market_hash_name": "★ Survival Knife"
+  },
+  {
+    "asset_id": "aa51cd82-9340-4dd4-a13f-6ea74179fbaf",
+    "market_hash_name": "★ Talon Knife | Tiger Tooth (Factory New)"
+  }
+]

@@ -278,3 +278,7 @@ freshness, History hashes, and physical database size. Database bytes are not a
 substitute for actual Neon billing/usage, which is marked unavailable unless
 provider measurements have been supplied. During the first 24 hours collect only;
 change behavior only for an actual correctness or reliability problem.
+
+## Canonical CS2 catalog
+
+Catalog metadata and media are maintained independently of market observations. See [catalog architecture](docs/catalog/ARCHITECTURE.md), [sources](docs/catalog/SOURCES.md), and [sync/isolated migration instructions](docs/catalog/SYNC.md). `npm run catalog:sync` imports a reviewed pinned source; product pages use batched persisted mappings without runtime identity discovery. Production catalog rollout has not been performed.

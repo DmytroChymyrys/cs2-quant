@@ -1,3 +1,5 @@
+import { AssetImage } from "@/components/asset-image";
+import { currentUser } from "@/lib/product/auth";
 import { marketSnapshot, categoryNames } from "@/lib/product/market";
 import { money, integer, timestamp } from "@/lib/product/format";
 import {
@@ -16,6 +18,7 @@ export default async function Assets({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const params = await searchParams;
+  const user = await currentUser();
   const snapshot = await marketSnapshot();
   const assets = snapshot.assets.filter(
     (a) =>
@@ -69,6 +72,7 @@ export default async function Assets({
             {selected ? (
               <Panel title="Asset inspection">
                 <div className="pad stack">
+                  <AssetImage name={selected.name} media={selected.catalog?.media} large />
                   <SemanticBadge state={selected.state} />
                   <h2 className="asset-name">{selected.name}</h2>
                   <p>{categoryNames[selected.category ?? ""]}</p>
@@ -98,7 +102,7 @@ export default async function Assets({
                   <LinkButton href={`/asset/${selected.id}`} primary>
                     Open asset intelligence →
                   </LinkButton>
-                  <WatchButton assetId={selected.id} />
+                  <WatchButton assetId={selected.id} authenticated={Boolean(user)} />
                 </div>
               </Panel>
             ) : (

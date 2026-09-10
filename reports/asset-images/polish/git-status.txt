@@ -1,0 +1,69 @@
+ M .env.example
+ M README.md
+ M docs/product/IMPLEMENTATION_STATUS.md
+ M docs/product/PREFLIGHT.md
+ M e2e/product.spec.ts
+ M package-lock.json
+ M package.json
+ M src/app/(auth)/forgot-password/page.tsx
+ M src/app/(auth)/layout.tsx
+ M src/app/(auth)/login/page.tsx
+ M src/app/(auth)/reset-password/page.tsx
+ M src/app/(auth)/signup/page.tsx
+ M src/app/(market)/alerts/page.tsx
+ M src/app/(market)/asset/[id]/page.tsx
+ M src/app/(market)/assets/page.tsx
+ M src/app/(market)/layout.tsx
+ M src/app/(market)/onboarding/page.tsx
+ M src/app/(market)/portfolio/page.tsx
+ M src/app/(market)/screener/page.tsx
+ M src/app/(market)/settings/page.tsx
+ M src/app/(market)/terminal/page.tsx
+ M src/app/(market)/watchlist/page.tsx
+ M src/app/dev/components/page.tsx
+ M src/app/layout.tsx
+ M src/app/page.tsx
+ M src/app/pricing/page.tsx
+ M src/components/advanced-screener.tsx
+ M src/components/auth-form.tsx
+ M src/components/market-table.tsx
+ M src/components/observation-chart.tsx
+ M src/components/preferences-form.tsx
+ M src/components/shell.tsx
+ M src/lib/collectors/skinport-collector.ts
+ M src/lib/product/alerts.ts
+ M src/lib/product/auth.ts
+ M src/lib/sources/skinport/client.ts
+ M src/lib/sources/skinport/normalize.ts
+ M src/lib/sources/skinport/schemas.ts
+?? config/asset-images/
+?? docs/asset-images/
+?? docs/market-data/
+?? e2e/asset-images.spec.ts
+?? public/
+?? reports/asset-images/
+?? reports/market-data/
+?? reports/visual-fidelity/
+?? scripts/check-auth-visuals.mjs
+?? scripts/visual-capture.mjs
+?? scripts/visual-verify.mjs
+?? src/app/(auth)/auth-fidelity.css
+?? src/app/api/asset-images/
+?? src/app/asset-images.css
+?? src/app/landing.css
+?? src/app/visual-fidelity.css
+?? src/components/asset-image.tsx
+?? src/components/asset-inspection.tsx
+?? src/components/auth-header.tsx
+?? src/components/auth-narrative.tsx
+?? src/components/landing-chart.tsx
+?? src/components/landing-showcase.tsx
+?? src/components/terminal-monitor.tsx
+?? src/lib/asset-images/
+?? src/market-data/
+?? tests/asset-images-routes.test.ts
+?? tests/asset-images.test.ts
+?? tests/fixtures/
+?? tests/landing-chart.test.ts
+?? tests/market-data-persistence.test.ts
+?? tests/market-data.test.ts

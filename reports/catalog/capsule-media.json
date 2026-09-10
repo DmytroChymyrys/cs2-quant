@@ -1,0 +1,56 @@
+[
+  {
+    "market_hash_name": "Stockholm 2021 Legends Sticker Capsule",
+    "catalog_asset_id": "fa_7c711b8541a1ba96b9307523af189967999f680889b5e8498fcd15fded18c949",
+    "catalog_provider_id": "crate-4803",
+    "status": "AVAILABLE",
+    "source_url": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bjn_lDkShjjoYbh_ilk_Oaha69lcqDBX1icxOlzvuV6AS_izRhx526Hw9j8dHKVP1QjWcB0E-QC5BW7k9fmY-PqtAzaioMRm3jgznQexd7Cao8",
+    "width": 1024,
+    "height": 768,
+    "content_type": "image/png",
+    "content_hash": "699a978a0431d7368e98b9d8d83668a3e9bb6ede187e4ac28576f5553cae2738",
+    "alpha_bounds": {
+      "top": 15,
+      "left": 27,
+      "width": 994,
+      "height": 751
+    },
+    "last_verified_at": "2026-09-10T16:15:27.585Z"
+  },
+  {
+    "market_hash_name": "Antwerp 2022 Legends Sticker Capsule",
+    "catalog_asset_id": "fa_cc284f69eadc6f6547e5af77d734a3283e6c4da18cc2f3cbc825442f226ead42",
+    "catalog_provider_id": "crate-4832",
+    "status": "AVAILABLE",
+    "source_url": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bjn_lDkShjjoYbh_ilk7vy6f6F_MKLDXDWvzetxte9tXGe3lB9w5DjSy4uveC7BbQRzApIlFrQLsxDrkIbjP7jn5VHZiYIXnyWskGoXuce4Ls9p",
+    "width": 1024,
+    "height": 768,
+    "content_type": "image/png",
+    "content_hash": "af0c05f8bb8487e801e5a08b1f647ee4989f6219f9e2f08cdede7198fddb55a2",
+    "alpha_bounds": {
+      "top": 0,
+      "left": 8,
+      "width": 1002,
+      "height": 756
+    },
+    "last_verified_at": "2026-09-10T16:15:27.909Z"
+  },
+  {
+    "market_hash_name": "Paris 2023 Contenders Sticker Capsule",
+    "catalog_asset_id": "fa_d59e10024332652f32bbf19072874c5786687568362427a756bf90b23c353fd8",
+    "catalog_provider_id": "crate-4892",
+    "status": "AVAILABLE",
+    "source_url": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bjn_lDkShjjoYbh_ilk__O8Ybc_cKLAMWSfz_pzvuVsXTr9kRki5m_Uwtz7cXKWO1ApCcByRLEO50LtkoWyP7_k4Afdi99GniT4jzQJsHjtsZcvVQ",
+    "width": 1024,
+    "height": 768,
+    "content_type": "image/png",
+    "content_hash": "5bbec8a520c0ee3be508707d88d10376eb568b9cd00e4f583435d238c554aaab",
+    "alpha_bounds": {
+      "top": 2,
+      "left": 19,
+      "width": 990,
+      "height": 764
+    },
+    "last_verified_at": "2026-09-10T16:15:28.013Z"
+  }
+]

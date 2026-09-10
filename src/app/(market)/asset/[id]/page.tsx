@@ -1,3 +1,4 @@
+import { AssetImage } from "@/components/asset-image";
 import { currentUser } from "@/lib/product/auth";
 import { entitlements, capabilities } from "@/lib/product/entitlements";
 import Link from "next/link";
@@ -42,11 +43,12 @@ export default async function Asset({
     : { points: [], error: false };
   return (
     <>
+      <AssetImage name={asset.name} media={asset.catalog?.media} large />
       <PageHeading
         eyebrow={`${categoryNames[asset.category ?? ""]} / Asset intelligence`}
         title={asset.name}
         description="Canonical unversioned asset · Skinport · USD"
-        action={<WatchButton assetId={id} />}
+        action={<WatchButton assetId={id} authenticated={Boolean(user)} />}
       />
       {asset.state !== "GROUNDED" && (
         <Notice>
