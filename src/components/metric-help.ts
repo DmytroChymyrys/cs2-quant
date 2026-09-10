@@ -1,6 +1,7 @@
 // Presentation copy follows the existing methodology; it does not compute metrics.
 export function metricHelp(label: string) {
   const name = label.toLowerCase();
+  if (name.includes("available")) return null;
   if (name.includes("volatility") && !name.includes("available")) {
     const horizon = name.includes("24h")
       ? "24h"

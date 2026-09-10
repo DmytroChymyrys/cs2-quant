@@ -65,7 +65,9 @@ export function LandingWorkstations() {
   );
   const categories = (active: "all" | "rifles") => (
     <div className="showcase-categories" aria-label="Example category context">
-      <span className={active === "all" ? "active" : undefined}>ALL ASSETS</span>
+      <span className={active === "all" ? "active" : undefined}>
+        ALL ASSETS
+      </span>
       <span className={active === "rifles" ? "active" : undefined}>RIFLES</span>
       <span>KNIVES</span>
       <span>GLOVES</span>

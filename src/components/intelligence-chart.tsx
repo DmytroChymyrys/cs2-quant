@@ -268,7 +268,14 @@ export function IntelligenceChart({
                   : ""}
               </strong>
               <small>
-                {labels[metric]} · {synthetic ? "SYNTHETIC" : "OBSERVED"}
+                {labels[metric]} ·{" "}
+                {synthetic
+                  ? "SYNTHETIC"
+                  : metric === "activity" ||
+                      metric === "volatility" ||
+                      metric === "sourceAgeSeconds"
+                    ? "DERIVED"
+                    : "OBSERVED"}
               </small>
             </div>
           )}
