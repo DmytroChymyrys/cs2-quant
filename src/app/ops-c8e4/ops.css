@@ -1,0 +1,118 @@
+.ops {
+  max-width: 1560px;
+  margin: auto;
+  padding: 24px;
+  color: #d4d9df;
+  font-size: 13px;
+}
+.ops header,
+.ops nav,
+.ops-filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.ops header {
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #303740;
+}
+.ops header span,
+.ops-muted,
+.ops small {
+  color: #9099a7;
+}
+.ops nav {
+  margin: 20px 0;
+}
+.ops nav a {
+  text-transform: capitalize;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+}
+.ops nav a[aria-current] {
+  background: #242b34;
+  border-color: #424a56;
+}
+.ops h1 {
+  text-transform: capitalize;
+  font-size: 24px;
+}
+.ops-filters {
+  margin: 20px 0;
+}
+.ops label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ops select,
+.ops input {
+  background: #20262e;
+  border: 1px solid #414954;
+  color: inherit;
+  padding: 8px;
+}
+.ops input {
+  min-width: 260px;
+}
+.ops-panel {
+  background: #191f27;
+  border: 1px solid #333b46;
+  margin: 18px 0;
+}
+.ops-panel h2 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  text-transform: capitalize;
+  padding: 14px;
+  margin: 0;
+  border-bottom: 1px solid #333b46;
+}
+.ops-panel p {
+  padding: 0 14px;
+  line-height: 1.7;
+}
+.ops-scroll {
+  overflow-x: auto;
+}
+.ops table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.ops th,
+.ops td {
+  text-align: left;
+  padding: 11px 13px;
+  border-bottom: 1px solid #2b333e;
+  white-space: nowrap;
+}
+.ops th {
+  color: #a4aeba;
+  font-weight: 500;
+}
+.ops td {
+  font-family: var(--mono);
+}
+.ops small {
+  font-size: 11px;
+  font-weight: 400;
+}
+@media (max-width: 700px) {
+  .ops {
+    padding: 14px;
+  }
+  .ops nav {
+    gap: 5px;
+  }
+  .ops label {
+    flex-wrap: wrap;
+  }
+  .ops input {
+    min-width: 0;
+    width: 100%;
+  }
+}

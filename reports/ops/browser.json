@@ -1,0 +1,195 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node/24.7.0/bin/node",
+      "/Users/dmytro-chymyrys/MyProjects/cs2-quant/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "/private/tmp/floatalpha-ops-review/playwright.ops.config.ts"
+    ],
+    "configFile": "/private/tmp/floatalpha-ops-review/playwright.ops.config.ts",
+    "rootDir": "/Users/dmytro-chymyrys/MyProjects/cs2-quant/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/floatalpha-ops-review/browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/dmytro-chymyrys/MyProjects/cs2-quant/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "ops.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/dmytro-chymyrys/MyProjects/cs2-quant/reports/ops/browser.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ops.spec.ts",
+      "file": "ops.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "anonymous access redirects; API denies and public navigation does not advertise Ops",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-10T17:19:42.998Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f5560b2f8010d8279b6a-a2df2f5a0d7e5bff5fac",
+          "file": "ops.spec.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "USER and unverified ADMIN cannot read pages or APIs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 194,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-10T17:19:44.094Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f5560b2f8010d8279b6a-c56c344a77daaf9273d4",
+          "file": "ops.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "verified ADMIN sees five private read-only sections; records timings and supports narrow screens",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 555,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-10T17:19:44.299Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "timings",
+                      "contentType": "application/json",
+                      "body": "ewogICJvdmVydmlldyI6IHsKICAgICJwYWdlTXMiOiA5NCwKICAgICJxdWVyaWVzIjogWwogICAgICB7CiAgICAgICAgInRpdGxlIjogIm92ZXJ2aWV3IiwKICAgICAgICAibXMiOiAxLAogICAgICAgICJ1bmF2YWlsYWJsZSI6IGZhbHNlCiAgICAgIH0KICAgIF0KICB9LAogICJ1c2VycyI6IHsKICAgICJwYWdlTXMiOiA1NSwKICAgICJxdWVyaWVzIjogWwogICAgICB7CiAgICAgICAgInRpdGxlIjogInVzZXJzIiwKICAgICAgICAibXMiOiAxLAogICAgICAgICJ1bmF2YWlsYWJsZSI6IGZhbHNlCiAgICAgIH0KICAgIF0KICB9LAogICJwcm9kdWN0IjogewogICAgInBhZ2VNcyI6IDQ3LAogICAgInF1ZXJpZXMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAicHJvZHVjdCIsCiAgICAgICAgIm1zIjogMSwKICAgICAgICAidW5hdmFpbGFibGUiOiBmYWxzZQogICAgICB9LAogICAgICB7CiAgICAgICAgInRpdGxlIjogIk1vc3Qgd2F0Y2hlZCBhc3NldHMgwrcgY3VycmVudCIsCiAgICAgICAgIm1zIjogMCwKICAgICAgICAidW5hdmFpbGFibGUiOiBmYWxzZQogICAgICB9CiAgICBdCiAgfSwKICAic3lzdGVtIjogewogICAgInBhZ2VNcyI6IDE5MiwKICAgICJxdWVyaWVzIjogWwogICAgICB7CiAgICAgICAgInRpdGxlIjogIkNvbGxlY3RvcnMgwrcgbGF0ZXN0IDIwIHJ1bnMgaW4gMzAgZGF5cyIsCiAgICAgICAgIm1zIjogMCwKICAgICAgICAidW5hdmFpbGFibGUiOiB0cnVlCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiTGF0ZXN0IHN1Y2Nlc3NmdWwgLyBmYWlsZWQgY29sbGVjdG9yIHJ1bnMgwrcgMzAgZGF5cyIsCiAgICAgICAgIm1zIjogMCwKICAgICAgICAidW5hdmFpbGFibGUiOiB0cnVlCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiT2JzZXJ2YXRpb24gZnJlc2huZXNzIiwKICAgICAgICAibXMiOiAwLAogICAgICAgICJ1bmF2YWlsYWJsZSI6IHRydWUKICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJDYW5vbmljYWwgY2F0YWxvZyIsCiAgICAgICAgIm1zIjogNDYsCiAgICAgICAgInVuYXZhaWxhYmxlIjogZmFsc2UKICAgICAgfSwKICAgICAgewogICAgICAgICJ0aXRsZSI6ICJUcmFja2VkIGNhdGFsb2cgbWFwcGluZyBjb3ZlcmFnZSIsCiAgICAgICAgIm1zIjogMCwKICAgICAgICAidW5hdmFpbGFibGUiOiB0cnVlCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiSW1hZ2UgcHJvdmlkZXIgwrcgcGVyc2lzdGVkIGhlYWx0aCBvbmx5IiwKICAgICAgICAibXMiOiAwLAogICAgICAgICJ1bmF2YWlsYWJsZSI6IGZhbHNlCiAgICAgIH0KICAgIF0KICB9LAogICJiaWxsaW5nIjogewogICAgInBhZ2VNcyI6IDQ4LAogICAgInF1ZXJpZXMiOiBbCiAgICAgIHsKICAgICAgICAidGl0bGUiOiAiYmlsbGluZyIsCiAgICAgICAgIm1zIjogMSwKICAgICAgICAidW5hdmFpbGFibGUiOiBmYWxzZQogICAgICB9CiAgICBdCiAgfQp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f5560b2f8010d8279b6a-5217dc578c228173e9a7",
+          "file": "ops.spec.ts",
+          "line": 45,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-10T17:19:42.566Z",
+    "duration": 2329.606,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

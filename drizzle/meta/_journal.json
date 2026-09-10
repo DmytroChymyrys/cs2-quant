@@ -22,6 +22,20 @@
       "when": 1788996195484,
       "tag": "0002_product_accounts_monitoring_billing",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789060508388,
+      "tag": "0003_ops_application_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789060609372,
+      "tag": "0004_ops_audit",
+      "breakpoints": true
     }
   ]
 }

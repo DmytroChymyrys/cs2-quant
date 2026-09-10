@@ -28,6 +28,8 @@ beforeAll(async () => {
     "0000_initial_market_snapshots",
     "0001_protect_observation_history",
     "0002_product_accounts_monitoring_billing",
+    "0003_ops_application_role",
+    "0004_ops_audit",
   ])
     await db.exec(await readFile(`drizzle/${file}.sql`, "utf8"));
 });

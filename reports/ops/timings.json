@@ -1,0 +1,85 @@
+{
+  "scope": "isolated local production build; three synthetic auth accounts; catalog read from existing local catalog; market database deliberately unconfigured",
+  "timings": {
+    "overview": {
+      "queries": [
+        {
+          "title": "overview",
+          "ms": 1,
+          "unavailable": false
+        }
+      ],
+      "navigationPlusApiMs": 94
+    },
+    "users": {
+      "queries": [
+        {
+          "title": "users",
+          "ms": 1,
+          "unavailable": false
+        }
+      ],
+      "navigationPlusApiMs": 55
+    },
+    "product": {
+      "queries": [
+        {
+          "title": "product",
+          "ms": 1,
+          "unavailable": false
+        },
+        {
+          "title": "Most watched assets \u00b7 current",
+          "ms": 0,
+          "unavailable": false
+        }
+      ],
+      "navigationPlusApiMs": 47
+    },
+    "system": {
+      "queries": [
+        {
+          "title": "Collectors \u00b7 latest 20 runs in 30 days",
+          "ms": 0,
+          "unavailable": true
+        },
+        {
+          "title": "Latest successful / failed collector runs \u00b7 30 days",
+          "ms": 0,
+          "unavailable": true
+        },
+        {
+          "title": "Observation freshness",
+          "ms": 0,
+          "unavailable": true
+        },
+        {
+          "title": "Canonical catalog",
+          "ms": 46,
+          "unavailable": false
+        },
+        {
+          "title": "Tracked catalog mapping coverage",
+          "ms": 0,
+          "unavailable": true
+        },
+        {
+          "title": "Image provider \u00b7 persisted health only",
+          "ms": 0,
+          "unavailable": false
+        }
+      ],
+      "navigationPlusApiMs": 192
+    },
+    "billing": {
+      "queries": [
+        {
+          "title": "billing",
+          "ms": 1,
+          "unavailable": false
+        }
+      ],
+      "navigationPlusApiMs": 48
+    }
+  }
+}

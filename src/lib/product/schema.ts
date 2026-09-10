@@ -82,17 +82,22 @@ export const authRateLimit = pgTable("auth_rate_limits", {
   count: integer("count").notNull(),
   lastRequest: bigint("last_request", { mode: "number" }).notNull(),
 });
-export const appUsers = pgTable("app_users", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  authUserId: uuid("auth_user_id")
-    .unique()
-    .references(() => authUser.id, { onDelete: "cascade" }),
-  categories: jsonb("categories").$type<string[]>().default([]).notNull(),
-  interests: jsonb("interests").$type<string[]>().default([]).notNull(),
-  onboarded: boolean("onboarded").default(false).notNull(),
-  watchVisitedAt: time("watch_visited_at"),
-  ...audit(),
-});
+export const appUsers = pgTable(
+  "app_users",
+  {
+    role: text("role").$type<"USER" | "ADMIN">().default("USER").notNull(),
+    id: uuid("id").defaultRandom().primaryKey(),
+    authUserId: uuid("auth_user_id")
+      .unique()
+      .references(() => authUser.id, { onDelete: "cascade" }),
+    categories: jsonb("categories").$type<string[]>().default([]).notNull(),
+    interests: jsonb("interests").$type<string[]>().default([]).notNull(),
+    onboarded: boolean("onboarded").default(false).notNull(),
+    watchVisitedAt: time("watch_visited_at"),
+    ...audit(),
+  },
+  (t) => [check("app_user_role", sql`${t.role} in ('USER', 'ADMIN')`)],
+);
 export const watchEntries = pgTable(
   "watchlist_entries",
   {
@@ -223,3 +228,17 @@ export const savedScreens = pgTable(
   },
   (t) => [index("saved_screens_user").on(t.userId)],
 );
+
+// Allowlisted administrative audit records. No arbitrary request metadata.
+export const adminAudit = pgTable("admin_audit", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actor: text("actor").notNull(), // app user UUID, or explicit CLI operator identifier
+  action: text("action").notNull(),
+  targetType: text("target_type").notNull(),
+  targetId: uuid("target_id").notNull(),
+  occurredAt: time("occurred_at").defaultNow().notNull(),
+  metadata: jsonb("metadata")
+    .$type<{ previousRole?: string; role?: string }>()
+    .default({})
+    .notNull(),
+});
