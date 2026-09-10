@@ -1,41 +1,9 @@
 "use client";
-import Image from "next/image";
-import { useRef, useState } from "react";
-const screens = [
-  {
-    label: "01 Terminal",
-    name: "FloatAlpha terminal",
-    image: "/product-previews/terminal-art-full.jpg",
-    href: "/terminal",
-  },
-  {
-    label: "02 Screener",
-    name: "Quantitative screener",
-    image: "/product-previews/screener-art-full.jpg",
-    href: "/screener",
-  },
-  {
-    label: "03 Asset intel",
-    name: "Asset intelligence",
-    image: "/product-previews/asset-art-full.jpg",
-    href: "/assets",
-  },
-];
-export function LandingShowcase() {
+import { useRef, useState, type ReactNode } from "react";
+const screens = ["01 Terminal", "02 Screener", "03 Asset intel"];
+export function LandingShowcase({ children }: { children: ReactNode[] }) {
   const [selected, setSelected] = useState(0);
-  const screen = screens[selected];
-  const scene = useRef<HTMLAnchorElement>(null);
-  const resetMotion = () => {
-    for (const name of [
-      "--tilt-x",
-      "--tilt-y",
-      "--pan-x",
-      "--pan-y",
-      "--light-x",
-      "--light-y",
-    ])
-      scene.current?.style.removeProperty(name);
-  };
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   return (
     <>
       <div className="lp-showcase-heading">
@@ -48,80 +16,61 @@ export function LandingShowcase() {
           role="tablist"
           aria-label="Product preview"
         >
-          {screens.map((s, i) => (
+          {screens.map((label, i) => (
             <button
-              key={s.label}
+              key={label}
+              ref={(el) => {
+                tabs.current[i] = el;
+              }}
               role="tab"
               id={`preview-tab-${i}`}
-              aria-controls="product-preview"
+              aria-controls={`product-preview-${i}`}
               aria-selected={i === selected}
-              onClick={() => {
-                setSelected(i);
-                resetMotion();
+              tabIndex={i === selected ? 0 : -1}
+              onClick={() => setSelected(i)}
+              onKeyDown={(e) => {
+                const next =
+                  e.key === "ArrowRight"
+                    ? (i + 1) % 3
+                    : e.key === "ArrowLeft"
+                      ? (i + 2) % 3
+                      : e.key === "Home"
+                        ? 0
+                        : e.key === "End"
+                          ? 2
+                          : null;
+                if (next !== null) {
+                  e.preventDefault();
+                  setSelected(next);
+                  tabs.current[next]?.focus();
+                }
               }}
             >
-              {s.label}
+              {label}
             </button>
           ))}
         </div>
       </div>
-      <div
-        className="lp-screen-frame"
-        id="product-preview"
-        role="tabpanel"
-        aria-labelledby={`preview-tab-${selected}`}
-      >
+      <div className="lp-screen-frame">
         <div className="lp-windowbar">
-          <span>
-            <i />
-            <i />
-            <i /> Station: {screen.name}
-          </span>
-          <span>Concept illustration · Sample metrics · Not live</span>
+          <span>FloatAlpha · {screens[selected].slice(3)}</span>
+          <span>DEMO / SYNTHETIC · Fixed example</span>
         </div>
-        <a
-          href={screen.href}
-          aria-label={`Open ${screen.name}`}
-          className="lp-screen-image lp-art-scene"
-          ref={scene}
-          onPointerMove={(event) => {
-            if (
-              event.pointerType !== "mouse" ||
-              !window.matchMedia(
-                "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
-              ).matches
-            )
-              return;
-            const bounds = event.currentTarget.getBoundingClientRect();
-            const x = Math.max(
-              -0.5,
-              Math.min(0.5, (event.clientX - bounds.left) / bounds.width - 0.5),
-            );
-            const y = Math.max(
-              -0.5,
-              Math.min(0.5, (event.clientY - bounds.top) / bounds.height - 0.5),
-            );
-            const style = event.currentTarget.style;
-            style.setProperty("--tilt-x", `${-y * 3}deg`);
-            style.setProperty("--tilt-y", `${x * 3}deg`);
-            style.setProperty("--pan-x", `${x * 10}px`);
-            style.setProperty("--pan-y", `${y * 10}px`);
-            style.setProperty("--light-x", `${(x + 0.5) * 100}%`);
-            style.setProperty("--light-y", `${(y + 0.5) * 100}%`);
-          }}
-          onPointerLeave={resetMotion}
-          onPointerCancel={resetMotion}
-          onBlur={resetMotion}
-        >
-          <Image
-            unoptimized
-            src={screen.image}
-            alt={`${screen.name} concept artwork from the approved design: illustrated market curves and sample asset metrics, not live data`}
-            width={1408}
-            height={768}
-            sizes="(max-width:1440px) 100vw, 1376px"
-          />
-        </a>
+        <div className="showcase-workspace">
+          {children.map((child, i) => (
+            <section
+              key={i}
+              id={`product-preview-${i}`}
+              className="showcase-panel"
+              role="tabpanel"
+              aria-labelledby={`preview-tab-${i}`}
+              hidden={selected !== i}
+              tabIndex={0}
+            >
+              {child}
+            </section>
+          ))}
+        </div>
       </div>
     </>
   );

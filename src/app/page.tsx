@@ -19,8 +19,9 @@ import {
 import { marketSnapshot, marketHistory } from "@/lib/product/market";
 import { money, integer, percent } from "@/lib/product/format";
 import { LandingChart } from "@/components/landing-chart";
-import { LandingShowcase } from "@/components/landing-showcase";
+import { LandingWorkstations } from "@/components/landing-workstations";
 import "./landing.css";
+import "./asset-images.css";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const snapshot = await marketSnapshot();
@@ -524,7 +525,7 @@ export default async function Home() {
         </section>
         <section className="lp-section">
           <div className="lp-container">
-            <LandingShowcase />
+            <LandingWorkstations />
           </div>
         </section>
         <section className="lp-section alternate">

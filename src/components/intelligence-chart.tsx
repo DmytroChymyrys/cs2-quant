@@ -38,9 +38,11 @@ export function seriesPath(points: MarketSeriesPoint[], metric: ChartMetric) {
 export function IntelligenceChart({
   points,
   synthetic = false,
+  compact = false,
 }: {
   points: MarketSeriesPoint[];
   synthetic?: boolean;
+  compact?: boolean;
 }) {
   const [metric, setMetric] = useState<ChartMetric>("minimum"),
     id = useId();
@@ -135,42 +137,44 @@ export function IntelligenceChart({
           </div>
         </div>
       )}
-      <details className="chart-caption">
-        <summary>Observation data and methodology</summary>
-        {synthetic && (
+      {!compact && (
+        <details className="chart-caption">
+          <summary>Observation data and methodology</summary>
+          {synthetic && (
+            <p>
+              DEMO / SYNTHETIC observations. Not collected market prices or
+              research evidence.
+            </p>
+          )}
           <p>
-            DEMO / SYNTHETIC observations. Not collected market prices or
-            research evidence.
+            Listing references are not execution prices. Gaps and null values
+            break the line. Activity and volatility use their complete 1h
+            windows from the underlying snapshot; the display horizon clips
+            timestamps and never requests extra points. No sales-volume series
+            is interpolated between History versions.
           </p>
-        )}
-        <p>
-          Listing references are not execution prices. Gaps and null values
-          break the line. Activity and volatility use their complete 1h windows
-          from the underlying snapshot; the display horizon clips timestamps and
-          never requests extra points. No sales-volume series is interpolated
-          between History versions.
-        </p>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Observation · UTC</th>
-                <th>{labels[metric]}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {points.map((p) => (
-                <tr key={p.at}>
-                  <td>{timestamp(p.at)}</td>
-                  <td>
-                    {p[metric] === null ? "Unavailable" : String(p[metric])}
-                  </td>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Observation · UTC</th>
+                  <th>{labels[metric]}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+              </thead>
+              <tbody>
+                {points.map((p) => (
+                  <tr key={p.at}>
+                    <td>{timestamp(p.at)}</td>
+                    <td>
+                      {p[metric] === null ? "Unavailable" : String(p[metric])}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
     </>
   );
 }

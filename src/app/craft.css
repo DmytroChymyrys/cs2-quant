@@ -59,3 +59,45 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
 .metric-help-popover strong { display: block; color: #f8fafc; margin-bottom: 5px; font-size: 12px; }
 @keyframes craft-tooltip-in { from { opacity: 0; } to { opacity: 1; } }
 @media(prefers-reduced-motion: reduce) { .metric-help-popover { animation: none; } }
+
+/* Actual product primitives, inside the existing fixed showcase frame. */
+.lp .showcase-workspace { height: clamp(580px, 51vw, 720px); overflow: auto; background: #0e121a; }
+.lp .showcase-panel { min-height: 100%; animation: craft-tooltip-in 180ms ease-out; }
+.lp .showcase-panel[hidden] { display: none; }
+.lp .showcase-content { padding: 24px; display: grid; gap: 16px; color: #e1e2eb; }
+.lp .showcase-identity { display: flex; align-items: center; gap: 20px; }
+.lp .showcase-identity h3 { text-transform: none; margin-block: 6px; font-size: 20px; line-height: 1.4; }
+.lp .showcase-title { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.lp .showcase-title > span, .lp .showcase-explanation { color: #a4b1c3; font: 12px/1.6 var(--sans); }
+.lp .showcase-categories { display: flex; gap: 18px; overflow: auto; white-space: nowrap; border-block: 1px solid #263145; padding: 10px 0; color: #a4b1c3; font: 11px var(--sans); }
+.lp .showcase-categories .active { color: #38bdf8; }
+.lp .showcase-presets { display: flex; justify-content: space-between; gap: 16px; font-size: 11px; }
+.lp .showcase-presets span { color: #a4b1c3; }
+.lp .showcase-content .metric-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+.lp .showcase-content .metric { min-height: 80px; padding: 12px; }
+.lp .showcase-content .metric-value { font: 600 21px/1.5 var(--mono); }
+.lp .showcase-content .metric-note:empty { display: none; }
+.lp .showcase-content .chart { min-height: 0; background: #0b0f15; }
+.lp .showcase-content .chart svg { display: block; width: 100%; height: 250px; }
+.lp .showcase-content .chart-controls { padding: 0; }
+.lp .showcase-content .chart-caption { font: 11px/1.6 var(--mono); }
+.lp .showcase-content .chart-labels { font: 10px/1.5 var(--mono); }
+.lp .showcase-content .tabs { flex-wrap: wrap; }
+.lp .showcase-content table { width: 100%; font: 12px/1.5 var(--sans); }
+.lp .showcase-content th { font-size: 10px; }
+.lp .showcase-content th, .lp .showcase-content td { padding: 12px 10px; }
+.lp .showcase-content td.number { white-space: nowrap; }
+.lp .showcase-asset { display: flex; align-items: center; gap: 10px; min-width: 190px; }
+.lp .showcase-asset .asset-image-well { flex-shrink: 0; }
+.lp .showcase-open { justify-self: start; color: #38bdf8; font: 12px var(--sans); }
+.lp .lp-screen-tabs button { transition: background-color 180ms ease, color 180ms ease; }
+@media(max-width:768px) {
+  .lp .showcase-content { padding: 16px; }
+  .lp .showcase-identity { gap: 12px; flex-wrap: wrap; }
+  .lp .showcase-identity h3 { font-size: 17px; }
+  .lp .showcase-content .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .lp .showcase-content .table-wrap { overflow: auto; }
+  .lp .showcase-content table { min-width: 650px; }
+  .lp .showcase-presets { flex-wrap: wrap; }
+}
+@media(prefers-reduced-motion:reduce) { .lp .showcase-panel { animation: none; } .lp .lp-screen-tabs button { transition: none; } }
