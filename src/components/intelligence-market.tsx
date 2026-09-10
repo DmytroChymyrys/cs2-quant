@@ -1,3 +1,5 @@
+import { Tooltip } from "./tooltip";
+import { metricHelp } from "./metric-help";
 import Form from "next/form";
 import { identityText, MARKET_CATEGORIES } from "@/lib/catalog/browsing";
 import {
@@ -90,7 +92,16 @@ export function Quality({ quality: q }: { quality: MarketDataQuality }) {
         {q.available}/{q.expected} observations · {value(q.coveragePct, "%")}
       </span>
       <small>
-        Current source age {value(q.sourceAgeSeconds, "s")} · Observation age{" "}
+        <Tooltip title="Source age" text={metricHelp("source age")!.text}>
+          Current source age
+        </Tooltip>{" "}
+        {value(q.sourceAgeSeconds, "s")} ·{" "}
+        <Tooltip
+          title="Observation age"
+          text={metricHelp("observation age")!.text}
+        >
+          Observation age
+        </Tooltip>{" "}
         {value(q.observationAgeSeconds, "s")}
       </small>
       <small>
@@ -300,7 +311,16 @@ export function IntelligenceTable({
                       : undefined
                   }
                 >
-                  {h}
+                  {metricHelp(h) ? (
+                    <Tooltip
+                      title={metricHelp(h)!.title}
+                      text={metricHelp(h)!.text}
+                    >
+                      {h}
+                    </Tooltip>
+                  ) : (
+                    h
+                  )}
                 </th>
               ))}
             </tr>

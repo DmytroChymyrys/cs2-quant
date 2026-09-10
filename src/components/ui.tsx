@@ -1,3 +1,6 @@
+import { Tooltip } from "./tooltip";
+import { metricHelp } from "./metric-help";
+export { Tooltip } from "./tooltip";
 import Link from "next/link";
 import {
   Activity,
@@ -60,24 +63,6 @@ export function ConfidenceBadge() {
     </Tooltip>
   );
 }
-export function Tooltip({
-  children,
-  text,
-}: {
-  children: ReactNode;
-  text: string;
-}) {
-  return (
-    <span className="tooltip">
-      <span tabIndex={0} aria-label={text}>
-        {children}
-      </span>
-      <span className="tooltip-content" role="tooltip">
-        {text}
-      </span>
-    </span>
-  );
-}
 export function Panel({
   title,
   note,
@@ -115,9 +100,17 @@ export function Metric({
   note?: string;
   children?: ReactNode;
 }) {
+  const help = metricHelp(label);
   return (
     <div className="metric">
-      <div className="metric-label">{label}</div>
+      <div className="metric-label">
+        {label}
+        {help && (
+          <Tooltip title={help.title} text={help.text}>
+            <Info size={11} aria-hidden="true" />
+          </Tooltip>
+        )}
+      </div>
       <div className="metric-value">{value}</div>
       <div className="metric-note">{note ?? children}</div>
     </div>
