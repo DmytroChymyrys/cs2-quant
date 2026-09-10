@@ -8,3 +8,15 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
 #main-content.market-workspace th.number { text-align: right; }
 #main-content.market-workspace th.number { font-family: var(--sans); }
 #main-content.market-workspace td.number { font-family: var(--mono); }
+
+/* Primary figures lead; explanations remain readable without gaining emphasis. */
+#main-content.market-workspace .metric-value,
+#main-content.market-workspace td.number { color: #f8fafc; }
+#main-content.market-workspace .metric-label,
+#main-content.market-workspace .panel-note,
+#main-content.market-workspace .chart-labels { color: #a4b1c3; }
+#main-content.market-workspace .metric-note,
+#main-content.market-workspace .inspection-provenance,
+#main-content.market-workspace .freshness-details { color: #99a7b7; }
+#main-content.market-workspace .freshness-details { overflow-wrap: anywhere; }
+.lp .lp-hero-metrics small, .lp .lp-windowbar { color: #a4b1bb; }
