@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Activity, Search, Settings2, Bell, BadgeCheck } from "lucide-react";
 import type { ReactNode } from "react";
 export function Brand() {
@@ -25,11 +25,31 @@ const links = [
   ["Alerts", "/alerts"],
 ];
 export function AppShell({ children }: { children: ReactNode }) {
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const previousFocus = useRef<HTMLElement | null>(null);
   const pathname = usePathname(),
     router = useRouter(),
     search = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.isComposing) return;
+      if (event.key === "Escape") {
+        if (document.activeElement === search.current) {
+          setSearchExpanded(false);
+          search.current?.blur();
+          previousFocus.current?.focus();
+          return;
+        }
+        const active = document.activeElement as HTMLElement | null;
+        const disclosure = active?.closest<HTMLDetailsElement>(
+          ".mobile-nav[open], .freshness-strip > details[open]",
+        );
+        if (disclosure) {
+          disclosure.open = false;
+          disclosure.querySelector<HTMLElement>("summary")?.focus();
+        }
+        return;
+      }
       if (
         event.metaKey ||
         event.ctrlKey ||
@@ -41,7 +61,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         return;
       if (event.key === "/") {
         event.preventDefault();
-        search.current?.focus();
+        previousFocus.current = document.activeElement as HTMLElement;
+        setSearchExpanded(true);
+        requestAnimationFrame(() => search.current?.focus());
       }
       const route: Record<string, string> = {
         t: "/terminal",
@@ -82,15 +104,22 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="topbar">
         <Brand />
         {nav}
-        <form className="top-search" action="/assets">
+        <form
+          className="top-search"
+          action="/assets"
+          data-keyboard-open={searchExpanded || undefined}
+        >
           <Search size={13} />
           <input
             ref={search}
             className="input"
             name="q"
-            placeholder="FIND AN ASSET  /"
+            placeholder="FIND AN ASSET"
             aria-label="Find an asset"
+            aria-keyshortcuts="/"
+            onBlur={() => setSearchExpanded(false)}
           />
+          <kbd aria-hidden="true">{searchExpanded ? "Esc" : "/"}</kbd>
         </form>
         <span className="header-feed">
           <span className="dot" />

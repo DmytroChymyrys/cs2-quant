@@ -65,7 +65,8 @@ export function Tooltip({
         onBlur={close}
         onPointerEnter={show}
         onPointerLeave={() => {
-          timer.current = setTimeout(close, 150);
+          if (document.activeElement !== trigger.current)
+            timer.current = setTimeout(close, 150);
         }}
         onClick={show}
       >
