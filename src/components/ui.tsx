@@ -58,7 +58,10 @@ export function SemanticBadge({ state }: { state: string }) {
 }
 export function ConfidenceBadge() {
   return (
-    <Tooltip text="Price Confidence has no validated methodology yet. No classification or directional prediction is assigned.">
+    <Tooltip
+      title="Price confidence"
+      text="Price Confidence has no validated methodology yet. No classification or directional prediction is assigned."
+    >
       <Badge>UNAVAILABLE</Badge>
     </Tooltip>
   );
@@ -104,11 +107,12 @@ export function Metric({
   return (
     <div className="metric">
       <div className="metric-label">
-        {label}
-        {help && (
+        {help ? (
           <Tooltip title={help.title} text={help.text}>
-            <Info size={11} aria-hidden="true" />
+            {label}
           </Tooltip>
+        ) : (
+          label
         )}
       </div>
       <div className="metric-value">{value}</div>

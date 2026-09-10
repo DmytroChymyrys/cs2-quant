@@ -52,7 +52,8 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
 
 /* Tooltips render at viewport level so dense table scrolling cannot clip them. */
 .metric-tooltip { display: inline-flex; vertical-align: middle; }
-.metric-label .metric-tooltip { margin-left: 5px; }
+.metric-label .metric-tooltip { margin-left: 0; vertical-align: baseline; max-width: 100%; }
+.metric-label .metric-help-trigger { text-decoration: underline dotted #64748b; text-underline-offset: 3px; }
 .metric-help-trigger { display: inline-flex; align-items: center; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: inherit; cursor: help; }
 .metric-help-trigger:hover { color: var(--text); }
 .metric-help-popover { position: fixed; z-index: 1000; width: min(320px, calc(100vw - 24px)); padding: 12px 14px; border: 1px solid var(--border); border-radius: 4px; background: #141b25; box-shadow: 0 4px 16px #0006; color: #bac6d3; font: 12px/1.55 var(--sans); text-align: left; animation: craft-tooltip-in 120ms ease-out; }
@@ -114,3 +115,8 @@ body { font-variant-numeric: tabular-nums lining-nums slashed-zero; }
   .topbar .top-search[data-keyboard-open="true"] { display: flex; position: fixed; z-index: 90; top: 62px; left: 12px; right: 12px; width: auto; margin: 0; padding: 10px 12px; background: #141b25; border: 1px solid #344155; box-shadow: 0 4px 12px #0006; }
   .topbar .top-search[data-keyboard-open="true"] input { display: block; min-width: 0; flex: 1; }
 }
+
+/* Keep existing semantic directional colors on numeric cells. */
+#main-content.market-workspace td.number.positive { color: var(--green); }
+#main-content.market-workspace td.number.negative { color: var(--red); }
+#main-content.market-workspace td.number.cyan { color: var(--bright); }
