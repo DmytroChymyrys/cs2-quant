@@ -54,7 +54,7 @@ export function LandingShowcase({ children }: { children: ReactNode[] }) {
       <div className="lp-screen-frame">
         <div className="lp-windowbar">
           <span>FloatAlpha · {screens[selected].slice(3)}</span>
-          <span>DEMO / SYNTHETIC · Fixed example</span>
+          <span>CONCEPT ILLUSTRATION · SAMPLE METRICS · NOT LIVE</span>
         </div>
         <div className="showcase-workspace">
           {children.map((child, i) => (

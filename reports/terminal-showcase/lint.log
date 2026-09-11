@@ -1,0 +1,13 @@
+
+> cs2-quant@0.1.0 lint
+> eslint .
+
+
+/Users/dmytro-chymyrys/MyProjects/cs2-quant/reports/craft-polish/performance.mjs
+  55:52  warning  'samples' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/dmytro-chymyrys/MyProjects/cs2-quant/reports/skin-icon-repair/check.mjs
+  3:8  warning  'fs' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 2 problems (0 errors, 2 warnings)
+

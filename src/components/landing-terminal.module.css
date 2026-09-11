@@ -1,0 +1,13 @@
+.scene {
+  display: block;
+  height: clamp(580px, 51vw, 720px);
+  overflow: hidden;
+}
+
+.scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% center;
+}

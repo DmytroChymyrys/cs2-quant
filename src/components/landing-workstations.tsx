@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import styles from "./landing-terminal.module.css";
 import demo from "../../config/product-showcase/demo.json";
 import { LandingShowcase } from "./landing-showcase";
 import { AssetImageWell } from "./asset-image";
@@ -77,15 +79,21 @@ export function LandingWorkstations() {
   return (
     <LandingShowcase>
       {[
-        <div key="terminal" className="showcase-content">
-          {identity}
-          {categories("rifles")}
-          {metrics}
-          {chart}
-          <Link className="showcase-open" href="/terminal">
-            Explore Terminal ↗
-          </Link>
-        </div>,
+        <Link
+          key="terminal"
+          className={styles.scene}
+          href="/terminal"
+          aria-label="Explore Terminal"
+        >
+          <Image
+            src="/product-previews/terminal-concept.webp"
+            alt="Terminal concept illustration: AK-47 Fire Serpent, floating sample market-observation panels, layered price-structure curves and a deep perspective grid. Sample metrics, not live data."
+            width={1697}
+            height={927}
+            sizes="(max-width: 1440px) 100vw, 1376px"
+            unoptimized
+          />
+        </Link>,
         <div key="screener" className="showcase-content">
           <div className="showcase-title">
             <h3>CS2 market screener</h3>
