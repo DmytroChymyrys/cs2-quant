@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { marketSnapshot, marketHistory } from "@/lib/product/market";
 import { money, integer, percent } from "@/lib/product/format";
-import { LandingChart } from "@/components/landing-chart";
+import { LandingHero } from "@/components/landing-hero";
 import { LandingWorkstations } from "@/components/landing-workstations";
 import "./landing.css";
 import "./asset-images.css";
@@ -67,118 +67,7 @@ export default async function Home() {
         </div>
       </header>
       <main id="landing-main">
-        <section className="lp-hero">
-          <div className="lp-container lp-hero-grid">
-            <div className="lp-hero-copy">
-              <span className="lp-overline">
-                <i /> Quantitative CS2 market surveillance · Skinport grounded
-              </span>
-              <h1>
-                See what price alone
-                <br />
-                <em>doesn’t show.</em>
-              </h1>
-              <p>
-                FloatAlpha tracks price, listing supply, and sales activity
-                together. Investigate changing market conditions across a
-                deliberately selected CS2 pilot universe.
-              </p>
-              <div className="lp-actions">
-                <Link href="/signup" className="lp-button primary">
-                  Explore FloatAlpha
-                </Link>
-                <Link href="/terminal" className="lp-button">
-                  View live terminal
-                </Link>
-              </div>
-              <div className="lp-telemetry">
-                <span>
-                  Universe:{" "}
-                  {snapshot.error
-                    ? "Unavailable"
-                    : `${snapshot.assets.length} pilot assets`}
-                </span>
-                <span>Source: Skinport</span>
-                <span>Stored observations</span>
-              </div>
-            </div>
-            <div className="lp-hero-widget">
-              <div className="lp-widget-heading">
-                <strong>
-                  <i /> Price · Supply · Activity
-                </strong>
-                <span>Core observation // Skinport</span>
-              </div>
-              <div className="lp-asset-meta">
-                <div>
-                  <h3>{asset?.name ?? "Observation unavailable"}</h3>
-                  <p>
-                    Canonical unversioned asset · USD ·{" "}
-                    {asset?.state ?? "UNAVAILABLE"}
-                  </p>
-                </div>
-                <div>
-                  <span>Confidence</span>
-                  <b>UNAVAILABLE</b>
-                </div>
-              </div>
-              <div className="lp-hero-metrics">
-                <div>
-                  <span>Price Δ · 24h</span>
-                  <strong
-                    className={asset?.priceChange == null ? "collecting" : ""}
-                  >
-                    {asset?.priceChange == null
-                      ? "—.—%"
-                      : delta(asset.priceChange)}
-                  </strong>
-                  {asset?.priceChange == null && (
-                    <span className="lp-collecting-label">Collecting data</span>
-                  )}
-                  <small>{money(asset?.median ?? null)} median</small>
-                  <span>Observed price</span>
-                </div>
-                <div>
-                  <span>Listings Δ · 24h</span>
-                  <strong
-                    className={asset?.listingChange == null ? "collecting" : ""}
-                  >
-                    {asset?.listingChange == null
-                      ? "—.—%"
-                      : delta(asset.listingChange)}
-                  </strong>
-                  {asset?.listingChange == null && (
-                    <span className="lp-collecting-label">Collecting data</span>
-                  )}
-                  <small>{integer(asset?.quantity ?? null)} listings</small>
-                  <span>Published quantity</span>
-                </div>
-                <div>
-                  <span>Sales activity Δ</span>
-                  <strong
-                    className={
-                      asset?.activityChange == null ? "collecting" : ""
-                    }
-                  >
-                    {asset?.activityChange == null
-                      ? "—.—%"
-                      : delta(asset.activityChange)}
-                  </strong>
-                  {asset?.activityChange == null && (
-                    <span className="lp-collecting-label">Collecting data</span>
-                  )}
-                  <small>{integer(asset?.sales24h ?? null)} sales / 24h</small>
-                  <span>Rolling aggregate</span>
-                </div>
-              </div>
-              <LandingChart points={history.points} />
-              <div className="lp-widget-callout">
-                <span>“Look at the market beneath the displayed price.”</span>
-                <BadgeCheck size={18} />
-              </div>
-            </div>
-          </div>
-        </section>
+        <LandingHero />
         <section className="lp-section alternate" id="methodology">
           <div className="lp-container">
             <div className="lp-heading">

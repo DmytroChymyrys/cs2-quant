@@ -1,0 +1,551 @@
+.hero {
+  padding: 48px 0 64px;
+  border-bottom: 1px solid var(--lp-border);
+  background-color: var(--lp-bg);
+  background-image:
+    linear-gradient(#86939808 1px, transparent 1px),
+    linear-gradient(90deg, #86939808 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.hero .container {
+  gap: 48px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas: "copy visual" "actions visual";
+  column-gap: 40px;
+  row-gap: 24px;
+}
+.copy {
+  grid-area: copy;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--lp-inset);
+  border: 1px solid #3d494d99;
+  color: var(--lp-cyan);
+  font: 700 10px/14px var(--sans);
+  letter-spacing: 0.1em;
+}
+.eyebrow i {
+  width: 6px;
+  height: 6px;
+  background: var(--lp-cyan);
+  border-radius: 50%;
+}
+.hero .copy h1 {
+  font: 800 48px/1.15 var(--sans);
+  letter-spacing: -0.035em;
+  color: #f5f7fa;
+}
+.hero .copy h1 em {
+  color: #00b4d8;
+}
+.copy > p {
+  max-width: 500px;
+  font: 14px/1.7 var(--mono);
+}
+.actions {
+  grid-area: actions;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.buttons a {
+  min-height: 46px;
+  padding: 12px 22px;
+  font-size: 12px;
+}
+.actions .trust {
+  border-top: 1px solid #3d494d66;
+  padding-top: 14px;
+  color: var(--lp-muted);
+  font: 10px/1.6 var(--mono);
+  letter-spacing: 0.025em;
+}
+.instrument {
+  grid-area: visual;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid #263145;
+  background: var(--lp-surface);
+  box-shadow: inset 0 1px #ffffff0a;
+  font-variant-numeric: tabular-nums;
+}
+.frameHeader {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #0b0e14;
+  border-bottom: 1px solid #263145;
+  font: 10px/14px var(--mono);
+  color: var(--lp-muted);
+}
+.frameHeader > span {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.frameHeader .snapshotLabel {
+  color: var(--lp-cyan);
+  font-size: 9px;
+}
+.windowDots {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3d494d;
+  box-shadow:
+    9px 0 #3d494d,
+    18px 0 #3d494d;
+  margin-right: 18px;
+}
+.canvas {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(#0e111899, #0b0e1480),
+    linear-gradient(#8693980a 1px, transparent 1px),
+    linear-gradient(90deg, #8693980a 1px, transparent 1px);
+  background-size:
+    auto,
+    20px 20px,
+    20px 20px;
+}
+.assetLabel,
+.spotlight {
+  position: absolute;
+  top: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid #263145;
+  background: #10131aee;
+}
+.assetLabel {
+  left: 16px;
+}
+.assetLabel strong {
+  color: #f5f7fa;
+  font: 700 13px/18px var(--sans);
+}
+.assetLabel span,
+.spotlight > span {
+  font: 9px/14px var(--mono);
+  color: var(--lp-muted);
+}
+.spotlight {
+  right: 16px;
+  align-items: flex-end;
+}
+.spotlight strong {
+  font: 700 26px/30px var(--mono);
+  color: #f5f7fa;
+}
+.decline,
+.spotlight .decline {
+  color: #ffb4ab;
+}
+.weapon {
+  opacity: 1;
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  z-index: 2;
+  object-fit: contain;
+  pointer-events: none;
+}
+.history {
+  position: relative;
+  padding: 10px 16px;
+  border-top: 1px solid #263145;
+  background: #0b0e14;
+  z-index: 1;
+}
+.historyLabel,
+.historyAxis {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--lp-muted);
+  font: 9px/14px var(--mono);
+}
+.historyLabel {
+  color: var(--lp-cyan);
+}
+.history svg {
+  display: block;
+  width: 100%;
+  height: 110px;
+  overflow: visible;
+}
+.gridline {
+  fill: none;
+  stroke: #3d494d80;
+  stroke-dasharray: 3 5;
+}
+.priceLine {
+  fill: none;
+  stroke: var(--lp-cyan);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+.evidence {
+  padding: 9px 14px;
+  border-top: 1px solid #263145;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 9px/14px var(--mono);
+  color: var(--lp-secondary);
+}
+.evidence svg {
+  color: var(--lp-cyan);
+  flex-shrink: 0;
+}
+.evidence > span:last-child {
+  margin-left: auto;
+  color: var(--lp-muted);
+}
+.telemetry {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #263145;
+  background: #141821;
+}
+.telemetry > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 16px 12px;
+}
+.telemetry > div + div {
+  border-left: 1px solid #263145;
+}
+.metricLabel {
+  font: 600 10px/14px var(--sans);
+  color: var(--lp-cyan);
+  letter-spacing: 0.045em;
+}
+.telemetry strong {
+  font: 700 21px/26px var(--mono);
+  color: #f5f7fa;
+}
+.telemetry small {
+  font: 500 10px/16px var(--mono);
+}
+.telemetry > div > span:not(.metricLabel) {
+  font: 9px/15px var(--mono);
+  color: var(--lp-muted);
+}
+.supplyMetric strong {
+  color: var(--lp-cyan);
+}
+.activityMetric .metricLabel {
+  color: var(--lp-green);
+}
+.telemetry .activityTitle {
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--lp-green);
+}
+.bridge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 24px;
+  border: 1px solid #263145;
+  background: linear-gradient(100deg, #191c22b3, #1d20264d, transparent);
+}
+.bridge > div:first-child {
+  max-width: 730px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hero .bridge h2 {
+  font-size: 23px;
+  line-height: 30px;
+}
+.bridge p {
+  font: 12px/1.7 var(--mono);
+}
+.bridgeAction {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.bridgeAction > span {
+  text-align: right;
+  font: 10px/18px var(--mono);
+  color: var(--lp-cyan);
+}
+.bridgeAction a {
+  white-space: nowrap;
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .layout {
+    column-gap: 24px;
+  }
+  .hero .copy h1 {
+    font-size: 39px;
+  }
+  .buttons a {
+    padding: 12px;
+    font-size: 11px;
+  }
+  .assetLabel,
+  .spotlight {
+    padding: 8px;
+  }
+  .assetLabel {
+    left: 10px;
+  }
+  .assetLabel strong {
+    font-size: 11px;
+  }
+  .spotlight {
+    right: 10px;
+  }
+  .spotlight strong {
+    font-size: 22px;
+  }
+  .frameHeader {
+    padding: 9px;
+  }
+  .windowDots {
+    display: none;
+  }
+  .telemetry > div {
+    padding: 12px 8px;
+  }
+  .telemetry strong {
+    font-size: 18px;
+  }
+  .telemetry .activityTitle {
+    font-size: 13px;
+  }
+  .bridgeAction > span {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .hero {
+    padding: 32px 0 40px;
+  }
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "copy" "visual" "actions";
+    gap: 28px;
+  }
+  .copy > p {
+    max-width: 650px;
+  }
+  .hero .copy h1 {
+    max-width: 740px;
+    font-size: 44px;
+  }
+  .bridge {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .bridgeAction > span {
+    text-align: left;
+  }
+}
+@media (max-width: 600px) {
+  .hero .container {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 32px;
+  }
+  .hero .copy h1 {
+    font-size: clamp(29px, 8.5vw, 40px);
+    line-height: 1.13;
+  }
+  .copy {
+    gap: 18px;
+  }
+  .copy > p {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  .frameHeader {
+    padding: 9px 10px;
+    font-size: 9px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .windowDots {
+    display: none;
+  }
+  .frameHeader .snapshotLabel {
+    font-size: 8px;
+  }
+  .canvas {
+    padding-top: 122px;
+  }
+  .assetLabel {
+    top: 12px;
+    left: 10px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+  .assetLabel strong {
+    font-size: 12px;
+  }
+  .spotlight {
+    top: 62px;
+    right: 10px;
+    padding: 6px 8px;
+  }
+  .spotlight strong {
+    font-size: 21px;
+    line-height: 25px;
+  }
+  .spotlight > span {
+    font-size: 8px;
+    line-height: 11px;
+  }
+  .history {
+    padding-inline: 10px;
+  }
+  .history svg {
+    height: 95px;
+  }
+  .historyLabel,
+  .historyAxis {
+    font-size: 8px;
+  }
+  .evidence {
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    font-size: 8px;
+    gap: 4px 6px;
+  }
+  .evidence > span:last-child {
+    width: 100%;
+    margin-left: 20px;
+  }
+  .telemetry {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .telemetry > div {
+    padding: 13px 14px;
+    gap: 5px;
+  }
+  .telemetry > div + div {
+    border-left: 0;
+    border-top: 1px solid #263145;
+  }
+  .telemetry > div > span:not(.metricLabel) {
+    font-size: 10px;
+  }
+  .telemetry .activityTitle {
+    font-size: 16px;
+  }
+  .buttons {
+    flex-direction: column;
+  }
+  .buttons a {
+    width: 100%;
+  }
+  .bridge {
+    padding: 18px;
+  }
+  .hero .bridge h2 {
+    font-size: 21px;
+    line-height: 27px;
+  }
+  .bridge p {
+    font-size: 11px;
+  }
+  .bridgeAction {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+@keyframes resolve {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/* Keep the core asset visible even if animation playback is interrupted. */
+@keyframes weaponResolve {
+  from {
+    translate: 0 8px;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .copy {
+    animation: resolve 350ms ease-out both;
+  }
+  .weapon {
+    animation: weaponResolve 550ms 150ms ease-out both;
+  }
+  .priceLine {
+    stroke-dasharray: 1;
+    animation: draw 700ms 350ms ease-out both;
+  }
+  .priceMetric {
+    animation: resolve 300ms 800ms ease-out both;
+  }
+  .supplyMetric {
+    animation: resolve 300ms 1000ms ease-out both;
+  }
+  .activityMetric {
+    animation: resolve 300ms 1150ms ease-out both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero *,
+  .hero *::before,
+  .hero *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
