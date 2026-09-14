@@ -26,7 +26,7 @@ export function CheckoutButton({
               body: JSON.stringify({ interval }),
             });
             if (r.status === 401) {
-              router.push("/login");
+              router.push("/login?next=%2Fpricing");
               return;
             }
             const b = await r.json();

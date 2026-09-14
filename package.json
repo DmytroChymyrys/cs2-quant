@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:migrate:billing-sandbox": "tsx scripts/migrate-billing-sandbox.ts",
+    "billing:setup:sandbox": "tsx scripts/setup-billing-sandbox.ts",
     "dev": "next dev --port 3338",
     "build": "next build",
     "start": "next start",

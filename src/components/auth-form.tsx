@@ -25,6 +25,7 @@ export function AuthForm({
   mode,
   configuration,
   token,
+  returnTo,
 }: {
   mode: "login" | "signup" | "forgot" | "reset";
   configuration: {
@@ -32,8 +33,10 @@ export function AuthForm({
     email: boolean;
     google: boolean;
     turnstileSiteKey: string | null;
+    billingSandbox?: boolean;
   };
   token?: string;
+  returnTo?: "/pricing";
 }) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -69,7 +72,9 @@ export function AuthForm({
         return;
       }
       if (mode === "login") {
-        router.push("/terminal");
+        router.push(
+          returnTo ?? (configuration.billingSandbox ? "/pricing" : "/terminal"),
+        );
         router.refresh();
         return;
       }
@@ -107,7 +112,9 @@ export function AuthForm({
             onClick={() =>
               submit("sign-in/social", {
                 provider: "google",
-                callbackURL: "/onboarding",
+                callbackURL:
+                  returnTo ??
+                  (configuration.billingSandbox ? "/pricing" : "/onboarding"),
               })
             }
           >
@@ -187,7 +194,9 @@ export function AuthForm({
                 name: email.split("@")[0].slice(0, 100),
                 email,
                 password,
-                callbackURL: "/onboarding",
+                callbackURL:
+                  returnTo ??
+                  (configuration.billingSandbox ? "/pricing" : "/onboarding"),
               });
             else if (mode === "login")
               void submit("sign-in/email", { email, password });

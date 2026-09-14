@@ -3,6 +3,10 @@ import { PublicShell } from "@/components/shell";
 import { LinkButton, Notice, SemanticBadge } from "@/components/ui";
 import { CheckoutButton } from "@/components/checkout-button";
 import { publicPrices } from "@/lib/product/billing";
+import {
+  billingConfigured,
+  billingSandboxEnabled,
+} from "@/lib/product/billing-config";
 import { money } from "@/lib/product/format";
 import Decimal from "@/lib/product/decimal";
 export const dynamic = "force-dynamic";
@@ -58,6 +62,9 @@ export default async function Pricing() {
             <article className="panel price-card pro">
               <SemanticBadge state="PRO" />
               <h2>Pro</h2>
+              {billingSandboxEnabled() && (
+                <p className="eyebrow">BILLING SANDBOX · No real charges</p>
+              )}
               {prices.length ? (
                 prices.map((p) => (
                   <div key={p.id} className="stack">
@@ -67,7 +74,7 @@ export default async function Pricing() {
                     </div>
                     <CheckoutButton
                       interval={p.interval === "year" ? "year" : "month"}
-                      available={Boolean(process.env.STRIPE_WEBHOOK_SECRET)}
+                      available={billingConfigured()}
                     />
                   </div>
                 ))

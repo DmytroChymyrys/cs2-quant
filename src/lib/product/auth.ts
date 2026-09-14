@@ -16,6 +16,7 @@ import {
   subscriptions,
 } from "./schema";
 import { sendEmail, emailConfigured } from "./email";
+import { billingSandboxEnabled } from "./billing-config";
 export function authConfiguration() {
   const configured = Boolean(
     process.env.BETTER_AUTH_SECRET &&
@@ -24,6 +25,7 @@ export function authConfiguration() {
     (process.env.PRODUCT_DATABASE_URL || process.env.DATABASE_URL),
   );
   return {
+    billingSandbox: billingSandboxEnabled(),
     configured,
     email: configured && emailConfigured(),
     google:

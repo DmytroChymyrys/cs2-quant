@@ -4,13 +4,28 @@ import { currentUser } from "@/lib/product/auth";
 import { entitlements } from "@/lib/product/entitlements";
 import { timestamp } from "@/lib/product/format";
 import { AuthRequired } from "@/components/auth-required";
-import { PageHeading, Panel, SemanticBadge, LinkButton } from "@/components/ui";
+import {
+  PageHeading,
+  Panel,
+  SemanticBadge,
+  LinkButton,
+  Notice,
+} from "@/components/ui";
 import { PreferencesForm } from "@/components/preferences-form";
 import { MutationButton, SignOut } from "@/components/product-actions";
-export default async function Settings() {
+import { billingAccount } from "@/lib/product/billing-account";
+import { billingSandboxEnabled } from "@/lib/product/billing-config";
+import { BillingReturn } from "@/components/billing-return";
+export default async function Settings({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkout?: string }>;
+}) {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="account" />;
   const caps = await entitlements(user.app.id);
+  const billing = await billingAccount(user.app.id);
+  const { checkout } = await searchParams;
   return (
     <div className="personal-workstation account-workstation">
       <PageHeading
@@ -82,20 +97,61 @@ export default async function Settings() {
           <div id="preferences">
             <Panel title="02 Market & monitoring preferences">
               <div className="pad">
-                <PreferencesForm
-                  initialCategories={user.app.categories}
-                  initialInterests={user.app.interests}
-                />
+                {billingSandboxEnabled() ? (
+                  <Notice>
+                    Market monitoring remains demonstration-only in this billing
+                    sandbox.
+                  </Notice>
+                ) : (
+                  <PreferencesForm
+                    initialCategories={user.app.categories}
+                    initialInterests={user.app.interests}
+                  />
+                )}
               </div>
             </Panel>
           </div>
           <div id="billing">
             <Panel title="03 Subscription & billing">
               <div className="pad stack">
+                {billingSandboxEnabled() && (
+                  <span className="eyebrow">
+                    BILLING SANDBOX · No real charges
+                  </span>
+                )}
+                <BillingReturn checkout={checkout} plan={caps.plan} />
                 <div className="account-fact">
                   <span className="eyebrow">Current plan</span>
                   <h2>FloatAlpha {caps.plan}</h2>
                 </div>
+                <div className="account-fact">
+                  <span className="eyebrow">Subscription status</span>
+                  <strong className="mono">
+                    {billing.status === "none"
+                      ? "NO SUBSCRIPTION"
+                      : billing.status.replaceAll("_", " ").toUpperCase()}
+                  </strong>
+                </div>
+                {billing.currentPeriodEnd && (
+                  <div className="account-fact">
+                    <span className="eyebrow">
+                      {billing.cancelAtPeriodEnd
+                        ? "Access ends"
+                        : billing.status === "active"
+                          ? "Next renewal"
+                          : "Current period end"}
+                    </span>
+                    <span className="mono">
+                      {timestamp(billing.currentPeriodEnd)}
+                    </span>
+                    {billing.cancelAtPeriodEnd && caps.plan === "Pro" && (
+                      <span className="muted">
+                        Cancellation scheduled. Access continues until the
+                        current period ends.
+                      </span>
+                    )}
+                  </div>
+                )}
                 <p>
                   Watchlist: up to {caps.maxWatchlistAssets} assets · Holdings:{" "}
                   {caps.maxHoldings} · History: up to {caps.historyWindowDays}{" "}
@@ -106,10 +162,12 @@ export default async function Settings() {
                   subscription management is handled by Stripe.
                 </p>
                 <div className="row">
-                  <MutationButton
-                    label="Manage billing"
-                    endpoint="/api/product/billing/portal"
-                  />
+                  {billing.canManage && (
+                    <MutationButton
+                      label="Manage billing"
+                      endpoint="/api/product/billing/portal"
+                    />
+                  )}
                   <LinkButton href="/pricing">Compare plans</LinkButton>
                 </div>
                 <table className="market-table account-capabilities">

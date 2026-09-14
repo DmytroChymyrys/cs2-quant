@@ -19,6 +19,7 @@ export default async function Page({
             mode="login"
             configuration={authConfiguration()}
             token={params.token}
+            returnTo={params.next === "/pricing" ? "/pricing" : undefined}
           />
         </section>
         <p className="auth-privacy-note">

@@ -1,21 +1,24 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { productRequest, ProductError } from "@/lib/product/api";
-import { stripeClient } from "@/lib/product/billing";
+import { stripeClient, publicPrices } from "@/lib/product/billing";
+import {
+  billingBaseUrl,
+  billingConfigured,
+} from "@/lib/product/billing-config";
 import { productDatabase } from "@/lib/product/db";
 import { appUsers, subscriptions } from "@/lib/product/schema";
 export async function POST(request: Request) {
   return productRequest(request, async ({ user }) => {
     const stripe = stripeClient();
-    if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET)
+    if (!stripe || !billingConfigured())
       throw new ProductError(503, "Subscriptions are not available yet.");
     const { interval } = z
       .object({ interval: z.enum(["month", "year"]) })
       .parse(await request.json());
-    const price =
-      interval === "month"
-        ? process.env.STRIPE_PRO_MONTHLY_PRICE_ID
-        : process.env.STRIPE_PRO_ANNUAL_PRICE_ID;
+    const price = (await publicPrices()).find(
+      (p) => p.interval === interval,
+    )?.id;
     if (!price)
       throw new ProductError(503, "This subscription option is unavailable.");
     return productDatabase().transaction(async (tx) => {
@@ -47,7 +50,10 @@ export async function POST(request: Request) {
         await tx
           .insert(subscriptions)
           .values({ userId: user.app.id, customerId: customer.id })
-          .onConflictDoNothing();
+          .onConflictDoUpdate({
+            target: subscriptions.userId,
+            set: { customerId: customer.id },
+          });
         existing = (
           await tx
             .select()
@@ -78,21 +84,31 @@ export async function POST(request: Request) {
       });
       const open = pending.data.find(
         (s) =>
-          s.mode === "subscription" && s.client_reference_id === user.app.id,
+          s.mode === "subscription" &&
+          s.client_reference_id === user.app.id &&
+          s.metadata?.priceId === price,
       );
       if (open) return { url: open.url };
-      const origin = process.env.BETTER_AUTH_URL!;
+      for (const session of pending.data.filter(
+        (s) =>
+          s.mode === "subscription" && s.client_reference_id === user.app.id,
+      ))
+        await stripe.checkout.sessions.expire(session.id);
+      const origin = billingBaseUrl();
       const session = await stripe.checkout.sessions.create(
         {
           mode: "subscription",
           customer: existing.customerId!,
           line_items: [{ price, quantity: 1 }],
-          success_url: `${origin}/settings?checkout=success`,
-          cancel_url: `${origin}/pricing`,
+          success_url: `${origin}/settings?checkout=success#billing`,
+          cancel_url: `${origin}/pricing?checkout=cancelled`,
           client_reference_id: user.app.id,
+          metadata: { appUserId: user.app.id, priceId: price },
+          subscription_data: { metadata: { appUserId: user.app.id } },
+          payment_method_types: ["card"],
         },
         {
-          idempotencyKey: `cs2-quant-checkout-${user.app.id}-${Math.floor(Date.now() / 300000)}`,
+          idempotencyKey: `cs2-quant-checkout-${user.app.id}-${price}-${pending.data[0]?.id ?? "initial"}-${Math.floor(Date.now() / 300000)}`,
         },
       );
       return { url: session.url };

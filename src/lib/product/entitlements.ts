@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { productDatabase } from "./db";
 import { subscriptions } from "./schema";
+import { planForPrice } from "./billing-config";
 export function capabilities(pro: boolean) {
   return {
     plan: pro ? "Pro" : "Free",
@@ -20,15 +21,10 @@ export async function entitlements(userId: string) {
       .from(subscriptions)
       .where(eq(subscriptions.userId, userId))
   )[0];
-  const configuredPrices = [
-    process.env.STRIPE_PRO_MONTHLY_PRICE_ID,
-    process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
-  ].filter(Boolean);
   const pro = Boolean(
     subscription &&
     ["active", "trialing"].includes(subscription.status) &&
-    subscription.priceId &&
-    configuredPrices.includes(subscription.priceId) &&
+    planForPrice(subscription.priceId) === "Pro" &&
     subscription.periodEnd &&
     subscription.periodEnd.getTime() > Date.now(),
   );
