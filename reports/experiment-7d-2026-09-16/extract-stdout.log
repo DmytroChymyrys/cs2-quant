@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-09-16T18:21:16.904Z",
+  "window": [
+    "2026-09-09T17:55:00.000Z",
+    "2026-09-16T17:55:00.000Z"
+  ],
+  "runs": 2016,
+  "claimedRuns": 2016,
+  "observationsInWindow": 201235,
+  "distinctAssets": 100,
+  "duplicateWindows": 0,
+  "duplicatePairs": 0,
+  "missingPairs": 365,
+  "reconciliationErrors": 0,
+  "databaseBytes": "391938048",
+  "queryTimings": [
+    {
+      "label": "boundary",
+      "elapsedMs": 26,
+      "returnedRows": 1
+    },
+    {
+      "label": "all_time",
+      "elapsedMs": 79,
+      "returnedRows": 1
+    },
+    {
+      "label": "runs",
+      "elapsedMs": 257,
+      "returnedRows": 2016
+    },
+    {
+      "label": "duplicate_claimed_windows",
+      "elapsedMs": 26,
+      "returnedRows": 0
+    },
+    {
+      "label": "off_grid_windows",
+      "elapsedMs": 27,
+      "returnedRows": 0
+    },
+    {
+      "label": "duplicate_asset_window_pairs",
+      "elapsedMs": 223,
+      "returnedRows": 0
+    },
+    {
+      "label": "window_inventory",
+      "elapsedMs": 390,
+      "returnedRows": 1
+    },
+    {
+      "label": "per_asset_coverage",
+      "elapsedMs": 427,
+      "returnedRows": 100
+    },
+    {
+      "label": "missing_asset_window_pairs",
+      "elapsedMs": 283,
+      "returnedRows": 365
+    },
+    {
+      "label": "relation_sizes",
+      "elapsedMs": 29,
+      "returnedRows": 4
+    },
+    {
+      "label": "index_sizes",
+      "elapsedMs": 28,
+      "returnedRows": 13
+    },
+    {
+      "label": "quality_totals",
+      "elapsedMs": 357,
+      "returnedRows": 1
+    },
+    {
+      "label": "freshness_totals",
+      "elapsedMs": 521,
+      "returnedRows": 1
+    },
+    {
+      "label": "freshness_by_window",
+      "elapsedMs": 325,
+      "returnedRows": 15
+    },
+    {
+      "label": "daily_freshness",
+      "elapsedMs": 362,
+      "returnedRows": 8
+    },
+    {
+      "label": "http_evidence",
+      "elapsedMs": 32,
+      "returnedRows": 3
+    },
+    {
+      "label": "run_counter_reconciliation",
+      "elapsedMs": 173,
+      "returnedRows": 0
+    },
+    {
+      "label": "pre_experiment_runs",
+      "elapsedMs": 27,
+      "returnedRows": 2
+    },
+    {
+      "label": "post_experiment_runs",
+      "elapsedMs": 25,
+      "returnedRows": 1
+    },
+    {
+      "label": "history_response_hash",
+      "elapsedMs": 2015,
+      "returnedRows": 2015
+    }
+  ]
+}

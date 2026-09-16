@@ -1,0 +1,141 @@
+
+== price up + listings down (period) ==
+  asset=Glock-18 | Sand Dune (Field-Tested) | period_return_pct=67.181 | listing_change_pct=-25.000 | listing_first=4 | listing_last=3 | realized_vol_daily_pct=24.143
+  asset=Budapest 2025 Legends Sticker Capsule | period_return_pct=31.250 | listing_change_pct=-0.958 | listing_first=9398 | listing_last=9308 | realized_vol_daily_pct=10.286
+  asset=AK-47 | Crane Flight (Field-Tested) | period_return_pct=31.136 | listing_change_pct=-60.577 | listing_first=104 | listing_last=41 | realized_vol_daily_pct=54.003
+  asset=Sticker | Winding Scorch (Foil) | period_return_pct=12.195 | listing_change_pct=-4.865 | listing_first=1891 | listing_last=1799 | realized_vol_daily_pct=16.824
+  asset=★ Bayonet | Forest DDPAT (Field-Tested) | period_return_pct=8.249 | listing_change_pct=-11.111 | listing_first=9 | listing_last=8 | realized_vol_daily_pct=5.935
+  asset=★ Kukri Knife | Forest DDPAT (Field-Tested) | period_return_pct=7.982 | listing_change_pct=-33.333 | listing_first=12 | listing_last=8 | realized_vol_daily_pct=14.627
+  asset=M4A1-S | Decimator (Battle-Scarred) | period_return_pct=7.565 | listing_change_pct=-3.896 | listing_first=77 | listing_last=74 | realized_vol_daily_pct=16.476
+  asset=Sticker | iBUYPOWER | Cologne 2014 | period_return_pct=6.841 | listing_change_pct=-15.152 | listing_first=33 | listing_last=28 | realized_vol_daily_pct=3.353
+
+== price down + listings up (period) ==
+  asset=Sticker | Crown (Foil) | period_return_pct=-24.873 | listing_change_pct=46.667 | listing_first=15 | listing_last=22
+  asset=Operation Riptide Case | period_return_pct=-16.031 | listing_change_pct=2.109 | listing_first=4077 | listing_last=4163
+  asset=Sticker | Titan | Cluj-Napoca 2015 | period_return_pct=-13.718 | listing_change_pct=2.899 | listing_first=69 | listing_last=71
+  asset=★ Hand Wraps | Duct Tape (Battle-Scarred) | period_return_pct=-11.207 | listing_change_pct=16.667 | listing_first=6 | listing_last=7
+  asset=Sticker | Titan (Holo) | Cologne 2014 | period_return_pct=-11.142 | listing_change_pct=17.647 | listing_first=17 | listing_last=20
+  asset=Operation Bravo Case | period_return_pct=-10.940 | listing_change_pct=3.354 | listing_first=328 | listing_last=339
+  asset=CS:GO Weapon Case | period_return_pct=-10.483 | listing_change_pct=5.000 | listing_first=360 | listing_last=378
+  asset=★ Sport Gloves | Bronze Morph (Field-Tested) | period_return_pct=-9.757 | listing_change_pct=3.960 | listing_first=101 | listing_last=105
+
+== high listing activity, stable price ==
+  asset=Operation Breakout Weapon Case | listing_activity_pct=12.568 | listing_transitions=253 | period_return_pct=-1.842 | observed_range_pct=18.450 | listing_first=36015 | listing_last=37141
+  asset=Desert Eagle | Printstream (Field-Tested) | listing_activity_pct=11.525 | listing_transitions=232 | period_return_pct=0.349 | observed_range_pct=16.105 | listing_first=457 | listing_last=438
+  asset=Spectrum 2 Case | listing_activity_pct=11.326 | listing_transitions=228 | period_return_pct=-0.370 | observed_range_pct=14.876 | listing_first=40929 | listing_last=41920
+  asset=AK-47 | Inheritance (Field-Tested) | listing_activity_pct=10.979 | listing_transitions=221 | period_return_pct=-0.836 | observed_range_pct=46.365 | listing_first=321 | listing_last=294
+  asset=USP-S | Printstream (Field-Tested) | listing_activity_pct=9.240 | listing_transitions=186 | period_return_pct=-1.060 | observed_range_pct=19.797 | listing_first=284 | listing_last=251
+  asset=★ Driver Gloves | Snow Leopard (Field-Tested) | listing_activity_pct=5.812 | listing_transitions=117 | period_return_pct=0.636 | observed_range_pct=16.699 | listing_first=94 | listing_last=82
+  asset=AK-47 | Redline (Field-Tested) | listing_activity_pct=5.614 | listing_transitions=113 | period_return_pct=-0.206 | observed_range_pct=14.531 | listing_first=584 | listing_last=575
+  asset=AK-47 | Bloodsport (Field-Tested) | listing_activity_pct=3.626 | listing_transitions=73 | period_return_pct=-1.957 | observed_range_pct=11.650 | listing_first=115 | listing_last=103
+
+== highest realized volatility ==
+  asset=Dreams & Nightmares Case | realized_vol_daily_pct=68.015 | observed_range_pct=52.439 | period_return_pct=-3.419 | price_transitions=306
+  asset=Fracture Case | realized_vol_daily_pct=66.269 | observed_range_pct=147.619 | period_return_pct=-2.083 | price_transitions=69
+  asset=Kilowatt Case | realized_vol_daily_pct=65.345 | observed_range_pct=75.000 | period_return_pct=0.000 | price_transitions=35
+  asset=Recoil Case | realized_vol_daily_pct=63.910 | observed_range_pct=160.000 | period_return_pct=3.226 | price_transitions=66
+  asset=AK-47 | Crane Flight (Field-Tested) | realized_vol_daily_pct=54.003 | observed_range_pct=62.772 | period_return_pct=31.136 | price_transitions=123
+  asset=Sticker | High Heat | realized_vol_daily_pct=45.088 | observed_range_pct=52.632 | period_return_pct=-17.544 | price_transitions=32
+  asset=Clutch Case | realized_vol_daily_pct=42.229 | observed_range_pct=73.529 | period_return_pct=-3.636 | price_transitions=66
+  asset=Fever Case | realized_vol_daily_pct=36.332 | observed_range_pct=65.854 | period_return_pct=-6.452 | price_transitions=50
+
+== quietest markets ==
+  asset=AUG | Contractor (Field-Tested) | price_transitions=0 | listing_transitions=44 | sales_transitions=2 | period_return_pct=0.000 | listing_first=7865
+  asset=AUG | Storm (Field-Tested) | price_transitions=0 | listing_transitions=38 | sales_transitions=3 | period_return_pct=0.000 | listing_first=7748
+  asset=Paris 2023 Contenders Sticker Capsule | price_transitions=0 | listing_transitions=9 | sales_transitions=6 | period_return_pct=0.000 | listing_first=17879
+  asset=Sticker | 100 Thieves | 2020 RMR | price_transitions=0 | listing_transitions=3 | sales_transitions=3 | period_return_pct=0.000 | listing_first=3488
+  asset=Sticker | Bad News Eagles | Paris 2023 | price_transitions=0 | listing_transitions=8 | sales_transitions=3 | period_return_pct=0.000 | listing_first=9051
+  asset=Sticker | Team Liquid | Paris 2023 | price_transitions=0 | listing_transitions=8 | sales_transitions=3 | period_return_pct=0.000 | listing_first=12222
+  asset=Budapest 2025 Legends Sticker Capsule | price_transitions=1 | listing_transitions=6 | sales_transitions=6 | period_return_pct=31.250 | listing_first=9398
+  asset=P250 | Sand Dune (Minimal Wear) | price_transitions=1 | listing_transitions=15 | sales_transitions=3 | period_return_pct=25.000 | listing_first=852
+
+== strongest supply/median-price structure ==
+  asset=★ Talon Knife | Tiger Tooth (Factory New) | spearman_qty_medprice_6h=-0.914 | spearman_qty_minprice_6h=-0.473 | listing_transitions=68 | listing_first=34 | listing_last=39 | period_return_pct=-1.108
+  asset=CS:GO Weapon Case | spearman_qty_medprice_6h=-0.851 | spearman_qty_minprice_6h=-0.178 | listing_transitions=17 | listing_first=360 | listing_last=378 | period_return_pct=-10.483
+  asset=Sticker | Crown (Foil) | spearman_qty_medprice_6h=-0.824 | spearman_qty_minprice_6h=-0.469 | listing_transitions=13 | listing_first=15 | listing_last=22 | period_return_pct=-24.873
+  asset=M4A1-S | Blue Phosphor (Factory New) | spearman_qty_medprice_6h=-0.812 | spearman_qty_minprice_6h=-0.388 | listing_transitions=53 | listing_first=92 | listing_last=89 | period_return_pct=-1.303
+  asset=★ Butterfly Knife | Slaughter (Minimal Wear) | spearman_qty_medprice_6h=-0.796 | spearman_qty_minprice_6h=-0.397 | listing_transitions=18 | listing_first=16 | listing_last=14 | period_return_pct=3.271
+  asset=★ Kukri Knife | Forest DDPAT (Field-Tested) | spearman_qty_medprice_6h=-0.784 | spearman_qty_minprice_6h=-0.668 | listing_transitions=30 | listing_first=12 | listing_last=8 | period_return_pct=7.982
+  asset=AK-47 | Crane Flight (Field-Tested) | spearman_qty_medprice_6h=-0.782 | spearman_qty_minprice_6h=-0.510 | listing_transitions=198 | listing_first=104 | listing_last=41 | period_return_pct=31.136
+  asset=★ Sport Gloves | Bronze Morph (Field-Tested) | spearman_qty_medprice_6h=-0.776 | spearman_qty_minprice_6h=-0.503 | listing_transitions=30 | listing_first=101 | listing_last=105 | period_return_pct=-9.757
+  asset=★ Moto Gloves | Turtle (Field-Tested) | spearman_qty_medprice_6h=-0.766 | spearman_qty_minprice_6h=-0.427 | listing_transitions=53 | listing_first=122 | listing_last=122 | period_return_pct=-5.506
+  asset=AUG | Hot Rod (Factory New) | spearman_qty_medprice_6h=-0.739 | spearman_qty_minprice_6h=-0.333 | listing_transitions=4 | listing_first=4 | listing_last=6 | period_return_pct=-0.856
+
+== largest listing contraction ==
+  asset=AK-47 | Crane Flight (Field-Tested) | listing_change_pct=-60.577 | listing_first=104 | listing_last=41 | period_return_pct=31.136 | median_price_pct_change=30.173
+  asset=★ Sport Gloves | Vice (Factory New) | listing_change_pct=-50.000 | listing_first=2 | listing_last=1 | period_return_pct=-2.000 | median_price_pct_change=-2.000
+  asset=★ Kukri Knife | Forest DDPAT (Field-Tested) | listing_change_pct=-33.333 | listing_first=12 | listing_last=8 | period_return_pct=7.982 | median_price_pct_change=0.000
+  asset=Glock-18 | Sand Dune (Field-Tested) | listing_change_pct=-25.000 | listing_first=4 | listing_last=3 | period_return_pct=67.181 | median_price_pct_change=-2.653
+  asset=★ Specialist Gloves | Fade (Minimal Wear) | listing_change_pct=-23.077 | listing_first=13 | listing_last=10 | period_return_pct=-0.372 | median_price_pct_change=14.704
+  asset=★ Butterfly Knife | Tiger Tooth (Factory New) | listing_change_pct=-17.857 | listing_first=28 | listing_last=23 | period_return_pct=2.669 | median_price_pct_change=0.591
+  asset=★ Skeleton Knife | Tiger Tooth (Factory New) | listing_change_pct=-16.949 | listing_first=59 | listing_last=49 | period_return_pct=0.159 | median_price_pct_change=0.436
+  asset=Sticker | iBUYPOWER | Cologne 2014 | listing_change_pct=-15.152 | listing_first=33 | listing_last=28 | period_return_pct=6.841 | median_price_pct_change=1.330
+
+== largest listing expansion ==
+  asset=AUG | Hot Rod (Factory New) | listing_change_pct=50.000 | listing_first=4 | listing_last=6 | period_return_pct=-0.856 | median_price_pct_change=-7.341
+  asset=Sticker | Crown (Foil) | listing_change_pct=46.667 | listing_first=15 | listing_last=22 | period_return_pct=-24.873 | median_price_pct_change=-25.849
+  asset=★ Paracord Knife | listing_change_pct=28.571 | listing_first=35 | listing_last=45 | period_return_pct=3.639 | median_price_pct_change=-2.927
+  asset=★ Shadow Daggers | Black Laminate (Battle-Scarred) | listing_change_pct=25.000 | listing_first=4 | listing_last=5 | period_return_pct=-1.490 | median_price_pct_change=-22.492
+  asset=Sticker | Titan (Holo) | Cologne 2014 | listing_change_pct=17.647 | listing_first=17 | listing_last=20 | period_return_pct=-11.142 | median_price_pct_change=-31.108
+  asset=★ Hand Wraps | Duct Tape (Battle-Scarred) | listing_change_pct=16.667 | listing_first=6 | listing_last=7 | period_return_pct=-11.207 | median_price_pct_change=-0.624
+  asset=★ Talon Knife | Tiger Tooth (Factory New) | listing_change_pct=14.706 | listing_first=34 | listing_last=39 | period_return_pct=-1.108 | median_price_pct_change=-3.912
+  asset=Operation Hydra Case | listing_change_pct=11.268 | listing_first=355 | listing_last=395 | period_return_pct=-6.053 | median_price_pct_change=-5.142
+
+== most published-sales activity ==
+  asset=AK-47 | Crane Flight (Field-Tested) | sales_transitions=7 | sales_24h_first=18 | sales_24h_last=22 | sales_24h_max=27 | listing_first=104
+  asset=AK-47 | Redline (Field-Tested) | sales_transitions=7 | sales_24h_first=8 | sales_24h_last=11 | sales_24h_max=14 | listing_first=584
+  asset=AWP | Asiimov (Field-Tested) | sales_transitions=7 | sales_24h_first=9 | sales_24h_last=0 | sales_24h_max=9 | listing_first=209
+  asset=AWP | Atheris (Field-Tested) | sales_transitions=7 | sales_24h_first=10 | sales_24h_last=6 | sales_24h_max=18 | listing_first=498
+  asset=Chroma 2 Case | sales_transitions=7 | sales_24h_first=513 | sales_24h_last=97 | sales_24h_max=513 | listing_first=18621
+  asset=Clutch Case | sales_transitions=7 | sales_24h_first=457 | sales_24h_last=60 | sales_24h_max=457 | listing_first=28646
+  asset=Danger Zone Case | sales_transitions=7 | sales_24h_first=205 | sales_24h_last=222 | sales_24h_max=834 | listing_first=93632
+  asset=Dreams & Nightmares Case | sales_transitions=7 | sales_24h_first=671 | sales_24h_last=936 | sales_24h_max=1303 | listing_first=60994
+
+== STORAGE ==
+{
+ "measured": {
+  "database_bytes": 391938048,
+  "database_mb": 373.78125,
+  "observation_relation_bytes": 380723200,
+  "observation_relation_mb": 363.0859375,
+  "observation_table_mb": 316.2265625,
+  "observation_index_mb": 46.859375,
+  "collector_runs_mb": 2.40625,
+  "observations_all_time": 202034,
+  "bytes_per_observation_incl_indexes": 1884.4511319876851,
+  "bytes_per_observation_table_only": 1641.2464436678974,
+  "experiment_growth_bytes": 380239872,
+  "measured_observation_growth_mb_per_day": 51.80357142857143,
+  "measured_database_growth_mb_per_day": 52.19419642857143
+ },
+ "projected": {
+  "100": {
+   "rows_per_day": 28800,
+   "observation_bytes_per_day": 54272192.60124533,
+   "observation_mb_per_day": 51.75799617886098,
+   "rows_30d": 864000,
+   "observation_gb_30d": 1.5163475443025678,
+   "rows_365d": 10512000,
+   "observation_gb_365d": 18.44889512234791
+  },
+  "1000": {
+   "rows_per_day": 288000,
+   "observation_bytes_per_day": 542721926.0124533,
+   "observation_mb_per_day": 517.5799617886098,
+   "rows_30d": 8640000,
+   "observation_gb_30d": 15.163475443025678,
+   "rows_365d": 105120000,
+   "observation_gb_365d": 184.4889512234791
+  },
+  "10000": {
+   "rows_per_day": 2880000,
+   "observation_bytes_per_day": 5427219260.124533,
+   "observation_mb_per_day": 5175.799617886098,
+   "rows_30d": 86400000,
+   "observation_gb_30d": 151.63475443025678,
+   "rows_365d": 1051200000,
+   "observation_gb_365d": 1844.8895122347908
+  }
+ },
+ "basis": "bytes/observation measured from the live relation including indexes and TOAST; projections assume unchanged 5-minute cadence, full coverage, identical payload sizes and no compression or retention change."
+}

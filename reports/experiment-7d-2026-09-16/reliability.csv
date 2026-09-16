@@ -1,0 +1,52 @@
+metric,value,basis
+window_start_inclusive,2026-09-09T17:55:00Z,approved experiment boundary
+window_end_exclusive,2026-09-16T17:55:00Z,approved experiment boundary
+first_scheduled_window,2026-09-09T17:55:00Z,collector_runs
+last_included_scheduled_window,2026-09-16T17:50:00Z,collector_runs
+scheduled_windows_expected,2016,7 days x 288
+scheduled_windows_observed,2016,distinct claimed window_start
+missing_windows,0,expected minus observed
+duplicate_windows,0,claimed runs per window > 1
+off_grid_windows,0,window_start not on a 300s boundary
+successful_windows,1750,status=SUCCESS
+partial_windows,265,status=PARTIAL
+failed_windows,1,status=FAILED
+observations_expected,201600,2016 x 100
+observations_actual,201235,rows in claimed windows
+observation_completeness_pct,99.8189,actual / expected
+duplicate_asset_window_pairs,0,"group by window,asset having count>1"
+missing_asset_window_pairs,365,grid cross tracked assets minus present
+distinct_assets,100,distinct asset_id
+source,SKINPORT,market_observations.source
+currency,USD,market_observations.currency
+distinct_currencies,1,market_observations.currency
+earliest_provider_updated_at,2026-09-09T17:50:12.000Z,min(source_updated_at)
+latest_provider_updated_at,2026-09-16T17:45:13.000Z,max(source_updated_at)
+earliest_provider_created_at,2018-09-03T15:24:13.000Z,min(source_created_at)
+latest_provider_created_at,2026-06-16T02:59:10.000Z,max(source_created_at)
+first_observed_at,2026-09-09T17:55:13.883Z,min(observed_at)
+last_observed_at,2026-09-16T17:50:15.686Z,max(observed_at)
+freshness_min_s,238.392,observed_at - source_updated_at
+freshness_median_s,302.99,observed_at - source_updated_at
+freshness_mean_s,306.076,observed_at - source_updated_at
+freshness_p95_s,311.818,observed_at - source_updated_at
+freshness_p99_s,314.908,observed_at - source_updated_at
+freshness_max_s,904.672,observed_at - source_updated_at
+freshness_over_7m_observations,1494,lag > 420s
+freshness_over_10m_observations,1394,lag > 600s
+freshness_over_15m_observations,199,lag > 900s
+freshness_affected_windows,15,windows with max lag > 420s
+job_duration_median_s,6.529,collector_runs.duration_ms
+job_duration_p95_s,7.756,collector_runs.duration_ms
+job_duration_max_s,14.284,collector_runs.duration_ms
+provider_http_429,0,items/history status codes recorded
+provider_http_5xx,0,items/history status codes recorded
+provider_http_4xx,1,items endpoint HTTP 400 at 2026-09-15T19:35:00Z
+invalid_values,0,currency/quantity/price-order/identity checks
+future_timestamps,0,source/observed time > now
+timestamp_anomalies,0,ordering checks
+missing_values,0,NULL price/volume/history payload
+database_bytes,391938048,pg_database_size
+observation_relation_bytes,380723200,pg_total_relation_size
+observation_index_bytes,49135616,pg_indexes_size
+observation_growth_mb_per_day,51.804,measured over the 7 days

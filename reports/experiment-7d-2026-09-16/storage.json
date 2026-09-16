@@ -1,0 +1,47 @@
+{
+ "measured": {
+  "database_bytes": 391938048,
+  "database_mb": 373.78125,
+  "observation_relation_bytes": 380723200,
+  "observation_relation_mb": 363.0859375,
+  "observation_table_mb": 316.2265625,
+  "observation_index_mb": 46.859375,
+  "collector_runs_mb": 2.40625,
+  "observations_all_time": 202034,
+  "bytes_per_observation_incl_indexes": 1884.4511319876851,
+  "bytes_per_observation_table_only": 1641.2464436678974,
+  "experiment_growth_bytes": 380239872,
+  "measured_observation_growth_mb_per_day": 51.80357142857143,
+  "measured_database_growth_mb_per_day": 52.19419642857143
+ },
+ "projected": {
+  "100": {
+   "rows_per_day": 28800,
+   "observation_bytes_per_day": 54272192.60124533,
+   "observation_mb_per_day": 51.75799617886098,
+   "rows_30d": 864000,
+   "observation_gb_30d": 1.5163475443025678,
+   "rows_365d": 10512000,
+   "observation_gb_365d": 18.44889512234791
+  },
+  "1000": {
+   "rows_per_day": 288000,
+   "observation_bytes_per_day": 542721926.0124533,
+   "observation_mb_per_day": 517.5799617886098,
+   "rows_30d": 8640000,
+   "observation_gb_30d": 15.163475443025678,
+   "rows_365d": 105120000,
+   "observation_gb_365d": 184.4889512234791
+  },
+  "10000": {
+   "rows_per_day": 2880000,
+   "observation_bytes_per_day": 5427219260.124533,
+   "observation_mb_per_day": 5175.799617886098,
+   "rows_30d": 86400000,
+   "observation_gb_30d": 151.63475443025678,
+   "rows_365d": 1051200000,
+   "observation_gb_365d": 1844.8895122347908
+  }
+ },
+ "basis": "bytes/observation measured from the live relation including indexes and TOAST; projections assume unchanged 5-minute cadence, full coverage, identical payload sizes and no compression or retention change."
+}

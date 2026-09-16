@@ -1,0 +1,48 @@
+{
+ "rows": 201235,
+ "assets": 100,
+ "coverage_min_pct": 86.80555555555556,
+ "any_change": {
+  "min_price": 94,
+  "median_price": 95,
+  "quantity": 91,
+  "sales_24h_volume": 89,
+  "history_state": 94,
+  "any_market_field": 100
+ },
+ "material_change": {
+  "min_price_abs_pct_ge_0_5": 84,
+  "median_price_abs_pct_ge_0_5": 75,
+  "quantity_abs_ge_1": 85,
+  "quantity_abs_pct_ge_5": 36,
+  "sales_24h_volume_changed": 71,
+  "history_state_ge_2_states": 94
+ },
+ "transitions": {
+  "min_price": 3747,
+  "median_price": 2918,
+  "quantity": 6145,
+  "sales_24h_volume": 468,
+  "history_state": 980,
+  "adjacent_comparisons": 201035
+ },
+ "direction": {
+  "min_price_up": 27,
+  "min_price_down": 65,
+  "min_price_flat": 8,
+  "quantity_up": 30,
+  "quantity_down": 55,
+  "quantity_flat": 15
+ },
+ "states_1h": {
+  "PRICE FLAT + LISTINGS FLAT": 144979,
+  "PRICE FLAT + LISTINGS MOVED": 23203,
+  "PRICE MOVED + LISTINGS FLAT": 11715,
+  "PRICE UP + LISTINGS DOWN": 10405,
+  "PRICE DOWN + LISTINGS UP": 6401,
+  "PRICE DOWN + LISTINGS DOWN": 2217,
+  "PRICE UP + LISTINGS UP": 1016
+ },
+ "leadlag_1h_overlap": 0.02523428779286075,
+ "leadlag_1h_nonoverlap": 0.022303807133603148
+}
