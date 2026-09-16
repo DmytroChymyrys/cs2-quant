@@ -1,0 +1,34 @@
+{
+  "target": "localhost:5432/floatalpha_staging",
+  "mode": "verify-only",
+  "batchSize": 2000,
+  "batches": 0,
+  "linked": 0,
+  "elapsedMs": 790,
+  "verification": {
+    "byteIdenticalMismatches": 0,
+    "withPayload": 203618,
+    "linked": 203618,
+    "unlinked": 0,
+    "distinctPayloads": 1080,
+    "dedupRatio": 188.53518518518518
+  },
+  "measurement": {
+    "observation_rows": 203618,
+    "observations_total_bytes": 383631360,
+    "observations_heap_bytes": 334086144,
+    "observations_index_bytes": 49414144,
+    "raw_history_datum_bytes": 161620970,
+    "raw_item_datum_bytes": 100583416,
+    "dedup_present": true,
+    "payload_table_total_bytes": 4128768,
+    "link_table_total_bytes": 24797184,
+    "dedup_payload_datum_bytes": 870291,
+    "rawHistoryBytesPerObservation": 793.745985129016,
+    "dedupReplacementTotalBytes": 28925952,
+    "historyBytesSaved": 132695018,
+    "historyReductionPct": 82.10259968121711,
+    "basis": "Measured relation and datum sizes on the target database. Saving compares the summed raw_history_payload datum bytes against the full deduplicated payload table plus link table, including their indexes."
+  },
+  "passed": true
+}
