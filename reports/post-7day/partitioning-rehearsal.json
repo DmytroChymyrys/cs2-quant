@@ -1,0 +1,97 @@
+{
+  "target": "local staging clone (PostgreSQL 14.19); production Neon was NOT touched",
+  "sourceRows": 203618,
+  "status": "REHEARSAL ONLY - NOT APPROVED FOR PRODUCTION",
+  "findings": [
+    {
+      "id": 1,
+      "topic": "append-only trigger on the parent",
+      "result": "PASS",
+      "detail": "UPDATE and DELETE against the partitioned parent both raise 'market_observations is append-only'."
+    },
+    {
+      "id": 2,
+      "topic": "append-only trigger bypass via a child partition",
+      "result": "REGRESSION FOUND",
+      "severity": "HIGH",
+      "detail": "A statement-level trigger on the parent does NOT fire for a write addressed directly to a child partition. 'DELETE FROM mo_p2026_09' returned DELETE 0 instead of raising. Today market_observations is a single table and the trigger always fires, so partitioning would silently weaken the append-only guarantee.",
+      "mitigation": "Create the trigger on EVERY partition as well as the parent. Verified: after adding a per-partition trigger the direct write is blocked. Partition creation must be automated so a new partition can never be created without its trigger, and a check must assert one trigger per partition."
+    },
+    {
+      "id": 3,
+      "topic": "global unique index on (collector_run_id, asset_id)",
+      "result": "IMPOSSIBLE AS-IS",
+      "detail": "PostgreSQL refuses: 'unique constraint on partitioned table must include all partitioning columns'. The current global guarantee cannot be carried over unchanged."
+    },
+    {
+      "id": 4,
+      "topic": "per-partition uniqueness equivalence",
+      "result": "PROVABLY EQUIVALENT ON THIS DATA",
+      "detail": "Every observation written by one collector run shares an IDENTICAL observed_at: across all 2,040 runs the within-run span of observed_at is 0.000s, because the collector stamps one observedAt for the whole batch before the asset loop. A run's rows therefore always land in exactly one partition, and 0 runs span a month or even a day. The closest any observation sits to a month boundary is 738,328s (8.5 days). Per-partition UNIQUE (collector_run_id, asset_id) consequently enforces the same invariant as today's global index.",
+      "caveat": "The equivalence depends on the collector continuing to stamp a single observed_at per run. If that ever changes, or if a run is ever retried across a partition boundary, the equivalence breaks. It must be enforced by a test and by a periodic global duplicate audit, not assumed."
+    },
+    {
+      "id": 5,
+      "topic": "retention by partition drop",
+      "result": "PASS",
+      "detail": "ALTER TABLE ... DETACH PARTITION followed by DROP TABLE succeeds with the append-only trigger present: the trigger intercepts DML, not DDL. This is the only viable retention mechanism, since DELETE is and must remain blocked."
+    },
+    {
+      "id": 6,
+      "topic": "storage cost of partitioning",
+      "result": "SMALL INCREASE",
+      "detail": "203,618 rows: unpartitioned 366 MB total (319 MB heap, 47 MB indexes) versus partitioned 367 MB (319 MB heap, 49 MB indexes). Delta +1,654,784 bytes, about +0.4%, entirely from the wider primary key (id, observed_at) that a partitioned table requires."
+    },
+    {
+      "id": 7,
+      "topic": "query performance",
+      "result": "IMPROVED ON THIS WORKLOAD",
+      "detail": "One asset over one day: partitioned 0.640 ms execution with pruning to a single partition, unpartitioned 6.161 ms. Both use an index-only scan; pruning reduced the scanned index. Planning time was 1.812 ms versus 2.647 ms. A single-month dataset is not a fair test of many-partition planning overhead; re-measure with 12+ partitions before relying on this."
+    }
+  ],
+  "uniquenessAlternatives": [
+    {
+      "option": "A",
+      "name": "Widen the unique index to (collector_run_id, asset_id, observed_at)",
+      "correctness": "WEAKENS the invariant: the same (run, asset) could be inserted twice with different observed_at values and both would be accepted.",
+      "cost": "Slightly larger index.",
+      "recommendation": "REJECT. It permits exactly the duplicate the seven-day report verified as absent."
+    },
+    {
+      "option": "B",
+      "name": "Per-partition UNIQUE (collector_run_id, asset_id) plus a scheduled global duplicate audit",
+      "correctness": "EQUIVALENT in practice on this data, and provably so while a run writes one observed_at (finding 4). The audit catches any future violation of that premise.",
+      "cost": "One index per partition, same total size. An audit job.",
+      "recommendation": "PREFERRED, conditional on a test pinning the single-observed_at-per-run property and on the audit being in place before the migration."
+    },
+    {
+      "option": "C",
+      "name": "Partition by hash of collector_run_id",
+      "correctness": "Preserves global uniqueness within each hash partition and keeps a run's rows together.",
+      "cost": "Destroys time-range retention and archival, which is the entire purpose of partitioning here.",
+      "recommendation": "REJECT for this use case."
+    },
+    {
+      "option": "D",
+      "name": "Keep a small unpartitioned side table holding (collector_run_id, asset_id) with a global unique constraint, written in the same transaction",
+      "correctness": "Preserves the global guarantee exactly, independent of the partition key.",
+      "cost": "About 48-64 bytes per observation plus an index, roughly 10-13 MB per 200k rows, and an extra write per observation. It also requires a collector change, which is out of scope.",
+      "recommendation": "VIABLE FALLBACK if the premise behind option B is ever unsafe. Not recommended now, because it adds a write to the collector path for a guarantee option B already provides."
+    },
+    {
+      "option": "E",
+      "name": "Do not partition; use bounded retention via a rewrite",
+      "correctness": "Preserves everything.",
+      "cost": "Retention cannot use DELETE (append-only trigger), so expiry means a full table rewrite under lock. Not viable at scale.",
+      "recommendation": "REJECT."
+    }
+  ],
+  "recommendation": "Option B, with three preconditions before any production approval is requested: (1) a per-partition append-only trigger plus an automated check that every partition has one, since finding 2 is a real regression; (2) a test pinning the single-observed_at-per-run property that makes per-partition uniqueness equivalent; (3) a scheduled global duplicate audit. Partitioning itself costs about +0.4% storage and improved this query workload, so the case for it rests on retention and archival, not on size or speed.",
+  "notApproved": [
+    "production partitioning",
+    "production table rewrite or swap",
+    "retention policy",
+    "partition drop in production",
+    "raw payload deletion"
+  ]
+}
