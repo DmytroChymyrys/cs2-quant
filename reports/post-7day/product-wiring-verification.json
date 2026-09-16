@@ -1,0 +1,320 @@
+{
+  "snapshotId": "3699f02c0131320374d7181a5a05c5945959c488ae3e414885816b4825821058",
+  "method": "listing-features-v3",
+  "scope": {
+    "to": "2026-09-16T17:55:00.000Z",
+    "from": "2026-09-09T17:55:00.000Z",
+    "assets": [
+      "AK-47 | Bloodsport (Field-Tested)",
+      "AK-47 | Crane Flight (Field-Tested)",
+      "AK-47 | Inheritance (Field-Tested)",
+      "AK-47 | Olive Polycam (Factory New)",
+      "AK-47 | Redline (Field-Tested)",
+      "AK-47 | Vulcan (Factory New)",
+      "AK-47 | Vulcan (Field-Tested)",
+      "AK-47 | Wild Lotus (Factory New)",
+      "AUG | Contractor (Field-Tested)",
+      "AUG | Hot Rod (Factory New)",
+      "AUG | Storm (Field-Tested)",
+      "AWP | Asiimov (Field-Tested)",
+      "AWP | Atheris (Field-Tested)",
+      "AWP | Atheris (Well-Worn)",
+      "AWP | Dragon Lore (Factory New)",
+      "Antwerp 2022 Legends Sticker Capsule",
+      "Budapest 2025 Legends Sticker Capsule",
+      "CS:GO Weapon Case",
+      "Chroma 2 Case",
+      "Clutch Case",
+      "Danger Zone Case",
+      "Desert Eagle | Printstream (Field-Tested)",
+      "Dreams & Nightmares Case",
+      "Fever Case",
+      "Fracture Case",
+      "Glock-18 | Candy Apple (Factory New)",
+      "Glock-18 | Sand Dune (Field-Tested)",
+      "Glove Case",
+      "Huntsman Weapon Case",
+      "Kilowatt Case",
+      "M4A1-S | Black Lotus (Field-Tested)",
+      "M4A1-S | Blue Phosphor (Factory New)",
+      "M4A1-S | Decimator (Battle-Scarred)",
+      "M4A1-S | Decimator (Field-Tested)",
+      "M4A1-S | Hot Rod (Factory New)",
+      "M4A4 | Neo-Noir (Field-Tested)",
+      "Operation Bravo Case",
+      "Operation Breakout Weapon Case",
+      "Operation Broken Fang Case",
+      "Operation Hydra Case",
+      "Operation Riptide Case",
+      "P250 | Asiimov (Field-Tested)",
+      "P250 | Sand Dune (Minimal Wear)",
+      "Paris 2023 Contenders Sticker Capsule",
+      "Recoil Case",
+      "SSG 08 | Acid Fade (Factory New)",
+      "Shattered Web Case",
+      "Souvenir AWP | Dragon Lore (Factory New)",
+      "Spectrum 2 Case",
+      "StatTrak™ M4A4 | Howl (Factory New)",
+      "Sticker Capsule 2",
+      "Sticker | 100 Thieves | 2020 RMR",
+      "Sticker | Bad News Eagles | Paris 2023",
+      "Sticker | Crown (Foil)",
+      "Sticker | Dragon Lore (Foil)",
+      "Sticker | High Heat",
+      "Sticker | Howling Dawn",
+      "Sticker | Reason Gaming (Holo) | Katowice 2014",
+      "Sticker | Team Liquid | Paris 2023",
+      "Sticker | Titan (Holo) | Cologne 2014",
+      "Sticker | Titan | Cluj-Napoca 2015",
+      "Sticker | Virtus.pro | Katowice 2015",
+      "Sticker | Winding Scorch (Foil)",
+      "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+      "Sticker | iBUYPOWER | Cologne 2014",
+      "Stockholm 2021 Challengers Sticker Capsule",
+      "Stockholm 2021 Legends Sticker Capsule",
+      "USP-S | Printstream (Field-Tested)",
+      "Winter Offensive Weapon Case",
+      "eSports 2013 Case",
+      "★ Bayonet | Forest DDPAT (Field-Tested)",
+      "★ Bowie Knife | Tiger Tooth (Factory New)",
+      "★ Butterfly Knife | Slaughter (Minimal Wear)",
+      "★ Butterfly Knife | Tiger Tooth (Factory New)",
+      "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+      "★ Driver Gloves | Racing Green (Field-Tested)",
+      "★ Driver Gloves | Snow Leopard (Field-Tested)",
+      "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+      "★ Hand Wraps | Duct Tape (Field-Tested)",
+      "★ Hydra Gloves | Mangrove (Field-Tested)",
+      "★ Hydra Gloves | Mangrove (Well-Worn)",
+      "★ Karambit | Crimson Web (Factory New)",
+      "★ Kukri Knife | Fade (Factory New)",
+      "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+      "★ Moto Gloves | Spearmint (Minimal Wear)",
+      "★ Moto Gloves | Turtle (Field-Tested)",
+      "★ Moto Gloves | Turtle (Minimal Wear)",
+      "★ Navaja Knife | Scorched (Field-Tested)",
+      "★ Nomad Knife | Slaughter (Minimal Wear)",
+      "★ Paracord Knife",
+      "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+      "★ Skeleton Knife | Tiger Tooth (Factory New)",
+      "★ Specialist Gloves | Fade (Minimal Wear)",
+      "★ Sport Gloves | Bronze Morph (Field-Tested)",
+      "★ Sport Gloves | Pandora's Box (Field-Tested)",
+      "★ Sport Gloves | Vice (Factory New)",
+      "★ Sport Gloves | Vice (Field-Tested)",
+      "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+      "★ Survival Knife",
+      "★ Talon Knife | Tiger Tooth (Factory New)"
+    ]
+  },
+  "assetsRendered": 100,
+  "expectedObservationsPerAsset": 2016,
+  "thresholds": {
+    "activity": 12.5,
+    "listingPct": 2,
+    "quietActivity24h": 0.3472,
+    "freshSeconds": 900
+  },
+  "presetYieldOutOf": 100,
+  "presetYield": {
+    "1h": {
+      "all": 100,
+      "active": 8,
+      "movers": 100,
+      "up": 8,
+      "down": 9,
+      "contracting": 2,
+      "expanding": 2,
+      "volatility": 99,
+      "quiet": 0,
+      "fresh": 1,
+      "risingContracting": 6,
+      "fallingExpanding": 4
+    },
+    "6h": {
+      "all": 100,
+      "active": 8,
+      "movers": 100,
+      "up": 17,
+      "down": 22,
+      "contracting": 8,
+      "expanding": 4,
+      "volatility": 99,
+      "quiet": 0,
+      "fresh": 1,
+      "risingContracting": 12,
+      "fallingExpanding": 9
+    },
+    "24h": {
+      "all": 100,
+      "active": 8,
+      "movers": 100,
+      "up": 29,
+      "down": 59,
+      "contracting": 11,
+      "expanding": 9,
+      "volatility": 0,
+      "quiet": 0,
+      "fresh": 1,
+      "risingContracting": 18,
+      "fallingExpanding": 20
+    }
+  },
+  "completeWindowMetrics": {
+    "1h": {
+      "minimumVolatility": 99,
+      "medianVolatility": 99
+    },
+    "6h": {
+      "minimumVolatility": 99,
+      "medianVolatility": 99
+    },
+    "24h": {
+      "minimumVolatility": 0,
+      "medianVolatility": 0
+    }
+  },
+  "activity24hPopulated": 0,
+  "medianFieldsPopulated": {
+    "medianReturn24h": 100,
+    "medianVolatility24h": 0,
+    "listingPct24h": 100,
+    "activity24h": 0
+  },
+  "assetsWhereBasesDisagreeInSign": 30,
+  "thinMarkets": [
+    {
+      "name": "★ Moto Gloves | Spearmint (Minimal Wear)",
+      "listings": 2,
+      "minimumReturn24h": "-0.065081680363"
+    },
+    {
+      "name": "Sticker | Howling Dawn",
+      "listings": 1,
+      "minimumReturn24h": "-0.175821458803"
+    },
+    {
+      "name": "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+      "listings": 1,
+      "minimumReturn24h": "-0.189404535835"
+    },
+    {
+      "name": "Glock-18 | Sand Dune (Field-Tested)",
+      "listings": 3,
+      "minimumReturn24h": "-0.065832784727"
+    },
+    {
+      "name": "AK-47 | Wild Lotus (Factory New)",
+      "listings": 1,
+      "minimumReturn24h": "0.000064711390"
+    },
+    {
+      "name": "★ Sport Gloves | Vice (Factory New)",
+      "listings": 1,
+      "minimumReturn24h": "-0.064951476627"
+    },
+    {
+      "name": "★ Karambit | Crimson Web (Factory New)",
+      "listings": 1,
+      "minimumReturn24h": "-0.064904441051"
+    },
+    {
+      "name": "★ Hydra Gloves | Mangrove (Well-Worn)",
+      "listings": 4,
+      "minimumReturn24h": "-0.088547815821"
+    },
+    {
+      "name": "Souvenir AWP | Dragon Lore (Factory New)",
+      "listings": 1,
+      "minimumReturn24h": "-2.498810636505"
+    },
+    {
+      "name": "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+      "listings": 5,
+      "minimumReturn24h": "-0.071994240461"
+    },
+    {
+      "name": "Sticker | Reason Gaming (Holo) | Katowice 2014",
+      "listings": 1,
+      "minimumReturn24h": "-0.064972595378"
+    },
+    {
+      "name": "AWP | Dragon Lore (Factory New)",
+      "listings": 5,
+      "minimumReturn24h": "-0.930443983317"
+    },
+    {
+      "name": "StatTrak™ M4A4 | Howl (Factory New)",
+      "listings": 2,
+      "minimumReturn24h": "-0.064937764918"
+    }
+  ],
+  "sampleMovers": [
+    {
+      "name": "Kilowatt Case",
+      "listings": 10942,
+      "minimumReturn24h": "33.333333333333",
+      "medianReturn24h": "3.921568627451",
+      "listingPct24h": "-0.246148235938",
+      "activity1h": "16.666666666667",
+      "activity24h": null,
+      "minimumVolatility24h": null,
+      "medianVolatility24h": null,
+      "whySurfaced": "Minimum listing price 33.33% / 24h · 10942 listings",
+      "explanation": [
+        "Minimum listing price changed 33.33% over 24h.",
+        "Median listing price changed 3.92% over the same period.",
+        "Venue listing quantity decreased 0.25% over 24h.",
+        "10942 listings observed.",
+        "Observed activity 16.7/100: the proportion of minimum-price and listing-count transitions in 12 complete five-minute pairs.",
+        "Coverage 2015/2016 observations in this snapshot.",
+        "Items source age 587 seconds as of the dataset read.",
+        "24h volatility unavailable — requires 289 consecutive observations."
+      ]
+    },
+    {
+      "name": "Antwerp 2022 Legends Sticker Capsule",
+      "listings": 2238,
+      "minimumReturn24h": "-21.276595744681",
+      "medianReturn24h": "0.000000000000",
+      "listingPct24h": "-0.044662795891",
+      "activity1h": "0.000000000000",
+      "activity24h": null,
+      "minimumVolatility24h": null,
+      "medianVolatility24h": null,
+      "whySurfaced": "Minimum listing price -21.28% / 24h · 2238 listings",
+      "explanation": [
+        "Minimum listing price changed -21.28% over 24h.",
+        "Median listing price changed 0.00% over the same period.",
+        "Venue listing quantity decreased 0.04% over 24h.",
+        "2238 listings observed.",
+        "Observed activity 0.0/100: the proportion of minimum-price and listing-count transitions in 12 complete five-minute pairs.",
+        "Coverage 2015/2016 observations in this snapshot.",
+        "Items source age 587 seconds as of the dataset read.",
+        "24h volatility unavailable — requires 289 consecutive observations."
+      ]
+    },
+    {
+      "name": "Sticker | Dragon Lore (Foil)",
+      "listings": 159,
+      "minimumReturn24h": "-14.823529411765",
+      "medianReturn24h": "-0.081900081900",
+      "listingPct24h": "0.632911392405",
+      "activity1h": "0.000000000000",
+      "activity24h": null,
+      "minimumVolatility24h": null,
+      "medianVolatility24h": null,
+      "whySurfaced": "Minimum listing price -14.82% / 24h · 159 listings",
+      "explanation": [
+        "Minimum listing price changed -14.82% over 24h.",
+        "Median listing price changed -0.08% over the same period.",
+        "Venue listing quantity increased 0.63% over 24h.",
+        "159 listings observed.",
+        "Observed activity 0.0/100: the proportion of minimum-price and listing-count transitions in 12 complete five-minute pairs.",
+        "Coverage 2015/2016 observations in this snapshot.",
+        "Items source age 587 seconds as of the dataset read.",
+        "24h volatility unavailable — requires 289 consecutive observations."
+      ]
+    }
+  ]
+}

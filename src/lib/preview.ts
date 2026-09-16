@@ -25,6 +25,21 @@ export function usesBundledDemoArtwork() {
   );
 }
 
+/**
+ * Production must never silently render synthetic intelligence.
+ *
+ * `syntheticDataAllowed()` already refuses synthetic data in production. This
+ * makes the refusal explicit and loud rather than a silent downgrade: when a
+ * synthetic mode is configured where it is not permitted, the dataset reports
+ * UNAVAILABLE and names the misconfiguration instead of serving fabricated
+ * numbers that look real.
+ */
+export function syntheticMisconfiguredInProduction() {
+  return (
+    ["fixture", "demo"].includes(process.env.PRODUCT_ANALYTICS_MODE ?? "") &&
+    !syntheticDataAllowed()
+  );
+}
 export function assertPreviewIsolation() {
   if (process.env.FLOATALPHA_BILLING_SANDBOX === "true") {
     if (

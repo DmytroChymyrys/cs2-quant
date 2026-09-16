@@ -16,7 +16,7 @@ import {
   screenAssets,
   screenInput,
   explain,
-  THRESHOLDS,
+  SCREEN_THRESHOLDS,
 } from "../src/lib/product/intelligence/screener";
 import {
   readMarketDataset,
@@ -97,7 +97,7 @@ describe("product evidence semantics", () => {
   it("uses documented activity and listing thresholds and preset order", () => {
     expect(
       screen({ preset: "active" }).assets.every(
-        (a) => Number(a.activity) >= THRESHOLDS.activity,
+        (a) => Number(a.activity) >= SCREEN_THRESHOLDS.activity,
       ),
     ).toBe(true);
     expect(
@@ -200,7 +200,7 @@ describe("product evidence semantics", () => {
     expect(await readMarketDataset()).toMatchObject({
       evidence: "UNAVAILABLE",
       assets: [],
-      error: "Synthetic data is disabled in production.",
+      error: expect.stringContaining("will not be substituted"),
     });
   });
   it("requires an explicitly reviewed snapshot with no raw fallback", async () => {

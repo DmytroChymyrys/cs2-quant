@@ -136,7 +136,11 @@ describe("waiting-week snapshot and product semantics", () => {
   it("shows exact qualification thresholds and clamps pagination after filtering", () => {
     const a = summary(features.at(-1)!, 160, 160, data.head.scope.to, null),
       s = screenInput({ preset: "expanding", page: "40" });
-    expect(whySurfaced(a, s)).toBe("Venue listings 2% / 1h ≥ 2%");
+    // Listing depth now accompanies every surfaced result, so a large percentage
+// move in a thin market cannot look like the same fact as one in a deep book.
+    expect(whySurfaced(a, s)).toBe(
+      "Venue listings 2% / 1h ≥ 2% · 1159 listings",
+    );
     expect(screenAssets([a], s).page).toBe(1);
     expect(screenAssets([a], s).assets).toHaveLength(1);
     expect(whySurfaced(a, s)).not.toMatch(/buy|sell|pressure|predict|caus/i);

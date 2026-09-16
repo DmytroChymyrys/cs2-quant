@@ -90,6 +90,7 @@ export function assetFeatures(
     window: Date.parse(runMap.get(o.runId)!.window),
   }));
   const logReturns: (number | null)[] = [],
+    medianLogReturns: (number | null)[] = [],
     priceTransitions: number[] = [],
     qtyTransitions: number[] = [],
     validPairs: number[] = [];
@@ -110,6 +111,17 @@ export function assetFeatures(
     logReturns.push(
       pair && new D(row.minPrice!).gt(0) && new D(prev.minPrice!).gt(0)
         ? Math.log(new D(row.minPrice!).div(prev.minPrice!).toNumber())
+        : null,
+    );
+    // Median-basis returns are the production volatility basis: unlike the
+    // cheapest listing, the middle of the book does not jump on a single fill.
+    const medianPair =
+      !!adjacent && row.medianPrice !== null && prev.medianPrice !== null;
+    medianLogReturns.push(
+      medianPair &&
+        new D(row.medianPrice!).gt(0) &&
+        new D(prev.medianPrice!).gt(0)
+        ? Math.log(new D(row.medianPrice!).div(prev.medianPrice!).toNumber())
         : null,
     );
     // Historical endpoints are prior observations within +/-90s of the target time.
@@ -168,6 +180,8 @@ export function assetFeatures(
     for (const [name, h] of [
       ["5m", 1],
       ["1h", 12],
+      ["6h", 72],
+      ["24h", 288],
     ] as const) {
       const past = nearest(h * STEP, "quantity"),
         c = change(row.quantity, past?.quantity ?? null);
@@ -196,26 +210,36 @@ export function assetFeatures(
       );
       values[`rolling_observation_count_${name}`] = active.length;
       values[`rolling_expected_count_${name}`] = steps;
+      const stdevPct = (sample: number[]) => {
+        if (sample.length !== steps) return null;
+        const mean = sample.reduce((s, x) => s + x, 0) / sample.length;
+        return (
+          Math.sqrt(
+            sample.reduce((sum, x) => sum + (x - mean) ** 2, 0) /
+              (sample.length - 1),
+          ) * 100
+        ).toFixed(12);
+      };
       const returns = logReturns
         .slice(begin, i + 1)
         .filter((x): x is number => x !== null);
+      const medianReturns = medianLogReturns
+        .slice(begin, i + 1)
+        .filter((x): x is number => x !== null);
       values[`volatility_return_count_${name}`] = returns.length;
+      values[`median_volatility_return_count_${name}`] = medianReturns.length;
       // Full coverage only, no gap interpolation; zero returns remain in the sample.
-      const mean = returns.reduce((s, x) => s + x, 0) / returns.length;
-      values[`realized_volatility_${name}`] =
-        returns.length === steps
-          ? (
-              Math.sqrt(
-                returns.reduce((sum, x) => sum + (x - mean) ** 2, 0) /
-                  (returns.length - 1),
-              ) * 100
-            ).toFixed(12)
-          : null;
-      if (name === "1h") {
+      values[`realized_volatility_${name}`] = stdevPct(returns);
+      values[`median_realized_volatility_${name}`] = stdevPct(medianReturns);
+      // Activity is also produced at 24h: over one hour 71% of observed values
+      // are exactly zero, so the 24h window is the better-behaved basis for a
+      // "quiet market" threshold.
+      if (name === "1h" || name === "24h") {
         const pairs = validPairs.slice(begin, i + 1).reduce((s, x) => s + x, 0);
-        values.market_activity_pair_count_1h = pairs;
-        values.market_activity_score =
-          pairs === 12
+        const suffix = name === "1h" ? "" : "_24h";
+        values[`market_activity_pair_count_${name}`] = pairs;
+        values[`market_activity_score${suffix}`] =
+          pairs === steps
             ? format(
                 new D(
                   priceTransitions

@@ -35,6 +35,12 @@ export function volatility(f: Feature, h: Horizon) {
     ? numeric(f.values[`realized_volatility_${h}`])
     : null;
 }
+const horizons: Horizon[] = ["1h", "6h", "24h"];
+const byHorizon = (fn: (h: Horizon) => string | null) =>
+  Object.fromEntries(horizons.map((h) => [h, fn(h)])) as Record<
+    Horizon,
+    string | null
+  >;
 export function summary(
   f: Feature,
   available: number,
@@ -56,22 +62,29 @@ export function summary(
     minimum: numeric(f.values.min_price),
     median: numeric(f.values.median_price),
     listings: count(f.values.listing_qty),
-    returns: {
-      "1h": numeric(f.values.min_price_return_1h),
-      "6h": numeric(f.values.min_price_return_6h),
-      "24h": numeric(f.values.min_price_return_24h),
-    },
+    // Minimum and median are distinct market concepts; neither substitutes for the other.
+    returns: byHorizon((h) => numeric(f.values[`min_price_return_${h}`])),
+    medianReturns: byHorizon((h) =>
+      numeric(f.values[`median_price_return_${h}`]),
+    ),
     listingDelta1h: numeric(f.values.listing_qty_delta_1h),
     listingPct1h: numeric(f.values.listing_qty_pct_change_1h),
+    listingDelta: byHorizon((h) => numeric(f.values[`listing_qty_delta_${h}`])),
+    listingPct: byHorizon((h) =>
+      numeric(f.values[`listing_qty_pct_change_${h}`]),
+    ),
     activity:
       count(f.values.market_activity_pair_count_1h) === 12
         ? numeric(f.values.market_activity_score)
         : null,
-    volatility: {
-      "1h": volatility(f, "1h"),
-      "6h": volatility(f, "6h"),
-      "24h": volatility(f, "24h"),
-    },
+    activity24h: numeric(f.values.market_activity_score_24h),
+    volatility: byHorizon((h) => volatility(f, h)),
+    medianVolatility: byHorizon((h) =>
+      count(f.values[`median_volatility_return_count_${h}`]) ===
+      expectedReturns[h]
+        ? numeric(f.values[`median_realized_volatility_${h}`])
+        : null,
+    ),
     volatilitySamples: {
       "1h": count(f.values.volatility_return_count_1h),
       "6h": count(f.values.volatility_return_count_6h),
@@ -102,6 +115,10 @@ export function summary(
               : "PARTIAL_COVERAGE",
     },
     history,
+    // Availability is resolved from collector evidence by the caller; a feature
+    // row alone cannot distinguish an absent asset from a failed fetch.
+    availability: "ACTIVE",
+    availabilityDetail: null,
   };
 }
 export function seriesPoint(f: Feature): MarketSeriesPoint {

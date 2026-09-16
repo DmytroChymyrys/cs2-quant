@@ -33,12 +33,19 @@ const asset = (
   median: price,
   listings: 45,
   returns: { "1h": ret, "6h": ret, "24h": ret },
+  medianReturns: { "1h": ret, "6h": ret, "24h": ret },
   listingDelta1h: "-2",
   listingPct1h: "-3",
+  listingDelta: { "1h": "-2", "6h": "-2", "24h": "-2" },
+  listingPct: { "1h": "-3", "6h": "-3", "24h": "-3" },
   activity,
+  activity24h: activity,
   volatility: { "1h": vol, "6h": vol, "24h": vol },
+  medianVolatility: { "1h": vol, "6h": vol, "24h": vol },
   volatilitySamples: { "1h": 12, "6h": 72, "24h": 288 },
   changed5m: true,
+  availability: "ACTIVE",
+  availabilityDetail: null,
   quality: {
     available: 2016,
     expected: 2016,
@@ -192,12 +199,15 @@ describe("CS2 category browsing", () => {
     expect(demo.pistols).toBe(4);
   });
   it("combines category with presets and numeric filters without changing ranking", () => {
+    // Most Active now uses the recalibrated p95 threshold (12.5), so both
+    // knives qualify where the previous synthetic-tuned value of 50 admitted
+    // only one. Ranking is still by activity, descending.
     expect(
       screenAssets(
         assets,
         screenInput({ category: "knives", preset: "active" }),
       ).assets.map((a) => a.id),
-    ).toEqual(["k1"]);
+    ).toEqual(["k1", "k2"]);
     expect(
       screenAssets(
         assets,

@@ -22,7 +22,8 @@ import {
   PRESETS,
   SORT_LABELS,
   whySurfaced,
-  THRESHOLDS,
+  SCREEN_THRESHOLDS,
+  THRESHOLD_BASIS,
   type Screen,
 } from "@/lib/product/intelligence/screener";
 export const marketValue = (
@@ -599,19 +600,37 @@ export function PresetDefinitions() {
     <details className="chart-caption">
       <summary>Preset thresholds and metric definitions</summary>
       <p>
-        Most Active ≥ {THRESHOLDS.activity}/100; Quiet Markets ≤{" "}
-        {THRESHOLDS.quietActivity}/100. Listings Contracting/Expanding use at
-        least {THRESHOLDS.listingPct}% change over 1h. Fresh Changes require a
-        nonzero minimum-price or listing-count change over 5m and
-        source/observation ages ≤ {THRESHOLDS.freshSeconds}s. Movers sort
-        absolute return; Up/Down select its sign. High Volatility ranks
-        available complete-horizon log-return standard deviations; it assigns no
-        trading classification.
+        Most Active ≥ {SCREEN_THRESHOLDS.activity}/100 over 1h; Quiet Markets ≤{" "}
+        {SCREEN_THRESHOLDS.quietActivity24h}/100 over 24h. Listings
+        Contracting/Expanding use at least {SCREEN_THRESHOLDS.listingPct}%
+        change over the selected horizon. Fresh Changes require a nonzero
+        minimum-price or listing-count change over 5m and source/observation
+        ages ≤ {SCREEN_THRESHOLDS.freshSeconds}s. Movers sort absolute return;
+        Up/Down select its sign. High Volatility is EXPERIMENTAL: it ranks
+        complete-horizon log-return standard deviations, which on low-priced
+        assets are dominated by the one-cent tick. It assigns no trading
+        classification.
       </p>
       <p>
-        Activity counts minimum-price and listing transitions over 12 complete
-        five-minute pairs. Returns use minimum listing prices, not executed
-        trades. Unchanged observations remain valid.
+        These thresholds are calibrated from the frozen seven-day dataset and
+        are provisional. Most Active uses{" "}
+        {THRESHOLD_BASIS.activeMinActivity1h.basis}; Quiet Markets uses{" "}
+        {THRESHOLD_BASIS.quietMaxActivity24h.basis}. Both must be re-evaluated
+        at the {THRESHOLD_BASIS.activeMinActivity1h.recalibrateAt}.
+      </p>
+      <p>
+        Activity counts minimum-price and listing transitions over complete
+        five-minute pairs. Minimum listing price is the cheapest observed
+        listing; median listing price describes the broader book. Both are
+        reported, and neither replaces the other. Returns are listing prices,
+        not executed trades. Unchanged observations remain valid.
+      </p>
+      <p>
+        Price rising + listings contracting and Price falling + listings
+        expanding are descriptive market states, not signals. A large part of
+        the inverse relationship between the cheapest listing and listing count
+        is a mechanical property of an order-book snapshot, and no predictive
+        value is established.
       </p>
     </details>
   );

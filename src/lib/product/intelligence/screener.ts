@@ -1,9 +1,14 @@
 import { categoryValue, type MarketCategory } from "../../catalog/browsing";
-import type {
-  Horizon,
-  MarketAssetSummary,
-  MarketScreenerResult,
+import {
+  type Horizon,
+  type MarketAssetSummary,
+  type MarketScreenerResult,
+  type PriceBasis,
+  PRICE_BASIS_LABEL,
+  returnsFor,
+  volatilityFor,
 } from "./contract";
+import { THRESHOLDS } from "../../intelligence/thresholds";
 export const PRESETS = {
   all: "All assets",
   active: "Most Active",
@@ -15,18 +20,39 @@ export const PRESETS = {
   volatility: "High Volatility",
   quiet: "Quiet Markets",
   fresh: "Fresh Changes",
+  // Descriptive joint states. Not signals: a large part of the inverse
+  // price/listing relationship is a mechanical property of an order book.
+  risingContracting: "Price rising + listings contracting",
+  fallingExpanding: "Price falling + listings expanding",
 } as const;
-export const THRESHOLDS = {
-  activity: 50,
-  listingPct: 2,
-  quietActivity: 10,
-  freshSeconds: 900,
+/** Presets whose evidence does not yet support an unqualified product claim. */
+export const EXPERIMENTAL_PRESETS = new Set<keyof typeof PRESETS>([
+  "volatility",
+]);
+/** Presets that describe the order book and must never be shown as signals. */
+export const DESCRIPTIVE_PRESETS = new Set<keyof typeof PRESETS>([
+  "risingContracting",
+  "fallingExpanding",
+]);
+/**
+ * Recalibrated against the frozen seven-day dataset. The previous values were
+ * tuned on synthetic data and selected 0 of 100 assets for Most Active and
+ * 91 of 100 for Quiet Markets on real observations. Every value is provisional
+ * and carries its percentile basis; see src/lib/intelligence/thresholds.ts.
+ */
+export const SCREEN_THRESHOLDS = {
+  activity: THRESHOLDS.activeMinActivity1h.value,
+  listingPct: THRESHOLDS.listingChangePct.value,
+  quietActivity24h: THRESHOLDS.quietMaxActivity24h.value,
+  freshSeconds: THRESHOLDS.freshSeconds.value,
 };
+export const THRESHOLD_BASIS = THRESHOLDS;
 export type Screen = {
   category: MarketCategory;
   q: string;
   preset: keyof typeof PRESETS;
   horizon: Horizon;
+  basis: PriceBasis;
   sort: string;
   direction: "asc" | "desc";
   sortRequested: string;
@@ -68,6 +94,8 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
     volatility: "volatility",
     quiet: "activity",
     fresh: "freshness",
+    risingContracting: "listingChange",
+    fallingExpanding: "listingChange",
   };
   return {
     category: categoryValue(p.category),
@@ -78,6 +106,9 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
     horizon: ["1h", "6h", "24h"].includes(p.horizon ?? "")
       ? (p.horizon as Horizon)
       : "1h",
+    // Minimum stays the default so existing links keep their meaning; median is
+    // an explicit, labelled alternative rather than a silent substitution.
+    basis: p.basis === "median" ? "median" : "minimum",
     sort: [
       "price",
       "median",
@@ -95,7 +126,13 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
     direction:
       p.direction === "asc" || p.direction === "desc"
         ? p.direction
-        : ["down", "contracting", "quiet", "fresh"].includes(preset)
+        : [
+              "down",
+              "contracting",
+              "quiet",
+              "fresh",
+              "fallingExpanding",
+            ].includes(preset)
           ? "asc"
           : "desc",
     page: Math.max(1, Math.min(40, Math.floor(num(p.page) ?? 1))),
@@ -125,15 +162,39 @@ const within = (
     (max === null || Number(value) <= max));
 export function explain(a: MarketAssetSummary, s: Screen) {
   const lines: string[] = [];
-  if (a.returns[s.horizon] !== null)
+  const ret = returnsFor(a, s.basis)[s.horizon];
+  const listing = a.listingPct[s.horizon] ?? a.listingPct1h;
+  if (ret !== null)
     lines.push(
-      `Minimum listing price changed ${Number(a.returns[s.horizon]).toFixed(2)}% over ${s.horizon}.`,
+      `${PRICE_BASIS_LABEL[s.basis]} changed ${Number(ret).toFixed(2)}% over ${s.horizon}.`,
     );
-  if (a.listingPct1h !== null && Number(a.listingPct1h) === 0)
-    lines.push("Venue listing quantity remained unchanged over 1h.");
-  else if (a.listingPct1h !== null)
+  // Both bases are always stated: a minimum-price move is the cheapest listing
+  // moving, which is not the same fact as the whole book repricing.
+  const other = s.basis === "minimum" ? "median" : "minimum";
+  const otherValue = returnsFor(a, other)[s.horizon];
+  if (otherValue !== null)
     lines.push(
-      `Venue listing quantity ${Number(a.listingPct1h) < 0 ? "decreased" : "increased"} ${Math.abs(Number(a.listingPct1h)).toFixed(2)}% over 1h.`,
+      `${PRICE_BASIS_LABEL[other]} changed ${Number(otherValue).toFixed(2)}% over the same period.`,
+    );
+  if (listing !== null && Number(listing) === 0)
+    lines.push(`Venue listing quantity remained unchanged over ${s.horizon}.`);
+  else if (listing !== null)
+    lines.push(
+      `Venue listing quantity ${Number(listing) < 0 ? "decreased" : "increased"} ${Math.abs(Number(listing)).toFixed(2)}% over ${s.horizon}.`,
+    );
+  // Depth qualifies every percentage move: the largest observed mover in the
+  // seven-day dataset had four listings.
+  if (a.listings !== null)
+    lines.push(
+      a.listings <= 5
+        ? `Only ${a.listings} listing${a.listings === 1 ? "" : "s"} observed: a percentage move in this market can come from a single listing.`
+        : `${a.listings} listings observed.`,
+    );
+  if (a.availability !== "ACTIVE")
+    lines.push(
+      a.availability === "NO_ACTIVE_LISTING_OBSERVED"
+        ? "No active listing observed in the latest window; the last observed price is not currently actionable."
+        : "Market state unknown for the latest window; the provider fetch did not succeed.",
     );
   if (a.activity !== null)
     lines.push(
@@ -146,9 +207,17 @@ export function explain(a: MarketAssetSummary, s: Screen) {
     lines.push(
       `Items source age ${Math.floor(a.quality.sourceAgeSeconds)} seconds as of the dataset read.`,
     );
-  if (a.volatility[s.horizon] === null)
+  if (volatilityFor(a, s.basis)[s.horizon] === null)
     lines.push(
       `${s.horizon} volatility unavailable — requires ${{ "1h": 13, "6h": 73, "24h": 289 }[s.horizon]} consecutive observations.`,
+    );
+  if (s.preset === "volatility")
+    lines.push(
+      "Volatility ranking is EXPERIMENTAL: on low-priced assets a one-cent tick is a multi-percent move.",
+    );
+  if (DESCRIPTIVE_PRESETS.has(s.preset))
+    lines.push(
+      "Descriptive market state only. Part of the inverse price/listing relationship is mechanical, and no predictive value is established.",
     );
   return lines;
 }
@@ -162,9 +231,10 @@ export function screenAssets(
       (a.identity?.category ?? "other") !== s.category
     )
       return false;
-    const ret = a.returns[s.horizon],
-      listing = a.listingPct1h,
-      vol = a.volatility[s.horizon];
+    const ret = returnsFor(a, s.basis)[s.horizon],
+      // Listing change now follows the selected horizon instead of being pinned to 1h.
+      listing = a.listingPct[s.horizon] ?? a.listingPct1h,
+      vol = volatilityFor(a, s.basis)[s.horizon];
     if (s.q && !a.name.toLowerCase().includes(s.q.toLowerCase())) return false;
     if (
       !within(a.minimum, s.min, s.max) ||
@@ -199,7 +269,10 @@ export function screenAssets(
       return false;
     switch (s.preset) {
       case "active":
-        return a.activity !== null && Number(a.activity) >= THRESHOLDS.activity;
+        return (
+          a.activity !== null &&
+          Number(a.activity) >= SCREEN_THRESHOLDS.activity
+        );
       case "movers":
         return ret !== null;
       case "up":
@@ -207,22 +280,43 @@ export function screenAssets(
       case "down":
         return ret !== null && Number(ret) < 0;
       case "contracting":
-        return listing !== null && Number(listing) <= -THRESHOLDS.listingPct;
+        return (
+          listing !== null && Number(listing) <= -SCREEN_THRESHOLDS.listingPct
+        );
       case "expanding":
-        return listing !== null && Number(listing) >= THRESHOLDS.listingPct;
+        return (
+          listing !== null && Number(listing) >= SCREEN_THRESHOLDS.listingPct
+        );
       case "volatility":
         return vol !== null;
       case "quiet":
+        // 24h basis: over one hour 71% of observed activity values are exactly
+        // zero, which makes the 1h window useless as a quiet-market filter.
         return (
-          a.activity !== null && Number(a.activity) <= THRESHOLDS.quietActivity
+          a.activity24h !== null &&
+          Number(a.activity24h) <= SCREEN_THRESHOLDS.quietActivity24h
+        );
+      case "risingContracting":
+        return (
+          ret !== null &&
+          listing !== null &&
+          Number(ret) > 0 &&
+          Number(listing) < 0
+        );
+      case "fallingExpanding":
+        return (
+          ret !== null &&
+          listing !== null &&
+          Number(ret) < 0 &&
+          Number(listing) > 0
         );
       case "fresh":
         return (
           a.changed5m === true &&
           a.quality.sourceAgeSeconds !== null &&
-          a.quality.sourceAgeSeconds <= THRESHOLDS.freshSeconds &&
+          a.quality.sourceAgeSeconds <= SCREEN_THRESHOLDS.freshSeconds &&
           a.quality.observationAgeSeconds !== null &&
-          a.quality.observationAgeSeconds <= THRESHOLDS.freshSeconds
+          a.quality.observationAgeSeconds <= SCREEN_THRESHOLDS.freshSeconds
         );
       default:
         return true;
@@ -233,15 +327,15 @@ export function screenAssets(
       {
         price: a.minimum,
         median: a.median,
-        return: a.returns[s.horizon],
+        return: returnsFor(a, s.basis)[s.horizon],
         absReturn:
-          a.returns[s.horizon] === null
+          returnsFor(a, s.basis)[s.horizon] === null
             ? null
-            : Math.abs(Number(a.returns[s.horizon])),
+            : Math.abs(Number(returnsFor(a, s.basis)[s.horizon])),
         listings: a.listings,
-        listingChange: a.listingPct1h,
-        activity: a.activity,
-        volatility: a.volatility[s.horizon],
+        listingChange: a.listingPct[s.horizon] ?? a.listingPct1h,
+        activity: s.preset === "quiet" ? a.activity24h : a.activity,
+        volatility: volatilityFor(a, s.basis)[s.horizon],
         freshness: a.quality.sourceAgeSeconds,
         coverage: a.quality.coveragePct,
       } as Record<string, string | number | null>
@@ -289,21 +383,27 @@ export function whySurfaced(a: MarketAssetSummary, s: Screen) {
     v === null
       ? "Unavailable"
       : `${Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 })}${suffix}`;
+  const listing = a.listingPct[s.horizon] ?? a.listingPct1h;
+  const depth = a.listings === null ? "" : ` · ${a.listings} listings`;
   switch (s.preset) {
     case "active":
-      return `Activity ${fmt(a.activity)}/100 ≥ ${THRESHOLDS.activity}`;
+      return `Activity ${fmt(a.activity)}/100 ≥ ${SCREEN_THRESHOLDS.activity} (p95)`;
     case "quiet":
-      return `Activity ${fmt(a.activity)}/100 ≤ ${THRESHOLDS.quietActivity}`;
+      return `Activity ${fmt(a.activity24h)}/100 over 24h ≤ ${SCREEN_THRESHOLDS.quietActivity24h} (p25)`;
     case "contracting":
-      return `Venue listings ${fmt(a.listingPct1h, "%")} / 1h ≤ −${THRESHOLDS.listingPct}%`;
+      return `Venue listings ${fmt(listing, "%")} / ${s.horizon} ≤ −${SCREEN_THRESHOLDS.listingPct}%${depth}`;
     case "expanding":
-      return `Venue listings ${fmt(a.listingPct1h, "%")} / 1h ≥ ${THRESHOLDS.listingPct}%`;
+      return `Venue listings ${fmt(listing, "%")} / ${s.horizon} ≥ ${SCREEN_THRESHOLDS.listingPct}%${depth}`;
+    case "risingContracting":
+      return `${PRICE_BASIS_LABEL[s.basis]} ${fmt(returnsFor(a, s.basis)[s.horizon], "%")} up · listings ${fmt(listing, "%")} down / ${s.horizon}${depth} · descriptive state`;
+    case "fallingExpanding":
+      return `${PRICE_BASIS_LABEL[s.basis]} ${fmt(returnsFor(a, s.basis)[s.horizon], "%")} down · listings ${fmt(listing, "%")} up / ${s.horizon}${depth} · descriptive state`;
     case "up":
     case "down":
     case "movers":
-      return `Minimum price ${fmt(a.returns[s.horizon], "%")} / ${s.horizon}`;
+      return `${PRICE_BASIS_LABEL[s.basis]} ${fmt(returnsFor(a, s.basis)[s.horizon], "%")} / ${s.horizon}${depth}`;
     case "volatility":
-      return `Volatility ${fmt(a.volatility[s.horizon], "%")} / ${s.horizon} · complete window`;
+      return `Volatility ${fmt(volatilityFor(a, s.basis)[s.horizon], "%")} / ${s.horizon} · complete window · EXPERIMENTAL`;
     case "fresh":
       return `Changed / 5m · source ${fmt(a.quality.sourceAgeSeconds, "s")} · observation ${fmt(a.quality.observationAgeSeconds, "s")}`;
     default:

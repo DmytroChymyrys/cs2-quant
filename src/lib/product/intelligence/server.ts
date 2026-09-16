@@ -24,7 +24,9 @@ import {
   usesBundledDemoArtwork,
   syntheticDataAllowed,
   assertPreviewIsolation,
+  syntheticMisconfiguredInProduction,
 } from "../../preview";
+export { syntheticMisconfiguredInProduction };
 export function demoMode() {
   return (
     syntheticDataAllowed() && process.env.PRODUCT_ANALYTICS_MODE === "demo"
@@ -67,11 +69,17 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
     assets: [],
     error,
   });
-  if (
-    ["fixture", "demo"].includes(process.env.PRODUCT_ANALYTICS_MODE ?? "") &&
-    !syntheticMode()
-  )
-    return unavailable("Synthetic data is disabled in production.");
+  if (syntheticMisconfiguredInProduction()) {
+    console.error(
+      JSON.stringify({
+        event: "analytics.synthetic_blocked_in_production",
+        mode: process.env.PRODUCT_ANALYTICS_MODE,
+      }),
+    );
+    return unavailable(
+      `Synthetic analytics mode "${process.env.PRODUCT_ANALYTICS_MODE}" is configured but is not permitted here. Real observations are not being shown, and synthetic data will not be substituted.`,
+    );
+  }
   try {
     if (syntheticMode()) {
       const d = previewDataset(),
