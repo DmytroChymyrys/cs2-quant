@@ -1,0 +1,115 @@
+{
+  "target": "localhost:5432/floatalpha_staging",
+  "window": {
+    "from": "2026-09-09T17:55:00.000Z",
+    "to": "2026-09-16T17:55:00.000Z"
+  },
+  "mode": "build",
+  "built": [
+    {
+      "grain": "hourly",
+      "table": "market_observations_hourly",
+      "buckets": 16878
+    },
+    {
+      "grain": "daily",
+      "table": "market_observations_daily",
+      "buckets": 799
+    }
+  ],
+  "reconciliations": [
+    {
+      "grain": "hourly",
+      "rollup": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100,
+        "partial_buckets": 299
+      },
+      "raw": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100
+      },
+      "differences": [],
+      "matches": true
+    },
+    {
+      "grain": "daily",
+      "rollup": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100,
+        "partial_buckets": 299
+      },
+      "raw": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100
+      },
+      "differences": [],
+      "matches": true
+    }
+  ],
+  "elapsedMs": 3018,
+  "matches": true,
+  "frozenEvidenceBaseline": {
+    "source": "reports/experiment-7d-2026-09-16/REPORT.md (commit 4f6c7ea)",
+    "observations": 201235,
+    "expectedObservations": 201600,
+    "completenessPct": 99.819,
+    "adjacentComparisons": 201035,
+    "minPriceTransitions": 3747,
+    "medianPriceTransitions": 2918,
+    "listingQuantityTransitions": 6145,
+    "publishedSales24hTransitions": 468,
+    "assets": 100
+  },
+  "frozenEvidenceMatch": {
+    "observations": true,
+    "adjacentComparisons": true,
+    "minPriceTransitions": true,
+    "medianPriceTransitions": true,
+    "listingQuantityTransitions": true,
+    "publishedSales24hTransitions": true,
+    "assets": true,
+    "completenessPct": 99.819,
+    "all": true
+  },
+  "storage": {
+    "hourlyRows": 16878,
+    "hourlyTotalBytes": 10485760,
+    "dailyRows": 799,
+    "dailyTotalBytes": 557056,
+    "rawObservationsTotalBytes": 383778816,
+    "hourlyPctOfRaw": 2.83,
+    "dailyPctOfRaw": 0.145,
+    "hourlyPartialBuckets": 299,
+    "dailyPartialBuckets": 299,
+    "basis": "Measured on the staging clone after VACUUM ANALYZE. Sizes include indexes."
+  }
+}
