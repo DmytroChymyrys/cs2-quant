@@ -1,5 +1,14 @@
 import { createHash } from "node:crypto";
-import { type Input, validateScope, STEP } from "./model";
+import {
+  type Input,
+  type Run,
+  type Scope,
+  type RawObservation,
+  validateScope,
+  STEP,
+  METHOD,
+  DEFAULT_SCOPE_DAYS,
+} from "./model";
 export function digest(value: unknown): string {
   function canonical(v: unknown): unknown {
     if (Array.isArray(v)) return v.map(canonical);
@@ -15,8 +24,39 @@ export function digest(value: unknown): string {
     .update(JSON.stringify(canonical(value)))
     .digest("hex");
 }
-export function prepare(input: Input) {
-  const { from, to } = validateScope(input.scope);
+// Content identity of one raw observation. The History payload contributes as a
+// content hash rather than an inlined copy, so identity is preserved while the
+// hashed structure stays small enough to build one asset at a time.
+export function observationDigest(o: RawObservation): string {
+  return digest({
+    id: o.id,
+    runId: o.runId,
+    assetId: o.assetId,
+    name: o.name,
+    observedAt: o.observedAt,
+    itemsSourceAt: o.itemsSourceAt,
+    minPrice: o.minPrice,
+    medianPrice: o.medianPrice,
+    quantity: o.quantity,
+    historySha256: o.history === null ? null : digest(o.history),
+  });
+}
+// Sorted observation digests make the snapshot ID independent of the order in
+// which assets are derived, so batch and chunked derivation agree exactly.
+export function snapshotIdentity(
+  scope: Scope,
+  runs: Run[],
+  observationDigests: string[],
+): string {
+  return digest({
+    method: METHOD,
+    scope,
+    runs,
+    observationDigests: [...observationDigests].sort(),
+  });
+}
+export function prepare(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
+  const { from, to } = validateScope(input.scope, maxDays);
   const runs = input.runs
     .filter(
       (r) =>

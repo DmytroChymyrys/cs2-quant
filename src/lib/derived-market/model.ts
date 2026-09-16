@@ -1,5 +1,12 @@
-export const METHOD = "listing-features-v2";
+// v3: the snapshot digest hashes a per-observation content digest (including a
+// History payload hash) instead of inlining every payload, so identical input still
+// yields an identical ID while derivation can run one asset at a time.
+export const METHOD = "listing-features-v3";
 export const STEP = 300_000;
+// Product-facing derivations stay at seven days. A longer scope must be requested
+// explicitly and can never exceed MAX_SCOPE_DAYS; scope is never unbounded.
+export const DEFAULT_SCOPE_DAYS = 7;
+export const MAX_SCOPE_DAYS = 35;
 export const TOLERANCE = 90_000;
 export type Scope = { from: string; to: string; assets: string[] };
 export type Run = {
@@ -68,7 +75,14 @@ export type Feature = {
   // Decimal strings for arithmetic; NULL means insufficient/invalid history, never invented zero.
   values: Record<string, string | number | null>;
 };
-export function validateScope(scope: Scope) {
+export function validateScope(
+  scope: Scope,
+  maxDays: number = DEFAULT_SCOPE_DAYS,
+) {
+  if (!Number.isInteger(maxDays) || maxDays < 1 || maxDays > MAX_SCOPE_DAYS)
+    throw new Error(
+      `SCOPE_DAYS_MUST_BE_AN_INTEGER_BETWEEN_1_AND_${MAX_SCOPE_DAYS}`,
+    );
   const from = Date.parse(scope.from),
     to = Date.parse(scope.to);
   if (
@@ -77,9 +91,11 @@ export function validateScope(scope: Scope) {
     from % STEP ||
     to % STEP ||
     to <= from ||
-    to - from > 7 * 86400000
+    to - from > maxDays * 86400000
   )
-    throw new Error("SCOPE_MUST_BE_ALIGNED_POSITIVE_AND_AT_MOST_SEVEN_DAYS");
+    throw new Error(
+      `SCOPE_MUST_BE_ALIGNED_POSITIVE_AND_AT_MOST_${maxDays}_DAYS`,
+    );
   if (
     !scope.assets.length ||
     scope.assets.length > 1000 ||

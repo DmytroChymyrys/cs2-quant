@@ -1,5 +1,5 @@
 import Decimal from "decimal.js";
-import { type Input, STEP, validateScope } from "./model";
+import { type Input, STEP, validateScope, DEFAULT_SCOPE_DAYS } from "./model";
 import { prepare } from "./prepare";
 import { derive, type Derived } from "./features";
 export function distribution(values: number[]) {
@@ -36,8 +36,13 @@ const summary = (values: (string | number | null)[]) => {
       : null,
   };
 };
-export function makeReport(input: Input, derived: Derived = derive(input)) {
-  const { from, to } = validateScope(input.scope),
+export function makeReport(
+  input: Input,
+  derived?: Derived,
+  maxDays: number = DEFAULT_SCOPE_DAYS,
+) {
+  derived ??= derive(input, maxDays);
+  const { from, to } = validateScope(input.scope, maxDays),
     data = prepare(input);
   const expectedWindows = (to - from) / STEP,
     claimedGroups = Map.groupBy(data.claimed, (r) => r.window);

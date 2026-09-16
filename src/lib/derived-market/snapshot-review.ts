@@ -1,4 +1,11 @@
-import { METHOD, STEP, validateScope, type Scope, type Feature } from "./model";
+import {
+  METHOD,
+  STEP,
+  validateScope,
+  MAX_SCOPE_DAYS,
+  type Scope,
+  type Feature,
+} from "./model";
 import { distribution } from "./report";
 export type SnapshotHead = {
   method: string;
@@ -6,6 +13,8 @@ export type SnapshotHead = {
   created_at: string | Date;
   report: Record<string, unknown>;
 };
+// A stored snapshot may legitimately cover a longer research scope than the
+// default product horizon, so reading validates against the hard maximum.
 export function validateSnapshotHead(value: unknown): SnapshotHead {
   if (!value || typeof value !== "object") throw Error("SNAPSHOT_NOT_FOUND");
   const h = value as SnapshotHead;
@@ -18,7 +27,7 @@ export function validateSnapshotHead(value: unknown): SnapshotHead {
     new Set(h.scope.assets).size !== h.scope.assets.length
   )
     throw Error("INCOMPLETE_SNAPSHOT_METADATA");
-  validateScope(h.scope);
+  validateScope(h.scope, MAX_SCOPE_DAYS);
   if (
     !Number.isFinite(new Date(h.created_at).getTime()) ||
     !h.report ||

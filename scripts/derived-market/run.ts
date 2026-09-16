@@ -3,7 +3,12 @@ import { Pool } from "pg";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { parseArgs } from "node:util";
-import { STEP, validateScope } from "../../src/lib/derived-market/model";
+import {
+  STEP,
+  validateScope,
+  DEFAULT_SCOPE_DAYS,
+  MAX_SCOPE_DAYS,
+} from "../../src/lib/derived-market/model";
 import { derive } from "../../src/lib/derived-market/features";
 import { makeReport } from "../../src/lib/derived-market/report";
 import {
@@ -19,6 +24,7 @@ const { values: args } = parseArgs({
     universe: { type: "string", default: "reports/collection-experiment.json" },
     out: { type: "string" },
     persist: { type: "boolean", default: false },
+    "max-days": { type: "string" },
   },
 });
 const closed = new Date(Math.floor(Date.now() / STEP) * STEP).toISOString();
@@ -38,6 +44,15 @@ try {
     throw new Error("DERIVED_TARGET_MUST_BE_SEPARATE_DATABASE");
   if (!["report", "health", "storage"].includes(args.mode!))
     throw new Error("INVALID_MODE");
+  // Longer scopes are for the controlled research snapshot and must be asked for
+  // explicitly; the product default stays at seven days.
+  const maxDays = args["max-days"]
+    ? Number(args["max-days"])
+    : DEFAULT_SCOPE_DAYS;
+  if (!Number.isInteger(maxDays) || maxDays < 1 || maxDays > MAX_SCOPE_DAYS)
+    throw new Error(
+      `MAX_DAYS_MUST_BE_AN_INTEGER_BETWEEN_1_AND_${MAX_SCOPE_DAYS}`,
+    );
   const output =
     args.out ??
     `reports/derived-market/${args.mode}-${new Date().toISOString().replaceAll(":", "-")}`;
@@ -66,10 +81,10 @@ try {
         to: new Date(to).toISOString(),
         assets: universe.assets as string[],
       };
-      validateScope(scope);
+      validateScope(scope, maxDays);
       if (Date.parse(scope.to) > Date.parse(closed))
         throw new Error("REPORT_END_NOT_YET_CLOSED");
-      input = await loadSource(client, scope);
+      input = await loadSource(client, scope, maxDays);
     }
     await client.query("COMMIT");
   } catch (error) {
@@ -84,8 +99,8 @@ try {
       JSON.stringify({ output: `${output}.json`, kind: "storage measurement" }),
     );
   } else {
-    const derived = derive(input),
-      report = makeReport(input, derived);
+    const derived = derive(input, maxDays),
+      report = makeReport(input, derived, maxDays);
     const artifact = {
       ...report,
       generatedAt: new Date().toISOString(),
