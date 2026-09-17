@@ -115,3 +115,5 @@ drizzle/
 The design must transition without replaying already-applied migrations, must
 verify the real product-database history rather than assuming it, and must ship
 with CI tests proving each stream cannot run against the other family.
+
+See [MIGRATION_STREAM_SPLIT_DESIGN.md](MIGRATION_STREAM_SPLIT_DESIGN.md).
