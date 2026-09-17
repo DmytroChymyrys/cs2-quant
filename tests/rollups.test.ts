@@ -31,7 +31,9 @@ beforeAll(async () => {
       collector_run_id uuid NOT NULL REFERENCES collector_runs(id), observed_at timestamptz NOT NULL,
       source_updated_at timestamptz NOT NULL, min_price numeric(20,8), median_price numeric(20,8),
       quantity integer NOT NULL, sales_24h_volume integer);`);
-  await db.exec(await readFile("drizzle/0007_observation_rollups.sql", "utf8"));
+  await db.exec(
+    await readFile("drizzle/market/0007_observation_rollups.sql", "utf8"),
+  );
   await db.exec(`INSERT INTO assets VALUES ('${ASSET}','Asset A');`);
 
   const runs: string[] = [];

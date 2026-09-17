@@ -1,12 +1,102 @@
-# Migrations — shared-directory hazard
+# Migrations
 
-> **DO NOT RUN `npm run db:migrate` AGAINST PRODUCTION.**
->
-> It is unsafe until the migration streams are split. Reviewed SQL must be
-> applied directly instead. This warning is removed only when the permanent fix
-> below is implemented and verified.
+Three isolated migration streams. Each owns a directory, a journal and its own
+migration-history schema, so a runner can only ever apply its own migrations.
 
-## The hazard
+| Stream | Directory | History schema | Target | Runner |
+| --- | --- | --- | --- | --- |
+| market | `drizzle/market` | `drizzle` | market database (`DATABASE_URL`) | `npm run db:migrate` |
+| product | `drizzle/product` | `drizzle_product` | product database (`PRODUCT_DATABASE_URL`) | `npm run db:migrate:product` |
+| steam | `drizzle-steam` | `drizzle_steam` | product database (`PRODUCT_DATABASE_URL`) | `npm run db:migrate:steam` |
+
+Add `:plan` to the market or product runner to see what would be applied without
+applying anything.
+
+> **This is migration-stream isolation, not database separation.** Product and
+> steam both target the product database, and the cross-family foreign keys from
+> product tables into `assets` and `market_observations` are preserved
+> deliberately.
+
+## Ownership of every migration
+
+| Migration | Stream | Applied to production market DB |
+| --- | --- | --- |
+| `0000_initial_market_snapshots` | market | yes |
+| `0001_protect_observation_history` | market | yes |
+| `0006_history_payload_dedup` | market | yes (directly, now recorded) |
+| `0007_observation_rollups` | market | yes (directly, now recorded) |
+| `0002_product_accounts_monitoring_billing` | product | no (product DB only) |
+| `0003_ops_application_role` | product | no |
+| `0004_ops_audit` | product | no |
+| `0000_steam_account_link` | steam | no |
+
+**Numbering gaps are intentional.** Files were never renumbered: drizzle matches
+applied migrations by raw file SHA-256, so renaming would make every applied
+migration look pending. `0002`–`0005` are simply absent from the market stream.
+
+## Bootstrap order
+
+A fresh co-located database must be bootstrapped in this order:
+
+```
+1. market     (creates assets, market_observations, collector_runs, …)
+2. product    (its foreign keys reference market tables)
+3. steam      (adds a partial unique index to auth_accounts)
+```
+
+The product runner asserts the market prerequisite explicitly and fails with
+`MIGRATION_PREREQUISITE_MISSING` rather than part-applying.
+
+## Fail-closed validation
+
+Each runner validates before migrating and raises one of:
+
+| Error | Meaning |
+| --- | --- |
+| `MIGRATION_FAMILY_REFUSED` | A pending migration belongs to another family |
+| `MIGRATION_FAMILY_MISMATCH` | The target database looks like the other family |
+| `MIGRATION_FAMILY_MIXED` | Market stream pointed at a co-located database |
+| `MIGRATION_PREREQUISITE_MISSING` | Product stream ran before the market stream |
+
+## Market ledger reconciliation
+
+`0006` and `0007` were applied directly to production and were absent from the
+ledger. `npm run db:reconcile:market` records their identity **without replaying
+them**, and only after verifying: the file SHA-256 equals the hash recorded as
+applied, every declared object exists, each object definition matches, and the
+frozen seven-day evidence still reproduces. It executes no market DDL.
+
+Production ledger after reconciliation:
+
+| id | created_at | Migration |
+| --- | --- | --- |
+| 1 | 1788968470562 | `0000_initial_market_snapshots` |
+| 2 | 1788968586983 | `0001_protect_observation_history` |
+| 3 | 1789657641000 | `0006_history_payload_dedup` |
+| 4 | 1789658020000 | `0007_observation_rollups` |
+
+`npm run db:migrate:plan` against production reports **zero pending**.
+
+## Duplicate Steam migration, resolved
+
+Two files created the same partial unique index `auth_one_steam_per_user`:
+
+| File | Status |
+| --- | --- |
+| `drizzle-steam/0000_steam_account_link.sql` | **canonical** — applied and recorded in `drizzle_steam` |
+| `drizzle/0005_steam_account_link.sql` | superseded — removed |
+
+The canonical owner is the one production actually applied. The superseded file
+and the old shared journal are preserved under
+`reports/migration-split/superseded/` for audit.
+
+## History
+
+The previous shared-directory hazard, where both runners consumed the same
+`./drizzle` folder and journal, is resolved by this split. That history is kept
+below for context.
+
+## Appendix: the original hazard (resolved)
 
 Two logically separate databases are migrated from the **same** `./drizzle`
 directory and the **same** `drizzle/meta/_journal.json`:

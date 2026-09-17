@@ -1,49 +1,15 @@
 /**
- * Database-family guard for the shared Drizzle migration directory.
+ * Fail-closed database-family validation for a migration stream.
  *
- * KNOWN HAZARD. `scripts/migrate.ts` and `scripts/migrate-product.ts` both read
- * the same `./drizzle` folder and the same `meta/_journal.json`, but they target
- * two logically separate databases. Each database records only the migrations it
- * has actually applied, so the shared journal always contains entries that are
- * "pending" for the wrong database. Running either migrator can therefore apply
- * the other family's schema.
- *
- * This guard fails closed: it refuses to migrate when any pending migration
- * belongs to a different family than the target database. It is a stopgap. The
- * permanent fix is to split the migration directory and journal per family.
+ * Streams are isolated by directory and journal (see migration-streams.ts), so a
+ * runner cannot read another stream's migrations. This guard is defence in
+ * depth: it refuses when the TARGET DATABASE does not match the stream's family,
+ * or when a migration in the stream's own folder would touch another family's
+ * tables.
  */
-export type DatabaseFamily = "MARKET" | "PRODUCT";
-
-/** Tables that identify a database as belonging to a family. */
-export const FAMILY_TABLES: Record<DatabaseFamily, readonly string[]> = {
-  MARKET: [
-    "assets",
-    "asset_source_mappings",
-    "collector_runs",
-    "market_observations",
-    "market_history_payloads",
-    "market_observation_history",
-    "market_observations_hourly",
-    "market_observations_daily",
-  ],
-  PRODUCT: [
-    "app_users",
-    "auth_users",
-    "auth_accounts",
-    "auth_sessions",
-    "auth_verifications",
-    "auth_rate_limits",
-    "billing_subscriptions",
-    "billing_events",
-    "alert_rules",
-    "alert_events",
-    "portfolio_holdings",
-    "saved_screens",
-    "watchlist_entries",
-    "admin_audit",
-    "steam_account_links",
-  ],
-};
+export type { DatabaseFamily } from "./migration-streams";
+export { FAMILY_TABLES } from "./migration-streams";
+import { FAMILY_TABLES, type DatabaseFamily } from "./migration-streams";
 
 /**
  * Objects a migration OWNS: tables it creates or alters, and tables it attaches

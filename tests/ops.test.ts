@@ -69,10 +69,15 @@ const request = (query = "") =>
 const page = () =>
   OpsPage({ params: Promise.resolve({}), searchParams: Promise.resolve({}) });
 beforeAll(async () => {
-  for (const entry of JSON.parse(
-    await readFile("drizzle/meta/_journal.json", "utf8"),
-  ).entries)
-    await db.exec(await readFile(`drizzle/${entry.tag}.sql`, "utf8"));
+  // Market then product, which is the documented bootstrap order: product
+  // migrations hold foreign keys into the market tables.
+  for (const stream of ["market", "product"] as const)
+    for (const entry of JSON.parse(
+      await readFile(`drizzle/${stream}/meta/_journal.json`, "utf8"),
+    ).entries)
+      await db.exec(
+        await readFile(`drizzle/${stream}/${entry.tag}.sql`, "utf8"),
+      );
   await db.exec(await readFile("db/catalog/001_catalog.sql", "utf8"));
   await db.query(
     "insert into auth_users(id,name,email,email_verified) values($1,'Ops test','ops@example.test',true)",

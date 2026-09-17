@@ -39,6 +39,13 @@ import { POST as holding } from "../src/app/api/product/portfolio/route";
 import { POST as createAlert } from "../src/app/api/product/alerts/route";
 import { evaluateAlerts } from "../src/lib/product/alerts";
 import { marketSnapshot } from "../src/lib/product/market";
+const MARKET_MIGRATIONS = new Set([
+  "0000_initial_market_snapshots",
+  "0001_protect_observation_history",
+  "0006_history_payload_dedup",
+  "0007_observation_rollups",
+]);
+
 const req = (
   path: string,
   body: unknown,
@@ -61,7 +68,13 @@ beforeAll(async () => {
     "0003_ops_application_role",
     "0004_ops_audit",
   ])
-    await db.exec(await readFile(`drizzle/${file}.sql`, "utf8"));
+    // Migration streams are isolated by directory; resolve each file to its owner.
+    await db.exec(
+      await readFile(
+        `drizzle/${MARKET_MIGRATIONS.has(file) ? "market" : "product"}/${file}.sql`,
+        "utf8",
+      ),
+    );
   await db.query(
     "insert into auth_users(id,name,email) values($1,'Test','test@example.test')",
     [authId],

@@ -19,10 +19,13 @@ try {
   )
     throw new Error("FIXTURE_DATABASE_MUST_BE_EMPTY");
   await c.query(
-    await readFile("drizzle/0000_initial_market_snapshots.sql", "utf8"),
+    await readFile("drizzle/market/0000_initial_market_snapshots.sql", "utf8"),
   );
   await c.query(
-    await readFile("drizzle/0001_protect_observation_history.sql", "utf8"),
+    await readFile(
+      "drizzle/market/0001_protect_observation_history.sql",
+      "utf8",
+    ),
   );
   const input = sequence(2016, 3, 400);
   for (let i = 0; i < 3; i++)

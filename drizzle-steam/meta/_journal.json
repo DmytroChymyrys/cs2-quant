@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1789420200000,
+      "tag": "0000_steam_account_link",
+      "breakpoints": true
+    }
+  ]
+}

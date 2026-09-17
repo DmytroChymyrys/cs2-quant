@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:migrate:steam": "tsx scripts/migrate-steam.ts",
     "db:migrate:billing-sandbox": "tsx scripts/migrate-billing-sandbox.ts",
     "billing:setup:sandbox": "tsx scripts/setup-billing-sandbox.ts",
     "dev": "next dev --port 3338",
@@ -11,8 +12,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx scripts/migrate.ts",
+    "db:generate": "drizzle-kit generate --config drizzle.market.config.ts",
+    "db:migrate": "node --import tsx scripts/migrate.ts",
     "discover": "tsx scripts/discover.ts",
     "seed": "tsx scripts/seed.ts",
     "inspect:collection": "tsx scripts/inspect-collection.ts",
@@ -32,7 +33,11 @@
     "analytics:snapshot": "node --import tsx scripts/derived-market/snapshot.ts",
     "analytics:research": "node --import tsx scripts/derived-market/research.ts",
     "check:demo": "node scripts/check-demo-market.mjs",
-    "check:qa": "node scripts/check-qa-market.mjs"
+    "check:qa": "node scripts/check-qa-market.mjs",
+    "db:generate:product": "drizzle-kit generate --config drizzle.product.config.ts",
+    "db:migrate:plan": "node --import tsx scripts/migrate.ts --plan",
+    "db:migrate:product:plan": "node --import tsx scripts/migrate-product.ts --plan",
+    "db:reconcile:market": "node --import tsx scripts/reconcile-market-ledger.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.3",

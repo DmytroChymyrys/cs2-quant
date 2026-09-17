@@ -36,6 +36,13 @@
       "when": 1789060609372,
       "tag": "0004_ops_audit",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789420678866,
+      "tag": "0005_steam_account_link",
+      "breakpoints": true
     }
   ]
 }

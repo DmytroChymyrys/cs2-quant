@@ -1,0 +1,158 @@
+{
+  "stream": "market",
+  "migrationsSchema": "drizzle",
+  "alreadyRecorded": 2,
+  "wouldRecord": [
+    {
+      "tag": "0006_history_payload_dedup",
+      "sha256": "53b0f0d1a84408cc8227501cc9480c80ffa2097735059478ccaa250dbafb8c02",
+      "when": 1789657641000
+    },
+    {
+      "tag": "0007_observation_rollups",
+      "sha256": "97285647cffa6818e461ff6090f0deabb55558050f9fd040be09dfb60e1bd24b",
+      "when": 1789658020000
+    }
+  ],
+  "checks": [
+    {
+      "name": "0000_initial_market_snapshots: already recorded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0001_protect_observation_history: already recorded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_history_payload_dedup: sha256 matches production-applied hash",
+      "pass": true,
+      "detail": "53b0f0d1a84408cc8227501cc9480c80ffa2097735059478ccaa250dbafb8c02"
+    },
+    {
+      "name": "0006_history_payload_dedup: table market_history_payloads exists",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_history_payload_dedup: table market_observation_history exists",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_history_payload_dedup: index history_payload_asset_seen exists with matching definition",
+      "pass": true,
+      "detail": "CREATE INDEX history_payload_asset_seen ON public.market_history_payloads USING btree (asset_id, source, first_seen_at DESC)"
+    },
+    {
+      "name": "0006_history_payload_dedup: index observation_history_payload exists with matching definition",
+      "pass": true,
+      "detail": "CREATE INDEX observation_history_payload ON public.market_observation_history USING btree (history_payload_id)"
+    },
+    {
+      "name": "0006_history_payload_dedup: constraint history_payload_identity exists as unique",
+      "pass": true,
+      "detail": "u"
+    },
+    {
+      "name": "0006_history_payload_dedup: constraint history_payload_seen_order exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0006_history_payload_dedup: constraint history_payload_count_positive exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0007_observation_rollups: sha256 matches production-applied hash",
+      "pass": true,
+      "detail": "97285647cffa6818e461ff6090f0deabb55558050f9fd040be09dfb60e1bd24b"
+    },
+    {
+      "name": "0007_observation_rollups: table market_observations_hourly exists",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0007_observation_rollups: table market_observations_daily exists",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0007_observation_rollups: index observations_hourly_bucket exists with matching definition",
+      "pass": true,
+      "detail": "CREATE INDEX observations_hourly_bucket ON public.market_observations_hourly USING btree (bucket DESC, asset_id)"
+    },
+    {
+      "name": "0007_observation_rollups: index observations_daily_bucket exists with matching definition",
+      "pass": true,
+      "detail": "CREATE INDEX observations_daily_bucket ON public.market_observations_daily USING btree (bucket DESC, asset_id)"
+    },
+    {
+      "name": "0007_observation_rollups: constraint hourly_bucket_aligned exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0007_observation_rollups: constraint hourly_observation_bounds exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0007_observation_rollups: constraint hourly_complete_consistent exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0007_observation_rollups: constraint daily_observation_bounds exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "0007_observation_rollups: constraint daily_complete_consistent exists as check",
+      "pass": true,
+      "detail": "c"
+    },
+    {
+      "name": "frozen evidence: observations",
+      "pass": true,
+      "detail": "201235"
+    },
+    {
+      "name": "frozen evidence: minimum-price transitions",
+      "pass": true,
+      "detail": "3747"
+    },
+    {
+      "name": "frozen evidence: listing transitions",
+      "pass": true,
+      "detail": "6145"
+    }
+  ],
+  "verified": true,
+  "applied": true,
+  "ledger": [
+    {
+      "id": 1,
+      "hash": "2a71047f8c50a73fa6057e453428fdf7b04ccae5aec8e64979920ff1ba41fc07",
+      "created_at": "1788968470562"
+    },
+    {
+      "id": 2,
+      "hash": "9f15169a6fe84e31568323553fe04a87d3d7b15a41041a3b3f13e4b5c4a156c4",
+      "created_at": "1788968586983"
+    },
+    {
+      "id": 3,
+      "hash": "53b0f0d1a84408cc8227501cc9480c80ffa2097735059478ccaa250dbafb8c02",
+      "created_at": "1789657641000"
+    },
+    {
+      "id": 4,
+      "hash": "97285647cffa6818e461ff6090f0deabb55558050f9fd040be09dfb60e1bd24b",
+      "created_at": "1789658020000"
+    }
+  ]
+}

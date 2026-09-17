@@ -40,7 +40,7 @@ beforeAll(async () => {
     CREATE TRIGGER observations_append_only BEFORE UPDATE OR DELETE OR TRUNCATE ON market_observations
     FOR EACH STATEMENT EXECUTE FUNCTION reject_observation_mutation();`);
   await db.exec(
-    await readFile("drizzle/0006_history_payload_dedup.sql", "utf8"),
+    await readFile("drizzle/market/0006_history_payload_dedup.sql", "utf8"),
   );
 
   await db.exec(`INSERT INTO assets(id,market_hash_name) VALUES

@@ -13,8 +13,8 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
   const pg = new PGlite();
   try {
     for (const path of [
-      "drizzle/0000_initial_market_snapshots.sql",
-      "drizzle/0001_protect_observation_history.sql",
+      "drizzle/market/0000_initial_market_snapshots.sql",
+      "drizzle/market/0001_protect_observation_history.sql",
     ])
       await pg.exec(await readFile(path, "utf8"));
     const approved = JSON.parse(

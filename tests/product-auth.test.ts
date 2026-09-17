@@ -17,6 +17,13 @@ vi.mock("../src/lib/product/email", () => ({
 }));
 vi.mock("next/headers", () => ({ headers: async () => new Headers() }));
 import { authService } from "../src/lib/product/auth";
+const MARKET_MIGRATIONS = new Set([
+  "0000_initial_market_snapshots",
+  "0001_protect_observation_history",
+  "0006_history_payload_dedup",
+  "0007_observation_rollups",
+]);
+
 beforeAll(async () => {
   vi.stubEnv(
     "BETTER_AUTH_SECRET",
@@ -31,7 +38,13 @@ beforeAll(async () => {
     "0003_ops_application_role",
     "0004_ops_audit",
   ])
-    await db.exec(await readFile(`drizzle/${file}.sql`, "utf8"));
+    // Migration streams are isolated by directory; resolve each file to its owner.
+    await db.exec(
+      await readFile(
+        `drizzle/${MARKET_MIGRATIONS.has(file) ? "market" : "product"}/${file}.sql`,
+        "utf8",
+      ),
+    );
 });
 afterAll(async () => {
   await db.close();

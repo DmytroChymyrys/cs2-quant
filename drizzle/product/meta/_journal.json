@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788996195484,
+      "tag": "0002_product_accounts_monitoring_billing",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789060508388,
+      "tag": "0003_ops_application_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789060609372,
+      "tag": "0004_ops_audit",
+      "breakpoints": true
+    }
+  ]
+}
