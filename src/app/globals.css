@@ -1139,3 +1139,101 @@ td small {
   margin-top: 0.2rem;
   color: var(--text-muted, rgba(255, 255, 255, 0.66));
 }
+
+/* Listing depth emphasis.
+   These are UI EMPHASIS levels only, so that a count of 3 and a count of
+   10,942 do not read as equivalent market depth. They are not a liquidity
+   classification and are not derived from the research dataset; the thresholds
+   live in src/lib/product/intelligence/presentation.ts. The actual count is
+   always rendered. */
+.depth[data-depth="thin"] {
+  font-weight: 600;
+  color: var(--text, #e9eef5);
+  border-bottom: 2px solid var(--accent, #35d0e6);
+  padding-bottom: 1px;
+}
+.depth[data-depth="shallow"] {
+  color: var(--text, #e9eef5);
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.22));
+  padding-bottom: 1px;
+}
+.depth[data-depth="deep"],
+.depth[data-depth="unknown"] {
+  color: var(--text-muted, rgba(255, 255, 255, 0.72));
+}
+.depth-note {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, rgba(255, 255, 255, 0.66));
+}
+
+/* The compact factual reason a row matched, shown without opening details. */
+.market-story {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.78));
+}
+
+/* Exact seconds retained beside the human-readable age, de-emphasised. */
+.exact-age {
+  opacity: 0.66;
+}
+
+/* Asset Intelligence market story: price, supply, horizon, depth. */
+.market-story-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-radius: 4px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+}
+.market-story-summary .story-horizon {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--accent, #35d0e6);
+  border-radius: 3px;
+  color: var(--accent, #35d0e6);
+}
+.market-story-summary dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+.market-story-summary dt {
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(255, 255, 255, 0.62));
+}
+.market-story-summary dd {
+  margin: 0.1rem 0 0;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+.market-story-summary dd small {
+  font-size: 0.72rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.66));
+}
+.market-story-summary .story-note {
+  flex-basis: 100%;
+  font-size: 0.68rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.6));
+}
+@media (max-width: 640px) {
+  .market-story-summary dl {
+    gap: 0.6rem 1rem;
+  }
+  .market-story-summary dd {
+    font-size: 0.86rem;
+  }
+}

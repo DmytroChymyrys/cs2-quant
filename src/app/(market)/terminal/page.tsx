@@ -19,7 +19,11 @@ import {
   readMarketDataset,
   readAssetDetail,
 } from "@/lib/product/intelligence/server";
-import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
+import {
+  screenInput,
+  screenAssets,
+  SCREEN_THRESHOLDS,
+} from "@/lib/product/intelligence/screener";
 import { displayed } from "@/lib/product/intelligence/contract";
 export default async function Terminal({
   searchParams,
@@ -105,7 +109,7 @@ export default async function Terminal({
               page: 1,
             }).total,
           )}
-          note="Activity ≥ 50 / 100"
+          note={`Activity ≥ ${SCREEN_THRESHOLDS.activity} / 100`}
         />
         <Metric
           label="Full coverage"

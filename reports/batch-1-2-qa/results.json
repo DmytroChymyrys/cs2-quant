@@ -1,0 +1,235 @@
+[
+ {
+  "n": "h-1h no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "header says Listings Δ · 1h",
+  "p": true,
+  "d": "LISTINGS Δ · 1H"
+ },
+ {
+  "n": "1h story line present",
+  "p": true,
+  "d": "Min +33.3% · Listings -0.4% · 10,942 listings"
+ },
+ {
+  "n": "h-6h no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "header says Listings Δ · 6h",
+  "p": true,
+  "d": "LISTINGS Δ · 6H"
+ },
+ {
+  "n": "6h story line present",
+  "p": true,
+  "d": "Min -16.4% · Listings +0.0% · 1 listing"
+ },
+ {
+  "n": "h-24h no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "header says Listings Δ · 24h",
+  "p": true,
+  "d": "LISTINGS Δ · 24H"
+ },
+ {
+  "n": "24h story line present",
+  "p": true,
+  "d": "Min +33.3% · Listings -0.2% · 10,942 listings"
+ },
+ {
+  "n": "hv-1h no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "hv-24h no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "listings Δ value changes with horizon",
+  "p": true,
+  "d": "1h=2.50% 24h=-6.82%"
+ },
+ {
+  "n": "story line changes with horizon",
+  "p": true,
+  "d": "1h=\"Min -1.0% · Listings +2.5% · 41 listings\" 24h=\"Min -2.9% · Listings -6.8% · 41 listings\""
+ },
+ {
+  "n": "basis-min no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "basis-med no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "story line reflects basis",
+  "p": true,
+  "d": "min=\"Min -2.9% · Listings -6.8% · 41 listings\" median=\"Median +1.7% · Listings -6.8% · 41 listings\""
+ },
+ {
+  "n": "median basis line starts Median",
+  "p": true,
+  "d": "Median +1.7% · Listings -6.8% · 41 listings"
+ },
+ {
+  "n": "depth-thin no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "thin depth flagged",
+  "p": true,
+  "d": "3:thin 889:deep"
+ },
+ {
+  "n": "thin count still visible",
+  "p": true,
+  "d": "Glock-18 | Sand Dune (Field-Tested)\nMin +0.0% · Listings +0.0% · 3 listings | 15.18 | 0.00% | 3\nTHIN DEPTH | 0.00% | 0 | 99.95% · Stale | ›"
+ },
+ {
+  "n": "depth-deep no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "deep depth NOT flagged thin",
+  "p": true,
+  "d": "10,942:deep"
+ },
+ {
+  "n": "unavailable no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "non-ACTIVE still says no active listing",
+  "p": true
+ },
+ {
+  "n": "non-ACTIVE thin depth flagged",
+  "p": true
+ },
+ {
+  "n": "asset-ak-47-crane-flight no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "AK-47 | Crane Flight: market story summary present",
+  "p": true,
+  "d": "24H | MEDIAN LISTING PRICE | +1.7% | MINIMUM LISTING PRICE | -2.9% | LISTINGS | -6.8% 44 → 41 | DEPTH | 41 | Chart shows 7d; summary compares over 24h"
+ },
+ {
+  "n": "AK-47 | Crane Flight: no raw multi-thousand-second age on screen",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-ak-47-crane-flight-mobile no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-kilowatt-case no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "Kilowatt Case: market story summary present",
+  "p": true,
+  "d": "24H | MEDIAN LISTING PRICE | +3.9% | MINIMUM LISTING PRICE | +33.3% | LISTINGS | -0.2% 10,969 → 10,942 | DEPTH | 10,942 | Chart shows 7d; summary comp"
+ },
+ {
+  "n": "Kilowatt Case: no raw multi-thousand-second age on screen",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-kilowatt-case-mobile no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-glock-18-sand-dune no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "Glock-18 | Sand Dune: market story summary present",
+  "p": true,
+  "d": "24H | MEDIAN LISTING PRICE | +0.0% | MINIMUM LISTING PRICE | -4.5% | LISTINGS | +0.0% 775 → 775 | DEPTH | 775 | Chart shows 7d; summary compares over "
+ },
+ {
+  "n": "Glock-18 | Sand Dune: no raw multi-thousand-second age on screen",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-glock-18-sand-dune-mobile no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-souvenir-awp-dragon-lore no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "Souvenir AWP | Dragon Lore: market story summary present",
+  "p": true,
+  "d": "24H | MEDIAN LISTING PRICE | -2.5% | MINIMUM LISTING PRICE | -2.5% | LISTINGS | +0.0% 1 → 1 | LAST OBSERVED DEPTH | 1 | THIN DEPTH | Chart shows 7d; s"
+ },
+ {
+  "n": "Souvenir AWP | Dragon Lore: no raw multi-thousand-second age on screen",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "asset-souvenir-awp-dragon-lore-mobile no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "mobile-screener no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "mobile shows listing count in story line",
+  "p": true,
+  "d": "Min +0.0% · Listings +0.0% · 3 listings"
+ },
+ {
+  "n": "mobile-kilowatt no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "mobile deep asset shows count",
+  "p": true,
+  "d": "Min +33.3% · Listings -0.2% · 10,942 listings"
+ },
+ {
+  "n": "terminal no page errors",
+  "p": true,
+  "d": ""
+ },
+ {
+  "n": "terminal caption shows 12.5 not 50",
+  "p": true,
+  "d": "Activity ≥ 12.5 / 100"
+ }
+]

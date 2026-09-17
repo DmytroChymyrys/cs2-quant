@@ -19,6 +19,8 @@ import {
   marketValue,
 } from "@/components/intelligence-market";
 import { ObservationChart } from "@/components/observation-chart";
+import { MarketStorySummary } from "@/components/intelligence-market";
+import { marketStory } from "@/lib/product/intelligence/presentation";
 export default async function Asset({
   params,
   searchParams,
@@ -34,13 +36,19 @@ export default async function Asset({
     return <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />;
   const user = await currentUser(),
     caps = user ? await entitlements(user.app.id) : capabilities(false);
+  // Presentation default only. No derived calculation or research semantic
+  // changes: 7d is simply the horizon over which the market story is legible.
   const h = (
-    ["1h", "6h", "24h", "7d"].includes(p.horizon ?? "") ? p.horizon : "24h"
+    ["1h", "6h", "24h", "7d"].includes(p.horizon ?? "") ? p.horizon : "7d"
   ) as Horizon | "7d";
   const permitted = h !== "7d" || caps.historyWindowDays >= 7;
   const detail = await readAssetDetail(id, permitted ? h : "24h");
   if (!detail) notFound();
   const a = detail.asset;
+  const storyHorizon: Horizon = (
+    permitted && h !== "7d" ? h : "24h"
+  ) as Horizon;
+  const story = marketStory(a, storyHorizon, "minimum");
   return (
     <div className="asset-intelligence">
       <div className="asset-top">
@@ -56,6 +64,9 @@ export default async function Asset({
         />
         <EvidenceNotice dataset={dataset} />
         <AvailabilityNotice asset={a} />
+        {/* What happened to price, what happened to supply, over which
+            horizon, and how deep the book is — before any tile. */}
+        <MarketStorySummary story={story} displayHorizon={h} />
         <div className="metric-grid">
           <Metric
             label={
@@ -64,6 +75,11 @@ export default async function Asset({
                 : "Last observed minimum listing"
             }
             value={marketValue(a.minimum, " USD")}
+            note={
+              story.minimumChange
+                ? `${story.minimumChange} / ${story.horizon}`
+                : `No ${story.horizon} comparison observed`
+            }
           />
           <Metric
             label={
@@ -72,6 +88,11 @@ export default async function Asset({
                 : "Observed median"
             }
             value={marketValue(a.median, " USD")}
+            note={
+              story.medianChange
+                ? `${story.medianChange} / ${story.horizon}`
+                : `No ${story.horizon} comparison observed`
+            }
           />
           <Metric
             label={
@@ -80,6 +101,11 @@ export default async function Asset({
                 : "Last observed listing quantity"
             }
             value={marketValue(a.listings)}
+            note={
+              story.listingChangePct
+                ? `${story.listingChangePct} / ${story.horizon}${story.listingFromTo ? ` · ${story.listingFromTo}` : ""}`
+                : `No ${story.horizon} comparison observed`
+            }
           />
           <Metric
             label={
@@ -89,15 +115,13 @@ export default async function Asset({
             }
             value={marketValue(a.activity, " / 100")}
           />
-          <Metric
-            label="24h volatility"
-            value={marketValue(a.volatility["24h"], "%")}
-            note={
-              a.volatility["24h"] === null
-                ? "Requires 289 consecutive observations"
-                : "Sample standard deviation of minimum-listing log returns"
-            }
-          />
+          {a.volatility["24h"] !== null && (
+            <Metric
+              label="24h volatility"
+              value={marketValue(a.volatility["24h"], "%")}
+              note="Sample standard deviation of minimum-listing log returns"
+            />
+          )}
         </div>
         {dataset.evidence === "SYNTHETIC" ? (
           <p className="chart-caption">

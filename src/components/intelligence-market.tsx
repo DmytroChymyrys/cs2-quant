@@ -4,6 +4,14 @@ import Form from "next/form";
 import { identityText, MARKET_CATEGORIES } from "@/lib/catalog/browsing";
 import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import {
+  marketStoryLine,
+  depthEmphasis,
+  depthNote,
+  age,
+  type MarketStory,
+} from "@/lib/product/intelligence/presentation";
+import { returnsFor } from "@/lib/product/intelligence/contract";
+import {
   browseUrl,
   type BrowseParams,
 } from "@/lib/product/intelligence/browse-state";
@@ -93,21 +101,25 @@ export function Quality({ quality: q }: { quality: MarketDataQuality }) {
       <span className="mono">
         {q.available}/{q.expected} observations · {value(q.coveragePct, "%")}
       </span>
+      {/* Human-readable age is primary; the exact seconds stay available
+          alongside it so provenance is reduced in prominence, not removed. */}
       <small>
         <Tooltip title="Source age" text={metricHelp("source age")!.text}>
-          Current source age
+          Source
         </Tooltip>{" "}
-        {value(q.sourceAgeSeconds, "s")} ·{" "}
+        {age(q.sourceAgeSeconds)} ·{" "}
         <Tooltip
           title="Observation age"
           text={metricHelp("observation age")!.text}
         >
-          Observation age
+          Observation
         </Tooltip>{" "}
-        {value(q.observationAgeSeconds, "s")}
+        {age(q.observationAgeSeconds)}
       </small>
-      <small>
-        Captured source age {value(q.capturedSourceAgeSeconds ?? null, "s")}
+      <small className="exact-age">
+        Exact: source {value(q.sourceAgeSeconds, "s")} · observation{" "}
+        {value(q.observationAgeSeconds, "s")} · captured{" "}
+        {value(q.capturedSourceAgeSeconds ?? null, "s")}
       </small>
     </div>
   );
@@ -292,7 +304,9 @@ export function IntelligenceTable({
                 "Minimum · USD",
                 "Return",
                 "Listings",
-                "Listings Δ · 1h",
+                // Follows the selected horizon so the column can never disagree
+                // with the filter, the sort or the explanation.
+                `Listings Δ · ${screen.horizon}`,
                 "Activity",
                 ...(showVolatility ? ["Volatility"] : []),
                 "Quality / explanation",
@@ -305,7 +319,7 @@ export function IntelligenceTable({
                       "Minimum · USD",
                       "Return",
                       "Listings",
-                      "Listings Δ · 1h",
+                      `Listings Δ · ${screen.horizon}`,
                       "Activity",
                       "Volatility",
                     ].includes(h)
@@ -342,18 +356,38 @@ export function IntelligenceTable({
                     <AssetImage name={a.name} media={a.artwork} />
                     {a.name}
                   </Link>
-                  <small className="why-surfaced">
-                    {a.identity
-                      ? identityText(a.identity)
-                      : whySurfaced(a, screen)}
+                  {/* The compact factual reason this asset matched, visible
+                      without opening the detail disclosure. */}
+                  <small className="market-story">
+                    {marketStoryLine(a, screen.horizon, screen.basis) ??
+                      whySurfaced(a, screen)}
                   </small>
+                  {a.identity && (
+                    <small className="why-surfaced">
+                      {identityText(a.identity)}
+                    </small>
+                  )}
                 </td>
                 <td className="number">{value(a.minimum, "", 2)}</td>
                 <td className="number">
-                  {value(a.returns[screen.horizon], "%")}
+                  {value(returnsFor(a, screen.basis)[screen.horizon], "%")}
                 </td>
-                <td className="number">{value(a.listings)}</td>
-                <td className="number">{value(a.listingPct1h, "%")}</td>
+                <td className="number">
+                  <span
+                    className="depth"
+                    data-depth={depthEmphasis(a.listings)}
+                  >
+                    {value(a.listings)}
+                  </span>
+                  {depthNote(a.listings) && (
+                    <small className="depth-note">
+                      {depthNote(a.listings)}
+                    </small>
+                  )}
+                </td>
+                <td className="number">
+                  {value(a.listingPct[screen.horizon] ?? a.listingPct1h, "%")}
+                </td>
                 <td className="number">{value(a.activity)}</td>
                 {showVolatility && (
                   <td className="number">
@@ -503,9 +537,7 @@ export function IntelligenceInspection({
         <div className="inspection-chart">
           <div className="inspection-provenance">
             <span>Coverage {value(a.quality.coveragePct, "%")}</span>
-            <span>
-              Current source age {value(a.quality.sourceAgeSeconds, "s")}
-            </span>
+            <span>Source {age(a.quality.sourceAgeSeconds)}</span>
           </div>
           <details>
             <summary>Data quality &amp; why surfaced</summary>
@@ -556,7 +588,7 @@ export function IntelligenceMonitor({
               {metric === "activity"
                 ? "Activity / 1h"
                 : metric === "listings"
-                  ? "Listings Δ / 1h"
+                  ? `Listings Δ / ${horizon}`
                   : `Return / ${horizon}`}
             </th>
           </tr>
@@ -579,14 +611,23 @@ export function IntelligenceMonitor({
                 </Link>
               </td>
               <td className="number">
-                {value(metric === "listings" ? a.listings : a.minimum)}
+                {metric === "listings" ? (
+                  <span
+                    className="depth"
+                    data-depth={depthEmphasis(a.listings)}
+                  >
+                    {value(a.listings)}
+                  </span>
+                ) : (
+                  value(a.minimum)
+                )}
               </td>
               <td className="number">
                 {value(
                   metric === "activity"
                     ? a.activity
                     : metric === "listings"
-                      ? a.listingPct1h
+                      ? (a.listingPct[horizon] ?? a.listingPct1h)
                       : a.returns[horizon],
                   metric === "activity" ? "" : "%",
                 )}
@@ -618,6 +659,61 @@ export function AvailabilityNotice({
       <strong>{p.headline}</strong>
       {p.explanation ? <span> {p.explanation}</span> : null}
     </p>
+  );
+}
+/**
+ * Compact factual market story: price change, supply change and current or
+ * last-observed depth over one horizon. Descriptive only — it states what was
+ * observed and never classifies, scores or predicts.
+ */
+export function MarketStorySummary({
+  story,
+  displayHorizon,
+}: {
+  story: MarketStory;
+  displayHorizon: string;
+}) {
+  const prefix = story.current ? "" : "Last observed ";
+  return (
+    <div className="market-story-summary" aria-label="Observed market story">
+      <span className="story-horizon">{story.horizon.toUpperCase()}</span>
+      <dl>
+        <div>
+          <dt>Median listing price</dt>
+          <dd>{story.medianChange ?? "Not observed"}</dd>
+        </div>
+        <div>
+          <dt>Minimum listing price</dt>
+          <dd>{story.minimumChange ?? "Not observed"}</dd>
+        </div>
+        <div>
+          <dt>Listings</dt>
+          <dd>
+            {story.listingChangePct ?? "Not observed"}
+            {story.listingFromTo ? <small> {story.listingFromTo}</small> : null}
+          </dd>
+        </div>
+        <div>
+          <dt>{prefix ? "Last observed depth" : "Depth"}</dt>
+          <dd>
+            <span className="depth" data-depth={story.depth}>
+              {story.listings === null
+                ? "Unavailable"
+                : story.listings.toLocaleString("en-US")}
+            </span>
+            {story.depthNote ? (
+              <small className="depth-note"> {story.depthNote}</small>
+            ) : null}
+          </dd>
+        </div>
+      </dl>
+      {displayHorizon !== story.horizon ? (
+        <small className="story-note">
+          Chart shows {displayHorizon}; summary compares over {story.horizon},
+          the longest horizon with a derived comparison.
+        </small>
+      ) : null}
+    </div>
   );
 }
 export function PresetDefinitions() {
