@@ -58,6 +58,20 @@ export function age(seconds: number | null | undefined): string {
   return `${Math.round(hours / 24)}d ago`;
 }
 
+/**
+ * A span of elapsed time, not an age. Provider lag measured at capture is a
+ * duration between two past moments; rendering it as "3m ago" would date it to
+ * the present and turn a healthy 3-minute feed lag into an alarming claim.
+ */
+export function span(seconds: number | null | undefined): string {
+  if (seconds == null || !Number.isFinite(seconds) || seconds < 0)
+    return "Unavailable";
+  if (seconds < 90) return `${Math.round(seconds)}s`;
+  const minutes = seconds / 60;
+  if (minutes < 90) return `${Math.round(minutes)}m`;
+  return `${Math.round(minutes / 60)}h`;
+}
+
 const pct = (value: string | null) =>
   value === null
     ? null

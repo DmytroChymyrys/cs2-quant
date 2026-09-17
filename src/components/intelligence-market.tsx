@@ -8,6 +8,7 @@ import {
   depthEmphasis,
   depthNote,
   age,
+  span,
   type MarketStory,
 } from "@/lib/product/intelligence/presentation";
 import { returnsFor } from "@/lib/product/intelligence/contract";
@@ -25,6 +26,7 @@ import type {
   MarketScreenerResult,
   MarketAssetSummary,
   MarketDataQuality,
+  SnapshotSelection,
 } from "@/lib/product/intelligence/contract";
 import { displayed } from "@/lib/product/intelligence/contract";
 import {
@@ -44,10 +46,18 @@ export const marketValue = (
     ? "Unavailable"
     : `${Number(v).toLocaleString("en-US", { minimumFractionDigits: fractionDigits, maximumFractionDigits: 2 })}${suffix}`;
 const value = marketValue;
+/** Says which mechanism chose the snapshot, so provenance is never guessed. */
+const SELECTION_LABEL: Record<SnapshotSelection, string> = {
+  ENV_OVERRIDE: "an explicit pinned snapshot",
+  ACTIVE_POINTER: "the active snapshot pointer",
+  SYNTHETIC: "a synthetic development dataset",
+  NONE: "no configured source",
+};
 export function EvidenceNotice({ dataset }: { dataset: MarketDataset }) {
   if (dataset.evidence === "UNAVAILABLE")
     return <Notice>{dataset.error}</Notice>;
   const snapshot = dataset.snapshot;
+  const f = dataset.freshness;
   return (
     <div
       className="snapshot-transparency freshness-strip"
@@ -65,29 +75,61 @@ export function EvidenceNotice({ dataset }: { dataset: MarketDataset }) {
         {dataset.scope?.to.replace("T", " ").replace(".000Z", " UTC")} ·{" "}
         {snapshot?.stale ? "STALE SNAPSHOT" : "Selected snapshot"}
       </span>
+      {/* Three ages, never merged into one word. Human-readable first; the
+          exact timestamps stay below in provenance. */}
+      {f && (
+        <span className="freshness-triple">
+          Market evidence {age(f.marketEvidence.ageSeconds)} · Venue data was{" "}
+          {span(f.providerEvidence.ageAtCaptureSeconds)} old when captured ·
+          Intelligence computed {age(f.intelligence.ageSeconds)}
+        </span>
+      )}
       <details>
         <summary>Freshness &amp; methodology</summary>
         <div className="freshness-details">
           <p>
             {dataset.preview === "DEMO"
               ? "Seeded demonstration, not collected market prices or production evidence."
-              : "This is a manually selected snapshot, not a live feed."}{" "}
+              : "This is a selected snapshot, not a live feed."}{" "}
             {dataset.evidence === "SYNTHETIC" &&
               "Fixed simulation clock. Not production evidence. Saving synthetic assets is disabled."}
           </p>
           <p>
-            Snapshot age {value(snapshot?.ageSeconds ?? null, "s")} · Method{" "}
-            {snapshot?.method ?? "Unavailable"}
+            <strong>Market evidence</strong> — how recently we observed the
+            venue: {age(f?.marketEvidence.ageSeconds)}
+            {f?.marketEvidence.observedAt
+              ? ` (last observation ${f.marketEvidence.observedAt})`
+              : ""}
+            .
           </p>
           <p>
-            Generated {snapshot?.generatedAt ?? "Unavailable"} · Read{" "}
-            {dataset.asOf}
+            <strong>Venue data age at capture</strong> — how old the
+            venue&rsquo;s own figures already were at that moment:{" "}
+            {span(f?.providerEvidence.ageAtCaptureSeconds)}. This is a lag
+            measured in the past, not time elapsed since.
           </p>
-          <p>Snapshot {dataset.snapshotId}</p>
           <p>
-            Snapshot age measures time since the scope ended. Current source and
-            observation ages include elapsed time since collection. Captured
-            source age is upstream lag at the original observation.
+            <strong>Intelligence</strong> — when these derived figures were
+            computed from that evidence: {age(f?.intelligence.ageSeconds)}
+            {f?.intelligence.computedAt
+              ? ` (computed ${f.intelligence.computedAt})`
+              : ""}
+            {f?.intelligence.activatedAt
+              ? `, published ${f.intelligence.activatedAt}`
+              : ""}
+            . The three can fail independently: collection can stop while the
+            venue feed is healthy, and computation can stop while both are
+            current.
+          </p>
+          <p>
+            Scope ended {value(snapshot?.ageSeconds ?? null, "s")} ago · Method{" "}
+            {snapshot?.method ?? "Unavailable"} · Read {dataset.asOf}
+          </p>
+          <p>
+            Snapshot {dataset.snapshotId}
+            {f
+              ? ` · selected by ${SELECTION_LABEL[f.intelligence.selection]}`
+              : ""}
           </p>
         </div>
       </details>

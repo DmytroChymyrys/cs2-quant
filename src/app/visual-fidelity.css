@@ -3321,6 +3321,9 @@ body {
 .freshness-strip .evidence-label { color: var(--yellow, #f3c763); font-size: 9px; }
 .freshness-strip > details { margin-left: auto; min-width: 0; }
 .freshness-details { max-width: 560px; padding: 8px 0; line-height: 1.6; }
+/* Three ages sit on one line but stay separable; the strip already wraps. */
+.freshness-triple { color: var(--muted, #8c99a8); }
+.freshness-details strong { color: var(--fg, #d6dee7); font-weight: 500; }
 .terminal-restored > .metric-grid { grid-template-columns: repeat(6,minmax(0,1fr)); padding: 0 0 8px; background: transparent; }
 .terminal-restored > .terminal-grid { padding: 4px 0 0; align-items: start; }
 .terminal-screen-options { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-size: 10px; }

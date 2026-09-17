@@ -15,7 +15,11 @@ import type {
   AssetMarketDetail,
   Horizon,
   MarketHistoryVersion,
+  MarketAssetSummary,
+  MarketFreshness,
+  SnapshotSelection,
 } from "./contract";
+import { selectSnapshot } from "../../derived-market/active-snapshot";
 import { summary, seriesPoint, historyContract } from "./map";
 import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
@@ -63,12 +67,55 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
   const unavailable = (error: string): MarketDataset => ({
     snapshotId: null,
     snapshot: null,
+    freshness: null,
     evidence: "UNAVAILABLE",
     asOf,
     scope: null,
     assets: [],
     error,
   });
+  /**
+   * The three ages are read off the newest asset evidence rather than off the
+   * scope boundary, because a scope can end at a window that produced no
+   * observation. Provider age is carried as measured at capture and is never
+   * recomputed against the present, which would silently convert "the venue's
+   * feed was 40s behind when we read it" into "the venue is now hours behind".
+   */
+  const freshnessOf = (
+    assets: MarketAssetSummary[],
+    computedAt: string,
+    selection: SnapshotSelection,
+    activatedAt: string | null,
+  ): MarketFreshness => {
+    const newest = assets.reduce<MarketAssetSummary | null>(
+      (best, a) =>
+        a.quality.observedAt &&
+        (!best?.quality.observedAt ||
+          a.quality.observedAt > best.quality.observedAt)
+          ? a
+          : best,
+      null,
+    );
+    const observedAt = newest?.quality.observedAt ?? null;
+    const since = (from: string | null) => {
+      if (!from) return null;
+      const seconds = (Date.parse(asOf) - Date.parse(from)) / 1000;
+      return Number.isFinite(seconds) && seconds >= 0 ? seconds : null;
+    };
+    return {
+      marketEvidence: { observedAt, ageSeconds: since(observedAt) },
+      providerEvidence: {
+        ageAtCaptureSeconds: newest?.quality.capturedSourceAgeSeconds ?? null,
+        capturedAt: observedAt,
+      },
+      intelligence: {
+        computedAt,
+        ageSeconds: since(computedAt),
+        activatedAt,
+        selection,
+      },
+    };
+  };
   if (syntheticMisconfiguredInProduction()) {
     console.error(
       JSON.stringify({
@@ -85,6 +132,30 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       const d = previewDataset(),
         groups = Map.groupBy(d.features, (f) => f.asset_id),
         expected = (Date.parse(d.scope.to) - Date.parse(d.scope.from)) / 300000;
+      const assets = [...groups.values()].map((rows) => {
+        const f = rows.at(-1)!;
+        const h = d.historyVersions.find(
+          (h) => h.version === f.history_version,
+        );
+        const asset = summary(
+          f,
+          rows.length,
+          expected,
+          asOf,
+          h ? historyContract(h) : null,
+        );
+        if (demoMode()) {
+          const item = DEMO_UNIVERSE.find((a) => a.id === asset.id);
+          asset.artwork = item?.artwork ?? null;
+          if (item && usesBundledDemoArtwork())
+            asset.artwork = {
+              ...item.artwork,
+              url: `/demo-artwork/${item.id}.png`,
+            };
+          if (item) asset.identity = demoIdentity(item.name, item.category);
+        }
+        return asset;
+      });
       return {
         snapshotId: d.snapshotId,
         snapshot: {
@@ -92,44 +163,33 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           generatedAt: asOf,
           ageSeconds: 0,
           stale: false,
+          selection: "SYNTHETIC",
+          activatedAt: null,
         },
+        freshness: freshnessOf(assets, asOf, "SYNTHETIC", null),
         evidence: "SYNTHETIC",
         preview: demoMode() ? "DEMO" : "QA",
         asOf,
         scope: d.scope,
         error: null,
-        assets: [...groups.values()].map((rows) => {
-          const f = rows.at(-1)!;
-          const h = d.historyVersions.find(
-            (h) => h.version === f.history_version,
-          );
-          const asset = summary(
-            f,
-            rows.length,
-            expected,
-            asOf,
-            h ? historyContract(h) : null,
-          );
-          if (demoMode()) {
-            const item = DEMO_UNIVERSE.find((a) => a.id === asset.id);
-            asset.artwork = item?.artwork ?? null;
-            if (item && usesBundledDemoArtwork())
-              asset.artwork = {
-                ...item.artwork,
-                url: `/demo-artwork/${item.id}.png`,
-              };
-            if (item) asset.identity = demoIdentity(item.name, item.category);
-          }
-          return asset;
-        }),
+        assets,
       };
     }
-    const snapshotId = process.env.PRODUCT_ANALYTICS_SNAPSHOT_ID;
-    if (!snapshotId || !/^[a-f0-9]{64}$/.test(snapshotId))
+    if (!process.env.DERIVED_MARKET_DATABASE_URL)
       return unavailable(
         "A reviewed analytics snapshot has not been configured.",
       );
     const db = connection();
+    // Resolution order: explicit override, then the active pointer, then
+    // UNAVAILABLE. The pointer is what a refresh moves, so a new snapshot
+    // reaches readers without a redeploy; the override outranks it so a
+    // specific snapshot can be pinned or a bad activation bypassed.
+    const selection = await selectSnapshot(
+      db,
+      process.env.PRODUCT_ANALYTICS_SNAPSHOT_ID,
+    );
+    if (selection.snapshotId === null) return unavailable(selection.reason);
+    const snapshotId = selection.snapshotId;
     const head = await db.query(
       "select method,scope,created_at,report from derived_market_snapshots where id=$1",
       [snapshotId],
@@ -206,14 +266,24 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           ? { ...media, status: media.status }
           : null;
     }
+    const computedAt = new Date(metadata.created_at).toISOString();
     return {
       snapshotId,
       snapshot: {
         method: metadata.method,
-        generatedAt: new Date(metadata.created_at).toISOString(),
+        generatedAt: computedAt,
         ageSeconds: snapshotAge(scope.to, asOf),
         stale: (snapshotAge(scope.to, asOf) ?? Infinity) > 900,
+        selection: selection.source,
+        activatedAt:
+          selection.source === "ACTIVE_POINTER" ? selection.activatedAt : null,
       },
+      freshness: freshnessOf(
+        assets,
+        computedAt,
+        selection.source,
+        selection.source === "ACTIVE_POINTER" ? selection.activatedAt : null,
+      ),
       evidence: "DATABASE",
       asOf,
       scope,

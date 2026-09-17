@@ -95,15 +95,61 @@ export type MarketSeriesPoint = {
 };
 export type AssetPriceSeries = MarketSeriesPoint[];
 export type AssetListingSeries = MarketSeriesPoint[];
+/** How the served snapshot was chosen. */
+export type SnapshotSelection =
+  "ENV_OVERRIDE" | "ACTIVE_POINTER" | "SYNTHETIC" | "NONE";
+
+/**
+ * Three ages that are routinely collapsed into the single word "freshness" and
+ * must not be, because they fail independently and mean different things:
+ *
+ *   MARKET EVIDENCE  how recently we looked at the market at all. Goes stale
+ *                    when the collector stops.
+ *   PROVIDER EVIDENCE how old the venue's own numbers already were at the
+ *                    moment we captured them. Goes stale when the venue's feed
+ *                    lags, even while our collection is perfectly healthy.
+ *   INTELLIGENCE     when these derived figures were computed from that
+ *                    evidence. Goes stale when the refresh job stops running,
+ *                    even while both of the above are current.
+ *
+ * A reader who is told only "3 minutes old" cannot tell which of the three is
+ * being described, and therefore cannot tell what has broken when it is wrong.
+ */
+export type MarketFreshness = {
+  marketEvidence: { observedAt: string | null; ageSeconds: number | null };
+  providerEvidence: {
+    /** Provider age measured at capture time, not recomputed against now. */
+    ageAtCaptureSeconds: number | null;
+    capturedAt: string | null;
+  };
+  intelligence: {
+    computedAt: string;
+    ageSeconds: number | null;
+    activatedAt: string | null;
+    selection: SnapshotSelection;
+  };
+};
+
+export const FRESHNESS_LABEL: Record<keyof MarketFreshness, string> = {
+  marketEvidence: "Market evidence",
+  providerEvidence: "Provider evidence at capture",
+  intelligence: "Intelligence computed",
+};
+
 export type MarketDataset = {
   preview?: "DEMO" | "QA";
   snapshotId: string | null;
   snapshot: {
     method: string;
     generatedAt: string;
+    /** Age of the newest market evidence in scope. See MarketFreshness. */
     ageSeconds: number | null;
     stale: boolean;
+    selection: SnapshotSelection;
+    activatedAt: string | null;
   } | null;
+  /** Null only when no snapshot resolved at all. */
+  freshness: MarketFreshness | null;
   evidence: Evidence;
   asOf: string;
   scope: { from: string; to: string } | null;
