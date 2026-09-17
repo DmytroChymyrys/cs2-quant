@@ -23,6 +23,9 @@ export type Run = {
   upstreamErrors: string[];
   historyHash: string | null;
   historyFetchedAt: string | null;
+  // Assets the collector expected but the fetched items feed did not contain.
+  // Absence is not a listing quantity of zero; see intelligence/availability.
+  missingAssets: string[];
 };
 export type RawObservation = {
   id: string;

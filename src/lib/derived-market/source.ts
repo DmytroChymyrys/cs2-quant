@@ -13,7 +13,8 @@ const RUN_COLUMNS = `id,source,window_start as window,started_at,status,claim_ke
     items_http_status,history_http_status,error_code,
     coalesce(metadata->'upstreamErrors','[]'::jsonb) as upstream_errors,
     metadata->'historyFetch'->>'bodySha256' as history_hash,
-    coalesce(metadata->'historyFetch'->>'bodyReceivedAt',metadata->'historyFetch'->>'finishedAt') as history_fetched_at`;
+    coalesce(metadata->'historyFetch'->>'bodyReceivedAt',metadata->'historyFetch'->>'finishedAt') as history_fetched_at,
+    coalesce(metadata->'missingAssets','[]'::jsonb) as missing_assets`;
 
 const OBSERVATION_COLUMNS = `o.id,o.collector_run_id as run_id,o.asset_id,a.market_hash_name as name,
     o.observed_at,o.source_updated_at,o.min_price::text,o.median_price::text,o.quantity,o.raw_history_payload as history`;
@@ -37,6 +38,7 @@ function mapRun(r: Record<string, unknown>): Input["runs"][number] {
     historyFetchedAt: r.history_fetched_at
       ? iso(r.history_fetched_at as string)
       : null,
+    missingAssets: (r.missing_assets as string[] | null) ?? [],
   };
 }
 

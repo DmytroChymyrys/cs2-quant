@@ -30,6 +30,7 @@ export function sequence(count = 300, assets = 3, changeAt = 214): Input {
       upstreamErrors: [],
       historyHash: changed ? "b".repeat(64) : "a".repeat(64),
       historyFetchedAt: iso(t + 4000),
+      missingAssets: [],
     });
     for (let a = 0; a < assets; a++)
       input.observations.push({

@@ -52,6 +52,20 @@ try {
   );
   const metadata = validateSnapshotHead(head.rows[0]);
   const scope = metadata.scope;
+  const reportAvailability = (
+    metadata.report as {
+      availability?: Record<
+        string,
+        {
+          state: string;
+          basis: string;
+          lastActiveAt: string | null;
+          lastObservedPrice: number | null;
+          windowsSinceActive: number | null;
+        }
+      >;
+    }
+  ).availability;
   const rows = await pool.query(
     `select distinct on(asset_id) asset_id,feature,count(*) over(partition by asset_id)::int as available
      from derived_market_features where snapshot_id=$1 order by asset_id,observed_at desc,observation_id desc limit 1001`,
@@ -63,6 +77,27 @@ try {
   const assets = rows.rows.map((r) =>
     summary(r.feature as Feature, r.available, expected, asOf, null),
   );
+  for (const asset of assets) {
+    const entry = reportAvailability?.[asset.name];
+    if (entry) {
+      asset.availability = entry.state as typeof asset.availability;
+      asset.availabilityDetail = entry.basis;
+    }
+  }
+  const availabilityCounts = assets.reduce<Record<string, number>>((acc, a) => {
+    acc[a.availability] = (acc[a.availability] ?? 0) + 1;
+    return acc;
+  }, {});
+  const nonActive = assets
+    .filter((a) => a.availability !== "ACTIVE")
+    .map((a) => ({
+      name: a.name,
+      availability: a.availability,
+      detail: a.availabilityDetail,
+      lastObservedMinimum: a.minimum,
+      listings: a.listings,
+      reportEntry: reportAvailability?.[a.name],
+    }));
 
   const presetYield = Object.fromEntries(
     (["1h", "6h", "24h"] as const).map((horizon) => [
@@ -122,6 +157,25 @@ try {
     method: metadata.method,
     scope,
     assetsRendered: assets.length,
+    availabilityResolved: assets.filter((a) => reportAvailability?.[a.name])
+      .length,
+    availabilityCounts,
+    nonActiveAssets: nonActive,
+    evidenceAndProvenance: {
+      snapshotMethod: metadata.method,
+      provenance: "DATABASE",
+      freshnessResolved: assets.filter(
+        (a) => a.quality.sourceAgeSeconds !== null,
+      ).length,
+      coverageResolved: assets.filter((a) => a.quality.coveragePct !== null)
+        .length,
+      observedAtResolved: assets.filter((a) => a.quality.observedAt !== null)
+        .length,
+      qualityStates: assets.reduce<Record<string, number>>((acc, a) => {
+        acc[a.quality.state] = (acc[a.quality.state] ?? 0) + 1;
+        return acc;
+      }, {}),
+    },
     expectedObservationsPerAsset: expected,
     thresholds: SCREEN_THRESHOLDS,
     presetYieldOutOf: assets.length,

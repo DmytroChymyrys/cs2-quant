@@ -175,6 +175,23 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         hs.get(r.feature.history_version) ?? null,
       ),
     );
+    // Availability is recorded per asset in the reviewed snapshot report.
+    const availability = (
+      metadata.report as {
+        availability?: Record<string, { state?: string; basis?: string }>;
+      }
+    ).availability;
+    for (const asset of assets) {
+      const entry = availability?.[asset.name];
+      if (
+        entry?.state === "ACTIVE" ||
+        entry?.state === "NO_ACTIVE_LISTING_OBSERVED" ||
+        entry?.state === "PROVIDER_OR_COVERAGE_UNKNOWN"
+      ) {
+        asset.availability = entry.state;
+        asset.availabilityDetail = entry.basis ?? null;
+      }
+    }
     const artwork = await catalogPresentation(assets);
     for (const asset of assets) {
       const presentation = artwork.get(asset.id);

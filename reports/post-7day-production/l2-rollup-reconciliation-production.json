@@ -1,0 +1,80 @@
+{
+  "target": "ep-noisy-scene-aum078ox.c-10.us-east-1.aws.neon.tech/neondb",
+  "window": {
+    "from": "2026-09-09T17:55:00.000Z",
+    "to": "2026-09-16T17:55:00.000Z"
+  },
+  "mode": "build",
+  "built": [
+    {
+      "grain": "hourly",
+      "table": "market_observations_hourly",
+      "buckets": 16878
+    },
+    {
+      "grain": "daily",
+      "table": "market_observations_daily",
+      "buckets": 799
+    }
+  ],
+  "reconciliations": [
+    {
+      "grain": "hourly",
+      "rollup": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100,
+        "partial_buckets": 299
+      },
+      "raw": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100
+      },
+      "differences": [],
+      "matches": true
+    },
+    {
+      "grain": "daily",
+      "rollup": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100,
+        "partial_buckets": 299
+      },
+      "raw": {
+        "observations": 201235,
+        "adjacent_pairs": 201035,
+        "min_price_transitions": 3747,
+        "median_price_transitions": 2918,
+        "listing_qty_transitions": 6145,
+        "listing_contractions": 3528,
+        "listing_expansions": 2617,
+        "sales_24h_volume_transitions": 468,
+        "assets": 100
+      },
+      "differences": [],
+      "matches": true
+    }
+  ],
+  "elapsedMs": 4305,
+  "matches": true
+}

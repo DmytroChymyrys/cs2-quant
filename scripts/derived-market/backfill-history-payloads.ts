@@ -28,6 +28,11 @@ const { values: args } = parseArgs({
     "database-url": { type: "string" },
     batch: { type: "string", default: "2000" },
     "verify-only": { type: "boolean", default: false },
+    // Conservative pacing for production: pause between batches and abort if the
+    // five-minute collector stops landing windows while the backfill runs.
+    "pause-ms": { type: "string", default: "0" },
+    "health-check": { type: "boolean", default: false },
+    "max-collector-lag-minutes": { type: "string", default: "15" },
     out: { type: "string" },
   },
 });
@@ -37,6 +42,12 @@ const batchSize = Number(args.batch);
 if (!url) throw new Error("EXPLICIT_DATABASE_URL_REQUIRED");
 if (!Number.isInteger(batchSize) || batchSize < 1 || batchSize > 20000)
   throw new Error("BATCH_MUST_BE_AN_INTEGER_BETWEEN_1_AND_20000");
+
+const pauseMs = Number(args["pause-ms"]);
+const maxLagMinutes = Number(args["max-collector-lag-minutes"]);
+if (!Number.isFinite(pauseMs) || pauseMs < 0 || pauseMs > 60000)
+  throw new Error("PAUSE_MS_MUST_BE_BETWEEN_0_AND_60000");
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const pool = new Pool({
   connectionString: url,
@@ -67,6 +78,24 @@ async function refreshCounts() {
 
 async function verify() {
   return verifyLinks(pool);
+}
+
+/**
+ * The collector must keep landing windows while the backfill runs. A stalled
+ * collector aborts the backfill rather than letting it keep loading the database.
+ */
+async function assertCollectorHealthy() {
+  const { rows } = await pool.query(
+    `select max(window_start) as latest,
+            extract(epoch from now() - max(window_start))/60 as lag_minutes
+       from collector_runs where source='SKINPORT'`,
+  );
+  const lag = Number(rows[0].lag_minutes);
+  if (!Number.isFinite(lag) || lag > maxLagMinutes)
+    throw new Error(
+      `COLLECTOR_UNHEALTHY: latest scheduled window is ${lag.toFixed(1)} minutes old (limit ${maxLagMinutes}).`,
+    );
+  return { latestWindow: rows[0].latest, lagMinutes: lag };
 }
 
 /** Measured, not projected: real relation sizes on the target database. */
@@ -113,14 +142,27 @@ let linkedTotal = 0,
 try {
   if (!args["verify-only"]) {
     for (;;) {
+      if (args["health-check"]) await assertCollectorHealthy();
       const n = await linkBatch();
       if (!n) break;
       linkedTotal += n;
       batches++;
-      if (batches % 10 === 0)
+      if (batches % 5 === 0) {
+        const health = args["health-check"]
+          ? await assertCollectorHealthy()
+          : null;
         console.info(
-          JSON.stringify({ event: "backfill.progress", batches, linkedTotal }),
+          JSON.stringify({
+            event: "backfill.progress",
+            batches,
+            linkedTotal,
+            collectorLagMinutes: health
+              ? Number(health.lagMinutes.toFixed(1))
+              : null,
+          }),
         );
+      }
+      if (pauseMs) await sleep(pauseMs);
     }
     await refreshCounts();
   }

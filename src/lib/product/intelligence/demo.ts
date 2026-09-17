@@ -67,6 +67,7 @@ export function generateDemoObservations(
       upstreamErrors: [],
       historyHash: null,
       historyFetchedAt: null,
+      missingAssets: [],
     });
   }
   for (const asset of DEMO_UNIVERSE) {

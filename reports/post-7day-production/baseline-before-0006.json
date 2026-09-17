@@ -1,0 +1,78 @@
+{
+  "capturedAt": "2026-09-17T15:25:56.080Z",
+  "host": "ep-noisy-scene-aum078ox.c-10.us-east-1.aws.neon.tech",
+  "database": "neondb",
+  "counts": {
+    "observations": "226388",
+    "assets": 100,
+    "tracked_assets": 100,
+    "collector_runs": 2274,
+    "mappings": 100
+  },
+  "collector": {
+    "latest_window": "2026-09-17T15:25:00.000Z",
+    "latest_successful_window": "2026-09-17T15:25:00.000Z",
+    "runs_24h": 282,
+    "failed_24h": 1,
+    "success_24h": 0,
+    "partial_24h": 281
+  },
+  "tables": [
+    "asset_source_mappings",
+    "assets",
+    "collector_runs",
+    "market_observations"
+  ],
+  "sizes": [
+    {
+      "name": "market_observations",
+      "heap_bytes": "371769344",
+      "table_bytes": "371908608",
+      "index_bytes": "54452224",
+      "total_bytes": "426360832"
+    },
+    {
+      "name": "collector_runs",
+      "heap_bytes": "2465792",
+      "table_bytes": "2506752",
+      "index_bytes": "475136",
+      "total_bytes": "2981888"
+    },
+    {
+      "name": "asset_source_mappings",
+      "heap_bytes": "16384",
+      "table_bytes": "49152",
+      "index_bytes": "65536",
+      "total_bytes": "114688"
+    },
+    {
+      "name": "assets",
+      "heap_bytes": "16384",
+      "table_bytes": "49152",
+      "index_bytes": "32768",
+      "total_bytes": "81920"
+    }
+  ],
+  "databaseBytes": "437960704",
+  "drizzleMigrations": [
+    {
+      "id": 1,
+      "hash": "2a71047f8c50a73fa6057e453428fdf7b04ccae5aec8e64979920ff1ba41fc07",
+      "created_at": "1788968470562"
+    },
+    {
+      "id": 2,
+      "hash": "9f15169a6fe84e31568323553fe04a87d3d7b15a41041a3b3f13e4b5c4a156c4",
+      "created_at": "1788968586983"
+    }
+  ],
+  "targetObjectsAlreadyPresent": [],
+  "appendOnlyTriggers": [
+    {
+      "tgname": "observations_append_only",
+      "on_table": "market_observations",
+      "tgenabled": "O"
+    }
+  ],
+  "frozenWindowObservations": 201235
+}

@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import { type Input, STEP, validateScope, DEFAULT_SCOPE_DAYS } from "./model";
+import { assetAvailability } from "./asset-availability";
 import { prepare } from "./prepare";
 import { derive, type Derived } from "./features";
 export function distribution(values: number[]) {
@@ -211,6 +212,10 @@ export function makeReport(
     method: derived.method,
     scope: derived.scope,
     snapshotId: derived.snapshotId,
+    // Per-asset availability travels with the snapshot so the product can tell
+    // an absent asset from a failed provider fetch without reading the market
+    // database. Features alone cannot express a window with no observation.
+    availability: assetAvailability(input),
     operationalStatus: failures.length ? "FAIL" : "PASS",
     operationalFailures: failures,
     reliability: {

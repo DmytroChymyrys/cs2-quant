@@ -1,0 +1,34 @@
+{
+  "target": "ep-noisy-scene-aum078ox.c-10.us-east-1.aws.neon.tech/neondb",
+  "mode": "backfill",
+  "batchSize": 2000,
+  "batches": 114,
+  "linked": 226487,
+  "elapsedMs": 281907,
+  "verification": {
+    "byteIdenticalMismatches": 0,
+    "withPayload": 226487,
+    "linked": 226487,
+    "unlinked": 0,
+    "distinctPayloads": 1250,
+    "dedupRatio": 181.1896
+  },
+  "measurement": {
+    "observation_rows": 226487,
+    "observations_total_bytes": 426541056,
+    "observations_heap_bytes": 371933184,
+    "observations_index_bytes": 54468608,
+    "raw_history_datum_bytes": 179763934,
+    "raw_item_datum_bytes": 111876421,
+    "dedup_present": true,
+    "payload_table_total_bytes": 4677632,
+    "link_table_total_bytes": 26984448,
+    "dedup_payload_datum_bytes": 1006836,
+    "rawHistoryBytesPerObservation": 793.7053075893981,
+    "dedupReplacementTotalBytes": 31662080,
+    "historyBytesSaved": 148101854,
+    "historyReductionPct": 82.38685630900801,
+    "basis": "Measured relation and datum sizes on the target database. Saving compares the summed raw_history_payload datum bytes against the full deduplicated payload table plus link table, including their indexes."
+  },
+  "passed": true
+}

@@ -44,6 +44,7 @@ export function fixtureDataset() {
       upstreamErrors: [],
       historyHash: (version ? "b" : "a").repeat(64),
       historyFetchedAt: iso(t + 4000),
+      missingAssets: [],
     });
     for (let a = 0; a < names.length; a++) {
       if ((a === 7 && i % 23 === 0) || (a === 9 && i < count - 8)) continue;
