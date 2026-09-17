@@ -1,0 +1,209 @@
+{
+  "event": "derived.refresh",
+  "activeSnapshotBefore": {
+    "snapshotId": "19fe8888ad48fb38ea61c86afc800e6dad0fdfd7507fdcfac55f684fa951dd58",
+    "activatedAt": "2026-09-17T20:11:43.061Z",
+    "activatedBy": "activate",
+    "note": "final state: 7-day production snapshot"
+  },
+  "snapshotId": "fff2954d0efdb69ec6599008b1b57679fe33fd9905daee2eef4203fd91e8548a",
+  "scope": {
+    "from": "2026-09-16T20:40:00.000Z",
+    "to": "2026-09-17T20:40:00.000Z",
+    "assets": 100
+  },
+  "alreadyPresent": false,
+  "validation": {
+    "snapshotId": "fff2954d0efdb69ec6599008b1b57679fe33fd9905daee2eef4203fd91e8548a",
+    "publishable": true,
+    "blocking": [],
+    "advisory": [
+      {
+        "code": "MISSING_SCHEDULED_WINDOWS",
+        "detail": "One or more five-minute collection windows were never claimed."
+      },
+      {
+        "code": "NON_SUCCESS_CLAIMED_RUNS",
+        "detail": "Claimed collector runs finished FAILED, PARTIAL or RUNNING."
+      },
+      {
+        "code": "ASSET_COVERAGE",
+        "detail": "At least one window observed fewer assets than the tracked universe."
+      },
+      {
+        "code": "ASSETS_WITHOUT_ACTIVE_LISTING",
+        "detail": "2 asset(s) had no active listing observed in scope."
+      }
+    ],
+    "readBack": {
+      "method": "listing-features-v3",
+      "scope": {
+        "to": "2026-09-17T20:40:00.000Z",
+        "from": "2026-09-16T20:40:00.000Z",
+        "assets": [
+          "AK-47 | Bloodsport (Field-Tested)",
+          "AK-47 | Crane Flight (Field-Tested)",
+          "AK-47 | Inheritance (Field-Tested)",
+          "AK-47 | Olive Polycam (Factory New)",
+          "AK-47 | Redline (Field-Tested)",
+          "AK-47 | Vulcan (Factory New)",
+          "AK-47 | Vulcan (Field-Tested)",
+          "AK-47 | Wild Lotus (Factory New)",
+          "AUG | Contractor (Field-Tested)",
+          "AUG | Hot Rod (Factory New)",
+          "AUG | Storm (Field-Tested)",
+          "AWP | Asiimov (Field-Tested)",
+          "AWP | Atheris (Field-Tested)",
+          "AWP | Atheris (Well-Worn)",
+          "AWP | Dragon Lore (Factory New)",
+          "Antwerp 2022 Legends Sticker Capsule",
+          "Budapest 2025 Legends Sticker Capsule",
+          "CS:GO Weapon Case",
+          "Chroma 2 Case",
+          "Clutch Case",
+          "Danger Zone Case",
+          "Desert Eagle | Printstream (Field-Tested)",
+          "Dreams & Nightmares Case",
+          "Fever Case",
+          "Fracture Case",
+          "Glock-18 | Candy Apple (Factory New)",
+          "Glock-18 | Sand Dune (Field-Tested)",
+          "Glove Case",
+          "Huntsman Weapon Case",
+          "Kilowatt Case",
+          "M4A1-S | Black Lotus (Field-Tested)",
+          "M4A1-S | Blue Phosphor (Factory New)",
+          "M4A1-S | Decimator (Battle-Scarred)",
+          "M4A1-S | Decimator (Field-Tested)",
+          "M4A1-S | Hot Rod (Factory New)",
+          "M4A4 | Neo-Noir (Field-Tested)",
+          "Operation Bravo Case",
+          "Operation Breakout Weapon Case",
+          "Operation Broken Fang Case",
+          "Operation Hydra Case",
+          "Operation Riptide Case",
+          "P250 | Asiimov (Field-Tested)",
+          "P250 | Sand Dune (Minimal Wear)",
+          "Paris 2023 Contenders Sticker Capsule",
+          "Recoil Case",
+          "SSG 08 | Acid Fade (Factory New)",
+          "Shattered Web Case",
+          "Souvenir AWP | Dragon Lore (Factory New)",
+          "Spectrum 2 Case",
+          "StatTrak™ M4A4 | Howl (Factory New)",
+          "Sticker Capsule 2",
+          "Sticker | 100 Thieves | 2020 RMR",
+          "Sticker | Bad News Eagles | Paris 2023",
+          "Sticker | Crown (Foil)",
+          "Sticker | Dragon Lore (Foil)",
+          "Sticker | High Heat",
+          "Sticker | Howling Dawn",
+          "Sticker | Reason Gaming (Holo) | Katowice 2014",
+          "Sticker | Team Liquid | Paris 2023",
+          "Sticker | Titan (Holo) | Cologne 2014",
+          "Sticker | Titan | Cluj-Napoca 2015",
+          "Sticker | Virtus.pro | Katowice 2015",
+          "Sticker | Winding Scorch (Foil)",
+          "Sticker | iBUYPOWER (Holo) | Cologne 2014",
+          "Sticker | iBUYPOWER | Cologne 2014",
+          "Stockholm 2021 Challengers Sticker Capsule",
+          "Stockholm 2021 Legends Sticker Capsule",
+          "USP-S | Printstream (Field-Tested)",
+          "Winter Offensive Weapon Case",
+          "eSports 2013 Case",
+          "★ Bayonet | Forest DDPAT (Field-Tested)",
+          "★ Bowie Knife | Tiger Tooth (Factory New)",
+          "★ Butterfly Knife | Slaughter (Minimal Wear)",
+          "★ Butterfly Knife | Tiger Tooth (Factory New)",
+          "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+          "★ Driver Gloves | Racing Green (Field-Tested)",
+          "★ Driver Gloves | Snow Leopard (Field-Tested)",
+          "★ Hand Wraps | Duct Tape (Battle-Scarred)",
+          "★ Hand Wraps | Duct Tape (Field-Tested)",
+          "★ Hydra Gloves | Mangrove (Field-Tested)",
+          "★ Hydra Gloves | Mangrove (Well-Worn)",
+          "★ Karambit | Crimson Web (Factory New)",
+          "★ Kukri Knife | Fade (Factory New)",
+          "★ Kukri Knife | Forest DDPAT (Field-Tested)",
+          "★ Moto Gloves | Spearmint (Minimal Wear)",
+          "★ Moto Gloves | Turtle (Field-Tested)",
+          "★ Moto Gloves | Turtle (Minimal Wear)",
+          "★ Navaja Knife | Scorched (Field-Tested)",
+          "★ Nomad Knife | Slaughter (Minimal Wear)",
+          "★ Paracord Knife",
+          "★ Shadow Daggers | Black Laminate (Battle-Scarred)",
+          "★ Skeleton Knife | Tiger Tooth (Factory New)",
+          "★ Specialist Gloves | Fade (Minimal Wear)",
+          "★ Sport Gloves | Bronze Morph (Field-Tested)",
+          "★ Sport Gloves | Pandora's Box (Field-Tested)",
+          "★ Sport Gloves | Vice (Factory New)",
+          "★ Sport Gloves | Vice (Field-Tested)",
+          "★ StatTrak™ Navaja Knife | Blue Steel (Factory New)",
+          "★ Survival Knife",
+          "★ Talon Knife | Tiger Tooth (Factory New)"
+        ]
+      },
+      "createdAt": "2026-09-17T20:58:53.441Z",
+      "features": 27795,
+      "historyVersions": 3,
+      "historyValues": 297,
+      "assets": 99,
+      "observedFrom": "2026-09-16T20:40:15.752Z",
+      "observedTo": "2026-09-17T20:35:15.058Z"
+    }
+  },
+  "activeSnapshotAfter": {
+    "snapshotId": "fff2954d0efdb69ec6599008b1b57679fe33fd9905daee2eef4203fd91e8548a",
+    "activatedAt": "2026-09-17T20:58:57.114Z",
+    "activatedBy": "refresh",
+    "note": "lifecycle N"
+  },
+  "result": "ACTIVATED",
+  "stage": "activate",
+  "retention": {
+    "mode": "DRY_RUN",
+    "active": "fff2954d0efdb69ec6599008b1b57679fe33fd9905daee2eef4203fd91e8548a",
+    "rollback": [
+      "19fe8888ad48fb38ea61c86afc800e6dad0fdfd7507fdcfac55f684fa951dd58"
+    ],
+    "protected": [],
+    "pinned": [],
+    "candidates": [
+      "3f47fe745f6373700df07b50e926d0fbc2817e3633311c16ed828bf8d4c62b49"
+    ],
+    "reclaimable": {
+      "bytes": 44551812,
+      "featureRows": 27803,
+      "historyVersions": 3,
+      "historyValues": 297
+    }
+  },
+  "measurements": {
+    "wallMs": 18431.614625,
+    "sourceReadMs": 10925.119375,
+    "deriveMs": 2832.57375,
+    "derivedWriteMs": 3072.062875,
+    "validateMs": 574.551291,
+    "activateMs": 3.807541,
+    "peakRssBytes": 631226368,
+    "peakRssMb": 602,
+    "featureRows": 27795,
+    "historyVersions": 3,
+    "historyValues": 297,
+    "snapshotBytes": {
+      "snapshotRow": 33480,
+      "features": 44206586,
+      "historyVersions": 615,
+      "historyValues": 268946,
+      "total": 44509627
+    },
+    "snapshotMb": 42.4
+  },
+  "operationalStatus": "FAIL",
+  "operationalFailures": [
+    "MISSING_SCHEDULED_WINDOWS",
+    "NON_SUCCESS_CLAIMED_RUNS",
+    "ASSET_COVERAGE"
+  ],
+  "finishedAt": "2026-09-17T20:58:58.077Z"
+}
