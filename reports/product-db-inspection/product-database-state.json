@@ -1,0 +1,232 @@
+{
+  "inspectedAt": "2026-09-17T16:05:22.961Z",
+  "source": ".env.steam-preview.local PRODUCT_DATABASE_URL",
+  "host": "ep-bold-darkness-auk5wz7m-pooler.c-10.us-east-1.aws.neon.tech",
+  "database": "neondb",
+  "readOnly": true,
+  "transaction": "REPEATABLE READ READ ONLY",
+  "version": "PostgreSQL 18.6 (2078fcb) on aarch64-unknown-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "tables": [
+    "admin_audit",
+    "alert_events",
+    "alert_rules",
+    "app_users",
+    "asset_source_mappings",
+    "assets",
+    "auth_accounts",
+    "auth_rate_limits",
+    "auth_sessions",
+    "auth_users",
+    "auth_verifications",
+    "billing_events",
+    "billing_subscriptions",
+    "collector_runs",
+    "market_observations",
+    "portfolio_holdings",
+    "saved_screens",
+    "watchlist_entries"
+  ],
+  "schemas": [
+    "drizzle",
+    "drizzle_steam",
+    "public"
+  ],
+  "drizzleMigrations": [
+    {
+      "id": 1,
+      "hash": "2a71047f8c50a73fa6057e453428fdf7b04ccae5aec8e64979920ff1ba41fc07",
+      "created_at": "1788968470562"
+    },
+    {
+      "id": 2,
+      "hash": "9f15169a6fe84e31568323553fe04a87d3d7b15a41041a3b3f13e4b5c4a156c4",
+      "created_at": "1788968586983"
+    },
+    {
+      "id": 3,
+      "hash": "ad4f87ec96f3a427171ad9c6fa6b5e4cf15e7f46f5abfecda7b9e6f8c637525b",
+      "created_at": "1788996195484"
+    },
+    {
+      "id": 4,
+      "hash": "8c32efb22f01f5229836433ad6529167f4e2ca728f2af1860f29127b03770ec8",
+      "created_at": "1789060508388"
+    },
+    {
+      "id": 5,
+      "hash": "79d39ee2f4c18a80f2408398b0f1cd5d0e0c12c0516e29f0733ea3543bec5b66",
+      "created_at": "1789060609372"
+    }
+  ],
+  "foreignKeys": [
+    {
+      "conname": "alert_events_observation_id_market_observations_id_fk",
+      "on_table": "alert_events",
+      "references_table": "market_observations",
+      "definition": "FOREIGN KEY (observation_id) REFERENCES market_observations(id)"
+    },
+    {
+      "conname": "alert_events_rule_id_alert_rules_id_fk",
+      "on_table": "alert_events",
+      "references_table": "alert_rules",
+      "definition": "FOREIGN KEY (rule_id) REFERENCES alert_rules(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "alert_events_user_id_app_users_id_fk",
+      "on_table": "alert_events",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "alert_rules_asset_id_assets_id_fk",
+      "on_table": "alert_rules",
+      "references_table": "assets",
+      "definition": "FOREIGN KEY (asset_id) REFERENCES assets(id)"
+    },
+    {
+      "conname": "alert_rules_last_observation_id_market_observations_id_fk",
+      "on_table": "alert_rules",
+      "references_table": "market_observations",
+      "definition": "FOREIGN KEY (last_observation_id) REFERENCES market_observations(id)"
+    },
+    {
+      "conname": "alert_rules_user_id_app_users_id_fk",
+      "on_table": "alert_rules",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "app_users_auth_user_id_auth_users_id_fk",
+      "on_table": "app_users",
+      "references_table": "auth_users",
+      "definition": "FOREIGN KEY (auth_user_id) REFERENCES auth_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "asset_source_mappings_asset_id_assets_id_fk",
+      "on_table": "asset_source_mappings",
+      "references_table": "assets",
+      "definition": "FOREIGN KEY (asset_id) REFERENCES assets(id)"
+    },
+    {
+      "conname": "auth_accounts_user_id_auth_users_id_fk",
+      "on_table": "auth_accounts",
+      "references_table": "auth_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "auth_sessions_user_id_auth_users_id_fk",
+      "on_table": "auth_sessions",
+      "references_table": "auth_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "billing_subscriptions_user_id_app_users_id_fk",
+      "on_table": "billing_subscriptions",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "market_observations_asset_id_assets_id_fk",
+      "on_table": "market_observations",
+      "references_table": "assets",
+      "definition": "FOREIGN KEY (asset_id) REFERENCES assets(id)"
+    },
+    {
+      "conname": "market_observations_collector_run_id_collector_runs_id_fk",
+      "on_table": "market_observations",
+      "references_table": "collector_runs",
+      "definition": "FOREIGN KEY (collector_run_id) REFERENCES collector_runs(id)"
+    },
+    {
+      "conname": "portfolio_holdings_asset_id_assets_id_fk",
+      "on_table": "portfolio_holdings",
+      "references_table": "assets",
+      "definition": "FOREIGN KEY (asset_id) REFERENCES assets(id)"
+    },
+    {
+      "conname": "portfolio_holdings_user_id_app_users_id_fk",
+      "on_table": "portfolio_holdings",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "saved_screens_user_id_app_users_id_fk",
+      "on_table": "saved_screens",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    },
+    {
+      "conname": "watchlist_entries_asset_id_assets_id_fk",
+      "on_table": "watchlist_entries",
+      "references_table": "assets",
+      "definition": "FOREIGN KEY (asset_id) REFERENCES assets(id)"
+    },
+    {
+      "conname": "watchlist_entries_checkpoint_observation_id_market_observations",
+      "on_table": "watchlist_entries",
+      "references_table": "market_observations",
+      "definition": "FOREIGN KEY (checkpoint_observation_id) REFERENCES market_observations(id)"
+    },
+    {
+      "conname": "watchlist_entries_user_id_app_users_id_fk",
+      "on_table": "watchlist_entries",
+      "references_table": "app_users",
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE"
+    }
+  ],
+  "hasAssets": true,
+  "hasMarketObservations": true,
+  "assetRows": 0,
+  "marketObservationRows": 0,
+  "rowCounts": {
+    "app_users": 0,
+    "auth_users": 0,
+    "billing_subscriptions": 0,
+    "alert_rules": 0,
+    "alert_events": 0,
+    "portfolio_holdings": 0,
+    "watchlist_entries": 0,
+    "admin_audit": 0,
+    "saved_screens": 0,
+    "auth_sessions": 0,
+    "auth_accounts": 0
+  },
+  "appUsersColumns": [
+    "id",
+    "auth_user_id",
+    "categories",
+    "interests",
+    "onboarded",
+    "watch_visited_at",
+    "created_at",
+    "updated_at",
+    "role"
+  ],
+  "recordedMigrationsResolved": [
+    {
+      "id": 1,
+      "created_at": "1788968470562",
+      "matches": "0000_initial_market_snapshots"
+    },
+    {
+      "id": 2,
+      "created_at": "1788968586983",
+      "matches": "0001_protect_observation_history"
+    },
+    {
+      "id": 3,
+      "created_at": "1788996195484",
+      "matches": "0002_product_accounts_monitoring_billing"
+    },
+    {
+      "id": 4,
+      "created_at": "1789060508388",
+      "matches": "0003_ops_application_role"
+    },
+    {
+      "id": 5,
+      "created_at": "1789060609372",
+      "matches": "0004_ops_audit"
+    }
+  ]
+}

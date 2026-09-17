@@ -1,6 +1,7 @@
 # Option A — Splitting the migration streams — DESIGN ONLY
 
-**Status: PROPOSED. Nothing in this document is implemented.** No migration file
+**Status: PROPOSED, REVISED 2026-09-17 after inspecting the real product
+database. Nothing in this document is implemented.** No migration file
 has been moved, no journal rewritten, no migration history reconciled. Approval
 is required before any of it happens.
 
@@ -26,60 +27,116 @@ The guard added in `d3eb585` refuses that, but the shared stream remains.
 
 ---
 
-## 2. Blocking unknown — the product database must be inspected first
+## 2. Blocking unknown — RESOLVED by inspection
 
-`PRODUCT_DATABASE_URL` was not available during this work, so the product
-database's real state is **unknown**. The design cannot be finalised without it.
+The product database was inspected read-only on 2026-09-17
+([FINDINGS](../../reports/product-db-inspection/FINDINGS.md)). The three
+questions are answered, and two of the answers change this design.
 
-Before implementation, capture (read-only):
+### 2.1 There is no production product database
 
-```sql
-select id, hash, created_at from drizzle.__drizzle_migrations order by id;
-select table_name from information_schema.tables where table_schema='public' order by 1;
-select conname, conrelid::regclass::text as on_table,
-       confrelid::regclass::text as references_table
-  from pg_constraint where contype='f' order by 1;
+`PRODUCT_DATABASE_URL` is **not configured in Vercel at all**. The deployment
+carries only `DATABASE_URL` and `DATABASE_URL_UNPOOLED`. The database inspected
+is a preview instance from `.env.steam-preview.local`, and every product table
+in it has **0 rows**.
+
+Consequence: there is no populated production product database whose history
+must be preserved. The reconciliation risk that dominated the previous draft is
+largely hypothetical, and the split can be designed for correctness rather than
+for migrating live bookkeeping.
+
+### 2.2 The product database contains both families
+
+18 public tables: the four market tables alongside all product/auth/billing
+tables. `assets` and `market_observations` exist with **0 rows** — schema, not
+duplicated data.
+
+This is the `MIGRATION_FAMILY_MIXED` state the guard now refuses. It is direct
+evidence the hazard already happened once, on this database.
+
+### 2.3 Cross-family foreign keys are real and enforced
+
+Nine foreign keys cross from product tables into market tables, and they exist
+because the market tables are co-located.
+
+**This is the finding that reshapes the design.** Splitting the migration
+streams does not split the schema dependency: a product database still requires
+`assets`, `market_observations` and `collector_runs` to exist. `0000` is not a
+market-only migration from the product stream's point of view — it is a **shared
+prerequisite**.
+
+### 2.4 Applied state
+
+| Migration | Market DB | Product DB |
+| --- | --- | --- |
+| `0000_initial_market_snapshots` | applied | applied |
+| `0001_protect_observation_history` | applied | applied |
+| `0002_product_accounts_monitoring_billing` | not applied | **applied** |
+| `0003_ops_application_role` | not applied | **applied** |
+| `0004_ops_audit` | not applied | **applied** |
+| `0005_steam_account_link` | not applied | not applied in `drizzle` |
+| `0006_history_payload_dedup` | applied directly, unrecorded | not applied |
+| `0007_observation_rollups` | applied directly, unrecorded | not applied |
+
+### 2.5 A second stream already exists and works
+
+`drizzle-steam/` has its own folder, its own journal, its own migrations schema
+(`drizzle_steam`), its own runner (`scripts/migrate-steam.ts`) and an explicit
+target guard refusing pooler connections. Its single migration is applied and
+recorded in the product database.
+
+**Option A is therefore not a new pattern; it is generalising one this
+repository already uses.** The split should follow `drizzle-steam` rather than
+invent a different convention.
+
+### 2.6 A duplicate Steam migration exists across streams
+
+`drizzle-steam/0000_steam_account_link.sql` (applied) and
+`drizzle/0005_steam_account_link.sql` (not applied) create the same partial
+unique index with different text and therefore different hashes. Applying the
+second would be a no-op that records a second migration for the same object.
+**One of the two should be removed as part of the split**, and the shared-journal
+copy is the one to drop.
+
+## 3. Target layout — REVISED
+
+Following the `drizzle-steam` precedent: sibling directories, each with its own
+journal and its own **migrations schema**, so bookkeeping cannot collide even if
+two streams ever share a database.
+
+```
+drizzle/          market stream   -> migrationsSchema "drizzle"        (unchanged)
+drizzle-product/  product stream  -> migrationsSchema "drizzle_product"
+drizzle-steam/    steam stream    -> migrationsSchema "drizzle_steam"  (already exists)
 ```
 
-Three questions must be answered from that output:
+Keeping the market stream in `drizzle/` with the existing `drizzle` schema means
+the market database's recorded history stays valid untouched — no hash changes,
+no reconciliation, nothing written to production bookkeeping.
 
-1. **Which migrations has it actually applied?** Match recorded hashes against
-   the raw SHA-256 of each `.sql` file. Do not assume `0002`–`0005`.
-2. **Does it contain market tables?** `0002` declares foreign keys from
-   `alert_rules`, `alert_events`, `portfolio_holdings` and `watchlist_entries`
-   into `assets` and `market_observations`. PostgreSQL cannot enforce a foreign
-   key across databases, so either the product database holds its own copies of
-   those tables, or those constraints were never created. **Both outcomes change
-   the design.**
-3. **Is it actually a separate database at all?** If `PRODUCT_DATABASE_URL` and
-   `DATABASE_URL` resolve to the same database in some environments, the
-   "families" are a deployment convention rather than a physical split, and the
-   correct fix is different — likely schemas rather than directories.
+The product stream gets a **new** migrations schema. Because the product
+database's existing rows live in the `drizzle` schema, the product stream would
+initially see its migrations as unapplied. §5 handles that, and §2.1 makes it
+low-stakes: the only product database is empty.
 
-**If question 2 shows the product database contains market tables, the split is
-not a file move.** It becomes a question of whether market tables are duplicated
-across databases, which is a data-architecture decision well beyond migration
-housekeeping.
+**The shared prerequisite (§2.3) must be explicit.** A product database needs the
+market tables. Options, to be decided at review:
 
----
+- **Prerequisite migration.** `drizzle-product/0000_market_prerequisite.sql`
+  creates the market tables the product foreign keys require. Honest about the
+  dependency; duplicates market DDL across two streams, which can drift.
+- **Documented precondition.** The product stream refuses to run unless the
+  market tables already exist. No duplication, but a product database can no
+  longer be bootstrapped from empty on its own.
+- **Drop the cross-family foreign keys.** Removes the dependency entirely and
+  makes the two families genuinely independent. The cleanest end state and the
+  largest change, since it alters the product schema and weakens referential
+  integrity that is currently enforced.
 
-## 3. Target layout
-
-```
-drizzle/
-  market/
-    0000_initial_market_snapshots.sql
-    0001_protect_observation_history.sql
-    0002_history_payload_dedup.sql        (today's 0006, renumbered)
-    0003_observation_rollups.sql          (today's 0007, renumbered)
-    meta/_journal.json                    (market only)
-  product/
-    0000_product_accounts_monitoring_billing.sql   (today's 0002)
-    0001_ops_application_role.sql                  (today's 0003)
-    0002_ops_audit.sql                             (today's 0004)
-    0003_steam_account_link.sql                    (today's 0005)
-    meta/_journal.json                             (product only)
-```
+Recommendation: **documented precondition** for the split itself, with dropping
+the cross-family foreign keys raised as a separate architectural decision. It
+avoids duplicating DDL and avoids changing integrity guarantees inside a
+migration-plumbing change.
 
 **Renumbering changes each file's SHA-256, and drizzle matches applied
 migrations by hash.** Every renamed file would therefore look unapplied. §5
@@ -113,12 +170,21 @@ depth. The guard stops being the only protection and becomes a backstop.
 
 ---
 
-## 5. Migration-history reconciliation
+## 5. Migration-history reconciliation — REVISED
 
-Only needed if §3's renumbering option is chosen. **With the recommended
-filenames-preserved approach, no reconciliation is required at all** — every
-hash already recorded stays valid, and each database simply stops seeing the
-other family's entries.
+The market stream needs **no reconciliation**: it keeps its directory, its
+schema and its hashes.
+
+The product stream moves to a new migrations schema, so its four applied
+migrations (`0002`–`0004`, plus `0000`/`0001` as prerequisites) would appear
+unapplied. Because the only product database is **empty** (§2.1), the simplest
+correct answer is to **recreate it from the product stream** rather than
+reconcile bookkeeping at all: drop and rebuild a database with 0 rows, or point
+at a fresh one.
+
+That removes the entire hash-rewriting risk that dominated the previous draft.
+If a populated product database ever appears before the split, reconciliation
+becomes necessary again and should be re-designed then, against that database.
 
 If renumbering is chosen anyway, then for each database and each renamed file:
 
