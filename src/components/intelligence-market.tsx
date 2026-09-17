@@ -2,6 +2,7 @@ import { Tooltip } from "./tooltip";
 import { metricHelp } from "./metric-help";
 import Form from "next/form";
 import { identityText, MARKET_CATEGORIES } from "@/lib/catalog/browsing";
+import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import {
   browseUrl,
   type BrowseParams,
@@ -445,19 +446,24 @@ export function IntelligenceInspection({
           <AssetImage name={a.name} media={a.artwork} large />
           <h2>{a.name}</h2>
           {a.identity && <small>{identityText(a.identity)}</small>}
-          <small>Minimum listing reference · USD</small>
+          <small>{availabilityPresentation(a).identityNote}</small>
           <SemanticBadge state={a.quality.state} />
+          <AvailabilityNotice asset={a} />
         </div>
         <div className="inspection-metrics">
           <Metric
-            label="Minimum listing"
+            label={`${availabilityPresentation(a).valuePrefix === "Last observed" ? "Last observed minimum" : "Minimum listing"}`}
             value={value(a.minimum, "", 2)}
-            note="USD · listing reference"
+            note={availabilityPresentation(a).priceNote}
           />
           <Metric
-            label="Venue listings"
+            label={
+              availabilityPresentation(a).current
+                ? "Venue listings"
+                : "Last observed listings"
+            }
             value={value(a.listings)}
-            note="Current observation"
+            note={availabilityPresentation(a).listingsNote}
           />
           <Metric
             label="Activity · 1h"
@@ -593,6 +599,25 @@ export function IntelligenceMonitor({
         <p className="chart-caption">No available observations qualify.</p>
       )}
     </div>
+  );
+}
+/**
+ * Availability state beside the asset identity. Rendered only when the asset is
+ * not ACTIVE, so the ACTIVE presentation is untouched. Styling is neutral by
+ * intent: an asset with no listings is a normal market state, not an error.
+ */
+export function AvailabilityNotice({
+  asset,
+}: {
+  asset: Parameters<typeof availabilityPresentation>[0];
+}) {
+  const p = availabilityPresentation(asset);
+  if (p.current || !p.headline) return null;
+  return (
+    <p className="availability-notice" role="note" data-state={p.state}>
+      <strong>{p.headline}</strong>
+      {p.explanation ? <span> {p.explanation}</span> : null}
+    </p>
   );
 }
 export function PresetDefinitions() {

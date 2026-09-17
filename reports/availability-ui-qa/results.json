@@ -1,0 +1,114 @@
+{
+  "base": "http://localhost:3402",
+  "results": [
+    {
+      "name": "active-desktop-1440 no page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ACTIVE keeps \"Current observation\"",
+      "pass": true
+    },
+    {
+      "name": "ACTIVE shows no availability notice",
+      "pass": true
+    },
+    {
+      "name": "ACTIVE keeps listing-reference label",
+      "pass": true
+    },
+    {
+      "name": "no-listing-desktop-1440 no page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "notice is rendered and visible without expanding",
+      "pass": true,
+      "detail": "NO_ACTIVE_LISTING_OBSERVED"
+    },
+    {
+      "name": "notice carries the correct state",
+      "pass": true
+    },
+    {
+      "name": "headline visible in collapsed page",
+      "pass": true
+    },
+    {
+      "name": "says the price is not actionable",
+      "pass": true
+    },
+    {
+      "name": "shows last successful observation timestamp",
+      "pass": true,
+      "detail": "last successful observation 2026-09-15T19:45:16.672Z."
+    },
+    {
+      "name": "labels values LAST OBSERVED",
+      "pass": true
+    },
+    {
+      "name": "NO \"Current observation\" anywhere on the page",
+      "pass": true
+    },
+    {
+      "name": "NO \"Minimum listing reference · USD\" identity label",
+      "pass": true
+    },
+    {
+      "name": "retains evidence/provenance detail",
+      "pass": true
+    },
+    {
+      "name": "no alarmist words",
+      "pass": true,
+      "detail": "NO ACTIVE LISTING OBSERVED\nThe items feed was fetched successfully and did not contain thi"
+    },
+    {
+      "name": "no-listing-mobile-390 no page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile: notice visible",
+      "pass": true
+    },
+    {
+      "name": "mobile: headline present",
+      "pass": true
+    },
+    {
+      "name": "mobile: no \"Current observation\"",
+      "pass": true
+    },
+    {
+      "name": "asset-intelligence-desktop-1440 no page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "asset page: notice visible",
+      "pass": true
+    },
+    {
+      "name": "asset page: labels say last observed",
+      "pass": true
+    },
+    {
+      "name": "asset page: no metric LABEL implies a current value",
+      "pass": true,
+      "detail": "labels: LAST OBSERVED MINIMUM LISTING / LAST OBSERVED MINIMUM LISTING / LAST OBSERVED MINIMUM LISTING / 12,747.52 USD / OBSERVED MEDIAN / OBSERVED MEDIAN"
+    },
+    {
+      "name": "asset-intelligence-mobile-390 no page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "asset page mobile: notice visible",
+      "pass": true
+    }
+  ]
+}

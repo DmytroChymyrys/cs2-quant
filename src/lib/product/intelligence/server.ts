@@ -178,7 +178,10 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
     // Availability is recorded per asset in the reviewed snapshot report.
     const availability = (
       metadata.report as {
-        availability?: Record<string, { state?: string; basis?: string }>;
+        availability?: Record<
+          string,
+          { state?: string; basis?: string; lastActiveAt?: string | null }
+        >;
       }
     ).availability;
     for (const asset of assets) {
@@ -190,6 +193,7 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       ) {
         asset.availability = entry.state;
         asset.availabilityDetail = entry.basis ?? null;
+        asset.availabilityObservedAt = entry.lastActiveAt ?? null;
       }
     }
     const artwork = await catalogPresentation(assets);

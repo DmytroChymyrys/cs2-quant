@@ -37,6 +37,7 @@ const asset = (over: Partial<MarketAssetSummary> = {}): MarketAssetSummary => ({
   changed5m: true,
   availability: "ACTIVE",
   availabilityDetail: null,
+  availabilityObservedAt: null,
   quality: {
     available: 2016,
     expected: 2016,

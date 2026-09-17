@@ -1112,3 +1112,30 @@ td small {
 .badge {
   width: max-content;
 }
+
+/* Availability state beside the asset identity.
+   Deliberately neutral: an asset with no active listing is a normal market
+   state, not an error, so this uses the muted surface rather than a warning
+   colour. It exists to correct the semantic hierarchy, not to alarm. */
+.availability-notice {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-left-width: 3px;
+  border-radius: 4px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: left;
+}
+.availability-notice strong {
+  display: block;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+.availability-notice span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--text-muted, rgba(255, 255, 255, 0.66));
+}

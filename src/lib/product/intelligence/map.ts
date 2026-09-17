@@ -119,6 +119,7 @@ export function summary(
     // row alone cannot distinguish an absent asset from a failed fetch.
     availability: "ACTIVE",
     availabilityDetail: null,
+    availabilityObservedAt: null,
   };
 }
 export function seriesPoint(f: Feature): MarketSeriesPoint {

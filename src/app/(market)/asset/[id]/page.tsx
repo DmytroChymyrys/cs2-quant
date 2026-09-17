@@ -10,6 +10,8 @@ import type { Horizon } from "@/lib/product/intelligence/contract";
 import { screenInput, explain } from "@/lib/product/intelligence/screener";
 import { PageHeading, Panel, Metric, DataState, Notice } from "@/components/ui";
 import { AssetImage } from "@/components/asset-image";
+import { AvailabilityNotice } from "@/components/intelligence-market";
+import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import { WatchButton } from "@/components/watch-button";
 import {
   EvidenceNotice,
@@ -53,9 +55,14 @@ export default async function Asset({
           }
         />
         <EvidenceNotice dataset={dataset} />
+        <AvailabilityNotice asset={a} />
         <div className="metric-grid">
           <Metric
-            label="Minimum listing reference"
+            label={
+              availabilityPresentation(a).current
+                ? "Minimum listing reference"
+                : "Last observed minimum listing"
+            }
             value={marketValue(a.minimum, " USD")}
           />
           <Metric
@@ -67,7 +74,11 @@ export default async function Asset({
             value={marketValue(a.median, " USD")}
           />
           <Metric
-            label="Venue listing quantity"
+            label={
+              availabilityPresentation(a).current
+                ? "Venue listing quantity"
+                : "Last observed listing quantity"
+            }
             value={marketValue(a.listings)}
           />
           <Metric

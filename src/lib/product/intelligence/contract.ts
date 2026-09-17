@@ -66,6 +66,8 @@ export type MarketAssetSummary = {
   history: MarketHistoryVersion | null;
   availability: AvailabilityState;
   availabilityDetail: string | null;
+  /** When the asset was last observed with supply. Not a claim about now. */
+  availabilityObservedAt: string | null;
 };
 
 /** Returns on the requested basis, without ever silently substituting one for the other. */
