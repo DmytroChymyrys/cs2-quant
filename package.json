@@ -32,6 +32,8 @@
     "db:migrate:derived": "node --import tsx scripts/derived-market/migrate.ts",
     "analytics:snapshot": "node --import tsx scripts/derived-market/snapshot.ts",
     "analytics:research": "node --import tsx scripts/derived-market/research.ts",
+    "analytics:refresh": "node --import tsx scripts/derived-market/refresh.ts",
+    "analytics:activate": "node --import tsx scripts/derived-market/activate.ts",
     "check:demo": "node scripts/check-demo-market.mjs",
     "check:qa": "node scripts/check-qa-market.mjs",
     "db:generate:product": "drizzle-kit generate --config drizzle.product.config.ts",

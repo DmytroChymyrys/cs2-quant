@@ -1,0 +1,63 @@
+# Production intelligence refresh.
+#
+# DELIBERATELY NOT SCHEDULED. The `schedule:` trigger below is commented out and
+# must stay that way until a cadence has been chosen from measured refresh cost
+# and the 30-day collection experiment is past its cutoff. Enabling it is a
+# one-line change, reviewed on its own.
+#
+# It runs on GitHub Actions rather than as a Vercel function because a seven-day
+# refresh takes minutes and gigabytes, far beyond a serverless request budget.
+# Nothing about the product's read path depends on where this runs: the job only
+# writes the derived database and moves the active pointer.
+name: intelligence-refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      no-activate:
+        description: "Persist and validate, but leave the active pointer where it is"
+        type: boolean
+        default: false
+  # schedule:
+  #   - cron: "20 * * * *"   # NOT ENABLED. See docs/ops/INTELLIGENCE_REFRESH.md.
+
+# A second refresh would be refused by the derived-database advisory lock
+# anyway; this keeps a queued run from burning a runner to discover that.
+concurrency:
+  group: intelligence-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Read-only credentials for the market database. The job additionally
+      # pins the connection READ ONLY and REPEATABLE READ, but the credential
+      # itself should not be able to write.
+      MARKET_ANALYTICS_SOURCE_URL: ${{ secrets.MARKET_ANALYTICS_SOURCE_URL }}
+      DERIVED_MARKET_DATABASE_URL: ${{ secrets.DERIVED_MARKET_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Applies any unapplied derived migration. Checksum-pinned, so an edited
+      # migration is refused rather than silently re-run.
+      - run: npm run db:migrate:derived
+      - name: Refresh
+        run: |
+          npm run analytics:refresh -- \
+            ${{ inputs.no-activate && '--no-activate' || '' }}
+      - name: Upload refresh report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: intelligence-refresh-report
+          path: reports/derived-market/refresh-*.json
+          if-no-files-found: warn
