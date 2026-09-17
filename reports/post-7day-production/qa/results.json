@@ -1,0 +1,100 @@
+{
+  "base": "http://localhost:3401",
+  "snapshot": "bc9d74a23d64214a6e3208bfbaecb83dc4f10fb367a9fa847ab185b950277c3b",
+  "results": [
+    {
+      "name": "screener-desktop-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "screener shows real data, not \"not configured\"",
+      "pass": true
+    },
+    {
+      "name": "screener shows no synthetic/demo banner",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "screener names minimum AND median price",
+      "pass": true
+    },
+    {
+      "name": "screener states evidence/provenance",
+      "pass": true
+    },
+    {
+      "name": "screener labels volatility EXPERIMENTAL",
+      "pass": true
+    },
+    {
+      "name": "screener labels combined states descriptive",
+      "pass": true
+    },
+    {
+      "name": "screener discloses provisional thresholds",
+      "pass": true
+    },
+    {
+      "name": "screener-mobile-390 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "screener-rising-contracting-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "combined-state preset returns rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "screener-median-basis-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "median basis selectable and labelled",
+      "pass": true
+    },
+    {
+      "name": "asset-unavailable-desktop-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "delisted asset findable in screener",
+      "pass": true
+    },
+    {
+      "name": "availability surfaced as no-active-listing",
+      "pass": true,
+      "detail": "No active listing observed in the latest window; the last observed price is not currently actionable"
+    },
+    {
+      "name": "last price not presented as actionable",
+      "pass": true
+    },
+    {
+      "name": "asset-detail-desktop-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "thin/deep market shows listing depth",
+      "pass": true
+    },
+    {
+      "name": "screener-empty-1440 renders without page errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "empty state is explicit, not a crash",
+      "pass": true
+    }
+  ]
+}
