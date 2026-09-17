@@ -1,5 +1,9 @@
 # FloatAlpha Ops V1
 
+> **Migrations:** `npm run db:migrate` is UNSAFE against production. The
+> `./drizzle` directory is shared by two separate databases. See
+> [MIGRATIONS.md](MIGRATIONS.md) before running any migration.
+
 ## Preflight / existing architecture
 
 Started from milestone `e071a16`, on `feat/cs2-quant-product`, with substantial uncommitted visual/auth-copy and market-data work. That work was preserved. Auth configuration, session helper, product routes, billing mirror, schemas/migrations, health readers, and design primitives were inspected before implementation.
