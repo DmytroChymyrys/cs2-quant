@@ -1,0 +1,17 @@
+{
+  "event": "derived.refresh",
+  "result": "LOCK_HELD_ELSEWHERE",
+  "stage": "lock",
+  "message": "Another refresh holds the derived-database advisory lock. No snapshot was generated and the active pointer was not modified.",
+  "activeSnapshot": {
+    "snapshotId": "19fe8888ad48fb38ea61c86afc800e6dad0fdfd7507fdcfac55f684fa951dd58",
+    "activatedAt": "2026-09-17T20:10:15.808Z",
+    "activatedBy": "activate",
+    "note": "rollback drill: back to A"
+  },
+  "finishedAt": "2026-09-17T20:10:58.675Z",
+  "measurements": {
+    "wallMs": 12.503959,
+    "peakRssBytes": 111935488
+  }
+}

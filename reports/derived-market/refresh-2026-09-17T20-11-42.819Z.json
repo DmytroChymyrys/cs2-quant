@@ -1,0 +1,12 @@
+{
+  "event": "derived.refresh",
+  "result": "FAILED",
+  "stage": "lock",
+  "errorCode": "REFRESH_FAILED",
+  "message": "The refresh failed before activation. The active snapshot pointer was not modified.",
+  "finishedAt": "2026-09-17T20:11:42.818Z",
+  "measurements": {
+    "wallMs": 2.196292,
+    "peakRssBytes": 111755264
+  }
+}

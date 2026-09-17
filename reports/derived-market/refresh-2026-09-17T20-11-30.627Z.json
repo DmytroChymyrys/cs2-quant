@@ -1,0 +1,18 @@
+{
+  "event": "derived.refresh",
+  "activeSnapshotBefore": {
+    "snapshotId": "3f47fe745f6373700df07b50e926d0fbc2817e3633311c16ed828bf8d4c62b49",
+    "activatedAt": "2026-09-17T20:11:07.489Z",
+    "activatedBy": "refresh",
+    "note": "concurrency A"
+  },
+  "result": "FAILED",
+  "stage": "source-read",
+  "errorCode": "REFRESH_FAILED",
+  "message": "The refresh failed before activation. The active snapshot pointer was not modified.",
+  "finishedAt": "2026-09-17T20:11:30.627Z",
+  "measurements": {
+    "wallMs": 17.615292,
+    "peakRssBytes": 106233856
+  }
+}
