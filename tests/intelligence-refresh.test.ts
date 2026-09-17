@@ -31,7 +31,11 @@ const q: Queryable = {
 let migrated = false;
 async function migrate() {
   if (migrated) return;
-  for (const file of ["001_read_model.sql", "002_active_snapshot.sql"])
+  for (const file of [
+    "001_read_model.sql",
+    "002_active_snapshot.sql",
+    "003_activation_ledger.sql",
+  ])
     await db.exec(await readFile(`db/derived-market/${file}`, "utf8"));
   migrated = true;
 }

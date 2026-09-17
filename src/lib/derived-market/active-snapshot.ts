@@ -54,20 +54,53 @@ export async function activateSnapshot(
   activatedBy: string,
   note?: string,
 ): Promise<ActiveSnapshot> {
+  // One statement: the data-modifying CTE moves the pointer and appends to the
+  // activation ledger together, so the history can never disagree with what is
+  // live, and no explicit transaction is needed around the pair.
   await db.query(
-    `insert into derived_active_snapshot(id, snapshot_id, activated_at, activated_by, note)
-     values(true, $1, now(), $2, $3)
-     on conflict (id) do update
-       set snapshot_id = excluded.snapshot_id,
-           activated_at = excluded.activated_at,
-           activated_by = excluded.activated_by,
-           note = excluded.note`,
+    `with moved as (
+       insert into derived_active_snapshot(id, snapshot_id, activated_at, activated_by, note)
+       values(true, $1, now(), $2, $3)
+       on conflict (id) do update
+         set snapshot_id = excluded.snapshot_id,
+             activated_at = excluded.activated_at,
+             activated_by = excluded.activated_by,
+             note = excluded.note
+       returning snapshot_id, activated_at, activated_by, note
+     )
+     insert into derived_snapshot_activations(snapshot_id, activated_at, activated_by, note)
+     select snapshot_id, activated_at, activated_by, note from moved`,
     [snapshotId, activatedBy, note ?? null],
   );
   const active = await readActiveSnapshot(db);
   if (!active || active.snapshotId !== snapshotId)
     throw new Error("ACTIVATION_DID_NOT_TAKE_EFFECT");
   return active;
+}
+
+/**
+ * What has been published, most recent first. The ledger is append-only and
+ * outlives the snapshots it names, so an entry here does not imply the snapshot
+ * still exists.
+ */
+export async function readActivationHistory(
+  db: Queryable,
+  limit = 50,
+): Promise<
+  { snapshotId: string; activatedAt: string; activatedBy: string | null }[]
+> {
+  const { rows } = await db.query(
+    `select snapshot_id, activated_at, activated_by
+       from derived_snapshot_activations
+      order by activated_at desc, id desc
+      limit $1`,
+    [limit],
+  );
+  return rows.map((r) => ({
+    snapshotId: String(r.snapshot_id),
+    activatedAt: new Date(r.activated_at as string).toISOString(),
+    activatedBy: (r.activated_by as string | null) ?? null,
+  }));
 }
 
 /**

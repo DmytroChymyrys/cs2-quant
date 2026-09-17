@@ -11,7 +11,11 @@ const pool = new Pool({
 const client = await pool.connect();
 try {
   // Applied in order; each is checksum-pinned so an edited migration is refused.
-  const migrations = ["001_read_model.sql", "002_active_snapshot.sql"];
+  const migrations = [
+    "001_read_model.sql",
+    "002_active_snapshot.sql",
+    "003_activation_ledger.sql",
+  ];
   await client.query("BEGIN");
   await client.query("SELECT pg_advisory_xact_lock(730,3)");
   await client.query(

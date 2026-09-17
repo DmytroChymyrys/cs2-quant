@@ -37,6 +37,12 @@ import {
   validateSnapshot,
   SnapshotUnreadable,
 } from "../../src/lib/derived-market/snapshot-validation";
+import {
+  planRetention,
+  executeRetention,
+  snapshotBytes,
+} from "../../src/lib/derived-market/retention";
+import { requireDerivedDatabaseUrl } from "../../src/lib/derived-market/config";
 
 const { values: args } = parseArgs({
   options: {
@@ -48,6 +54,12 @@ const { values: args } = parseArgs({
     "no-activate": { type: "boolean", default: false },
     out: { type: "string" },
     note: { type: "string" },
+    /** Run retention after the pointer has moved and been verified. */
+    retain: { type: "boolean", default: false },
+    /** Classify and report only; nothing is deleted. */
+    "retain-dry-run": { type: "boolean", default: false },
+    /** Repeatable. Snapshots the caller requires retention to keep. */
+    protect: { type: "string", multiple: true, default: [] },
   },
 });
 
@@ -64,7 +76,6 @@ rssSampler.unref();
 
 const closed = Math.floor(Date.now() / STEP) * STEP;
 const sourceUrl = process.env.MARKET_ANALYTICS_SOURCE_URL;
-const targetUrl = process.env.DERIVED_MARKET_DATABASE_URL;
 
 type Outcome = {
   event: "derived.refresh";
@@ -85,40 +96,16 @@ let lockHeld = false;
 let stage = "startup";
 const outcome: Partial<Outcome> = { event: "derived.refresh" };
 
-/** Bytes actually occupied by this snapshot's rows in the derived database. */
-async function snapshotBytes(db: PoolClient, id: string) {
-  const { rows } = await db.query(
-    `select
-       (select coalesce(sum(pg_column_size(t.*)),0) from derived_market_snapshots t where id=$1) as snapshot,
-       (select coalesce(sum(pg_column_size(t.*)),0) from derived_market_features t where snapshot_id=$1) as features,
-       (select coalesce(sum(pg_column_size(t.*)),0) from derived_history_versions t where snapshot_id=$1) as versions,
-       (select coalesce(sum(pg_column_size(t.*)),0) from derived_history_values t where snapshot_id=$1) as values`,
-    [id],
-  );
-  const r = rows[0];
-  const n = (v: unknown) => Number(v ?? 0);
-  const parts = {
-    snapshotRow: n(r.snapshot),
-    features: n(r.features),
-    historyVersions: n(r.versions),
-    historyValues: n(r.values),
-  };
-  return {
-    ...parts,
-    total: Object.values(parts).reduce((a, b) => a + b, 0),
-  };
-}
-
 try {
   stage = "configuration";
   if (!sourceUrl)
     throw new Error("EXPLICIT_MARKET_ANALYTICS_SOURCE_URL_REQUIRED");
-  if (!targetUrl)
-    throw new Error("EXPLICIT_DERIVED_MARKET_DATABASE_URL_REQUIRED");
-  const sameHost = new URL(sourceUrl).host === new URL(targetUrl).host;
-  const samePath = new URL(sourceUrl).pathname === new URL(targetUrl).pathname;
-  if (sameHost && samePath)
-    throw new Error("DERIVED_TARGET_MUST_BE_SEPARATE_DATABASE");
+  // Fails closed when the derived URL is absent, malformed, or names the same
+  // database as any market URL, including the source this run was given.
+  const derivedUrl = requireDerivedDatabaseUrl({
+    ...process.env,
+    MARKET_ANALYTICS_SOURCE_URL: sourceUrl,
+  });
   const maxDays = args["max-days"]
     ? Number(args["max-days"])
     : DEFAULT_SCOPE_DAYS;
@@ -128,7 +115,7 @@ try {
     );
 
   target = new Pool({
-    connectionString: targetUrl,
+    connectionString: derivedUrl,
     max: 2,
     connectionTimeoutMillis: 10000,
   });
@@ -266,7 +253,49 @@ try {
     outcome.result = "ACTIVATED";
     outcome.stage = "activate";
   }
-  outcome.activeSnapshotAfter ??= await readActiveSnapshot(lockHolder);
+  // 8. Retention, and ONLY here: after the pointer moved and was read back.
+  //    Any other result — rejected, not activated, failed — skips it entirely,
+  //    so a refresh that did not publish can never delete a snapshot.
+  const verified = await readActiveSnapshot(lockHolder);
+  outcome.activeSnapshotAfter ??= verified;
+  if (
+    (args.retain || args["retain-dry-run"]) &&
+    outcome.result === "ACTIVATED" &&
+    verified?.snapshotId === derived.snapshotId
+  ) {
+    stage = "retention";
+    const pinned = (args.protect ?? []).filter(Boolean);
+    if (args["retain-dry-run"]) {
+      const plan = await planRetention(lockHolder, { pinned });
+      outcome.retention = {
+        mode: "DRY_RUN",
+        active: plan.active,
+        rollback: plan.rollback,
+        protected: plan.protectedIds,
+        pinned: plan.pinnedIds,
+        candidates: plan.candidates,
+        reclaimable: plan.reclaimable,
+      };
+    } else {
+      const result = await executeRetention(lockHolder, { pinned });
+      outcome.retention = {
+        mode: "EXECUTE",
+        active: result.plan.active,
+        rollback: result.plan.rollback,
+        protected: result.plan.protectedIds,
+        pinned: result.plan.pinnedIds,
+        deleted: result.deleted,
+        rowsDeleted: result.rowsDeleted,
+        bytesReclaimed: result.bytesReclaimed,
+      };
+    }
+  } else if (args.retain || args["retain-dry-run"]) {
+    outcome.retention = {
+      mode: "SKIPPED",
+      reason:
+        "Retention runs only after a snapshot has been activated and the pointer verified.",
+    };
+  }
 
   outcome.measurements = {
     wallMs: ms(started),

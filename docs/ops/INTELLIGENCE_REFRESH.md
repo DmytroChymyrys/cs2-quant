@@ -149,6 +149,91 @@ or the new one, never a mixture, and no redeploy is involved.
 If the pointer itself is the problem, set `PRODUCT_ANALYTICS_SNAPSHOT_ID` to the
 known-good snapshot; it outranks the pointer entirely.
 
+## Retention
+
+Retention deletes **derived snapshots only**. No statement in the retention
+module or its CLI references `market_observations`, `collector_runs`, raw
+evidence or frozen research artifacts, and none of them can: the derived
+database is a different database and the market tables are not reachable from
+it.
+
+### What is kept, and why
+
+Eligibility is decided by what a snapshot *is*, never by how old it is. Age is a
+property of every snapshot including the one currently serving traffic, and says
+nothing about whether deleting it would cost a rollback.
+
+| Disposition | Meaning |
+| --- | --- |
+| `ACTIVE` | Serving the product now. Always implicitly protected. |
+| `ROLLBACK` | One of the previous *N* activated snapshots (default 2), read from the activation ledger. |
+| `PROTECTED` | Recorded in `derived_protected_snapshots` with a reason. |
+| `PINNED` | Named by the caller with `--protect` on this run. |
+| `DELETE` | None of the above. |
+
+A snapshot that was generated but never activated **is a candidate**. If a
+rejected or `--no-activate` snapshot is being held for inspection, protect it.
+
+The rollback set comes from `derived_snapshot_activations`, not from creation
+order: what we would roll back to is what we previously *published*, which is
+not necessarily what was built most recently.
+
+### Running it
+
+Dry run is the default. Deletion requires `--execute`.
+
+```
+# classify and report; writes nothing
+DERIVED_MARKET_DATABASE_URL=... npm run analytics:retention
+
+# same classification, then delete
+DERIVED_MARKET_DATABASE_URL=... npm run analytics:retention -- --execute
+
+# keep a wider rollback set for this run
+... npm run analytics:retention -- --keep-previous 4
+```
+
+Retention takes the refresh advisory lock, so it cannot classify snapshots while
+a refresh is between validating a candidate and activating it. It refuses to run
+at all when no snapshot is active (`NO_ACTIVE_SNAPSHOT`) or when the pointer
+names a snapshot that does not exist (`ACTIVE_SNAPSHOT_MISSING`) — retention is
+only ever legitimate *after* a successful activation, and that is enforced in
+code rather than left to operator discipline.
+
+The refresh can run it in the same lifecycle with `--retain-dry-run` or
+`--retain`. Those flags only take effect when the run actually activated and the
+pointer was read back naming the snapshot it just built; otherwise the report
+says `"retention": {"mode": "SKIPPED"}`.
+
+### **If `PRODUCT_ANALYTICS_SNAPSHOT_ID` is pinned, protect it**
+
+A pinned snapshot is invisible to the database: the pin lives in the deployment
+environment. Retention cannot see it and **will delete it** if it is not in the
+rollback set.
+
+Whenever an override is configured, protect that snapshot durably:
+
+```
+npm run analytics:protect -- --snapshot <id> --reason "PRODUCT_ANALYTICS_SNAPSHOT_ID pin"
+```
+
+`--protect <id>` on the retention command does the same thing for one run, and
+is the right tool for a one-off. The durable table is the safer of the two and
+is the recommended mechanism for anything that must survive: a flag only
+protects a snapshot on the runs where somebody remembers to type it, whereas the
+foreign key on `derived_protected_snapshots` makes the deletion physically
+impossible until the protection is retired on purpose. Retire one with
+`--remove`; list them with `--list`.
+
+### Storage behaviour
+
+Deleting rows does not immediately return disk to the operating system. The
+logical bytes reported as reclaimed are freed for reuse; the database file
+shrinks only after a `VACUUM FULL`, which takes an exclusive lock and is **not**
+run automatically. In steady state the physical size settles at roughly
+(snapshots retained + 1 in flight) × snapshot size, because each new snapshot
+reuses the space the last deletion freed.
+
 ## Scheduling
 
 `.github/workflows/intelligence-refresh.yml` exists and is **deliberately not

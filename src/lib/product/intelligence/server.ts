@@ -20,6 +20,7 @@ import type {
   SnapshotSelection,
 } from "./contract";
 import { selectSnapshot } from "../../derived-market/active-snapshot";
+import { resolveDerivedDatabase } from "../../derived-market/config";
 import { summary, seriesPoint, historyContract } from "./map";
 import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
@@ -46,11 +47,9 @@ export function syntheticMode() {
     ["fixture", "demo"].includes(process.env.PRODUCT_ANALYTICS_MODE ?? "")
   );
 }
-function connection() {
-  if (!process.env.DERIVED_MARKET_DATABASE_URL)
-    throw new Error("ANALYTICS_NOT_CONFIGURED");
+function connection(url: string) {
   return (pool ??= new Pool({
-    connectionString: process.env.DERIVED_MARKET_DATABASE_URL,
+    connectionString: url,
     max: 3,
     connectionTimeoutMillis: 2000,
     statement_timeout: 5000,
@@ -175,11 +174,24 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         assets,
       };
     }
-    if (!process.env.DERIVED_MARKET_DATABASE_URL)
-      return unavailable(
-        "A reviewed analytics snapshot has not been configured.",
+    // Fail closed on an absent or ambiguous derived database. There is no
+    // fallback to the market database: serving it would look like success while
+    // showing something that was never a reviewed snapshot.
+    const derived = resolveDerivedDatabase();
+    if (!derived.ok) {
+      console.error(
+        JSON.stringify({
+          event: "analytics.derived_database_unusable",
+          code: derived.code,
+        }),
       );
-    const db = connection();
+      return unavailable(
+        derived.code === "ABSENT"
+          ? "A reviewed analytics snapshot has not been configured."
+          : "The analytics database is misconfigured. Real observations are not being shown, and nothing is being substituted.",
+      );
+    }
+    const db = connection(derived.url);
     // Resolution order: explicit override, then the active pointer, then
     // UNAVAILABLE. The pointer is what a refresh moves, so a new snapshot
     // reaches readers without a redeploy; the override outranks it so a
@@ -333,7 +345,11 @@ export async function readAssetDetail(
         .filter((v) => ids.has(v.version))
         .map(historyContract);
     } else {
-      const db = connection();
+      // The dataset only resolved because the config was usable, but check
+      // again rather than assume: this path is also reachable directly.
+      const derived = resolveDerivedDatabase();
+      if (!derived.ok) throw new Error("ANALYTICS_NOT_CONFIGURED");
+      const db = connection(derived.url);
       const result = await db.query(
         "select feature from derived_market_features where snapshot_id=$1 and asset_id=$2::uuid and observed_at >= $3::timestamptz and observed_at < $4::timestamptz order by observed_at,observation_id limit 2017",
         [dataset.snapshotId, id, from, dataset.scope.to],
