@@ -1,0 +1,352 @@
+[
+ {
+  "window": "2026-09-18T07:00:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:00:18.000Z",
+  "finishedAt": "2026-09-18T07:00:24.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:05:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:05:07.000Z",
+  "finishedAt": "2026-09-18T07:05:13.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:10:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:10:09.000Z",
+  "finishedAt": "2026-09-18T07:10:15.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:15:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:15:10.000Z",
+  "finishedAt": "2026-09-18T07:15:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:20:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:20:10.000Z",
+  "finishedAt": "2026-09-18T07:20:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:25:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:25:06.000Z",
+  "finishedAt": "2026-09-18T07:25:13.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:30:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:30:14.000Z",
+  "finishedAt": "2026-09-18T07:30:20.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:35:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:35:06.000Z",
+  "finishedAt": "2026-09-18T07:35:13.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:40:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:40:10.000Z",
+  "finishedAt": "2026-09-18T07:40:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:45:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:45:09.000Z",
+  "finishedAt": "2026-09-18T07:45:15.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:50:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:50:09.000Z",
+  "finishedAt": "2026-09-18T07:50:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T07:55:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T07:55:06.000Z",
+  "finishedAt": "2026-09-18T07:55:12.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T08:00:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T08:00:18.000Z",
+  "finishedAt": "2026-09-18T08:00:24.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T08:05:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T08:05:05.000Z",
+  "finishedAt": "2026-09-18T08:05:12.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T08:10:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T08:10:09.000Z",
+  "finishedAt": "2026-09-18T08:10:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T08:15:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T08:15:09.000Z",
+  "finishedAt": "2026-09-18T08:15:15.000Z",
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:20:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T08:20:08.000Z",
+  "finishedAt": "2026-09-18T08:20:15.000Z",
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:25:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T08:25:06.000Z",
+  "finishedAt": "2026-09-18T08:25:12.000Z",
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:30:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T08:30:13.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:35:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T08:35:06.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:40:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T08:40:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:45:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T08:45:10.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:50:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T08:50:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T08:55:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T08:55:06.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:00:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:00:18.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:05:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T09:05:08.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:10:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:10:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:15:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:15:10.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:20:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:20:10.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:25:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:25:06.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:30:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:30:13.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:35:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T09:35:07.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:40:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:40:10.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:45:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:45:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:50:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:50:10.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T09:55:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T09:55:06.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T10:00:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T10:00:18.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T10:05:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T10:05:06.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T10:10:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T10:10:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T10:15:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T10:15:08.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T10:20:00.000Z",
+  "status": "RUNNING",
+  "startedAt": "2026-09-18T10:20:09.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T14:10:00.000Z",
+  "status": "FAILED",
+  "startedAt": "2026-09-18T14:11:44.000Z",
+  "finishedAt": null,
+  "observations": 0
+ },
+ {
+  "window": "2026-09-18T14:20:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:20:11.000Z",
+  "finishedAt": "2026-09-18T14:20:18.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:25:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:25:06.000Z",
+  "finishedAt": "2026-09-18T14:25:13.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:30:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:30:14.000Z",
+  "finishedAt": "2026-09-18T14:30:21.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:35:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:35:06.000Z",
+  "finishedAt": "2026-09-18T14:35:13.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:40:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:40:09.000Z",
+  "finishedAt": "2026-09-18T14:40:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:45:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:45:10.000Z",
+  "finishedAt": "2026-09-18T14:45:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:50:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:50:09.000Z",
+  "finishedAt": "2026-09-18T14:50:16.000Z",
+  "observations": 98
+ },
+ {
+  "window": "2026-09-18T14:55:00.000Z",
+  "status": "PARTIAL",
+  "startedAt": "2026-09-18T14:55:06.000Z",
+  "finishedAt": "2026-09-18T14:55:13.000Z",
+  "observations": 98
+ }
+]

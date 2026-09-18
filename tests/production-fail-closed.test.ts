@@ -7,7 +7,6 @@
  * somebody sets the feature flag or pastes a key into the wrong environment.
  */
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { readFile } from "node:fs/promises";
 vi.mock("server-only", () => ({}));
 import {
   billingSandboxEnabled,
