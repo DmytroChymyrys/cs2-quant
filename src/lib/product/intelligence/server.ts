@@ -52,10 +52,16 @@ function connection(url: string) {
     connectionString: url,
     max: 3,
     connectionTimeoutMillis: 2000,
-    statement_timeout: 5000,
-    options: "-c default_transaction_read_only=on",
+    // Both settings travel in `options`, which is a standard libpq startup
+    // parameter. node-postgres also accepts a `statement_timeout` field and
+    // sends it as its own startup parameter, but Neon's proxy discards that one
+    // without complaint — a local Postgres honours it, so the read path appeared
+    // to have a five-second ceiling everywhere while production had none.
+    options: `-c default_transaction_read_only=on -c statement_timeout=${READ_TIMEOUT_MS}`,
   }));
 }
+/** Query ceiling for every product read. See DERIVED_READ_SETTINGS. */
+export const READ_TIMEOUT_MS = 5000;
 export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
   assertPreviewIsolation();
   const asOf = syntheticMode()

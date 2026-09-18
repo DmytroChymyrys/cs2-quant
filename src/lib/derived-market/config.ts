@@ -21,7 +21,11 @@ export const DERIVED_URL_ENV = "DERIVED_MARKET_DATABASE_URL";
 
 export type DerivedConfig =
   | { ok: true; url: string }
-  | { ok: false; code: "ABSENT" | "AMBIGUOUS" | "MALFORMED"; reason: string };
+  | {
+      ok: false;
+      code: "ABSENT" | "AMBIGUOUS" | "MALFORMED" | "POOLED_ENDPOINT";
+      reason: string;
+    };
 
 function sameDatabase(a: string, b: string): boolean {
   try {
@@ -71,6 +75,18 @@ export function resolveDerivedDatabase(
         reason: `${DERIVED_URL_ENV} names the same database as ${name}. The derived database must be separate.`,
       };
   }
+  // The reader depends on two session settings (read-only, statement timeout)
+  // that a transaction pooler cannot carry: Neon's pooled endpoint rejects
+  // statement_timeout in startup options outright. Refuse the pooled host here,
+  // with an explanation, rather than letting the driver fail with a raw error
+  // or — worse — letting a future edit drop the setting and run without a
+  // ceiling again.
+  if (/-pooler\./.test(new URL(url).hostname))
+    return {
+      ok: false,
+      code: "POOLED_ENDPOINT",
+      reason: `${DERIVED_URL_ENV} points at a pooled endpoint, which cannot carry the read-only and statement-timeout session settings the reader requires. Use the direct (unpooled) endpoint.`,
+    };
   return { ok: true, url };
 }
 
@@ -83,7 +99,9 @@ export function requireDerivedDatabaseUrl(env: EnvLike = process.env): string {
         ? "EXPLICIT_DERIVED_MARKET_DATABASE_URL_REQUIRED"
         : config.code === "AMBIGUOUS"
           ? "DERIVED_TARGET_MUST_BE_SEPARATE_DATABASE"
-          : "DERIVED_MARKET_DATABASE_URL_MALFORMED",
+          : config.code === "POOLED_ENDPOINT"
+            ? "DERIVED_MARKET_DATABASE_URL_MUST_BE_UNPOOLED"
+            : "DERIVED_MARKET_DATABASE_URL_MALFORMED",
     );
   return config.url;
 }

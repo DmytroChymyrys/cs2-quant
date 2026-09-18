@@ -73,8 +73,10 @@ describe("analytics read boundary", () => {
     expect(d.assets[0].minimum).toBe("123");
     expect(config).toHaveBeenCalledWith(
       expect.objectContaining({
-        options: "-c default_transaction_read_only=on",
-        statement_timeout: 5000,
+        // Both settings must travel in `options`: a standalone
+        // statement_timeout startup parameter is discarded by Neon.
+        options:
+          "-c default_transaction_read_only=on -c statement_timeout=5000",
         max: 3,
       }),
     );

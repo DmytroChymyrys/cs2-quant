@@ -61,8 +61,8 @@ try {
     connectionString: sourceUrl,
     max: 1,
     connectionTimeoutMillis: 10000,
-    statement_timeout: 60000,
-    options: "-c default_transaction_read_only=on",
+    // Both in `options`; a standalone statement_timeout is dropped by Neon.
+    options: "-c default_transaction_read_only=on -c statement_timeout=60000",
   });
   const client = await source.connect();
   let input, storage;

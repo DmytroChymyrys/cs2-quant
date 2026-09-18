@@ -148,8 +148,9 @@ try {
     connectionString: sourceUrl,
     max: 1,
     connectionTimeoutMillis: 10000,
-    statement_timeout: 300000,
-    options: "-c default_transaction_read_only=on",
+    // Both in `options`: Neon discards a standalone statement_timeout startup
+    // parameter silently, so a timeout set that way is not a timeout at all.
+    options: "-c default_transaction_read_only=on -c statement_timeout=300000",
   });
   const reader = await source.connect();
   let input;

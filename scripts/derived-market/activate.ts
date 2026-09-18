@@ -16,6 +16,7 @@ import {
   releaseRefreshLock,
 } from "../../src/lib/derived-market/active-snapshot";
 import { METHOD } from "../../src/lib/derived-market/model";
+import { requireDerivedDatabaseUrl } from "../../src/lib/derived-market/config";
 
 const { values: args } = parseArgs({
   options: {
@@ -25,14 +26,13 @@ const { values: args } = parseArgs({
   },
 });
 
-const url = process.env.DERIVED_MARKET_DATABASE_URL;
 let pool: Pool | undefined;
 let client;
 let locked = false;
 try {
-  if (!url) throw new Error("EXPLICIT_DERIVED_MARKET_DATABASE_URL_REQUIRED");
+  // Fails closed on an absent, malformed, pooled or market-shaped URL.
   pool = new Pool({
-    connectionString: url,
+    connectionString: requireDerivedDatabaseUrl(),
     max: 1,
     connectionTimeoutMillis: 10000,
   });

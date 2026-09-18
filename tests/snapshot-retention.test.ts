@@ -349,3 +349,56 @@ describe("fail-closed derived database configuration", () => {
     });
   });
 });
+
+describe("the derived read path really applies its session settings", () => {
+  it("carries both settings in options, never as a discarded startup field", async () => {
+    const src = await readFile(
+      "src/lib/product/intelligence/server.ts",
+      "utf8",
+    );
+    const pool = src.slice(
+      src.indexOf("function connection(url: string)"),
+      src.indexOf("export const READ_TIMEOUT_MS"),
+    );
+    expect(pool).toContain("default_transaction_read_only=on");
+    expect(pool).toContain("statement_timeout=${READ_TIMEOUT_MS}");
+    // A bare `statement_timeout:` field is silently dropped by Neon's proxy, so
+    // the read path would run with no ceiling while appearing to have one.
+    expect(pool).not.toMatch(/statement_timeout\s*:/);
+  });
+
+  it("refuses a pooled endpoint, which cannot carry those settings", () => {
+    expect(
+      resolveDerivedDatabase({
+        DERIVED_MARKET_DATABASE_URL:
+          "postgresql://u:p@ep-x-pooler.c-12.us-east-1.aws.neon.tech/neondb",
+      }),
+    ).toMatchObject({ ok: false, code: "POOLED_ENDPOINT" });
+    expect(
+      resolveDerivedDatabase({
+        DERIVED_MARKET_DATABASE_URL:
+          "postgresql://u:p@ep-x.c-12.us-east-1.aws.neon.tech/neondb",
+      }),
+    ).toMatchObject({ ok: true });
+  });
+
+  it("applies them against a real database when one is configured", async () => {
+    const url = process.env.DERIVED_MARKET_DATABASE_URL;
+    if (!url) return;
+    const { Pool } = await import("pg");
+    const pool = new Pool({
+      connectionString: url,
+      max: 1,
+      options: "-c default_transaction_read_only=on -c statement_timeout=5000",
+    });
+    try {
+      const { rows } = await pool.query(
+        "select current_setting('statement_timeout') st, current_setting('default_transaction_read_only') ro",
+      );
+      expect(rows[0].st).toBe("5s");
+      expect(rows[0].ro).toBe("on");
+    } finally {
+      await pool.end();
+    }
+  });
+});

@@ -2,10 +2,12 @@ import "dotenv/config";
 import { Pool } from "pg";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-if (!process.env.DERIVED_MARKET_DATABASE_URL)
-  throw new Error("EXPLICIT_DERIVED_MARKET_DATABASE_URL_REQUIRED");
+import { requireDerivedDatabaseUrl } from "../../src/lib/derived-market/config";
+// Presence alone is not enough. A derived URL that names the market database
+// would create derived tables inside the market database, which is the one
+// place they must never appear.
 const pool = new Pool({
-  connectionString: process.env.DERIVED_MARKET_DATABASE_URL,
+  connectionString: requireDerivedDatabaseUrl(),
   max: 1,
 });
 const client = await pool.connect();
