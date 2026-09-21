@@ -39,6 +39,7 @@ async function handle(request: Request) {
     assets: [...COLLECTION_UNIVERSE],
     retain: true,
     note: "vercel cron",
+    invokedBy: "vercel-cron",
   });
   const summary = refreshSummary(outcome);
   // One structured line per run, which is what the canary evidence is built

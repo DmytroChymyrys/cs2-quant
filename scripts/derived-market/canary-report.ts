@@ -1,183 +1,146 @@
 /**
- * Assembles the hourly-canary evidence report from GitHub run logs.
+ * Assembles the hourly-canary evidence report.
  *
- * Reads only. It does not touch the market database, the derived database, or
- * any collector run; the refresh reports it parses were written by the runs
- * themselves. Run it after the canary window has elapsed:
+ * Reads derived_refresh_runs, which the lifecycle writes after every attempted
+ * run. That table exists because the alternative — the platform's runtime logs
+ * — rolls off well before a 24-hour canary is decided on.
  *
- *   node --import tsx scripts/derived-market/canary-report.ts --hours 24
+ * Read-only. It touches no market data and no collector run.
+ *
+ *   npm run analytics:canary -- --hours 24
  */
 import "dotenv/config";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
+import { Pool } from "pg";
 import { parseArgs } from "node:util";
-const run = promisify(execFile);
+import { requireDerivedDatabaseUrl } from "../../src/lib/derived-market/config";
 
 const { values: args } = parseArgs({
-  options: {
-    hours: { type: "string", default: "24" },
-    workflow: { type: "string", default: "intelligence-refresh" },
-  },
+  options: { hours: { type: "string", default: "24" } },
 });
-
-type Refresh = {
-  result: string;
-  stage?: string;
-  snapshotId?: string;
-  errorCode?: string;
-  activeSnapshotBefore?: { snapshotId: string } | null;
-  activeSnapshotAfter?: { snapshotId: string } | null;
-  blocking?: unknown[];
-  retention?: {
-    mode?: string;
-    candidates?: string[];
-    deleted?: string[];
-    rollback?: string[];
-    bytesReclaimed?: number;
-  };
-  measurements?: Record<string, number>;
-  finishedAt?: string;
-};
+const hours = Number(args.hours);
 
 const quantile = (values: number[], q: number) => {
   const s = [...values].sort((a, b) => a - b);
   if (!s.length) return null;
   const i = (s.length - 1) * q;
   const lo = Math.floor(i);
-  return s[lo] + (s[Math.ceil(i)] - s[lo]) * (i - lo);
+  return Math.round((s[lo] + (s[Math.ceil(i)] - s[lo]) * (i - lo)) * 10) / 10;
 };
-const secs = (ms: number | null | undefined) =>
-  ms == null ? null : Math.round((ms / 1000) * 10) / 10;
+const secs = (ms: unknown) =>
+  typeof ms === "number" ? Math.round((ms / 1000) * 10) / 10 : null;
 
-const hours = Number(args.hours);
-const since = new Date(Date.now() - hours * 3600_000);
+const pool = new Pool({
+  connectionString: requireDerivedDatabaseUrl(),
+  max: 1,
+  connectionTimeoutMillis: 15000,
+});
+try {
+  const { rows } = await pool.query(
+    `select started_at, finished_at, result, stage, error_code, snapshot_id,
+            active_before, active_after, invoked_by, summary
+       from derived_refresh_runs
+      where finished_at > now() - ($1 || ' hours')::interval
+      order by finished_at`,
+    [String(hours)],
+  );
+  const storage = await pool.query(
+    `select pg_database_size(current_database()) as bytes,
+            (select count(*) from derived_market_snapshots) as snapshots,
+            (select count(*) from derived_market_features) as features`,
+  );
+  const active = await pool.query(
+    "select snapshot_id, activated_at from derived_active_snapshot",
+  );
 
-const { stdout } = await run("gh", [
-  "run",
-  "list",
-  "--workflow",
-  args.workflow!,
-  "--limit",
-  "200",
-  "--json",
-  "databaseId,status,conclusion,createdAt,startedAt,updatedAt,event",
-]);
-const all = JSON.parse(stdout) as {
-  databaseId: number;
-  status: string;
-  conclusion: string | null;
-  createdAt: string;
-  startedAt: string;
-  updatedAt: string;
-  event: string;
-}[];
-const runs = all.filter((r) => new Date(r.createdAt) >= since);
+  type Row = (typeof rows)[number];
+  const m = (r: Row, k: string) =>
+    (r.summary?.measurements as Record<string, unknown> | undefined)?.[k];
+  const activated = rows.filter((r) => r.result === "ACTIVATED");
+  const num = (rs: Row[], k: string) =>
+    rs.map((r) => m(r, k)).filter((v): v is number => typeof v === "number");
+  const walls = num(activated, "wallMs");
+  const reads = num(activated, "sourceReadMs");
+  const writes = num(activated, "derivedWriteMs");
 
-const rows: (Refresh & {
-  runId: number;
-  event: string;
-  scheduledAt: string;
-  startedAt: string;
-  endedAt: string;
-  conclusion: string | null;
-})[] = [];
-for (const r of runs) {
-  let refresh: Refresh | null = null;
-  try {
-    const { stdout: log } = await run(
-      "gh",
-      ["run", "view", String(r.databaseId), "--log"],
-      { maxBuffer: 64 * 1024 * 1024 },
-    );
-    const match = log.match(/\{"event":"derived\.refresh".*/);
-    if (match) refresh = JSON.parse(match[0]) as Refresh;
-  } catch {
-    // A log can expire or a run can still be in progress; both are reportable
-    // as "no structured result" rather than fatal.
-  }
-  rows.push({
-    runId: r.databaseId,
-    event: r.event,
-    scheduledAt: r.createdAt,
-    startedAt: r.startedAt,
-    endedAt: r.updatedAt,
-    conclusion: r.conclusion,
-    result:
-      refresh?.result ?? (r.conclusion === "success" ? "UNKNOWN" : "NO_RESULT"),
-    ...(refresh ?? {}),
-  });
+  console.log(
+    JSON.stringify(
+      {
+        event: "derived.canary",
+        windowHours: hours,
+        expectedRuns: hours,
+        attemptedRuns: rows.length,
+        successfulActivations: activated.length,
+        failedRuns: rows.filter((r) => r.result === "FAILED").length,
+        rejectedRuns: rows.filter((r) => r.result === "REJECTED").length,
+        lockedRuns: rows.filter((r) => r.result === "LOCK_HELD_ELSEWHERE")
+          .length,
+        byInvoker: Object.fromEntries(
+          [...new Set(rows.map((r) => r.invoked_by))].map((k) => [
+            k,
+            rows.filter((r) => r.invoked_by === k).length,
+          ]),
+        ),
+        runtimeSeconds: {
+          p50: secs(quantile(walls, 0.5)! * 1000),
+          p95: secs(quantile(walls, 0.95)! * 1000),
+          max: secs(Math.max(...walls, 0)),
+        },
+        sourceReadSeconds: {
+          p50: secs(quantile(reads, 0.5)! * 1000),
+          p95: secs(quantile(reads, 0.95)! * 1000),
+        },
+        derivedWriteSeconds: {
+          p50: secs(quantile(writes, 0.5)! * 1000),
+          p95: secs(quantile(writes, 0.95)! * 1000),
+        },
+        peakRssMbMax: Math.max(...num(activated, "peakRssMb"), 0),
+        derivedStorage: {
+          megabytes:
+            Math.round((Number(storage.rows[0].bytes) / 1048576) * 10) / 10,
+          snapshots: Number(storage.rows[0].snapshots),
+          featureRows: Number(storage.rows[0].features),
+        },
+        activeSnapshot: active.rows[0]?.snapshot_id ?? null,
+        activeSince: active.rows[0]?.activated_at ?? null,
+        snapshotsDeleted: rows.flatMap(
+          (r) =>
+            (r.summary?.retention as { deleted?: string[] } | undefined)
+              ?.deleted ?? [],
+        ),
+        pointerAnomalies: rows.filter(
+          (r) =>
+            r.result !== "ACTIVATED" &&
+            r.active_before &&
+            r.active_after &&
+            r.active_before !== r.active_after,
+        ).length,
+        runs: rows.map((r) => ({
+          startedAt: r.started_at,
+          finishedAt: r.finished_at,
+          invokedBy: r.invoked_by,
+          result: r.result,
+          stage: r.stage,
+          errorCode: r.error_code,
+          snapshotId: r.snapshot_id,
+          activeBefore: r.active_before,
+          activeAfter: r.active_after,
+          wallSeconds: secs(m(r, "wallMs")),
+          sourceReadSeconds: secs(m(r, "sourceReadMs")),
+          deriveSeconds: secs(m(r, "deriveMs")),
+          writeSeconds: secs(m(r, "derivedWriteMs")),
+          validateSeconds: secs(m(r, "validateMs")),
+          activateMs: m(r, "activateMs"),
+          peakRssMb: m(r, "peakRssMb"),
+          featureRows: m(r, "featureRows"),
+          snapshotMb: m(r, "snapshotMb"),
+          blocking: r.summary?.blocking ?? [],
+          retention: r.summary?.retention ?? null,
+        })),
+      },
+      null,
+      2,
+    ),
+  );
+} finally {
+  await pool.end();
 }
-
-const m = (row: (typeof rows)[number], key: string) =>
-  row.measurements?.[key] ?? null;
-const activated = rows.filter((r) => r.result === "ACTIVATED");
-const walls = activated.map((r) => m(r, "wallMs")!).filter(Number.isFinite);
-const reads = activated
-  .map((r) => m(r, "sourceReadMs")!)
-  .filter(Number.isFinite);
-const writes = activated
-  .map((r) => m(r, "derivedWriteMs")!)
-  .filter(Number.isFinite);
-
-console.log(
-  JSON.stringify(
-    {
-      event: "derived.canary",
-      windowHours: hours,
-      since: since.toISOString(),
-      expectedRuns: hours,
-      attemptedRuns: rows.length,
-      successfulActivations: activated.length,
-      failedRuns: rows.filter((r) => r.result === "FAILED").length,
-      lockedRuns: rows.filter((r) => r.result === "LOCK_HELD_ELSEWHERE").length,
-      rejectedRuns: rows.filter((r) => r.result === "REJECTED").length,
-      runtimeSeconds: {
-        p50: secs(quantile(walls, 0.5)),
-        p95: secs(quantile(walls, 0.95)),
-        max: secs(Math.max(...walls, 0)),
-      },
-      sourceReadSeconds: {
-        p50: secs(quantile(reads, 0.5)),
-        p95: secs(quantile(reads, 0.95)),
-      },
-      derivedWriteSeconds: {
-        p50: secs(quantile(writes, 0.5)),
-        p95: secs(quantile(writes, 0.95)),
-      },
-      peakRssMbMax: Math.max(
-        ...activated.map((r) => m(r, "peakRssMb") ?? 0),
-        0,
-      ),
-      snapshotsDeleted: rows.flatMap((r) => r.retention?.deleted ?? []),
-      runs: rows.map((r) => ({
-        runId: r.runId,
-        event: r.event,
-        scheduledAt: r.scheduledAt,
-        startedAt: r.startedAt,
-        endedAt: r.endedAt,
-        conclusion: r.conclusion,
-        result: r.result,
-        stage: r.stage ?? null,
-        errorCode: r.errorCode ?? null,
-        snapshotId: r.snapshotId ?? null,
-        activeBefore: r.activeSnapshotBefore?.snapshotId ?? null,
-        activeAfter: r.activeSnapshotAfter?.snapshotId ?? null,
-        blocking: r.blocking ?? [],
-        wallSeconds: secs(m(r, "wallMs")),
-        sourceReadSeconds: secs(m(r, "sourceReadMs")),
-        deriveSeconds: secs(m(r, "deriveMs")),
-        writeSeconds: secs(m(r, "derivedWriteMs")),
-        validateSeconds: secs(m(r, "validateMs")),
-        activateMs: m(r, "activateMs"),
-        peakRssMb: m(r, "peakRssMb"),
-        featureRows: m(r, "featureRows"),
-        snapshotMb: m(r, "snapshotMb"),
-        retentionMode: r.retention?.mode ?? null,
-        retentionCandidates: r.retention?.candidates ?? [],
-        retentionDeleted: r.retention?.deleted ?? [],
-      })),
-    },
-    null,
-    2,
-  ),
-);

@@ -55,6 +55,8 @@ export type RefreshOutcome = {
 };
 
 export type RefreshOptions = {
+  /** Recorded on the run row, so scheduled and manual runs are distinguishable. */
+  invokedBy?: string;
   /** Market database. Opened read-only; never written. */
   sourceUrl: string;
   /** The asset universe. The caller decides where it comes from. */
@@ -85,6 +87,7 @@ export async function runRefresh(
   }, 250);
   rssSampler.unref();
 
+  const startedAt = new Date().toISOString();
   const closed = Math.floor(Date.now() / STEP) * STEP;
   const sourceUrl = options.sourceUrl;
 
@@ -335,10 +338,37 @@ export async function runRefresh(
       lockHolder?.release();
     }
     await source?.end();
-    await target?.end();
     clearInterval(rssSampler);
     outcome.finishedAt = new Date().toISOString();
     outcome.measurements ??= { wallMs: ms(started), peakRssBytes };
+    // Best effort, and last: the canary's evidence must survive log rotation,
+    // but failing to write the record must never turn a successful refresh into
+    // a failed one, nor a failed one into something worse.
+    try {
+      if (target)
+        await target.query(
+          `insert into derived_refresh_runs
+             (started_at, result, stage, error_code, snapshot_id,
+              active_before, active_after, invoked_by, summary)
+           values ($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb)`,
+          [
+            startedAt,
+            outcome.result ?? "UNKNOWN",
+            outcome.stage ?? null,
+            (outcome.errorCode as string | undefined) ?? null,
+            (outcome.snapshotId as string | undefined) ?? null,
+            (outcome.activeSnapshotBefore as { snapshotId?: string } | null)
+              ?.snapshotId ?? null,
+            (outcome.activeSnapshotAfter as { snapshotId?: string } | null)
+              ?.snapshotId ?? null,
+            options.invokedBy ?? "unknown",
+            JSON.stringify(refreshSummary(outcome as RefreshOutcome)),
+          ],
+        );
+    } catch {
+      // Recorded nowhere else; the caller still returns the outcome.
+    }
+    await target?.end();
   }
   return outcome as RefreshOutcome;
 }

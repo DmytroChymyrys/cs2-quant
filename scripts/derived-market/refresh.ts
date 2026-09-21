@@ -46,6 +46,7 @@ const outcome = await runRefresh({
   retainDryRun: args["retain-dry-run"],
   protect: args.protect,
   note: args.note,
+  invokedBy: "cli",
 });
 
 const out =
