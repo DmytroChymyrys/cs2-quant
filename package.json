@@ -36,6 +36,7 @@
     "analytics:activate": "node --import tsx scripts/derived-market/activate.ts",
     "analytics:retention": "node --import tsx scripts/derived-market/retention.ts",
     "analytics:protect": "node --import tsx scripts/derived-market/protect.ts",
+    "analytics:canary": "node --import tsx scripts/derived-market/canary-report.ts",
     "check:demo": "node scripts/check-demo-market.mjs",
     "check:qa": "node scripts/check-qa-market.mjs",
     "db:generate:product": "drizzle-kit generate --config drizzle.product.config.ts",
