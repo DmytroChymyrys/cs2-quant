@@ -278,7 +278,7 @@ describe("retention execution", () => {
 
 describe("retention never runs before a successful activation", () => {
   it("is gated in the refresh on activation AND a verified pointer", async () => {
-    const src = await readFile("scripts/derived-market/refresh.ts", "utf8");
+    const src = await readFile("src/lib/derived-market/refresh-run.ts", "utf8");
     // The only call sites for retention in the refresh are inside a branch that
     // requires the run to have activated and the pointer to name what it built.
     const guard = src.slice(

@@ -359,7 +359,9 @@ describe("snapshot resolution order", () => {
 
 describe("the refresh job reads the market database read-only", () => {
   it("opens REPEATABLE READ READ ONLY and constructs no writable market handle", async () => {
-    const src = await readFile("scripts/derived-market/refresh.ts", "utf8");
+    // The guarantees live in the shared lifecycle, which both the CLI and the
+    // cron endpoint call; asserting against the CLI wrapper would prove nothing.
+    const src = await readFile("src/lib/derived-market/refresh-run.ts", "utf8");
     expect(src).toContain("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY");
     // The only pool built from the market URL is pinned read-only at the server.
     const sourcePool = src.slice(

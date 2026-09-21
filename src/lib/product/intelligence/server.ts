@@ -67,9 +67,28 @@ function connection(url: string) {
     options: `-c default_transaction_read_only=on -c statement_timeout=${READ_TIMEOUT_MS}`,
   }));
 }
-/** Query ceiling for every product read. */
-export const READ_TIMEOUT_MS = 5000;
-/** Connection budget, sized to absorb a suspended Neon compute resuming. */
+/**
+ * Query ceiling for every product read.
+ *
+ * Measured, not guessed. The per-asset summary costs 753 ms against a warm
+ * Neon compute and 13,465 ms against one that has just resumed from
+ * scale-to-zero, because the whole snapshot has to be faulted in from the page
+ * server. A five-second ceiling therefore cancelled the first read after every
+ * idle period, and the product answered "temporarily unavailable" while the
+ * database was working correctly.
+ *
+ * This is sized above the measured cold cost with headroom. It is not a
+ * solution to the cold cost itself: a 13-second first page is bad, and the
+ * remedies are to stop the compute suspending or to precompute the summary at
+ * refresh time. Both are decisions for their own change; this one only stops
+ * the product breaking.
+ */
+export const READ_TIMEOUT_MS = 20000;
+/**
+ * Connection budget. A resume was measured at 796 ms, comfortably inside the
+ * original 2 s, so connection time was never the failure; this keeps headroom
+ * without pretending to fix anything.
+ */
 export const CONNECT_TIMEOUT_MS = 10000;
 /** Bounded classification of a read failure. Never echoes driver text. */
 function readFailureReason(error: unknown): string {

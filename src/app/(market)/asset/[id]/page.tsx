@@ -21,6 +21,11 @@ import {
 import { ObservationChart } from "@/components/observation-chart";
 import { MarketStorySummary } from "@/components/intelligence-market";
 import { marketStory } from "@/lib/product/intelligence/presentation";
+
+// The derived read can take ~13 s against a Neon compute resuming from
+// scale-to-zero (753 ms warm). Without this the platform default would kill the
+// function before READ_TIMEOUT_MS could bound the query.
+export const maxDuration = 30;
 export default async function Asset({
   params,
   searchParams,

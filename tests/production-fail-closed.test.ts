@@ -153,8 +153,9 @@ describe("the derived read path survives a suspended database", () => {
     // first visitor after an idle period saw "temporarily unavailable".
     expect(src).toMatch(/CONNECT_TIMEOUT_MS\s*=\s*10000/);
     expect(src).toContain("connectionTimeoutMillis: CONNECT_TIMEOUT_MS");
-    // The wake-up budget must not become a query budget.
-    expect(src).toMatch(/READ_TIMEOUT_MS\s*=\s*5000/);
+    // Sized above the measured cold read (13,465 ms) so the first query after
+    // a Neon scale-to-zero resume is not cancelled.
+    expect(src).toMatch(/READ_TIMEOUT_MS\s*=\s*20000/);
   });
 
   it("classifies a read failure instead of failing silently", async () => {
@@ -175,6 +176,26 @@ describe("the derived read path survives a suspended database", () => {
       expect(src).toContain(`"${reason}"`);
     // The driver message may carry the connection string; it is never logged.
     expect(src).not.toMatch(/reason:\s*\(?e(rror)?\s*as\s*Error\)?\.message/);
+  });
+});
+
+describe("pages outlive the query they wait on", () => {
+  it("gives every derived-reading page a budget above the read ceiling", async () => {
+    const { readFile } = await import("node:fs/promises");
+    for (const page of [
+      "src/app/(market)/terminal/page.tsx",
+      "src/app/(market)/screener/page.tsx",
+      "src/app/(market)/assets/page.tsx",
+      "src/app/(market)/asset/[id]/page.tsx",
+      "src/app/(market)/portfolio/page.tsx",
+      "src/app/(market)/watchlist/page.tsx",
+    ]) {
+      const src = await readFile(page, "utf8");
+      const m = src.match(/export const maxDuration = (\d+)/);
+      expect(m, `${page} has no maxDuration`).not.toBeNull();
+      // A function killed before READ_TIMEOUT_MS makes that ceiling pointless.
+      expect(Number(m![1]) * 1000).toBeGreaterThan(20000);
+    }
   });
 });
 

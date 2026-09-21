@@ -76,7 +76,7 @@ describe("analytics read boundary", () => {
         // Both settings must travel in `options`: a standalone
         // statement_timeout startup parameter is discarded by Neon.
         options:
-          "-c default_transaction_read_only=on -c statement_timeout=5000",
+          "-c default_transaction_read_only=on -c statement_timeout=20000",
         max: 3,
       }),
     );

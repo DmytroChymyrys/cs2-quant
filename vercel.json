@@ -1,5 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/internal/refresh/route.ts": {
+      "memory": 3009,
+      "maxDuration": 300
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/internal/refresh",
+      "schedule": "20 * * * *"
+    }
+  ]
 }

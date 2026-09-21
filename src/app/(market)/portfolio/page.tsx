@@ -31,6 +31,11 @@ import {
 } from "@/components/intelligence-market";
 import { HoldingForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
+
+// The derived read can take ~13 s against a Neon compute resuming from
+// scale-to-zero (753 ms warm). Without this the platform default would kill the
+// function before READ_TIMEOUT_MS could bound the query.
+export const maxDuration = 30;
 export default async function Portfolio({
   searchParams,
 }: {
