@@ -81,17 +81,17 @@ try {
           ]),
         ),
         runtimeSeconds: {
-          p50: secs(quantile(walls, 0.5)! * 1000),
-          p95: secs(quantile(walls, 0.95)! * 1000),
+          p50: secs(quantile(walls, 0.5)),
+          p95: secs(quantile(walls, 0.95)),
           max: secs(Math.max(...walls, 0)),
         },
         sourceReadSeconds: {
-          p50: secs(quantile(reads, 0.5)! * 1000),
-          p95: secs(quantile(reads, 0.95)! * 1000),
+          p50: secs(quantile(reads, 0.5)),
+          p95: secs(quantile(reads, 0.95)),
         },
         derivedWriteSeconds: {
-          p50: secs(quantile(writes, 0.5)! * 1000),
-          p95: secs(quantile(writes, 0.95)! * 1000),
+          p50: secs(quantile(writes, 0.5)),
+          p95: secs(quantile(writes, 0.95)),
         },
         peakRssMbMax: Math.max(...num(activated, "peakRssMb"), 0),
         derivedStorage: {
