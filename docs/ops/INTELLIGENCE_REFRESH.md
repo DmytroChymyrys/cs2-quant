@@ -236,16 +236,40 @@ reuses the space the last deletion freed.
 
 ## Scheduling
 
-`.github/workflows/intelligence-refresh.yml` runs **hourly at :20** as a
-24-hour canary. The cadence is under evaluation and is **not** permanent; do not
-change it to 30 minutes without a separate decision.
+The hourly refresh runs on **Vercel Cron**, declared in `vercel.json`:
 
-It runs on a GitHub runner, not on Vercel: a seven-day refresh takes roughly two
-minutes and peaks near 1.9 GB of resident memory, far outside a serverless
-request budget. Where the job runs has no bearing on the product read path.
+```json
+"crons": [{ "path": "/api/internal/refresh", "schedule": "20 * * * *" }],
+"functions": {
+  "src/app/api/internal/refresh/route.ts": { "memory": 3009, "maxDuration": 300 }
+}
+```
 
-Secrets required on the repository: `MARKET_ANALYTICS_SOURCE_URL` and
-`DERIVED_MARKET_DATABASE_URL`, both direct (unpooled) endpoints.
+`:20` rather than the hour boundary, to stay clear of the crowd of jobs that
+run exactly on the hour. The cadence is under evaluation and is **not**
+permanent; do not change it to 30 minutes without a separate decision.
+
+The endpoint authenticates with `CRON_SECRET` through the same `authorized()`
+helper as every other internal route; Vercel Cron sends it automatically.
+
+It calls the same lifecycle as the CLI — `src/lib/derived-market/refresh-run.ts`
+— so there is one implementation of the derivation path and its guarantees hold
+however the refresh is invoked.
+
+### Function sizing
+
+Measured in production on 2026-09-21: **149.8 s wall, 1,849.5 MB peak RSS** for
+a seven-day scope. Against the configured 300 s and 3009 MB that is 50 % time
+headroom and 38 % memory headroom. The default `standard` size (1769 MB) is
+**below** the measured peak and would be killed, which is why the function
+carries an explicit `memory` setting.
+
+### `.github/workflows/intelligence-refresh.yml`
+
+Kept, with **no schedule**, as manual recovery tooling: explicit scopes,
+`--no-activate`, and a path that works when the production deployment is itself
+broken. Two schedulers running the same refresh would contend for the advisory
+lock, so only one owns the cadence.
 
 ### Retries
 

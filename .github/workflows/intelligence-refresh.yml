@@ -1,7 +1,11 @@
-# Production intelligence refresh.
+# Production intelligence refresh — MANUAL ONLY.
 #
-# HOURLY, as a 24-hour canary. Cadence is under evaluation and is not yet
-# permanent; do not change it to 30 minutes without a separate decision.
+# The recurring hourly schedule now lives in Vercel Cron (vercel.json), which
+# calls /api/internal/refresh and runs the same lifecycle. This workflow is kept
+# deliberately, as manual recovery and debugging tooling: it can run a refresh
+# with an explicit scope, with --no-activate, or against a different universe,
+# none of which the cron endpoint offers. It also gives a way to refresh when
+# the production deployment itself is the thing that is broken.
 #
 # The job only reads the market database and writes the derived one. It cannot
 # affect the five-minute collector: that runs on its own schedule, against a
@@ -20,11 +24,9 @@ on:
         description: "Persist and validate, but leave the active pointer where it is"
         type: boolean
         default: false
-  schedule:
-    # Hourly at :20. GitHub may delay or drop a scheduled run under load, so
-    # attempted runs can be fewer than expected runs; that is measured, not
-    # corrected for. See docs/ops/INTELLIGENCE_REFRESH.md.
-    - cron: "20 * * * *"
+  # NO schedule. Vercel Cron owns the hourly cadence; two schedulers running the
+  # same refresh would contend for the advisory lock and make the canary
+  # evidence ambiguous about which system produced which snapshot.
 
 # A second refresh would be refused by the derived-database advisory lock
 # anyway; this keeps a queued run from burning a runner to discover that.
