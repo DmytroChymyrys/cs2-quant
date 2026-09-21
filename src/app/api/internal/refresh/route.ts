@@ -1,6 +1,6 @@
 import { authorized, json } from "@/lib/auth";
 import { runRefresh, refreshSummary } from "@/lib/derived-market/refresh-run";
-import universe from "../../../../../reports/collection-experiment.json";
+import { COLLECTION_UNIVERSE } from "@/lib/derived-market/universe";
 
 export const runtime = "nodejs";
 /**
@@ -36,7 +36,7 @@ async function handle(request: Request) {
   if (!authorized(request)) return json({ error: "UNAUTHORIZED" }, 401);
   const outcome = await runRefresh({
     sourceUrl: process.env.MARKET_ANALYTICS_SOURCE_URL ?? "",
-    assets: (universe as { assets: string[] }).assets,
+    assets: [...COLLECTION_UNIVERSE],
     retain: true,
     note: "vercel cron",
   });
