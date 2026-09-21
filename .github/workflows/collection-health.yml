@@ -1,0 +1,64 @@
+# Independent collection-health monitor.
+#
+# Polls the two health endpoints and fails the job on any non-200, which is what
+# raises the alert: GitHub notifies the repository owner on a failed scheduled
+# workflow.
+#
+# Independence is the whole point. The collector is invoked by cron-job.org and
+# runs on Vercel; this monitor runs on neither, so it stays up when they do not.
+# A watchdog triggered by the failing scheduler is silent exactly when it
+# matters.
+#
+# LIMITATION, stated plainly: GitHub may delay or drop a scheduled run under
+# load, so this is a monitor with the same class of weakness it is watching for,
+# merely at a different provider. It is an interim measure. A purpose-built
+# uptime service (Better Stack, Healthchecks.io, UptimeRobot, Pingdom) is the
+# right long-term answer; see docs/ops/COLLECTION_HEALTH.md for the exact
+# configuration.
+name: collection-health
+
+on:
+  schedule:
+    # Every 15 minutes, the slow end of the 5-15 minute window, to stay well
+    # inside GitHub's scheduling limits and reduce the chance of dropped runs.
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: collection-health
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe collection health endpoints
+        env:
+          # Never interpolated into a command line; read from the environment so
+          # it cannot appear in the run log. GitHub also masks registered
+          # secrets in output.
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          BASE: https://cs2-quant.vercel.app
+        run: |
+          set -u
+          failed=0
+          for path in collection-watchdog collection-progress; do
+            body=$(mktemp)
+            code=$(curl -sS -o "$body" -w '%{http_code}' \
+              -H "Authorization: Bearer ${CRON_SECRET}" \
+              --max-time 30 \
+              "${BASE}/api/internal/${path}") || code=000
+            echo "::group::${path} -> HTTP ${code}"
+            # The response carries severity and reason, and no credentials.
+            cat "$body"; echo
+            echo "::endgroup::"
+            if [ "$code" != "200" ]; then
+              echo "::error title=${path} unhealthy::HTTP ${code}"
+              failed=1
+            fi
+          done
+          exit "$failed"

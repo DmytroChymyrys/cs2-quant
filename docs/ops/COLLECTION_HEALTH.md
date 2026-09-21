@@ -74,22 +74,42 @@ A gap can contain more than one kind of failure. When part of it had no run at
 all, `windowsWithoutRunsInCurrentGap` says how many and the reason text names
 the watchdog explicitly, so nobody is sent to the wrong system.
 
-## Configuring the external monitor
+## The monitor
 
-Two HTTP checks, both **independent of cron-job.org**, which is what invokes the
-collector:
+`.github/workflows/collection-health.yml` polls both endpoints **every 15
+minutes** and fails the job on any non-200. A failed scheduled workflow notifies
+the repository owner, which is the alert.
+
+It runs on GitHub Actions, which is independent of both systems it watches: the
+collector is invoked by cron-job.org and runs on Vercel. `CRON_SECRET` is a
+repository secret, read from the environment so it never reaches a command line
+or a log line.
+
+**Limitation, stated plainly.** GitHub may delay or drop a scheduled run under
+load. This monitor therefore has the same class of weakness it exists to detect,
+merely at a different provider, and it shares a provider with the hourly
+intelligence refresh. It is an interim measure, not the final answer.
+
+### Recommended replacement
+
+A purpose-built uptime service, configured by an operator:
 
 ```
-GET https://cs2-quant.vercel.app/api/internal/collection-watchdog
-GET https://cs2-quant.vercel.app/api/internal/collection-progress
-Header: Authorization: Bearer <CRON_SECRET>
-Interval: 5-15 minutes
-Alert on: HTTP status != 200
+Check 1  GET https://cs2-quant.vercel.app/api/internal/collection-watchdog
+Check 2  GET https://cs2-quant.vercel.app/api/internal/collection-progress
+
+Header   Authorization: Bearer <CRON_SECRET>      ← required; without it both return 401
+Interval 5-15 minutes
+Alert on HTTP status != 200                        ← both return 503 at ALERT/CRITICAL
 ```
 
-Do not point these at cron-job.org. Any independent uptime service works
-(Better Stack, Healthchecks.io, UptimeRobot, Pingdom); the only requirement is
-that it is not the system being watched.
+Any independent service works (Better Stack, Healthchecks.io, UptimeRobot,
+Pingdom). The only hard requirements: it must **not** be cron-job.org, which is
+what invokes the collector, and the secret must be stored in that service's
+secret store rather than in a URL.
+
+Once such a monitor is live, `collection-health.yml` can be deleted or left as a
+second opinion.
 
 ## What neither check does
 
