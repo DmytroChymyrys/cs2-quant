@@ -236,25 +236,46 @@ reuses the space the last deletion freed.
 
 ## Scheduling
 
-`.github/workflows/intelligence-refresh.yml` exists and is **deliberately not
-scheduled**. The `schedule:` trigger is commented out. Only `workflow_dispatch`
-is active.
+`.github/workflows/intelligence-refresh.yml` runs **hourly at :20** as a
+24-hour canary. The cadence is under evaluation and is **not** permanent; do not
+change it to 30 minutes without a separate decision.
 
 It runs on a GitHub runner, not on Vercel: a seven-day refresh takes roughly two
-minutes and peaks near 1.8 GB of resident memory, far outside a serverless
+minutes and peaks near 1.9 GB of resident memory, far outside a serverless
 request budget. Where the job runs has no bearing on the product read path.
 
-Measured on 2026-09-17, reading the production market database and writing a
-local derived database:
+Secrets required on the repository: `MARKET_ANALYTICS_SOURCE_URL` and
+`DERIVED_MARKET_DATABASE_URL`, both direct (unpooled) endpoints.
+
+### Retries
+
+**There are none, deliberately.** A failed hour waits for the next scheduled
+hour. Nothing in the workflow, the CLI, or the driver retries a refresh:
+
+- GitHub Actions does not re-run a failed scheduled job automatically.
+- `concurrency: intelligence-refresh` with `cancel-in-progress: false` queues
+  rather than parallelises, and the derived advisory lock makes an overlapping
+  run exit in milliseconds.
+- `pg` is configured with `maxNetworkRetries` nowhere in this path.
+
+That is the intended behaviour: a persistent fault must not become a hot loop
+against the market database, and an hour of staleness is cheap. The product
+keeps serving the last good snapshot throughout.
+
+A scheduled run may be **delayed or dropped** by GitHub under load, so attempted
+runs can be fewer than expected runs. That is measured, not corrected for.
+
+### Measured cost
 
 | Scope | Wall | Source read | Derive | Derived write | Validate | Activate | Peak RSS | Feature rows | Stored |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 7 days | 107.7s | 51.9s | 27.2s | 23.3s | 5.0s | 2.3ms | 1,793 MB | 200,211 | 323 MB |
-| 24 hours | 10.7s | 4.1s | 2.7s | 3.3s | 0.5s | 0.9ms | 596 MB | 27,803 | 42.5 MB |
+| 7 days (Neon) | 121s | 37.8s | 24.0s | 53.8s | 4.8s | 54ms | 1,851 MB | 192,605 | 310 MB |
+| 24 hours (Neon) | 14s | 4.1s | 2.7s | 3.3s | 0.5s | 1ms | 596 MB | 20,917 | 31.8 MB |
 
-Runtime is not the constraint; **storage is**. With no retention, each seven-day
-refresh adds about 323 MB permanently. Before enabling any cadence, read the
-cadence recommendation in the Phase 1 report and implement retention first.
+With retention active the retained set is the active snapshot, two rollback
+snapshots, and anything durably protected. Deleted space is freed for reuse but
+is not returned to the operating system without `VACUUM FULL`, which takes an
+exclusive lock and is **never run automatically**.
 
 ## What this job can never do
 
@@ -264,3 +285,4 @@ cadence recommendation in the Phase 1 report and implement retention first.
   content-addressed
 - publish a snapshot that is incomplete, unreadable, or not the one it computed
 - leave the pointer in an in-between state: activation is a single statement
+- run retention before a successful activation and pointer verification

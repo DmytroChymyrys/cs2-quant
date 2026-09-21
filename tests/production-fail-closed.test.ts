@@ -142,6 +142,42 @@ describe("Steam account linking ships no runtime code at all", () => {
   });
 });
 
+describe("the derived read path survives a suspended database", () => {
+  it("budgets enough time for a Neon compute to resume", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const src = await readFile(
+      "src/lib/product/intelligence/server.ts",
+      "utf8",
+    );
+    // A suspended Neon compute takes seconds to wake. Two seconds meant the
+    // first visitor after an idle period saw "temporarily unavailable".
+    expect(src).toMatch(/CONNECT_TIMEOUT_MS\s*=\s*10000/);
+    expect(src).toContain("connectionTimeoutMillis: CONNECT_TIMEOUT_MS");
+    // The wake-up budget must not become a query budget.
+    expect(src).toMatch(/READ_TIMEOUT_MS\s*=\s*5000/);
+  });
+
+  it("classifies a read failure instead of failing silently", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const src = await readFile(
+      "src/lib/product/intelligence/server.ts",
+      "utf8",
+    );
+    expect(src).toContain("analytics.read_failed");
+    for (const reason of [
+      "CONNECT_TIMEOUT",
+      "STATEMENT_TIMEOUT",
+      "NETWORK",
+      "AUTHENTICATION",
+      "SCHEMA",
+      "UNCLASSIFIED",
+    ])
+      expect(src).toContain(`"${reason}"`);
+    // The driver message may carry the connection string; it is never logged.
+    expect(src).not.toMatch(/reason:\s*\(?e(rror)?\s*as\s*Error\)?\.message/);
+  });
+});
+
 describe("nothing migrates or activates merely because the app deploys", () => {
   it("has no migration or setup step in build, install or postinstall", async () => {
     const pkg = JSON.parse(await committed("package.json"));

@@ -1,9 +1,11 @@
 # Production intelligence refresh.
 #
-# DELIBERATELY NOT SCHEDULED. The `schedule:` trigger below is commented out and
-# must stay that way until a cadence has been chosen from measured refresh cost
-# and the 30-day collection experiment is past its cutoff. Enabling it is a
-# one-line change, reviewed on its own.
+# HOURLY, as a 24-hour canary. Cadence is under evaluation and is not yet
+# permanent; do not change it to 30 minutes without a separate decision.
+#
+# The job only reads the market database and writes the derived one. It cannot
+# affect the five-minute collector: that runs on its own schedule, against a
+# different database, and this workflow never opens a writable market handle.
 #
 # It runs on GitHub Actions rather than as a Vercel function because a seven-day
 # refresh takes minutes and gigabytes, far beyond a serverless request budget.
@@ -18,8 +20,11 @@ on:
         description: "Persist and validate, but leave the active pointer where it is"
         type: boolean
         default: false
-  # schedule:
-  #   - cron: "20 * * * *"   # NOT ENABLED. See docs/ops/INTELLIGENCE_REFRESH.md.
+  schedule:
+    # Hourly at :20. GitHub may delay or drop a scheduled run under load, so
+    # attempted runs can be fewer than expected runs; that is measured, not
+    # corrected for. See docs/ops/INTELLIGENCE_REFRESH.md.
+    - cron: "20 * * * *"
 
 # A second refresh would be refused by the derived-database advisory lock
 # anyway; this keeps a queued run from burning a runner to discover that.
@@ -51,13 +56,22 @@ jobs:
       # migration is refused rather than silently re-run.
       - run: npm run db:migrate:derived
       - name: Refresh
+        # Peak resident memory for a seven-day scope is ~1.9 GB.
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        # --retain only takes effect after the run activated AND the pointer was
+        # read back naming the snapshot it just built; otherwise the report says
+        # SKIPPED. There is no retry: a failed hour waits for the next one, so a
+        # persistent fault cannot turn into a hot loop against the market
+        # database. The advisory lock makes an overlapping run exit immediately.
         run: |
           npm run analytics:refresh -- \
-            ${{ inputs.no-activate && '--no-activate' || '' }}
+            --note "hourly canary $GITHUB_RUN_ID" \
+            ${{ inputs.no-activate && '--no-activate' || '--retain' }}
       - name: Upload refresh report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: intelligence-refresh-report
+          name: intelligence-refresh-report-${{ github.run_id }}-${{ github.run_attempt }}
           path: reports/derived-market/refresh-*.json
           if-no-files-found: warn

@@ -51,7 +51,14 @@ function connection(url: string) {
   return (pool ??= new Pool({
     connectionString: url,
     max: 3,
-    connectionTimeoutMillis: 2000,
+    // A Neon compute scales to zero when idle and must be resumed on the next
+    // connection. Two seconds did not cover that: with no product traffic the
+    // derived compute suspended, and the first visitor afterwards got
+    // "temporarily unavailable" while the database was merely waking up. The
+    // market compute never showed this because the five-minute collector keeps
+    // it alive. This is a wake-up budget, not a query budget — queries stay
+    // bounded by READ_TIMEOUT_MS below.
+    connectionTimeoutMillis: CONNECT_TIMEOUT_MS,
     // Both settings travel in `options`, which is a standard libpq startup
     // parameter. node-postgres also accepts a `statement_timeout` field and
     // sends it as its own startup parameter, but Neon's proxy discards that one
@@ -60,8 +67,30 @@ function connection(url: string) {
     options: `-c default_transaction_read_only=on -c statement_timeout=${READ_TIMEOUT_MS}`,
   }));
 }
-/** Query ceiling for every product read. See DERIVED_READ_SETTINGS. */
+/** Query ceiling for every product read. */
 export const READ_TIMEOUT_MS = 5000;
+/** Connection budget, sized to absorb a suspended Neon compute resuming. */
+export const CONNECT_TIMEOUT_MS = 10000;
+/** Bounded classification of a read failure. Never echoes driver text. */
+function readFailureReason(error: unknown): string {
+  const message = error instanceof Error ? error.message : "";
+  if (
+    /timeout exceeded when trying to connect|Connection terminated due to connection timeout/i.test(
+      message,
+    )
+  )
+    return "CONNECT_TIMEOUT";
+  if (/statement timeout|canceling statement/i.test(message))
+    return "STATEMENT_TIMEOUT";
+  if (/ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ECONNRESET|ETIMEDOUT/i.test(message))
+    return "NETWORK";
+  if (/password|authentication|role .* does not exist/i.test(message))
+    return "AUTHENTICATION";
+  if (/relation .* does not exist|column .* does not exist/i.test(message))
+    return "SCHEMA";
+  return "UNCLASSIFIED";
+}
+
 export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
   assertPreviewIsolation();
   const asOf = syntheticMode()
@@ -314,6 +343,16 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       /SNAPSHOT|SCOPE|METADATA|FEATURE_OUTSIDE/.test(e.message)
     )
       return unavailable(`Snapshot validation failed: ${e.message}.`);
+    // This path used to fail silently: production served "temporarily
+    // unavailable" for days with nothing in the logs to say why. Record a
+    // bounded classification — never the driver message, which can carry the
+    // connection string — so a recurrence is diagnosable.
+    console.error(
+      JSON.stringify({
+        event: "analytics.read_failed",
+        reason: readFailureReason(e),
+      }),
+    );
     return unavailable("Analytics data is temporarily unavailable.");
   }
 });
