@@ -125,7 +125,7 @@ describe("product evidence semantics", () => {
   it("keeps published History sales out of the high-frequency contract", () => {
     expect(data.historyVersions.length).toBe(2);
     expect(data.historyValues.length).toBeGreaterThan(0);
-    const serialized = JSON.stringify(data.features.map(seriesPoint));
+    const serialized = JSON.stringify(data.features.map((f) => seriesPoint(f)));
     expect(serialized).not.toMatch(/volume|last_24_hours|history/);
   });
   it("treats unchanged observations as valid quiet data with zero volatility", () => {
@@ -215,7 +215,7 @@ describe("product evidence semantics", () => {
     const points = data.features
       .filter((f) => f.asset_id === assets[0].id)
       .slice(0, 4)
-      .map(seriesPoint);
+      .map((f) => seriesPoint(f));
     expect(
       seriesPath([points[0], points[2], points[3]], "minimum")!.path.match(
         /M/g,

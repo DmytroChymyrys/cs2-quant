@@ -4,9 +4,6 @@ import {
   type Feature,
   type HistoryVersion,
   type HistoryValue,
-  METHOD,
-  STEP,
-  TOLERANCE,
   DEFAULT_SCOPE_DAYS,
 } from "./model";
 import {
@@ -15,6 +12,7 @@ import {
   observationDigest,
   snapshotIdentity,
 } from "./prepare";
+import { ACTIVE_PROFILE, type CadenceProfile } from "./cadence";
 const D = Decimal.clone({ precision: 40 });
 const format = (v: Decimal) => v.toFixed(12);
 export function change(
@@ -29,8 +27,12 @@ export function change(
     pct: b.isZero() ? null : format(a.minus(b).div(b).times(100)),
   };
 }
-export function derive(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
-  const data = prepare(input, maxDays);
+export function derive(
+  input: Input,
+  maxDays: number = DEFAULT_SCOPE_DAYS,
+  profile: CadenceProfile = ACTIVE_PROFILE,
+) {
+  const data = prepare(input, maxDays, profile);
   const { historyVersions, historyByRun } = buildHistoryVersions(
     data.claimed,
     data.duplicateWindows,
@@ -43,6 +45,7 @@ export function derive(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
     historyByRun,
     dimensions,
     historyValues,
+    profile,
   };
   for (const assetRows of Map.groupBy(data.valid, (o) => o.assetId).values())
     features.push(...assetFeatures(assetRows, ctx));
@@ -51,10 +54,11 @@ export function derive(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
     scope,
     data.runs,
     data.raw.map(observationDigest),
+    profile,
   );
   return {
     snapshotId,
-    method: METHOD,
+    method: profile.method,
     scope,
     features,
     historyVersions,
@@ -69,6 +73,8 @@ export type HistoryBinding = {
   changed: boolean | null;
 };
 export type AssetContext = {
+  /** Cadence contract this derivation runs under. */
+  profile: CadenceProfile;
   runMap: Map<string, Input["runs"][number]>;
   historyByRun: Map<string, HistoryBinding>;
   // Shared across assets so one payload is retained per (version, asset).
@@ -82,6 +88,9 @@ export function assetFeatures(
   ctx: AssetContext,
 ): Feature[] {
   const { runMap, historyByRun, dimensions, historyValues } = ctx;
+  const step = ctx.profile.stepMs;
+  const tolerance = ctx.profile.toleranceMs;
+  const stepLabel = ctx.profile.stepLabel;
   const features: Feature[] = [];
 
   const rows = assetRows.map((o) => ({
@@ -99,9 +108,9 @@ export function assetFeatures(
       prev = rows[i - 1];
     const adjacent =
       prev &&
-      row.window - prev.window === STEP &&
+      row.window - prev.window === step &&
       row.time > prev.time &&
-      Math.abs(row.time - prev.time - STEP) <= TOLERANCE;
+      Math.abs(row.time - prev.time - step) <= tolerance;
     const pair = !!adjacent && row.minPrice !== null && prev.minPrice !== null;
     validPairs.push(pair ? 1 : 0);
     priceTransitions.push(
@@ -135,11 +144,11 @@ export function assetFeatures(
         hi = i;
       while (lo < hi) {
         const mid = (lo + hi) >>> 1;
-        if (rows[mid].time < target - TOLERANCE) lo = mid + 1;
+        if (rows[mid].time < target - tolerance) lo = mid + 1;
         else hi = mid;
       }
       let best: typeof row | undefined;
-      for (let j = lo; j < i && rows[j].time <= target + TOLERANCE; j++) {
+      for (let j = lo; j < i && rows[j].time <= target + tolerance; j++) {
         if (rows[j][field] === null || rows[j].time >= row.time) continue;
         if (
           !best ||
@@ -158,18 +167,14 @@ export function assetFeatures(
       ["minPrice", "min_price"],
       ["medianPrice", "median_price"],
     ] as const) {
-      const baseline = nearest(STEP, field);
+      const baseline = nearest(step, field);
       const c = change(row[field], baseline?.[field] ?? null);
-      values[`${label}_change_abs_5m`] = c.abs;
-      values[`${label}_change_pct_5m`] = c.pct;
-      values[`${label}_baseline_observation_id_5m`] = baseline?.id ?? null;
-      for (const [name, h] of [
-        ["15m", 3],
-        ["1h", 12],
-        ["6h", 72],
-        ["24h", 288],
-      ] as const) {
-        const past = nearest(h * STEP, field);
+      values[`${label}_change_abs_${stepLabel}`] = c.abs;
+      values[`${label}_change_pct_${stepLabel}`] = c.pct;
+      values[`${label}_baseline_observation_id_${stepLabel}`] =
+        baseline?.id ?? null;
+      for (const [name, h] of ctx.profile.returns) {
+        const past = nearest(h * step, field);
         values[`${label}_return_${name}`] = change(
           row[field],
           past?.[field] ?? null,
@@ -177,24 +182,15 @@ export function assetFeatures(
         values[`${label}_baseline_observation_id_${name}`] = past?.id ?? null;
       }
     }
-    for (const [name, h] of [
-      ["5m", 1],
-      ["1h", 12],
-      ["6h", 72],
-      ["24h", 288],
-    ] as const) {
-      const past = nearest(h * STEP, "quantity"),
+    for (const [name, h] of ctx.profile.listingDeltas) {
+      const past = nearest(h * step, "quantity"),
         c = change(row.quantity, past?.quantity ?? null);
       values[`listing_qty_delta_${name}`] = c.abs;
       values[`listing_qty_pct_change_${name}`] = c.pct;
     }
-    for (const [name, steps] of [
-      ["1h", 12],
-      ["6h", 72],
-      ["24h", 288],
-    ] as const) {
+    for (const [name, steps] of ctx.profile.rolling) {
       let begin = i;
-      while (begin > 0 && rows[begin - 1].window > row.window - steps * STEP)
+      while (begin > 0 && rows[begin - 1].window > row.window - steps * step)
         begin--;
       const active = rows.slice(begin, i + 1);
       values[`listing_qty_rolling_min_${name}`] = Math.min(

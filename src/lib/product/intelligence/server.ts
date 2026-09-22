@@ -21,6 +21,7 @@ import type {
 } from "./contract";
 import { selectSnapshot } from "../../derived-market/active-snapshot";
 import { resolveDerivedDatabase } from "../../derived-market/config";
+import { profileForMethod } from "../../derived-market/cadence";
 import { summary, seriesPoint, historyContract } from "./map";
 import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
@@ -260,7 +261,12 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       "select method,scope,created_at,report from derived_market_snapshots where id=$1",
       [snapshotId],
     );
-    if (!head.rows[0] || head.rows[0].method !== METHOD)
+    // Readable is deliberately wider than derivable. Gating on the single
+    // active contract would make every snapshot produced under a previous
+    // cadence unreadable the moment the cadence changed, taking the product
+    // dark and destroying the ability to roll back to them.
+    const snapshotMethod = String(head.rows[0]?.method ?? "");
+    if (!head.rows[0] || !profileForMethod(snapshotMethod))
       return unavailable(
         "This snapshot lacks the current product reference fields. Regenerate the derived snapshot.",
       );
@@ -296,9 +302,11 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       summary(
         r.feature as Feature,
         r.available,
-        (Date.parse(scope.to) - Date.parse(scope.from)) / 300000,
+        (Date.parse(scope.to) - Date.parse(scope.from)) /
+          (profileForMethod(snapshotMethod)?.stepMs ?? 300000),
         asOf,
         hs.get(r.feature.history_version) ?? null,
+        snapshotMethod,
       ),
     );
     // Availability is recorded per asset in the reviewed snapshot report.
@@ -454,7 +462,9 @@ export async function readAssetDetail(
     return {
       asset,
       error: null,
-      series: features.map(seriesPoint),
+      // Explicit arrow: passing seriesPoint directly to map would hand it the
+      // array index as the contract identifier.
+      series: features.map((f) => seriesPoint(f, dataset.snapshot?.method)),
       horizon,
       from,
       to: dataset.scope.to,

@@ -1,13 +1,22 @@
 // v3: the snapshot digest hashes a per-observation content digest (including a
 // History payload hash) instead of inlining every payload, so identical input still
 // yields an identical ID while derivation can run one asset at a time.
-export const METHOD = "listing-features-v3";
-export const STEP = 300_000;
+import { ACTIVE_PROFILE, type CadenceProfile } from "./cadence";
+
+/**
+ * The contract and grid new snapshots are derived under.
+ *
+ * These are now views onto the active cadence profile rather than free-standing
+ * constants, so the method, the step and the horizons cannot drift apart. See
+ * cadence.ts for why that matters.
+ */
+export const METHOD = ACTIVE_PROFILE.method;
+export const STEP = ACTIVE_PROFILE.stepMs;
 // Product-facing derivations stay at seven days. A longer scope must be requested
 // explicitly and can never exceed MAX_SCOPE_DAYS; scope is never unbounded.
 export const DEFAULT_SCOPE_DAYS = 7;
 export const MAX_SCOPE_DAYS = 35;
-export const TOLERANCE = 90_000;
+export const TOLERANCE = ACTIVE_PROFILE.toleranceMs;
 export type Scope = { from: string; to: string; assets: string[] };
 export type Run = {
   id: string;
@@ -81,7 +90,9 @@ export type Feature = {
 export function validateScope(
   scope: Scope,
   maxDays: number = DEFAULT_SCOPE_DAYS,
+  profile: CadenceProfile = ACTIVE_PROFILE,
 ) {
+  const step = profile.stepMs;
   if (!Number.isInteger(maxDays) || maxDays < 1 || maxDays > MAX_SCOPE_DAYS)
     throw new Error(
       `SCOPE_DAYS_MUST_BE_AN_INTEGER_BETWEEN_1_AND_${MAX_SCOPE_DAYS}`,
@@ -91,8 +102,8 @@ export function validateScope(
   if (
     !Number.isFinite(from) ||
     !Number.isFinite(to) ||
-    from % STEP ||
-    to % STEP ||
+    from % step ||
+    to % step ||
     to <= from ||
     to - from > maxDays * 86400000
   )

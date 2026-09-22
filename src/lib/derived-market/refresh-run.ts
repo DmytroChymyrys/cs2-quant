@@ -39,6 +39,7 @@ import {
 import { validateSnapshot, SnapshotUnreadable } from "./snapshot-validation";
 import { planRetention, executeRetention, snapshotBytes } from "./retention";
 import { requireDerivedDatabaseUrl } from "./config";
+import { ACTIVE_PROFILE, applyScopeFloor } from "./cadence";
 
 export type RefreshResult =
   | "ACTIVATED"
@@ -162,8 +163,15 @@ export async function runRefresh(
       const from = options.from
         ? new Date(options.from).toISOString()
         : new Date(Date.parse(to) - maxDays * 86400000).toISOString();
-      scope = { from, to, assets: options.assets };
-      validateScope(scope, maxDays);
+      // The acquisition-regime floor. Deriving an hourly contract over
+      // five-minute evidence would put twelve claimed runs in a single window
+      // and trip DUPLICATE_INTEGRITY, which is blocking; the floor is what
+      // stops a cadence change from silently halting publication.
+      const floored = applyScopeFloor(ACTIVE_PROFILE, from, to);
+      if (floored === null)
+        throw new Error("SCOPE_ENTIRELY_BEFORE_REGIME_FLOOR");
+      scope = { from: floored, to, assets: options.assets };
+      validateScope(scope, maxDays, ACTIVE_PROFILE);
       // A scope whose last bucket has not elapsed would let a later refresh over
       // the same nominal range produce different content for the same window.
       if (Date.parse(scope.to) > closed)

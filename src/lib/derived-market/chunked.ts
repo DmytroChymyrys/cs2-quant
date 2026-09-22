@@ -1,3 +1,4 @@
+import { ACTIVE_PROFILE } from "./cadence";
 import {
   type Input,
   type Feature,
@@ -45,6 +46,7 @@ export async function deriveChunked(
   );
   const historyValues: Derived["historyValues"] = [];
   const ctx: AssetContext = {
+    profile: ACTIVE_PROFILE,
     runMap: seed.runMap,
     historyByRun,
     dimensions: new Map<string, string>(),

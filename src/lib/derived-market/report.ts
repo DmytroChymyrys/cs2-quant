@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
-import { type Input, STEP, validateScope, DEFAULT_SCOPE_DAYS } from "./model";
+import { type Input, validateScope, DEFAULT_SCOPE_DAYS } from "./model";
+import { ACTIVE_PROFILE, type CadenceProfile } from "./cadence";
 import { assetAvailability } from "./asset-availability";
 import { prepare } from "./prepare";
 import { derive, type Derived } from "./features";
@@ -41,10 +42,12 @@ export function makeReport(
   input: Input,
   derived?: Derived,
   maxDays: number = DEFAULT_SCOPE_DAYS,
+  profile: CadenceProfile = ACTIVE_PROFILE,
 ) {
-  derived ??= derive(input, maxDays);
-  const { from, to } = validateScope(input.scope, maxDays),
-    data = prepare(input);
+  derived ??= derive(input, maxDays, profile);
+  const STEP = profile.stepMs;
+  const { from, to } = validateScope(input.scope, maxDays, profile),
+    data = prepare(input, maxDays, profile);
   const expectedWindows = (to - from) / STEP,
     claimedGroups = Map.groupBy(data.claimed, (r) => r.window);
   const windows = Array.from({ length: expectedWindows }, (_, i) =>

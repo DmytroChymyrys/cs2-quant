@@ -19,7 +19,8 @@ const assets = selected.map((a) => {
 const series = dataset.features
   .filter((f) => f.asset_id === assets[0].id)
   .slice(-288)
-  .map(seriesPoint);
+  // Explicit arrow: map would otherwise pass the index as the contract id.
+  .map((f) => seriesPoint(f));
 writeFileSync(
   "config/product-showcase/demo.json",
   JSON.stringify({

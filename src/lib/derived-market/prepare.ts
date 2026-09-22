@@ -5,10 +5,9 @@ import {
   type Scope,
   type RawObservation,
   validateScope,
-  STEP,
-  METHOD,
   DEFAULT_SCOPE_DAYS,
 } from "./model";
+import { ACTIVE_PROFILE, type CadenceProfile } from "./cadence";
 export function digest(value: unknown): string {
   function canonical(v: unknown): unknown {
     if (Array.isArray(v)) return v.map(canonical);
@@ -47,16 +46,25 @@ export function snapshotIdentity(
   scope: Scope,
   runs: Run[],
   observationDigests: string[],
+  profile: CadenceProfile = ACTIVE_PROFILE,
 ): string {
   return digest({
-    method: METHOD,
+    // The method is part of the identity, so the same evidence derived under a
+    // different cadence contract is a different snapshot rather than a silent
+    // redefinition of an existing one.
+    method: profile.method,
     scope,
     runs,
     observationDigests: [...observationDigests].sort(),
   });
 }
-export function prepare(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
-  const { from, to } = validateScope(input.scope, maxDays);
+export function prepare(
+  input: Input,
+  maxDays: number = DEFAULT_SCOPE_DAYS,
+  profile: CadenceProfile = ACTIVE_PROFILE,
+) {
+  const { from, to } = validateScope(input.scope, maxDays, profile);
+  const step = profile.stepMs;
   const runs = input.runs
     .filter(
       (r) =>
@@ -89,7 +97,7 @@ export function prepare(input: Input, maxDays: number = DEFAULT_SCOPE_DAYS) {
     .filter((o) => {
       const window = Date.parse(runMap.get(o.runId)!.window),
         time = Date.parse(o.observedAt);
-      return time < window || time >= window + STEP;
+      return time < window || time >= window + step;
     })
     .map((o) => o.id);
   const invalid = new Set(invalidObservationIds);
