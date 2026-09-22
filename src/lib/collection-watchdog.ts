@@ -21,11 +21,17 @@ import { WINDOW_MS } from "./config";
 
 export type WatchdogSeverity = "OK" | "WARN" | "ALERT" | "CRITICAL";
 
-/** Consecutive missing completed windows at which each severity begins. */
+/**
+ * Consecutive missing completed windows at which each severity begins.
+ *
+ * Retuned for hourly collection. At five minutes a dozen missing windows was
+ * an hour of lost evidence; at one hour it would be half a day, so the counts
+ * come down to keep the same meaning in wall-clock terms.
+ */
 export const SEVERITY_THRESHOLDS = {
-  WARN: 2,
-  ALERT: 4,
-  CRITICAL: 12,
+  WARN: 1,
+  ALERT: 2,
+  CRITICAL: 4,
 } as const;
 
 export type RunWindow = {
@@ -65,10 +71,10 @@ export type WatchdogReport = {
 
 const iso = (ms: number) => new Date(ms).toISOString();
 
-/** Floor to the five-minute grid. The grid is UTC-absolute, so DST is irrelevant. */
-export function windowStart(at: Date | number): number {
+/** Floor to the cadence grid. The grid is UTC-absolute, so DST is irrelevant. */
+export function windowStart(at: Date | number, cadenceMs = WINDOW_MS): number {
   const ms = typeof at === "number" ? at : at.getTime();
-  return Math.floor(ms / WINDOW_MS) * WINDOW_MS;
+  return Math.floor(ms / cadenceMs) * cadenceMs;
 }
 
 function severityFor(consecutive: number): WatchdogSeverity {
@@ -79,6 +85,9 @@ function severityFor(consecutive: number): WatchdogSeverity {
 }
 
 export type WatchdogInput = {
+  /** Collection cadence. Defaults to the configured one; historical evidence
+   *  from a different regime must pass its own. */
+  cadenceMs?: number;
   now: Date;
   /** Every run recorded in the lookback, any status. Duplicates are tolerated. */
   runs: RunWindow[];
@@ -95,11 +104,12 @@ export function evaluateWatchdog({
   lookbackMs = 86400000,
   scheduleStartedAt = null,
   source = "SKINPORT",
+  cadenceMs = WINDOW_MS,
 }: WatchdogInput): WatchdogReport {
-  const currentOpen = windowStart(now);
+  const currentOpen = windowStart(now, cadenceMs);
   // The current window may still be running, so the newest window that SHOULD
   // have a run is the one before it.
-  const latestClosed = currentOpen - WINDOW_MS;
+  const latestClosed = currentOpen - cadenceMs;
   const started = scheduleStartedAt ? Date.parse(scheduleStartedAt) : null;
   const floor =
     started !== null && Number.isFinite(started)
@@ -119,14 +129,14 @@ export function evaluateWatchdog({
   }
 
   const expected: number[] = [];
-  for (let w = windowStart(floor); w <= latestClosed; w += WINDOW_MS)
+  for (let w = windowStart(floor, cadenceMs); w <= latestClosed; w += cadenceMs)
     if (w >= floor) expected.push(w);
 
   const missing = expected.filter((w) => !invoked.has(w));
 
   // Consecutive run of absences ending at the latest closed window.
   let consecutive = 0;
-  for (let w = latestClosed; w >= floor; w -= WINDOW_MS) {
+  for (let w = latestClosed; w >= floor; w -= cadenceMs) {
     if (invoked.has(w)) break;
     consecutive++;
   }
@@ -137,13 +147,13 @@ export function evaluateWatchdog({
     const end = missing[missing.length - 1];
     let start = end;
     for (let i = missing.length - 2; i >= 0; i--) {
-      if (missing[i] === start - WINDOW_MS) start = missing[i];
+      if (missing[i] === start - cadenceMs) start = missing[i];
       else break;
     }
     interval = {
       from: iso(start),
       to: iso(end),
-      windows: (end - start) / WINDOW_MS + 1,
+      windows: (end - start) / cadenceMs + 1,
     };
   }
 
@@ -158,14 +168,14 @@ export function evaluateWatchdog({
   return {
     source,
     asOf: now.toISOString(),
-    cadenceSeconds: WINDOW_MS / 1000,
+    cadenceSeconds: cadenceMs / 1000,
     latestExpectedCompletedWindow: expected.length ? iso(latestClosed) : null,
     currentIncompleteWindow: iso(currentOpen),
     latestActualRunWindow: latestActual === null ? null : iso(latestActual),
     windowsBehind:
       latestActual === null
         ? null
-        : Math.max(0, (latestClosed - latestActual) / WINDOW_MS),
+        : Math.max(0, (latestClosed - latestActual) / cadenceMs),
     consecutiveMissingCompletedWindows: consecutive,
     missingWindowsPrevious24h: missing.length,
     expectedWindowsPrevious24h: expected.length,

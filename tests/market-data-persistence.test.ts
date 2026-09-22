@@ -3,6 +3,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 import { readFile } from "node:fs/promises";
 import { sql } from "drizzle-orm";
+import { WINDOW_MS } from "../src/lib/config";
 import { collectorStore } from "../src/lib/db/collector-store";
 import { collectSkinport } from "../src/lib/collectors/skinport-collector";
 import { skinportClient } from "../src/market-data/adapters/skinport/skinport.client";
@@ -125,7 +126,8 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
         )
       ).rows[0].n,
     ).toBe(100);
-    elapsed = 5 * 60 * 1000;
+    // Advance a full cadence so this is genuinely the next window.
+    elapsed = WINDOW_MS;
     expect(await collectSkinport(store, client, now)).toMatchObject({
       status: "SUCCESS",
       observationsInserted: 100,

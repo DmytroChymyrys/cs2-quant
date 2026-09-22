@@ -4,6 +4,7 @@ import { skinportClient } from '../src/lib/sources/skinport/client';
 import { itemSchema, historySchema, parseSourceJson } from '../src/lib/sources/skinport/schemas';
 import { normalize } from '../src/lib/sources/skinport/normalize';
 import { collectSkinport } from '../src/lib/collectors/skinport-collector';
+import { WINDOW_MS } from '../src/lib/config';
 import type { CollectorStore, Run, Observation } from '../src/lib/db/collector-store';
 import { isStale, percentageChange, successRate } from '../src/lib/analytics';
 import { item, history, name } from './fixtures';
@@ -121,7 +122,7 @@ describe('collector', () => {
     const results = await Promise.all([collectSkinport(store,client,time), collectSkinport(store,client,time)]);
     expect(results.filter(r => 'skipped' in r && r.skipped)).toHaveLength(1);
     expect(rows).toHaveLength(1);
-    await collectSkinport(store,client,() => new Date('2026-09-09T09:05:00Z'));
+    await collectSkinport(store,client,() => new Date(Date.parse('2026-09-09T09:00:00Z') + WINDOW_MS));
     expect(rows).toHaveLength(2); expect(rows[0].minPrice).toBe(rows[1].minPrice); expect(runs.size).toBe(3); expect(fetcher).toHaveBeenCalledTimes(4);
   });
   it('preserves committed SUCCESS if the database acknowledgement is lost', async () => {

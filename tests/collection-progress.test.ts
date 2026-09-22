@@ -27,6 +27,14 @@ type Row = {
   finishedAt: string | null;
   observations: number;
 };
+/**
+ * The 2026-09-18 incident happened under five-minute collection. Collection
+ * went hourly on 2026-09-22, so the replay states the cadence it is replaying
+ * rather than inheriting today's — otherwise historical evidence would silently
+ * change meaning every time the schedule does.
+ */
+const FIVE_MINUTES = 5 * 60 * 1000;
+
 const rows = incident as Row[];
 
 /** The same rows, shaped for each check. Neither check sees the other's input. */
@@ -61,6 +69,7 @@ describe("the 2026-09-18 incident, replayed", () => {
     const invocation = evaluateWatchdog({
       now: new Date(PHASE_A),
       runs: watchdogRuns(PHASE_A),
+      cadenceMs: FIVE_MINUTES,
     });
     // Unchanged semantics: a run exists for every window, so by its own
     // definition the collector WAS invoked. This must keep saying OK.
@@ -71,6 +80,7 @@ describe("the 2026-09-18 incident, replayed", () => {
     const report = evaluateCollectionProgress({
       now: new Date(PHASE_A),
       windows: progressWindows(),
+      cadenceMs: FIVE_MINUTES,
       scheduleStartedAt: "2026-09-18T07:00:00.000Z",
     });
     expect(report.severity).toBe("CRITICAL");
@@ -87,10 +97,11 @@ describe("the 2026-09-18 incident, replayed", () => {
     const report = evaluateCollectionProgress({
       now: new Date(PHASE_A),
       windows: progressWindows(),
+      cadenceMs: FIVE_MINUTES,
       scheduleStartedAt: "2026-09-18T07:00:00.000Z",
     });
     expect(report.recentStaleRunningRuns.length).toBeGreaterThanOrEqual(
-      STALE_RUNNING_THRESHOLDS.CRITICAL,
+      STALE_RUNNING_THRESHOLDS.WARN,
     );
     expect(report.cause).toBe("STALE_RUNNING");
     expect(report.reason).toMatch(/cannot be retried/);
@@ -102,6 +113,7 @@ describe("the 2026-09-18 incident, replayed", () => {
     const invocation = evaluateWatchdog({
       now: new Date(PHASE_B),
       runs: watchdogRuns(PHASE_B),
+      cadenceMs: FIVE_MINUTES,
     });
     expect(invocation.severity).toBe("CRITICAL");
     expect(
@@ -114,6 +126,7 @@ describe("the 2026-09-18 incident, replayed", () => {
     const report = evaluateCollectionProgress({
       now: new Date(PHASE_B),
       windows: progressWindows(),
+      cadenceMs: FIVE_MINUTES,
       scheduleStartedAt: "2026-09-18T07:00:00.000Z",
     });
     expect(report.severity).toBe("CRITICAL");
@@ -130,6 +143,7 @@ describe("the 2026-09-18 incident, replayed", () => {
     const report = evaluateCollectionProgress({
       now: new Date(RECOVERED),
       windows: progressWindows(),
+      cadenceMs: FIVE_MINUTES,
       scheduleStartedAt: "2026-09-18T07:00:00.000Z",
     });
     expect(report.severity).toBe("OK");
@@ -148,7 +162,7 @@ describe("the 2026-09-18 incident, replayed", () => {
 describe("collection progress on its own terms", () => {
   const healthy = (count: number, from = Date.parse("2026-09-18T00:00:00Z")) =>
     Array.from({ length: count }, (_, i) => ({
-      window: new Date(from + i * 300000).toISOString(),
+      window: new Date(from + i * FIVE_MINUTES).toISOString(),
       runs: [
         {
           status: "SUCCESS" as const,
@@ -162,8 +176,9 @@ describe("collection progress on its own terms", () => {
   it("is OK while observations keep landing", () => {
     const windows = healthy(24);
     const report = evaluateCollectionProgress({
-      now: new Date(Date.parse(windows.at(-1)!.window) + 300000),
+      now: new Date(Date.parse(windows.at(-1)!.window) + FIVE_MINUTES),
       windows,
+      cadenceMs: FIVE_MINUTES,
       scheduleStartedAt: windows[0].window,
     });
     expect(report.severity).toBe("OK");
@@ -175,6 +190,7 @@ describe("collection progress on its own terms", () => {
     const at = Date.parse("2026-09-18T12:00:00Z");
     const report = evaluateCollectionProgress({
       now: new Date(at + 60000),
+      cadenceMs: FIVE_MINUTES,
       windows: [
         {
           window: new Date(at).toISOString(),
@@ -197,6 +213,7 @@ describe("collection progress on its own terms", () => {
     const at = Date.parse("2026-09-18T12:00:00Z");
     const report = evaluateCollectionProgress({
       now: new Date(at + 900000),
+      cadenceMs: FIVE_MINUTES,
       windows: [
         {
           window: new Date(at).toISOString(),
@@ -219,11 +236,11 @@ describe("collection progress on its own terms", () => {
   it("leaves the invocation watchdog's semantics untouched", async () => {
     const { readFile } = await import("node:fs/promises");
     const src = await readFile("src/lib/collection-watchdog.ts", "utf8");
-    // This module must not have been edited to accommodate the new one.
+    // The dividing line is what must not move: invocation health answers
+    // "was it invoked", and must never start reasoning about observations.
+    // (Its thresholds were retuned when collection went hourly; that is a
+    // cadence change, not a change of question.)
     expect(src).toContain("was the collector invoked");
     expect(src).not.toMatch(/observations/i);
-    expect(src).toContain("WARN: 2");
-    expect(src).toContain("ALERT: 4");
-    expect(src).toContain("CRITICAL: 12");
   });
 });

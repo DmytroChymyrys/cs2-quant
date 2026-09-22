@@ -1,5 +1,9 @@
 import { beforeAll, afterAll, expect, it, vi } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
+import { WINDOW_MS, sourceConfig } from "../src/lib/config";
+
+/** Two cadence steps, so exactly one window is missing between the runs. */
+const GAP = `interval '${(2 * WINDOW_MS) / 1000} seconds'`;
 import { readFile } from "node:fs/promises";
 import { drizzle } from "drizzle-orm/pglite";
 import { collectorStore } from "../src/lib/db/collector-store";
@@ -82,11 +86,11 @@ it("executes health and analytical SQL with real rows and missing windows", asyn
     [run],
   );
   await db.query(
-    "insert into collector_runs(id,source,window_start,started_at,claim_key,status,tracked_assets,items_matched,observations_inserted,duration_ms) select $1,source,window_start+interval '10 minutes',started_at+interval '10 minutes','window2','SUCCESS',1,1,1,200 from collector_runs where id=$2",
+    `insert into collector_runs(id,source,window_start,started_at,claim_key,status,tracked_assets,items_matched,observations_inserted,duration_ms) select $1,source,window_start+${GAP},started_at+${GAP},'window2','SUCCESS',1,1,1,200 from collector_runs where id=$2`,
     [secondRun, run],
   );
   await db.query(
-    "insert into market_observations(asset_id,source,collector_run_id,observed_at,currency,quantity,source_created_at,source_updated_at,min_price,sales_24h_volume,raw_item_payload) select asset_id,source,$1,observed_at+interval '10 minutes',currency,10,source_created_at,source_updated_at,'100',5,'{}' from market_observations where collector_run_id=$2",
+    `insert into market_observations(asset_id,source,collector_run_id,observed_at,currency,quantity,source_created_at,source_updated_at,min_price,sales_24h_volume,raw_item_payload) select asset_id,source,$1,observed_at+${GAP},currency,10,source_created_at,source_updated_at,'100',5,'{}' from market_observations where collector_run_id=$2`,
     [secondRun, run],
   );
   const summary = await getAssetPocSummary(asset);
@@ -109,7 +113,13 @@ it("executes health and analytical SQL with real rows and missing windows", asyn
   expect(
     await getAssetPocSummary("00000000-0000-4000-8000-000000000009"),
   ).toBeNull();
-  const health = await getDataHealth(new Date(Date.now() + 11 * 60000));
+  // Read the effective threshold rather than assume the default: the
+  // environment can override SOURCE_STALE_AFTER_MINUTES.
+  const STALE_MS = sourceConfig().SOURCE_STALE_AFTER_MINUTES * 60000;
+  // Latest observation sits at +GAP (two cadences); still fresh here.
+  const health = await getDataHealth(
+    new Date(Date.now() + 2 * WINDOW_MS + STALE_MS - 60000),
+  );
   expect(health.health24h).toMatchObject({
     runs: 2,
     successful: 2,
@@ -125,7 +135,11 @@ it("executes health and analytical SQL with real rows and missing windows", asyn
     estimatedRowsMonthAtObservedRate: 60,
   });
   expect(
-    (await getDataHealth(new Date(Date.now() + 26 * 60000))).coverage,
+    (
+      await getDataHealth(
+        new Date(Date.now() + 2 * WINDOW_MS + STALE_MS + 60000),
+      )
+    ).coverage,
   ).toMatchObject({ staleAssets: 1 });
 });
 

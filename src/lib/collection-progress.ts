@@ -45,19 +45,28 @@ export type ProgressWindow = {
   runs: ProgressRun[];
 };
 
-/** Consecutive closed windows with no persisted observation. */
+/**
+ * Consecutive closed windows with no persisted observation.
+ *
+ * Retuned for hourly collection: a dozen missing windows was an hour of lost
+ * evidence at five minutes and would be half a day at one hour, so the counts
+ * come down to preserve the wall-clock meaning.
+ */
 export const PROGRESS_THRESHOLDS = {
-  WARN: 2,
-  ALERT: 4,
-  CRITICAL: 12,
+  WARN: 1,
+  ALERT: 2,
+  CRITICAL: 4,
 } as const;
 
 /**
  * How long after its window a run may stay unfinished before it is stale.
- * A healthy run completes within its own five-minute window; two windows of
- * slack absorbs a slow one without calling a live run dead.
+ *
+ * An absolute duration, not a multiple of the cadence: a collection takes about
+ * seven seconds regardless of how often it runs, so anything still unfinished a
+ * quarter of an hour later is dead whatever the schedule. Tying this to the
+ * cadence would have made it two hours the moment collection went hourly.
  */
-export const STALE_RUNNING_AFTER_MS = 2 * WINDOW_MS;
+export const STALE_RUNNING_AFTER_MS = 15 * 60 * 1000;
 
 /** Stale runs at which each severity begins. They are unrecoverable losses. */
 export const STALE_RUNNING_THRESHOLDS = {
@@ -73,8 +82,12 @@ export const STALE_RUNNING_THRESHOLDS = {
  * would keep the check red for a full day after collection recovered and make
  * "is it broken now?" unanswerable. Older stale runs stay in the payload as
  * evidence; only recent ones raise severity.
+ *
+ * An absolute hour rather than a multiple of the cadence: how long a loss stays
+ * worth paging about is a property of the operator's attention, not of how
+ * often the collector runs.
  */
-export const STALE_RUNNING_ALERTS_FOR_MS = 12 * WINDOW_MS;
+export const STALE_RUNNING_ALERTS_FOR_MS = 60 * 60 * 1000;
 
 export type ProgressSeverity = "OK" | "WARN" | "ALERT" | "CRITICAL";
 
@@ -117,6 +130,9 @@ export type ProgressReport = {
 };
 
 export type ProgressInput = {
+  /** Collection cadence. Defaults to the configured one; historical evidence
+   *  from a different regime must pass its own. */
+  cadenceMs?: number;
   now: Date | number;
   windows: ProgressWindow[];
   lookbackMs?: number;
@@ -125,7 +141,8 @@ export type ProgressInput = {
 };
 
 const iso = (ms: number) => new Date(ms).toISOString();
-const floorWindow = (ms: number) => Math.floor(ms / WINDOW_MS) * WINDOW_MS;
+const floorWindow = (ms: number, cadenceMs: number) =>
+  Math.floor(ms / cadenceMs) * cadenceMs;
 
 function severityFrom(consecutive: number, stale: number): ProgressSeverity {
   const byGap =
@@ -154,12 +171,13 @@ export function evaluateCollectionProgress({
   lookbackMs = 86400000,
   scheduleStartedAt = null,
   source = "SKINPORT",
+  cadenceMs = WINDOW_MS,
 }: ProgressInput): ProgressReport {
   const nowMs = typeof now === "number" ? now : now.getTime();
-  const currentOpen = floorWindow(nowMs);
+  const currentOpen = floorWindow(nowMs, cadenceMs);
   // The open window may still be collecting, so the newest window that should
   // have produced something is the one before it.
-  const latestClosed = currentOpen - WINDOW_MS;
+  const latestClosed = currentOpen - cadenceMs;
   const started = scheduleStartedAt ? Date.parse(scheduleStartedAt) : null;
   const floor =
     started !== null && Number.isFinite(started)
@@ -181,7 +199,7 @@ export function evaluateCollectionProgress({
   let invokedWithout = 0;
   let observations = 0;
   let latestWithObservations: number | null = null;
-  for (let t = floor; t <= latestClosed; t += WINDOW_MS) {
+  for (let t = floor; t <= latestClosed; t += cadenceMs) {
     expected++;
     const count = observationsIn(t);
     observations += count;
@@ -195,7 +213,7 @@ export function evaluateCollectionProgress({
   }
 
   let consecutive = 0;
-  for (let t = latestClosed; t >= floor; t -= WINDOW_MS) {
+  for (let t = latestClosed; t >= floor; t -= cadenceMs) {
     if (observationsIn(t) > 0) break;
     consecutive++;
   }
@@ -231,7 +249,7 @@ export function evaluateCollectionProgress({
     for (
       let t = latestClosed, n = 0;
       t >= floor && n < consecutive;
-      t -= WINDOW_MS, n++
+      t -= cadenceMs, n++
     )
       gap.push(t);
     const gapRuns = gap.flatMap((t) => byWindow.get(t) ?? []);
@@ -270,7 +288,7 @@ export function evaluateCollectionProgress({
   return {
     source,
     asOf: iso(nowMs),
-    cadenceSeconds: WINDOW_MS / 1000,
+    cadenceSeconds: cadenceMs / 1000,
     latestExpectedCompletedWindow:
       latestClosed >= floor ? iso(latestClosed) : null,
     latestWindowWithObservations:

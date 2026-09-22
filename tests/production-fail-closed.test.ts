@@ -236,21 +236,22 @@ describe("nothing migrates or activates merely because the app deploys", () => {
 
 describe("no sandbox credentials are committed", () => {
   it("contains no live or test Stripe secret, webhook secret or Neon password", async () => {
-    const files = (await trackedFiles()).filter((f) =>
-      /\.(ts|tsx|js|mjs|json|sql|md|yml|yaml|env|example)$/.test(f),
-    );
-    const secrets =
-      /(sk_live_[A-Za-z0-9]{10,}|sk_test_[A-Za-z0-9]{10,}|whsec_[A-Za-z0-9]{10,}|rk_live_[A-Za-z0-9]{10,}|npg_[A-Za-z0-9]{10,})/;
-    const offenders: string[] = [];
-    for (const f of files) {
-      let text: string;
-      try {
-        text = await committed(f);
-      } catch {
-        continue;
-      }
-      if (secrets.test(text)) offenders.push(f);
+    const { execFileSync } = await import("node:child_process");
+    // One `git grep` over the committed tree, not one `git show` per file: the
+    // per-file form took sixteen seconds under parallel load and failed on the
+    // timeout rather than on a finding, which is the worst way for a secret
+    // scan to behave.
+    const pattern = "(sk_live_|sk_test_|whsec_|rk_live_|npg_)[A-Za-z0-9]{10,}";
+    let hits = "";
+    try {
+      hits = execFileSync("git", ["grep", "-I", "-l", "-E", pattern, "HEAD"], {
+        encoding: "utf8",
+      });
+    } catch (error) {
+      // git grep exits 1 with no output when nothing matches, which is success.
+      const status = (error as { status?: number }).status;
+      if (status !== 1) throw error;
     }
-    expect(offenders).toEqual([]);
+    expect(hits.trim().split("\n").filter(Boolean)).toEqual([]);
   });
 });
