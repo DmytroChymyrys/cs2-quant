@@ -48,14 +48,14 @@ export type ProgressWindow = {
 /**
  * Consecutive closed windows with no persisted observation.
  *
- * Retuned for hourly collection: a dozen missing windows was an hour of lost
- * evidence at five minutes and would be half a day at one hour, so the counts
- * come down to preserve the wall-clock meaning.
+ * Mirrors the invocation watchdog's validated five-minute thresholds, so the
+ * two checks escalate on the same wall-clock schedule and an operator can
+ * compare them directly.
  */
 export const PROGRESS_THRESHOLDS = {
-  WARN: 1,
-  ALERT: 2,
-  CRITICAL: 4,
+  WARN: 2,
+  ALERT: 4,
+  CRITICAL: 12,
 } as const;
 
 /**
@@ -63,8 +63,9 @@ export const PROGRESS_THRESHOLDS = {
  *
  * An absolute duration, not a multiple of the cadence: a collection takes about
  * seven seconds regardless of how often it runs, so anything still unfinished a
- * quarter of an hour later is dead whatever the schedule. Tying this to the
- * cadence would have made it two hours the moment collection went hourly.
+ * quarter of an hour later is dead whatever the schedule. Kept absolute after
+ * the cadence was restored — the hourly episode showed that tying it to the
+ * schedule silently changes what "stale" means.
  */
 export const STALE_RUNNING_AFTER_MS = 15 * 60 * 1000;
 
@@ -85,7 +86,7 @@ export const STALE_RUNNING_THRESHOLDS = {
  *
  * An absolute hour rather than a multiple of the cadence: how long a loss stays
  * worth paging about is a property of the operator's attention, not of how
- * often the collector runs.
+ * often the collector runs. Kept absolute after the cadence was restored.
  */
 export const STALE_RUNNING_ALERTS_FOR_MS = 60 * 60 * 1000;
 

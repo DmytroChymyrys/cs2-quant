@@ -2,22 +2,30 @@ import { z } from "zod";
 /**
  * Collection cadence.
  *
- * Changed from five minutes to one hour on 2026-09-22, on Skinport's guidance:
- * the public API is documented as refreshing hourly and they asked that the
- * whole response be fetched once and cached rather than re-fetched every five
- * minutes, to avoid rate limiting.
+ * Five minutes, which is the cadence Skinport authorized. It was briefly moved
+ * to one hour on 2026-09-22 after their note about fetching the full response
+ * once an hour; that note is a rate-limit policy rather than a statement that
+ * the feed is static, and our own five-minute evidence shows values moving in
+ * every one of the twelve slots within the hour, for 24.5% of asset-hours.
+ * Hourly sampling aliased that away, so the cadence is restored.
  *
- * Note for anyone reading the evidence: our own five-minute data shows values
- * changing throughout the hour, in every one of the twelve five-minute slots,
- * for 24.5% of asset-hours. Hourly sampling therefore aliases real observed
- * movement. That was accepted deliberately — being rate limited would end the
- * collection entirely — and 2026-09-22T14:00Z is the boundary between the two
- * measurement regimes. Series must not be compared across it.
+ * This constant and the cron-job.org schedule must agree. If they disagree the
+ * health checks are not wrong — they are correctly reporting that collection is
+ * not happening as often as the system expects.
  */
-export const WINDOW_MS = 60 * 60 * 1000;
+export const WINDOW_MS = 5 * 60 * 1000;
 
-/** First window of the hourly regime. Evidence before this is five-minute. */
-export const HOURLY_REGIME_FROM = "2026-09-22T14:00:00.000Z";
+/**
+ * The hourly interlude: 2026-09-22T14:00Z until collection was restored.
+ *
+ * Kept as a documented artefact of the evidence, not as a control. Windows in
+ * that stretch hold one observation per hour instead of twelve, so any derived
+ * metric requiring consecutive five-minute windows is legitimately null across
+ * it. Nothing backfills it and nothing should: the observations that were not
+ * taken do not exist.
+ */
+export const HOURLY_INTERLUDE_FROM = '2026-09-22T14:00:00.000Z';
+
 export function sourceConfig() {
   return z
     .object({

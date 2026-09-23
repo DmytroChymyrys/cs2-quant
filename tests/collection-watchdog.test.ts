@@ -149,10 +149,10 @@ describe("severity thresholds", () => {
   });
 
   it("uses the reviewed threshold values", () => {
-    // Retuned for hourly collection: a dozen missing windows would be half a
-    // day rather than an hour. ALERT — the level that pages — stays reachable
-    // within a couple of hours, which is the property that matters.
-    expect(SEVERITY_THRESHOLDS).toEqual({ WARN: 1, ALERT: 2, CRITICAL: 4 });
+    // The validated five-minute values: WARN at ten minutes of silence, ALERT
+    // at twenty, CRITICAL at an hour. Lowered to 1/2/4 only while collection
+    // was briefly hourly; restored with the cadence.
+    expect(SEVERITY_THRESHOLDS).toEqual({ WARN: 2, ALERT: 4, CRITICAL: 12 });
   });
 });
 

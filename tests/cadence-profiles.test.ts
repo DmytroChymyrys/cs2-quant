@@ -7,6 +7,7 @@
  * change that cannot quietly contradict itself.
  */
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
 import { sequence } from "./fixtures/derived-market/sequence";
 import { derive } from "../src/lib/derived-market/features";
 import { makeReport } from "../src/lib/derived-market/report";
@@ -22,6 +23,11 @@ import {
   HOURLY_REGIME_FROM,
 } from "../src/lib/derived-market/cadence";
 import { METHOD, STEP } from "../src/lib/derived-market/model";
+import { WINDOW_MS } from "../src/lib/config";
+import {
+  STALE_RUNNING_AFTER_MS,
+  STALE_RUNNING_ALERTS_FOR_MS,
+} from "../src/lib/collection-progress";
 import { summary } from "../src/lib/product/intelligence/map";
 import type { Feature } from "../src/lib/derived-market/model";
 
@@ -260,5 +266,53 @@ describe("the product reads both contracts", () => {
       V3_FIVE_MINUTE.method,
     );
     expect(a.volatility["1h"]).toBeNull();
+  });
+});
+
+describe("no scope floor is in effect in production", () => {
+  it("leaves a v3 scope exactly as requested", () => {
+    // The floor mechanism exists for the v4 contracts and is inert while v3 is
+    // active. A production refresh must derive the scope it was asked for.
+    expect(ACTIVE_PROFILE.scopeFloor).toBeNull();
+    for (const from of [
+      "2026-09-01T00:00:00.000Z",
+      "2026-09-22T00:00:00.000Z",
+      "2026-09-23T00:00:00.000Z",
+    ])
+      expect(
+        applyScopeFloor(ACTIVE_PROFILE, from, "2026-09-30T00:00:00.000Z"),
+      ).toBe(from);
+  });
+
+  it("never returns null for the active profile, so nothing can refuse to derive", () => {
+    expect(
+      applyScopeFloor(
+        ACTIVE_PROFILE,
+        "2020-01-01T00:00:00.000Z",
+        "2020-01-02T00:00:00.000Z",
+      ),
+    ).toBe("2020-01-01T00:00:00.000Z");
+  });
+});
+
+describe("the restored cadence is coherent end to end", () => {
+  it("expects 288 windows a day at the configured cadence", () => {
+    expect(WINDOW_MS).toBe(300_000);
+    expect(86_400_000 / WINDOW_MS).toBe(288);
+    // The derivation grid and the collection grid must be the same grid.
+    expect(ACTIVE_PROFILE.stepMs).toBe(WINDOW_MS);
+  });
+
+  it("keeps stale-run semantics absolute, not cadence-derived", () => {
+    // Deliberately retained from the hourly episode: tying these to the
+    // schedule silently changed what "stale" meant when the schedule moved.
+    expect(STALE_RUNNING_AFTER_MS).toBe(15 * 60 * 1000);
+    expect(STALE_RUNNING_ALERTS_FOR_MS).toBe(60 * 60 * 1000);
+    // The property that matters is that the source says so literally rather
+    // than deriving them from WINDOW_MS, so a future cadence change cannot move
+    // them the way it did when they were expressed in windows.
+    const src = readFileSync("src/lib/collection-progress.ts", "utf8");
+    expect(src).toMatch(/STALE_RUNNING_AFTER_MS = 15 \* 60 \* 1000/);
+    expect(src).toMatch(/STALE_RUNNING_ALERTS_FOR_MS = 60 \* 60 \* 1000/);
   });
 });

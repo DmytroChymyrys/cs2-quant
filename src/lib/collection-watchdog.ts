@@ -24,14 +24,16 @@ export type WatchdogSeverity = "OK" | "WARN" | "ALERT" | "CRITICAL";
 /**
  * Consecutive missing completed windows at which each severity begins.
  *
- * Retuned for hourly collection. At five minutes a dozen missing windows was
- * an hour of lost evidence; at one hour it would be half a day, so the counts
- * come down to keep the same meaning in wall-clock terms.
+ * The validated five-minute values: WARN at ten minutes of silence, ALERT at
+ * twenty, CRITICAL at an hour. They were briefly lowered to 1/2/4 while
+ * collection was hourly, to keep the wall-clock meaning; with five-minute
+ * collection restored they return to the values the incident replays were
+ * validated against.
  */
 export const SEVERITY_THRESHOLDS = {
-  WARN: 1,
-  ALERT: 2,
-  CRITICAL: 4,
+  WARN: 2,
+  ALERT: 4,
+  CRITICAL: 12,
 } as const;
 
 export type RunWindow = {
