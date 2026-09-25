@@ -6,6 +6,8 @@ See [product implementation status and integration setup](docs/product/IMPLEMENT
 
 The existing production deployment continues the approved 100-asset collection experiment. Product work preserves its collector semantics and schedule. The sections below document that collector and its operational history.
 
+See [business model, contributor network, API and MCP strategy](docs/business/business-model-and-data-network.md) for long-term hypotheses and decision gates. This is strategy documentation, not an implementation specification; individual initiatives require separate approval.
+
 ## Architecture
 
 ```text
