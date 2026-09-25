@@ -1,0 +1,57 @@
+.stage {
+  position: relative;
+  z-index: 2;
+}
+.stage[data-cinematic-state="revealing"] {
+  overflow: hidden;
+  isolation: isolate;
+}
+.plate {
+  position: relative;
+  transform-origin: 55% 48%;
+}
+.light {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  /* The source luminance catches existing metal highlights. The silhouette region
+     excludes the illustrative floor: no flat white rectangle across the scene. */
+  mask-image: url("/landing-artwork/ak47-bloodsport-cinematic.png");
+  mask-mode: luminance;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  clip-path: polygon(
+    12% 53%,
+    14% 36%,
+    24% 34%,
+    26% 37%,
+    43% 28%,
+    67% 23%,
+    71% 32%,
+    85% 23%,
+    87% 43%,
+    72% 40%,
+    69% 59%,
+    62% 54%,
+    54% 79%,
+    46% 74%,
+    51% 45%,
+    27% 49%
+  );
+  background: linear-gradient(
+    110deg,
+    transparent 40%,
+    #fff8 49%,
+    #fff2 54%,
+    transparent 64%
+  );
+  background-size: 250% 100%;
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+  .light {
+    display: none;
+  }
+}

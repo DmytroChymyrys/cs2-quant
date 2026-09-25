@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CinematicBloodsport } from "./cinematic-bloodsport";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ChartNoAxesCombined } from "lucide-react";
 import snapshot from "./landing-hero-snapshot.json";
@@ -28,6 +28,7 @@ function PriceHistory() {
         <span>USD</span>
       </div>
       <svg
+        data-cinematic-chart
         viewBox="0 0 600 126"
         preserveAspectRatio="none"
         role="img"
@@ -109,17 +110,7 @@ export function LandingHero() {
                 <strong>${snapshot.lastPrice}</strong>
                 <span className={styles.decline}>−2.75% · OBSERVED PERIOD</span>
               </div>
-              <Image
-                className={styles.weapon}
-                src="/landing-artwork/ak47-bloodsport-cinematic.png"
-                alt="AK-47 Bloodsport concept artwork above a perspective market-data grid"
-                width={1376}
-                height={768}
-                sizes="(max-width: 767px) 90vw, (max-width: 1023px) 80vw, 52vw"
-                loading="eager"
-                fetchPriority="high"
-                unoptimized
-              />
+              <CinematicBloodsport className={styles.weapon} cinematic />
               <PriceHistory />
             </div>
             <figcaption className={styles.evidence}>
@@ -131,7 +122,7 @@ export function LandingHero() {
               <span>SEP 9–14, 2026 · UTC</span>
             </figcaption>
             <div className={styles.telemetry}>
-              <div className={styles.priceMetric}>
+              <div className={styles.priceMetric} data-cinematic-metric>
                 <span className={styles.metricLabel}>01 // OBSERVED PRICE</span>
                 <strong>
                   ${snapshot.lastPrice}{" "}
@@ -146,7 +137,7 @@ export function LandingHero() {
                   {snapshot.medianTransitions} median-price changes
                 </span>
               </div>
-              <div className={styles.supplyMetric}>
+              <div className={styles.supplyMetric} data-cinematic-metric>
                 <span className={styles.metricLabel}>02 // LISTING SUPPLY</span>
                 <strong>
                   {snapshot.lastListings} <small>LISTINGS</small>
@@ -157,7 +148,7 @@ export function LandingHero() {
                 </span>
                 <span>Observed Skinport supply</span>
               </div>
-              <div className={styles.activityMetric}>
+              <div className={styles.activityMetric} data-cinematic-metric>
                 <span className={styles.metricLabel}>
                   03 // MARKET ACTIVITY
                 </span>
