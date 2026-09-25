@@ -19,6 +19,7 @@ import {
 import { marketSnapshot, marketHistory } from "@/lib/product/market";
 import { money, integer, percent } from "@/lib/product/format";
 import { LandingHero } from "@/components/landing-hero";
+import { ReleaseStageNote } from "@/components/release-stage";
 import { LandingWorkstations } from "@/components/landing-workstations";
 import "./landing.css";
 import "./asset-images.css";
@@ -67,6 +68,7 @@ export default async function Home() {
         </div>
       </header>
       <main id="landing-main">
+        <ReleaseStageNote />
         <LandingHero />
         <section className="lp-section alternate" id="methodology">
           <div className="lp-container">

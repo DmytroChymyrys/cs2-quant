@@ -3310,27 +3310,144 @@ body {
 }
 
 /* Descriptive screener explanation: one secondary line in the existing table. */
-.why-surfaced { display: block; color: var(--muted, #93a4b2); font-size: 10px; line-height: 1.35; margin-top: 3px; white-space: normal; max-width: 300px; }
-.results-strip details { max-width: 100%; overflow-wrap: anywhere; }
+.why-surfaced {
+  display: block;
+  color: var(--muted, #93a4b2);
+  font-size: 10px;
+  line-height: 1.35;
+  margin-top: 3px;
+  white-space: normal;
+  max-width: 300px;
+}
+.results-strip details {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
 
-.snapshot-transparency { min-width: 0; overflow-wrap: anywhere; }
-.asset-top > .snapshot-transparency { grid-column: 1 / -1; }
+.snapshot-transparency {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.asset-top > .snapshot-transparency {
+  grid-column: 1 / -1;
+}
 
 /* Restore the approved chart-first workstation and compact inspection layout. */
-.freshness-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 6px 10px; margin: 0 0 8px; border: 1px solid var(--border); background: var(--panel); font: 9.5px var(--mono); }
-.freshness-strip .evidence-label { color: var(--yellow, #f3c763); font-size: 9px; }
-.freshness-strip > details { margin-left: auto; min-width: 0; }
-.freshness-details { max-width: 560px; padding: 8px 0; line-height: 1.6; }
+.freshness-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 6px 10px;
+  margin: 0 0 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  font: 9.5px var(--mono);
+}
+.freshness-strip .evidence-label {
+  color: var(--yellow, #f3c763);
+  font-size: 9px;
+}
+.freshness-strip > details {
+  margin-left: auto;
+  min-width: 0;
+}
+.freshness-details {
+  max-width: 560px;
+  padding: 8px 0;
+  line-height: 1.6;
+}
 /* Three ages sit on one line but stay separable; the strip already wraps. */
-.freshness-triple { color: var(--muted, #8c99a8); }
-.freshness-details strong { color: var(--fg, #d6dee7); font-weight: 500; }
-.terminal-restored > .metric-grid { grid-template-columns: repeat(6,minmax(0,1fr)); padding: 0 0 8px; background: transparent; }
-.terminal-restored > .terminal-grid { padding: 4px 0 0; align-items: start; }
-.terminal-screen-options { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-size: 10px; }
-.inspection-chart .btn.primary { width: 100%; }
-.inspection-chart .chart-caption { font-size: 9px; }
-.inspection-chart .stack { gap: 5px; }
-@media(max-width:1024px) { .terminal-restored > .metric-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
-@media(max-width:600px) { .terminal-restored > .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .freshness-strip > details { margin-left: 0; } .terminal-restored .chart-selection { flex-wrap: wrap; gap: 8px; } .terminal-restored .chart-selection label { min-width: 0; } }
-.terminal-restored > .terminal-grid > .stack > .two-columns { align-items: start; }
-.terminal-restored > .terminal-grid > .stack > .two-columns > .panel { min-height: 0; }
+.freshness-triple {
+  color: var(--muted, #8c99a8);
+}
+.freshness-details strong {
+  color: var(--fg, #d6dee7);
+  font-weight: 500;
+}
+
+/* Preview offer: the planned price is struck through beside the free offer, so
+   the value is legible without the page reading like a discount banner. */
+.preview-offer .planned-price {
+  font-size: 22px;
+  opacity: 0.55;
+}
+.preview-offer .price.cyan {
+  color: var(--cyan, #63d2f3);
+}
+.preview-offer p {
+  max-width: 42ch;
+  line-height: 1.55;
+}
+.preview-offer > a {
+  margin-top: 4px;
+}
+/* Product-stage strip: one quiet line, not a beta warning on every surface. */
+.release-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 6px 10px;
+  margin: 0 0 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  font: 9.5px var(--mono);
+}
+.release-stage strong {
+  color: var(--cyan, #63d2f3);
+  font-weight: 500;
+}
+.release-stage span {
+  color: var(--muted, #8c99a8);
+}
+.terminal-restored > .metric-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding: 0 0 8px;
+  background: transparent;
+}
+.terminal-restored > .terminal-grid {
+  padding: 4px 0 0;
+  align-items: start;
+}
+.terminal-screen-options {
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  padding-top: 8px;
+  font-size: 10px;
+}
+.inspection-chart .btn.primary {
+  width: 100%;
+}
+.inspection-chart .chart-caption {
+  font-size: 9px;
+}
+.inspection-chart .stack {
+  gap: 5px;
+}
+@media (max-width: 1024px) {
+  .terminal-restored > .metric-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .terminal-restored > .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .freshness-strip > details {
+    margin-left: 0;
+  }
+  .terminal-restored .chart-selection {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .terminal-restored .chart-selection label {
+    min-width: 0;
+  }
+}
+.terminal-restored > .terminal-grid > .stack > .two-columns {
+  align-items: start;
+}
+.terminal-restored > .terminal-grid > .stack > .two-columns > .panel {
+  min-height: 0;
+}

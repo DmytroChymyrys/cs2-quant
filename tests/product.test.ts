@@ -3,11 +3,11 @@ import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import { capabilities } from "../src/lib/product/entitlements";
 import * as schema from "../src/lib/product/schema";
 import * as market from "../src/lib/db/schema";
 import { evaluateConditions, transition } from "../src/lib/product/conditions";
 import { valueHolding } from "../src/lib/product/portfolio";
-import { capabilities } from "../src/lib/product/entitlements";
 import { money } from "../src/lib/product/format";
 const db = new PGlite();
 vi.mock("../src/lib/product/db", () => ({
@@ -163,7 +163,11 @@ it("enforces authentication, origin, limits, idempotent watch addition, and user
     ).rows,
   ).toHaveLength(1);
   await watch(req("watchlist", { assetId }));
-  for (let i = 0; i < 19; i++) {
+  // Preview grants Pro capability, so the ceiling under test is the Pro one.
+  // capabilities(false) still pins the Free ceiling for after Preview ends.
+  expect(capabilities(false).maxWatchlistAssets).toBe(20);
+  const ceiling = capabilities(true).maxWatchlistAssets;
+  for (let i = 0; i < ceiling - 1; i++) {
     const id = randomUUID();
     await db.query(
       "insert into assets(id,market_hash_name,is_tracked) values($1,$2,true)",
@@ -200,6 +204,10 @@ it("persists exact cost basis and rejects unavailable paid mutations", async () 
     (await holding(req("portfolio", { assetId, quantity: 0, unitCost: null })))
       .status,
   ).toBe(400);
+  // Alerts are a Pro capability, which Preview grants to everyone. The Free
+  // refusal that governs after Preview is pinned on capabilities() directly.
+  expect(capabilities(false).canCreateAlerts).toBe(false);
+  expect(capabilities(true).canCreateAlerts).toBe(true);
   expect(
     (
       await createAlert(
@@ -210,7 +218,10 @@ it("persists exact cost basis and rejects unavailable paid mutations", async () 
         }),
       )
     ).status,
-  ).toBe(403);
+  ).toBe(200);
+  // Creating it succeeds under Preview, so remove it again: the alert
+  // evaluation test that follows counts events and must not inherit this one.
+  await db.query("delete from alert_rules");
 });
 let observationId: string;
 async function observe(quantity: number, minutes: number) {

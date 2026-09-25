@@ -47,6 +47,9 @@ vi.mock("../src/lib/product/db", () => ({
   productDatabase: () => drizzle(db, { schema: { ...schema, ...market } }),
 }));
 import { POST } from "../src/app/api/stripe/webhook/route";
+// entitlements(userId, false) pins the post-Preview, subscription-driven
+// behaviour. Preview itself grants Pro outright and is covered separately in
+// tests/production-fail-closed.test.ts.
 import { entitlements } from "../src/lib/product/entitlements";
 import { POST as checkout } from "../src/app/api/product/billing/checkout/route";
 import { POST as portal } from "../src/app/api/product/billing/portal/route";
@@ -113,14 +116,14 @@ function request(
 }
 it("rejects forged webhooks and synchronizes current provider state idempotently", async () => {
   expect((await POST(request("evt_forged", false))).status).toBe(400);
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
   expect((await POST(request("evt_one"))).status).toBe(200);
   expect((await POST(request("evt_one"))).status).toBe(200);
   expect((await db.query("select * from billing_events")).rows).toHaveLength(1);
-  expect((await entitlements(appId)).plan).toBe("Pro");
+  expect((await entitlements(appId, false)).plan).toBe("Pro");
   latest = { ...latest, status: "canceled" };
   expect((await POST(request("evt_two"))).status).toBe(200);
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
 });
 it.each([
   "checkout.session.completed",
@@ -150,7 +153,7 @@ it.each([
     expect(
       (await POST(request("evt_lifecycle", true, type, object))).status,
     ).toBe(200);
-    expect((await entitlements(appId)).plan).toBe("Pro");
+    expect((await entitlements(appId, false)).plan).toBe("Pro");
     expect((await db.query("select * from billing_events")).rows).toHaveLength(
       1,
     );
@@ -167,7 +170,7 @@ it("retains access for period-end cancellation, then expires without another Str
   await db.query(
     "update billing_subscriptions set period_end=now()-interval '1 second'",
   );
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
 });
 it.each([
   "past_due",
@@ -179,7 +182,7 @@ it.each([
 ])("removes access for %s", async (status) => {
   latest.status = status;
   await POST(request("evt_status"));
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
 });
 it("rejects live events, mismatched customers and forged account association without a receipt", async () => {
   expect(
@@ -195,7 +198,7 @@ it("rejects live events, mismatched customers and forged account association wit
     (await POST(request("evt_wrong_customer", true, undefined, valid))).status,
   ).toBe(503);
   expect((await db.query("select * from billing_events")).rows).toHaveLength(0);
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
 });
 it("leaves no receipt after a provider failure and succeeds on retry", async () => {
   vi.mocked(stripe.subscriptions.retrieve).mockRejectedValueOnce(
@@ -219,7 +222,7 @@ it("ignores an old subscription deletion after a newer subscription was linked",
       )
     ).status,
   ).toBe(200);
-  expect((await entitlements(appId)).plan).toBe("Pro");
+  expect((await entitlements(appId, false)).plan).toBe("Pro");
 });
 const billingRequest = (
   path: string,
@@ -284,7 +287,7 @@ it("binds checkout and portal to the authenticated account; redirect alone grant
     client_reference_id: appId,
     subscription_data: { metadata: { appUserId: appId } },
   });
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
   expect(
     (await portal(billingRequest("portal", { customerId: "cus_attacker" })))
       .status,
@@ -332,10 +335,10 @@ it("does not grant Pro for unknown prices or expired periods", async () => {
     "update billing_subscriptions set status='active',price_id='unapproved',period_end=now()+interval '1 day' where user_id=$1",
     [appId],
   );
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
   await db.query(
     "update billing_subscriptions set price_id='price_test',period_end=now()-interval '1 second' where user_id=$1",
     [appId],
   );
-  expect((await entitlements(appId)).plan).toBe("Free");
+  expect((await entitlements(appId, false)).plan).toBe("Free");
 });

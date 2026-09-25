@@ -14,6 +14,13 @@ import {
   planForPrice,
 } from "../src/lib/product/billing-config";
 import { stripeClient, publicPrices } from "../src/lib/product/billing";
+import { capabilities } from "../src/lib/product/entitlements";
+import {
+  PLANNED_PRO_MONTHLY_USD,
+  PREVIEW_COPY,
+  RELEASE_STAGE,
+  previewAccessActive,
+} from "../src/lib/product/release";
 
 afterEach(() => vi.unstubAllEnvs());
 
@@ -111,6 +118,54 @@ describe("Stripe is inert in production", () => {
     // A live Stripe event is refused even if everything else were configured.
     expect(webhook).toContain("event.livemode !== false");
     expect(webhook).toContain("constructEvent");
+  });
+});
+
+describe("the Preview offer", () => {
+  it("shows the planned Pro price, and it is 14.99 not 15.99", () => {
+    expect(PLANNED_PRO_MONTHLY_USD).toBe("14.99");
+    expect(PLANNED_PRO_MONTHLY_USD).not.toBe("15.99");
+  });
+
+  it("is the active release stage", () => {
+    expect(RELEASE_STAGE).toBe("PREVIEW");
+    expect(previewAccessActive()).toBe(true);
+  });
+
+  it("grants Pro capability without any subscription", () => {
+    // Preview access must not depend on a billing record existing.
+    expect(capabilities(previewAccessActive())).toMatchObject({
+      plan: "Pro",
+      canCreateAlerts: true,
+      canUseAdvancedScreener: true,
+      canExport: true,
+    });
+  });
+
+  it("does not promise free access after Preview ends", () => {
+    const copy = Object.values(PREVIEW_COPY).join(" ").toLowerCase();
+    for (const claim of [
+      "forever",
+      "always free",
+      "grandfather",
+      "lifetime",
+      "permanent",
+    ])
+      expect(copy).not.toContain(claim);
+    // It must still say the free access is tied to Preview.
+    expect(copy).toContain("during preview");
+  });
+
+  it("renders no checkout control while Preview is active", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const src = await readFile("src/app/pricing/page.tsx", "utf8");
+    const preview = src.slice(
+      src.indexOf("previewAccessActive() ? ("),
+      src.indexOf(") : prices.length ? ("),
+    );
+    // Not a disabled button: no checkout element exists on the Preview path.
+    expect(preview).not.toContain("CheckoutButton");
+    expect(preview).toContain("PLANNED_PRO_MONTHLY_USD");
   });
 });
 

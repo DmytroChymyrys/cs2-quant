@@ -9,6 +9,11 @@ import {
 } from "@/lib/product/billing-config";
 import { money } from "@/lib/product/format";
 import Decimal from "@/lib/product/decimal";
+import {
+  PLANNED_PRO_MONTHLY_USD,
+  PREVIEW_COPY,
+  previewAccessActive,
+} from "@/lib/product/release";
 export const dynamic = "force-dynamic";
 export default async function Pricing() {
   const prices = await publicPrices();
@@ -29,9 +34,24 @@ export default async function Pricing() {
               <br />
               Every plan sees the same market truth.
             </p>
+            {previewAccessActive() && (
+              <p className="muted">
+                {PREVIEW_COPY.label} — Pro features are open to everyone while
+                we continue expanding coverage. The price above is what Pro will
+                cost once Preview ends.
+              </p>
+            )}
           </div>
           <div className="billing-periods">
-            MONTHLY BILLING <span> / ANNUAL WHEN AVAILABLE</span>
+            {previewAccessActive() ? (
+              <>
+                PREVIEW ACCESS <span> / NO PAYMENT REQUIRED</span>
+              </>
+            ) : (
+              <>
+                MONTHLY BILLING <span> / ANNUAL WHEN AVAILABLE</span>
+              </>
+            )}
           </div>
           <div className="pricing-grid" id="plans">
             <article className="panel price-card">
@@ -65,7 +85,24 @@ export default async function Pricing() {
               {billingSandboxEnabled() && (
                 <p className="eyebrow">BILLING SANDBOX · No real charges</p>
               )}
-              {prices.length ? (
+              {previewAccessActive() ? (
+                /* Preview: the planned price is shown struck through so the
+                   value being given away is legible, and no checkout is
+                   rendered at all — there is nothing to click, not a disabled
+                   button. */
+                <div className="stack preview-offer">
+                  <div className="price">
+                    <s className="muted planned-price">
+                      ${PLANNED_PRO_MONTHLY_USD}
+                      <small style={{ fontSize: 12 }}> / month</small>
+                    </s>
+                  </div>
+                  <div className="price cyan">{PREVIEW_COPY.offer}</div>
+                  <p className="muted">{PREVIEW_COPY.summary}</p>
+                  <p className="muted">{PREVIEW_COPY.invitation}</p>
+                  <LinkButton href="/signup">Join the Preview</LinkButton>
+                </div>
+              ) : prices.length ? (
                 prices.map((p) => (
                   <div key={p.id} className="stack">
                     <div className="price">
