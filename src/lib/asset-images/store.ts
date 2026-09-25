@@ -12,8 +12,18 @@ function connection() {
         process.env.PRODUCT_DATABASE_URL ??
         process.env.DATABASE_URL,
       max: 2,
-      connectionTimeoutMillis: 2000,
-      statement_timeout: 2000,
+      // Same cold-wake budget as every other Neon pool here. The health record
+      // is read on the market layout's critical path, and assetImageState()
+      // treats a read failure as DEGRADED, which turns artwork off site-wide.
+      // A two-second budget therefore made a scaled-to-zero compute look like
+      // an unhealthy image provider. Only the first request after a wake pays
+      // this; the result is cached for 30 s.
+      connectionTimeoutMillis: 10000,
+      // Neon's proxy discards a `statement_timeout` startup parameter sent on
+      // its own, so the ceiling has to travel inside `options` to take effect.
+      // This pool writes the health record as well as reading it, so it is not
+      // marked read-only.
+      options: "-c statement_timeout=5000",
     });
   return pool;
 }
