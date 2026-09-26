@@ -25,10 +25,16 @@ import {
   SCREEN_THRESHOLDS,
 } from "@/lib/product/intelligence/screener";
 import { displayed } from "@/lib/product/intelligence/contract";
+import { pageMetadata } from "@/lib/seo";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
+export const metadata = pageMetadata({
+  title: "CS2 Market Terminal — Live Listing Data",
+  description: "Track observed CS2 skin prices, listing quantity and sales aggregates across collected snapshots in the FloatAlpha market terminal.",
+  path: "/terminal",
+});
 export const maxDuration = 30;
 export default async function Terminal({
   searchParams,

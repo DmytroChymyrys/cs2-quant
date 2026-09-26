@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { Button } from "./ui";
+import { track } from "@/lib/ga";
 export function WatchButton({
   assetId,
   initial = false,
@@ -62,6 +63,8 @@ export function WatchButton({
               setMessage(b.message ?? "Unable to update watchlist.");
               return;
             }
+            // Only the addition is measured, and only after it succeeded.
+            if (!watched) track({ name: "watchlist_add", params: { asset_id: assetId } });
             setWatched(!watched);
           } catch {
             setMessage("Network error. Please try again.");

@@ -1,6 +1,12 @@
 import { AuthNarrative } from "@/components/auth-narrative";
 import { AuthForm } from "@/components/auth-form";
 import { authConfiguration } from "@/lib/product/auth";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+export const metadata = {
+  title: "Sign in",
+  description: "Sign in to FloatAlpha.",
+  robots: PRIVATE_ROBOTS,
+};
 export default async function Page({
   searchParams,
 }: {

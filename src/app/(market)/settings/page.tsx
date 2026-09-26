@@ -16,6 +16,12 @@ import { MutationButton, SignOut } from "@/components/product-actions";
 import { billingAccount } from "@/lib/product/billing-account";
 import { billingSandboxEnabled } from "@/lib/product/billing-config";
 import { BillingReturn } from "@/components/billing-return";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+export const metadata = {
+  title: "Settings",
+  description: "Account and billing settings.",
+  robots: PRIVATE_ROBOTS,
+};
 export default async function Settings({
   searchParams,
 }: {

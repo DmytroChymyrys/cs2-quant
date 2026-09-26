@@ -27,10 +27,16 @@ import {
   IntelligenceFilters,
 } from "@/components/intelligence-market";
 import { MutationButton } from "@/components/product-actions";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
+export const metadata = {
+  title: "Watchlist",
+  description: "Your tracked CS2 assets.",
+  robots: PRIVATE_ROBOTS,
+};
 export const maxDuration = 30;
 export default async function Watchlist({
   searchParams,

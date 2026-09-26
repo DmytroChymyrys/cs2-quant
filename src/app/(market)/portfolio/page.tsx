@@ -31,10 +31,17 @@ import {
 } from "@/components/intelligence-market";
 import { HoldingForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+import { TrackEvent } from "@/components/track-event";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
+export const metadata = {
+  title: "Portfolio",
+  description: "Your manual CS2 holdings and recorded cost basis.",
+  robots: PRIVATE_ROBOTS,
+};
 export const maxDuration = 30;
 export default async function Portfolio({
   searchParams,
@@ -63,6 +70,7 @@ export default async function Portfolio({
     detail = focus?.asset ? await readAssetDetail(focus.assetId, "1h") : null;
   return (
     <div className="personal-workstation portfolio-workstation">
+      <TrackEvent event={{ name: "portfolio_opened" }} eventKey="portfolio" />
       <PageHeading
         eyebrow="Manual holdings · Listing-reference valuation"
         title="Portfolio intelligence"

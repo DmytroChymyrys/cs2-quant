@@ -12,10 +12,16 @@ import {
   readAssetDetail,
 } from "@/lib/product/intelligence/server";
 import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
+import { pageMetadata } from "@/lib/seo";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
+export const metadata = pageMetadata({
+  title: "CS2 Skin Price & Market Data Directory",
+  description: "Browse the tracked CS2 research universe on FloatAlpha: observed listing prices, available supply and data quality for each asset.",
+  path: "/assets",
+});
 export const maxDuration = 30;
 export default async function Assets({
   searchParams,

@@ -21,11 +21,52 @@ import {
 import { ObservationChart } from "@/components/observation-chart";
 import { MarketStorySummary } from "@/components/intelligence-market";
 import { marketStory } from "@/lib/product/intelligence/presentation";
+import type { Metadata } from "next";
+import { PRIVATE_ROBOTS, pageMetadata } from "@/lib/seo";
+import { TrackEvent } from "@/components/track-event";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
 export const maxDuration = 30;
+
+/**
+ * Per-asset metadata built from canonical asset identity.
+ *
+ * The canonical URL is always the bare /asset/<id>. The page also accepts a
+ * `horizon` query parameter, which changes only the presentation window and
+ * produces the same document, so it must not create a second indexed URL.
+ *
+ * Titles carry the asset name and what the page is, never a live price: a
+ * title that changes every five minutes churns in search results and is stale
+ * the moment it is cached. Prices belong in the page, not the <title>.
+ *
+ * An asset that is unknown, or that carries no observed median, is marked
+ * noindex — there is no meaningful public content to rank, and Preview
+ * coverage is a tracked selection rather than the whole catalogue.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  if (!/^[a-f0-9-]{36}$/i.test(id))
+    return { title: "Asset", robots: PRIVATE_ROBOTS };
+  // readMarketDataset is request-cached, so this shares the page's read.
+  const dataset = await readMarketDataset();
+  const asset = dataset.error
+    ? undefined
+    : dataset.assets.find((a) => a.id === id);
+  if (!asset || asset.median === null)
+    return { title: "Asset", robots: PRIVATE_ROBOTS };
+  return pageMetadata({
+    title: `${asset.name} Price & Market Data`,
+    description: `Observed Skinport listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
+    path: `/asset/${id}`,
+  });
+}
+
 export default async function Asset({
   params,
   searchParams,
@@ -56,6 +97,16 @@ export default async function Asset({
   const story = marketStory(a, storyHorizon, "minimum");
   return (
     <div className="asset-intelligence">
+      <TrackEvent
+        event={{
+          name: "view_asset",
+          params: {
+            asset_id: a.id,
+            ...(a.identity ? { category: a.identity.category } : {}),
+          },
+        }}
+        eventKey={`asset:${a.id}`}
+      />
       <div className="asset-top">
         <AssetImage name={a.name} media={a.artwork} large />
         <PageHeading

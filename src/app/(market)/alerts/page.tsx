@@ -19,6 +19,12 @@ import {
 import { AuthRequired } from "@/components/auth-required";
 import { AlertForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+export const metadata = {
+  title: "Alerts",
+  description: "Your condition alerts.",
+  robots: PRIVATE_ROBOTS,
+};
 export default async function Alerts({
   searchParams,
 }: {

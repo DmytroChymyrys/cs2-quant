@@ -14,11 +14,19 @@ import {
   PREVIEW_COPY,
   previewAccessActive,
 } from "@/lib/product/release";
+import { pageMetadata } from "@/lib/seo";
+import { TrackEvent } from "@/components/track-event";
+export const metadata = pageMetadata({
+  title: "Pricing — Free and Pro Plans",
+  description: "Compare FloatAlpha Free and Pro. Both plans show the same observed market data; Pro adds advanced screening, condition alerts and longer collected history.",
+  path: "/pricing",
+});
 export const dynamic = "force-dynamic";
 export default async function Pricing() {
   const prices = await publicPrices();
   return (
     <PublicShell>
+      <TrackEvent event={{ name: "pricing_viewed" }} eventKey="pricing" />
       <div className="pricing-fidelity">
         <section className="public-section">
           <div className="public-cta">

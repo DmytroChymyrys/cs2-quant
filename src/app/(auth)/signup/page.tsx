@@ -1,6 +1,12 @@
 import { AuthNarrative } from "@/components/auth-narrative";
 import { AuthForm } from "@/components/auth-form";
 import { authConfiguration } from "@/lib/product/auth";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+export const metadata = {
+  title: "Create account",
+  description: "Create your FloatAlpha account.",
+  robots: PRIVATE_ROBOTS,
+};
 export default async function Page({
   searchParams,
 }: {

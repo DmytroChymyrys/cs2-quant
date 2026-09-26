@@ -5,6 +5,7 @@ import Script from "next/script";
 import { useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { Button, Notice } from "./ui";
+import { track } from "@/lib/ga";
 declare global {
   interface Window {
     turnstile?: {
@@ -49,6 +50,14 @@ export function AuthForm({
   const submit = async (path: string, body: object) => {
     setBusy(true);
     setMessage("");
+    // Signup intent, measured when the attempt starts rather than when it
+    // succeeds: Google leaves the site before any success is observable here.
+    // Not a conversion event — billing is inactive and nothing is purchased.
+    if (mode === "signup")
+      track({
+        name: "preview_signup_started",
+        params: { method: path === "sign-in/social" ? "google" : "email" },
+      });
     try {
       const response = await fetch(`/api/auth/${path}`, {
         method: "POST",

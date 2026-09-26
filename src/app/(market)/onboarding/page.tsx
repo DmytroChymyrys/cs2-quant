@@ -2,6 +2,12 @@ import { currentUser } from "@/lib/product/auth";
 import { marketSnapshot } from "@/lib/product/market";
 import { AuthRequired } from "@/components/auth-required";
 import { PreferencesForm } from "@/components/preferences-form";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
+export const metadata = {
+  title: "Onboarding",
+  description: "Set up your FloatAlpha account.",
+  robots: PRIVATE_ROBOTS,
+};
 export default async function Onboarding() {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="market preferences" />;

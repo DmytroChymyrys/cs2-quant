@@ -23,6 +23,15 @@ import { ReleaseStageNote } from "@/components/release-stage";
 import { LandingWorkstations } from "@/components/landing-workstations";
 import "./landing.css";
 import "./asset-images.css";
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata({
+  // Next applies title.template to CHILD segments only, so the home page
+  // — which shares the root segment with the layout — carries the brand
+  // itself rather than inheriting the "%s | FloatAlpha" suffix.
+  title: "FloatAlpha — CS2 Skin Market Intelligence & Price Data",
+  description: "Observed CS2 skin prices, listing supply and market activity from Skinport, with transparent source timestamps and no fabricated history.",
+  path: "/",
+});
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const snapshot = await marketSnapshot();

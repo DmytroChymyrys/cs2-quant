@@ -10,6 +10,7 @@ import {
   Button,
   ConfidenceBadge,
 } from "@/components/ui";
+import { PRIVATE_ROBOTS } from "@/lib/seo";
 const stateGroups = [
   {
     title: "02 Data semantics, provenance & collecting states",
@@ -29,6 +30,11 @@ const stateGroups = [
     states: ["NO_RESULTS", "EMPTY", "AUTH_REQUIRED", "PRO_LOCKED"] as const,
   },
 ];
+export const metadata = {
+  title: "Component gallery",
+  description: "Internal component gallery.",
+  robots: PRIVATE_ROBOTS,
+};
 export default function Gallery() {
   if (process.env.NODE_ENV === "production") notFound();
   return (
