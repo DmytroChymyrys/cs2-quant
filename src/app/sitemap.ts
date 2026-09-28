@@ -9,16 +9,22 @@ import { readMarketDataset } from "@/lib/product/intelligence/server";
 import { assetPath } from "@/lib/asset-slug";
 
 /**
- * Cached for an hour rather than regenerated per request.
+ * Generated once per deployment and served as a static file.
  *
  * This reads the derived database, whose Neon compute scales to zero. Under
- * force-dynamic every fetch was an uncached cold read: measured at 11.97 s for
- * Googlebot against 1.85 s warm, which is far past the sitemap fetcher's
- * patience — Search Console reported "Couldn't fetch" with zero discovered
- * pages. A sitemap does not need to be real-time; hourly revalidation serves
- * it from cache and still tracks the collection cadence.
+ * force-dynamic every fetch paid that cold read — 11.97 s for Googlebot — and
+ * Search Console reported "Couldn't fetch". Hourly revalidation was better but
+ * not enough: the first request at each edge location after expiry still
+ * regenerates, and measured 7.96 s. A crawler fetches a sitemap rarely, so it
+ * is disproportionately likely to be exactly that request.
+ *
+ * Building it once removes the runtime dependency completely. The tracked
+ * universe is frozen for the duration of the experiment, so the URL list
+ * cannot drift between deployments, and lastmod still carries a real
+ * observation time rather than a generation time — just the one current when
+ * the deployment was built.
  */
-export const revalidate = 3600;
+export const dynamic = "force-static";
 
 /**
  * Production sitemap, rooted at the canonical origin.
@@ -63,7 +69,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // briefly unreadable; the static routes are still correct on their own.
   try {
     const dataset = await readMarketDataset();
-    if (dataset.error) return routeEntries(null);
+    if (dataset.error) {
+      // Now that this is built once per deployment, a failed read here ships a
+      // sitemap with no asset pages until the next deploy, instead of healing
+      // on the next revalidation. It must be visible in the build log.
+      console.error(
+        JSON.stringify({
+          event: "sitemap.assets_omitted",
+          reason: dataset.error,
+        }),
+      );
+      return routeEntries(null);
+    }
     const observedAt = dataset.freshness?.marketEvidence?.observedAt
       ? new Date(dataset.freshness.marketEvidence.observedAt)
       : null;
@@ -83,7 +100,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
       });
     return entries;
-  } catch {
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        event: "sitemap.assets_omitted",
+        reason: error instanceof Error ? error.message : "unknown",
+      }),
+    );
     return routeEntries(null);
   }
 }
