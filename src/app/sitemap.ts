@@ -1,5 +1,10 @@
 import type { MetadataRoute } from "next";
-import { INDEXABLE_ROUTES, canonicalOrigin, indexingAllowed } from "@/lib/seo";
+import {
+  CONTENT_LAST_MODIFIED,
+  INDEXABLE_ROUTES,
+  canonicalOrigin,
+  indexingAllowed,
+} from "@/lib/seo";
 import { readMarketDataset } from "@/lib/product/intelligence/server";
 
 /**
@@ -36,31 +41,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // non-production deployment nothing should be advertised for indexing.
   if (!origin || !indexingAllowed()) return [];
   const absolute = (path: string) => new URL(path, origin).toString();
-  const entries: MetadataRoute.Sitemap = INDEXABLE_ROUTES.map((route) => ({
-    url: absolute(route.path),
-    lastModified: new Date(),
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }));
+
+  /**
+   * Editorial pages report when their copy changed; market pages report when
+   * the data behind them was observed. Neither reports the build time, which
+   * would claim every page changed on every deploy.
+   */
+  const routeEntries = (marketObservedAt: Date | null): MetadataRoute.Sitemap =>
+    INDEXABLE_ROUTES.map((route) => ({
+      url: absolute(route.path),
+      lastModified:
+        route.freshness === "MARKET"
+          ? (marketObservedAt ?? CONTENT_LAST_MODIFIED)
+          : CONTENT_LAST_MODIFIED,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    }));
 
   // A sitemap must not fail the deployment because the derived database is
   // briefly unreadable; the static routes are still correct on their own.
   try {
     const dataset = await readMarketDataset();
-    if (dataset.error) return entries;
-    const observed = dataset.assets.filter((asset) => asset.median !== null);
-    const lastModified = dataset.freshness?.marketEvidence?.observedAt
+    if (dataset.error) return routeEntries(null);
+    const observedAt = dataset.freshness?.marketEvidence?.observedAt
       ? new Date(dataset.freshness.marketEvidence.observedAt)
-      : new Date();
+      : null;
+    const entries = routeEntries(observedAt);
+    const observed = dataset.assets.filter((asset) => asset.median !== null);
     for (const asset of observed)
       entries.push({
         url: absolute(`/asset/${asset.id}`),
-        lastModified,
+        lastModified: observedAt ?? CONTENT_LAST_MODIFIED,
         changeFrequency: "hourly",
         priority: 0.6,
       });
-  } catch {
     return entries;
+  } catch {
+    return routeEntries(null);
   }
-  return entries;
 }

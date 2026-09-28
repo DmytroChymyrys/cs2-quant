@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, afterEach } from "vitest";
 import { readFile } from "node:fs/promises";
 import {
+  CONTENT_LAST_MODIFIED,
   DISALLOWED_PATHS,
   INDEXABLE_ROUTES,
   PRIVATE_ROBOTS,
@@ -44,10 +45,36 @@ describe("canonical identity", () => {
 
 describe("indexing is production-only", () => {
   it("refuses to invite crawling on preview deployments", () => {
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://floatalpha.com");
     vi.stubEnv("VERCEL_ENV", "preview");
     expect(indexingAllowed()).toBe(false);
     vi.stubEnv("VERCEL_ENV", "production");
     expect(indexingAllowed()).toBe(true);
+  });
+
+  it("refuses when the resolved origin is not the canonical host", () => {
+    // VERCEL_ENV alone says where the code runs, not what origin it claims.
+    // Everything a crawler is told is built from the resolved origin, so a
+    // misconfigured site URL must fail closed rather than advertise indexing
+    // for an origin that competes with the real one.
+    vi.stubEnv("VERCEL_ENV", "production");
+    for (const wrong of [
+      "https://cs2-quant.vercel.app",
+      "http://floatalpha.com",
+      "https://staging.floatalpha.com",
+    ]) {
+      vi.stubEnv("NEXT_PUBLIC_SITE_URL", wrong);
+      expect(indexingAllowed()).toBe(false);
+    }
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://floatalpha.com");
+    expect(indexingAllowed()).toBe(true);
+  });
+
+  it("refuses when no origin resolves at all", () => {
+    vi.stubEnv("VERCEL_ENV", "production");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("VERCEL_PROJECT_PRODUCTION_URL", "");
+    expect(indexingAllowed()).toBe(false);
   });
 
   it("marks account and auth surfaces noindex", () => {
@@ -187,5 +214,32 @@ describe("robots and sitemap exist as route handlers", () => {
       "price",
     ])
       expect(source).not.toContain(`${forbidden}:`);
+  });
+});
+
+describe("lastmod reports real change, not build time", () => {
+  it("pins a stable date for editorial pages", () => {
+    // A build-time timestamp would claim the pricing copy changed on every
+    // deploy, and an unreliable lastmod is one search engines discount.
+    expect(CONTENT_LAST_MODIFIED.toISOString()).toBe(
+      "2026-09-25T00:00:00.000Z",
+    );
+    for (const path of ["/", "/pricing"])
+      expect(
+        INDEXABLE_ROUTES.find((r) => r.path === path)?.freshness,
+      ).toBe("CONTENT");
+  });
+
+  it("ties market pages to observation time", () => {
+    for (const path of ["/terminal", "/assets", "/screener"])
+      expect(INDEXABLE_ROUTES.find((r) => r.path === path)?.freshness).toBe(
+        "MARKET",
+      );
+  });
+
+  it("never stamps the sitemap with the current time", async () => {
+    const source = await readFile("src/app/sitemap.ts", "utf8");
+    const code = source.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, "");
+    expect(code).not.toContain("new Date()");
   });
 });

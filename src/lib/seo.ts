@@ -97,12 +97,24 @@ export function pageMetadata({
  * because they depend on what is actually collected.
  */
 export const INDEXABLE_ROUTES = [
-  { path: "/", priority: 1.0, changeFrequency: "daily" as const },
-  { path: "/terminal", priority: 0.9, changeFrequency: "hourly" as const },
-  { path: "/assets", priority: 0.9, changeFrequency: "hourly" as const },
-  { path: "/screener", priority: 0.8, changeFrequency: "daily" as const },
-  { path: "/pricing", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/", priority: 1.0, changeFrequency: "daily" as const, freshness: "CONTENT" as const },
+  { path: "/terminal", priority: 0.9, changeFrequency: "hourly" as const, freshness: "MARKET" as const },
+  { path: "/assets", priority: 0.9, changeFrequency: "hourly" as const, freshness: "MARKET" as const },
+  { path: "/screener", priority: 0.8, changeFrequency: "daily" as const, freshness: "MARKET" as const },
+  { path: "/pricing", priority: 0.7, changeFrequency: "monthly" as const, freshness: "CONTENT" as const },
 ];
+
+/**
+ * When the marketing copy on the editorial pages last changed materially.
+ *
+ * Pinned rather than `new Date()`. A build-time timestamp tells Google that
+ * every page changed the moment we redeployed, which is false for pages whose
+ * copy is fixed, and a `lastmod` that is obviously unreliable is one search
+ * engines learn to discount. Bump this when the home or pricing copy actually
+ * changes; market pages carry the observation timestamp instead, which is a
+ * real answer to the same question.
+ */
+export const CONTENT_LAST_MODIFIED = new Date("2026-09-25T00:00:00.000Z");
 
 /**
  * Paths a crawler should not spend budget on. Kept beside INDEXABLE_ROUTES so
@@ -123,12 +135,27 @@ export const DISALLOWED_PATHS = [
   "/reset-password",
 ];
 
+/** The only host permitted to invite indexing. */
+export const PRODUCTION_HOST = "floatalpha.com";
+
 /**
- * Production is the only environment permitted to invite indexing.
+ * Production, on the canonical host, is the only place permitted to invite
+ * indexing.
  *
- * Vercel preview deployments serve the same pages on a different hostname,
- * which is a duplicate-content source; they get a blanket noindex instead.
+ * The environment alone is not enough to decide this. VERCEL_ENV says where
+ * the code is deployed, not what origin it claims to be, and everything a
+ * crawler is told — canonical URLs, OpenGraph URLs, sitemap entries — is built
+ * from NEXT_PUBLIC_SITE_URL. If that were ever wrong, asking only about the
+ * environment would still advertise indexing while pointing at the wrong
+ * origin. So the resolved origin is checked too, and both must agree.
+ *
+ * Failing closed is the right default here: not being indexed for a deploy is
+ * recoverable, whereas indexing the wrong origin competes with the real one.
  */
 export function indexingAllowed(): boolean {
-  return process.env.VERCEL_ENV === "production" || !process.env.VERCEL_ENV;
+  const origin = canonicalOrigin();
+  if (!origin) return false;
+  if (origin.protocol !== "https:" || origin.hostname !== PRODUCTION_HOST)
+    return false;
+  return process.env.VERCEL_ENV === "production";
 }
