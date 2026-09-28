@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
 import { DISALLOWED_PATHS, canonicalOrigin, indexingAllowed } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+/**
+ * Environment-derived and therefore constant for a deployment, so this is
+ * generated once instead of on every crawler request.
+ */
+export const dynamic = "force-static";
 
 /**
  * Production robots policy.

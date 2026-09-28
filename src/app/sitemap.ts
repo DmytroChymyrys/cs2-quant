@@ -2,7 +2,17 @@ import type { MetadataRoute } from "next";
 import { INDEXABLE_ROUTES, canonicalOrigin, indexingAllowed } from "@/lib/seo";
 import { readMarketDataset } from "@/lib/product/intelligence/server";
 
-export const dynamic = "force-dynamic";
+/**
+ * Cached for an hour rather than regenerated per request.
+ *
+ * This reads the derived database, whose Neon compute scales to zero. Under
+ * force-dynamic every fetch was an uncached cold read: measured at 11.97 s for
+ * Googlebot against 1.85 s warm, which is far past the sitemap fetcher's
+ * patience — Search Console reported "Couldn't fetch" with zero discovered
+ * pages. A sitemap does not need to be real-time; hourly revalidation serves
+ * it from cache and still tracks the collection cadence.
+ */
+export const revalidate = 3600;
 
 /**
  * Production sitemap, rooted at the canonical origin.
