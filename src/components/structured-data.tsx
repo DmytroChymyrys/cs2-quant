@@ -24,9 +24,21 @@ export function StructuredData() {
       description: SITE_DESCRIPTION,
     },
     {
+      /*
+       * What Google reads to decide the site name shown above a search
+       * result — the line that otherwise reads "floatalpha.com".
+       *
+       * It only reads this from the home page, and applies it on its own
+       * re-crawl schedule, so a correct declaration here is necessary but not
+       * sufficient: the change lands when Google decides it does.
+       *
+       * alternateName is the other form people type — the brand is one word,
+       * but it gets searched spaced.
+       */
       "@type": "WebSite",
       "@id": `${base}/#website`,
       name: SITE_NAME,
+      alternateName: "Float Alpha",
       url: base,
       description: SITE_DESCRIPTION,
       publisher: { "@id": `${base}/#organization` },
