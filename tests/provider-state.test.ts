@@ -23,11 +23,19 @@ const state = (over: Partial<ProviderMarketState> = {}): ProviderMarketState => 
 
 const observed = (
   entries: Record<string, ProviderMarketState>,
-): Map<string, { marketHashName: string; version: string | null; state: ProviderMarketState }> =>
+): Map<
+  string,
+  {
+    externalAssetKey: string;
+    marketHashName: string;
+    version: string | null;
+    state: ProviderMarketState;
+  }
+> =>
   new Map(
     Object.entries(entries).map(([k, s]) => [
       k,
-      { marketHashName: k, version: null, state: s },
+      { externalAssetKey: k, marketHashName: k, version: null, state: s },
     ]),
   );
 
@@ -35,7 +43,13 @@ const known = (entries: Record<string, ProviderMarketState>): Map<string, KnownS
   new Map(
     Object.entries(entries).map(([k, s]) => [
       k,
-      { hash: stateHash(s), present: s.present, marketHashName: k, version: null },
+      {
+        hash: stateHash(s),
+        present: s.present,
+        externalAssetKey: k,
+        marketHashName: k,
+        version: null,
+      },
     ]),
   );
 
@@ -171,6 +185,7 @@ describe("disappearance is recorded as absence, never as zero", () => {
           {
             hash: stateHash(state()),
             present: true,
+            externalAssetKey: "ext-key",
             marketHashName: "★ Bayonet | Doppler (Factory New)",
             version: "Phase 2",
           },
@@ -220,6 +235,7 @@ describe("state reconstruction", () => {
             {
               hash: write.hash,
               present: write.state.present,
+              externalAssetKey: "a",
               marketHashName: "a",
               version: null,
             },
@@ -245,6 +261,82 @@ describe("state reconstruction", () => {
     });
     expect(result.created).toBe(2);
     expect(new Set(result.writes.map((w) => w.hash)).size).toBe(2);
+  });
+});
+
+describe("identity round-trips through a delta", () => {
+  it("emits the real external key, not the composite map key", () => {
+    /*
+     * The bug this pins: writes carried the map key — a JSON composite of
+     * provider, venue, external key and version — in externalAssetKey. It was
+     * then stored as the external key, so the next run rebuilt a doubly
+     * nested key, matched nothing, and re-registered all 25,000 assets while
+     * reporting every one of them as disappeared.
+     *
+     * Unit tests passed because the delta logic was correct in isolation; the
+     * defect was that the key written was not the key read back.
+     */
+    const key = JSON.stringify(["SKINPORT_DIRECT", "SKINPORT", "AK-47", null]);
+    const result = computeDeltas({
+      observed: new Map([
+        [
+          key,
+          {
+            externalAssetKey: "AK-47",
+            marketHashName: "AK-47",
+            version: null,
+            state: state(),
+          },
+        ],
+      ]),
+      known: new Map(),
+    });
+    const [write] = result.writes;
+    expect(write.externalAssetKey).toBe("AK-47");
+    expect(
+      JSON.stringify([
+        "SKINPORT_DIRECT",
+        "SKINPORT",
+        write.externalAssetKey,
+        write.version,
+      ]),
+    ).toBe(key);
+  });
+
+  it("re-reading a written delta as known state yields no further write", () => {
+    // The real regression: run 2 must be silent when nothing moved.
+    const key = JSON.stringify(["SKINPORT_DIRECT", "SKINPORT", "AK-47", null]);
+    const entry = {
+      externalAssetKey: "AK-47",
+      marketHashName: "AK-47",
+      version: null,
+      state: state(),
+    };
+    const first = computeDeltas({
+      observed: new Map([[key, entry]]),
+      known: new Map(),
+    });
+    const known = new Map(
+      first.writes.map((w) => [
+        JSON.stringify([
+          "SKINPORT_DIRECT",
+          "SKINPORT",
+          w.externalAssetKey,
+          w.version,
+        ]),
+        {
+          hash: w.hash,
+          present: w.state.present,
+          externalAssetKey: w.externalAssetKey,
+          marketHashName: w.marketHashName,
+          version: w.version,
+        },
+      ]),
+    );
+    const second = computeDeltas({ observed: new Map([[key, entry]]), known });
+    expect(second.writes).toHaveLength(0);
+    expect(second.unchanged).toBe(1);
+    expect(second.disappeared).toBe(0);
   });
 });
 

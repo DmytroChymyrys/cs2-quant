@@ -81,7 +81,12 @@ export async function collectUniverse({
   const began = now();
   const observed = new Map<
     string,
-    { marketHashName: string; version: string | null; state: ProviderMarketState }
+    {
+      externalAssetKey: string;
+      marketHashName: string;
+      version: string | null;
+      state: ProviderMarketState;
+    }
   >();
   let transformFailures = 0;
 
@@ -97,6 +102,7 @@ export async function collectUniverse({
         { runId, startedAt, observedAt },
       );
       observed.set(providerKey(PROVIDER, VENUE, name, null), {
+        externalAssetKey: name,
         marketHashName: name,
         version: null,
         state: stateOf(observation),

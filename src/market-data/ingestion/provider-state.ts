@@ -134,10 +134,12 @@ export type KnownState = {
   hash: string;
   present: boolean;
   /*
-   * Identity travels with the stored state so a disappearance can be recorded
-   * against the right asset. The map key is a composite of external key and
-   * version and is not the asset's name.
+   * Real identity travels with the stored state. The map key is a composite of
+   * provider, venue, external key and version — it is neither the asset's name
+   * nor its external key, and storing it as either round-trips a nested key
+   * that can never match on the following run.
    */
+  externalAssetKey: string;
   marketHashName: string;
   version: string | null;
 };
@@ -146,7 +148,12 @@ export type DeltaInput = {
   /** Every asset in this run's response, already normalized. */
   observed: ReadonlyMap<
     string,
-    { marketHashName: string; version: string | null; state: ProviderMarketState }
+    {
+      externalAssetKey: string;
+      marketHashName: string;
+      version: string | null;
+      state: ProviderMarketState;
+    }
   >;
   /** Current stored state, keyed identically. */
   known: ReadonlyMap<string, KnownState>;
@@ -195,7 +202,7 @@ export function computeDeltas({ observed, known }: DeltaInput): DeltaResult {
     const current = known.get(key);
     if (!current) {
       created += 1;
-      writes.push({ ...identity(key, entry), state: entry.state, hash, reason: "NEW" });
+      writes.push({ ...identity(entry), state: entry.state, hash, reason: "NEW" });
       continue;
     }
     if (current.hash === hash) {
@@ -205,7 +212,7 @@ export function computeDeltas({ observed, known }: DeltaInput): DeltaResult {
     const reason = current.present ? "CHANGED" : "REAPPEARED";
     if (reason === "REAPPEARED") reappeared += 1;
     else changed += 1;
-    writes.push({ ...identity(key, entry), state: entry.state, hash, reason });
+    writes.push({ ...identity(entry), state: entry.state, hash, reason });
   }
 
   for (const [key, current] of known) {
@@ -215,7 +222,7 @@ export function computeDeltas({ observed, known }: DeltaInput): DeltaResult {
     if (observed.has(key) || !current.present) continue;
     disappeared += 1;
     writes.push({
-      externalAssetKey: key,
+      externalAssetKey: current.externalAssetKey,
       version: current.version,
       marketHashName: current.marketHashName,
       state: ABSENT_STATE,
@@ -227,12 +234,13 @@ export function computeDeltas({ observed, known }: DeltaInput): DeltaResult {
   return { writes, unchanged, changed, disappeared, reappeared, created };
 }
 
-function identity(
-  key: string,
-  entry: { marketHashName: string; version: string | null },
-) {
+function identity(entry: {
+  externalAssetKey: string;
+  marketHashName: string;
+  version: string | null;
+}) {
   return {
-    externalAssetKey: key,
+    externalAssetKey: entry.externalAssetKey,
     version: entry.version,
     marketHashName: entry.marketHashName,
   };

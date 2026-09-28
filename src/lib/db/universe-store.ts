@@ -83,6 +83,7 @@ export function universeStore(db = database()) {
           {
             hash: row.state_hash,
             present: row.present,
+            externalAssetKey: row.external_asset_key,
             marketHashName: row.market_hash_name,
             version: row.version,
           },

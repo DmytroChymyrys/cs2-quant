@@ -49,13 +49,14 @@ describe("stream isolation is structural, not only guarded", () => {
     }
   });
 
-  it("market owns exactly the five market migrations", async () => {
+  it("market owns exactly the six market migrations", async () => {
     expect(await journalTags("market")).toEqual([
       "0000_initial_market_snapshots",
       "0001_protect_observation_history",
       "0006_history_payload_dedup",
       "0007_observation_rollups",
       "0008_provider_universe_state",
+      "0009_provider_identity_nulls",
     ]);
   });
 

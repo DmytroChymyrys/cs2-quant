@@ -65,6 +65,7 @@ describe("fresh co-located bootstrap in the documented order", () => {
       "0006_history_payload_dedup",
       "0007_observation_rollups",
       "0008_provider_universe_state",
+      "0009_provider_identity_nulls",
     ]);
     expect(applied.product).toEqual([
       "0002_product_accounts_monitoring_billing",
@@ -95,7 +96,7 @@ describe("fresh co-located bootstrap in the documented order", () => {
     const market = await db.query<{ n: number }>(
       "select count(*)::int as n from drizzle.__drizzle_migrations",
     );
-    expect(market.rows[0].n).toBe(5);
+    expect(market.rows[0].n).toBe(6);
   });
 
   it("protects provider state history as append-only", async () => {
