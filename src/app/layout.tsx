@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "FloatAlpha — CS2 Skin Market Intelligence & Price Data",
     description: SITE_DESCRIPTION,
   },

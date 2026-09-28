@@ -84,7 +84,9 @@ export function pageMetadata({
       siteName: SITE_NAME,
       type: "website",
     },
-    twitter: { card: "summary", title, description },
+    // summary_large_image because app/opengraph-image.tsx supplies a
+    // 1200x630 card; "summary" would crop it to a thumbnail.
+    twitter: { card: "summary_large_image", title, description },
     ...(robots ? { robots } : {}),
   };
 }

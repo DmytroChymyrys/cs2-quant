@@ -119,6 +119,44 @@ describe("analytics stays production-safe", () => {
   });
 });
 
+describe("brand icons and social card exist", () => {
+  it("defines every icon surface a browser and a crawler look for", async () => {
+    // Their absence showed as a blank browser tab, and Google renders a
+    // favicon beside mobile search results, so it cost a listing cue too.
+    for (const file of [
+      "src/app/icon.tsx",
+      "src/app/apple-icon.tsx",
+      "src/app/opengraph-image.tsx",
+      "src/app/manifest.ts",
+    ])
+      expect((await readFile(file, "utf8")).length).toBeGreaterThan(0);
+  });
+
+  it("sizes each one for its surface", async () => {
+    const icon = await readFile("src/app/icon.tsx", "utf8");
+    expect(icon).toContain("width: 32, height: 32");
+    const apple = await readFile("src/app/apple-icon.tsx", "utf8");
+    expect(apple).toContain("width: 180, height: 180");
+    const og = await readFile("src/app/opengraph-image.tsx", "utf8");
+    expect(og).toContain("width: 1200, height: 630");
+  });
+
+  it("uses the large card format now that an image backs it", async () => {
+    // "summary" would crop a 1200x630 card to a thumbnail.
+    const seo = await readFile("src/lib/seo.ts", "utf8");
+    expect(seo).toContain('card: "summary_large_image"');
+    const layout = await readFile("src/app/layout.tsx", "utf8");
+    expect(layout).toContain('card: "summary_large_image"');
+  });
+
+  it("claims nothing in the manifest that is not true", async () => {
+    const manifest = await readFile("src/app/manifest.ts", "utf8");
+    // FloatAlpha registers no service worker and has no offline behaviour.
+    expect(manifest).toContain('display: "browser"');
+    expect(manifest).not.toContain("standalone");
+  });
+});
+
 describe("Search Console verification is configurable, never hardcoded", () => {
   it("reads the token from the environment", async () => {
     const seo = await readFile("src/lib/seo.ts", "utf8");
