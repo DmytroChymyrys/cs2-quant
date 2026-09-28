@@ -6,6 +6,7 @@ import type { MarketAsset } from "@/lib/product/market";
 import { ConditionBuilder } from "./personal-forms";
 import { Button, DataState } from "./ui";
 import { money, integer } from "@/lib/product/format";
+import { assetPath } from "@/lib/asset-slug";
 export function AdvancedScreener() {
   const [conditions, setConditions] = useState<Condition[]>([
       { metric: "quantity", operator: "lt", threshold: "10" },
@@ -136,7 +137,7 @@ export function AdvancedScreener() {
                 {assets.map((a) => (
                   <tr key={a.id}>
                     <td>
-                      <Link href={`/asset/${a.id}`}>{a.name}</Link>
+                      <Link href={assetPath(a.name, a.id)}>{a.name}</Link>
                     </td>
                     <td className="number">{money(a.median)}</td>
                     <td className="number">{integer(a.quantity)}</td>

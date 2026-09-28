@@ -20,6 +20,7 @@ import { AuthRequired } from "@/components/auth-required";
 import { AlertForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
+import { assetPath } from "@/lib/asset-slug";
 export const metadata = {
   title: "Alerts",
   description: "Your condition alerts.",
@@ -177,7 +178,13 @@ export default async function Alerts({
                         <Link href={`/alerts?rule=${r.id}`}>{r.name}</Link>
                       </td>
                       <td>
-                        <Link href={`/asset/${r.assetId}`}>
+                        <Link
+                          href={assetPath(
+                            snapshot.assets.find((a) => a.id === r.assetId)
+                              ?.name ?? "",
+                            r.assetId,
+                          )}
+                        >
                           {snapshot.assets.find((a) => a.id === r.assetId)
                             ?.name ?? "Asset unavailable"}
                         </Link>
@@ -326,7 +333,13 @@ export default async function Alerts({
                   substituted for stored evaluation results.
                 </p>
               </div>
-              <LinkButton href={`/asset/${rule.assetId}`} primary>
+              <LinkButton
+                href={assetPath(
+                  snapshot.assets.find((a) => a.id === rule.assetId)?.name ?? "",
+                  rule.assetId,
+                )}
+                primary
+              >
                 OPEN ASSET INTELLIGENCE ↗
               </LinkButton>
               <div className="row">

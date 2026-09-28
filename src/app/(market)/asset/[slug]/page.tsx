@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { currentUser } from "@/lib/product/auth";
 import { entitlements, capabilities } from "@/lib/product/entitlements";
 import {
@@ -24,6 +24,11 @@ import { marketStory } from "@/lib/product/intelligence/presentation";
 import type { Metadata } from "next";
 import { PRIVATE_ROBOTS, pageMetadata } from "@/lib/seo";
 import { TrackEvent } from "@/components/track-event";
+import {
+  assetPath,
+  assetSlug,
+  resolveAssetSegment,
+} from "@/lib/asset-slug";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -48,22 +53,22 @@ export const maxDuration = 30;
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
-  if (!/^[a-f0-9-]{36}$/i.test(id))
-    return { title: "Asset", robots: PRIVATE_ROBOTS };
+  const { slug } = await params;
   // readMarketDataset is request-cached, so this shares the page's read.
   const dataset = await readMarketDataset();
   const asset = dataset.error
-    ? undefined
-    : dataset.assets.find((a) => a.id === id);
+    ? null
+    : resolveAssetSegment(slug, dataset.assets);
   if (!asset || asset.median === null)
     return { title: "Asset", robots: PRIVATE_ROBOTS };
+  // The canonical is the asset's current slug, never the requested spelling:
+  // a legacy UUID URL or an outdated slug must point at the one real URL.
   return pageMetadata({
     title: `${asset.name} Price & Market Data`,
     description: `Observed Skinport listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
-    path: `/asset/${id}`,
+    path: assetPath(asset.name, asset.id),
   });
 }
 
@@ -71,15 +76,33 @@ export default async function Asset({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const { id } = await params;
-  if (!/^[a-f0-9-]{36}$/i.test(id)) notFound();
+  const { slug } = await params;
   const p = await searchParams,
     dataset = await readMarketDataset();
   if (dataset.error)
     return <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />;
+  const resolved = resolveAssetSegment(slug, dataset.assets);
+  if (!resolved) notFound();
+  const id = resolved.id;
+  /*
+   * One asset, one URL.
+   *
+   * Legacy UUID URLs are already indexed — they were the only form this page
+   * had, and 99 of them were submitted to Search Console — so they redirect
+   * permanently rather than 404. An outdated slug, from a rename or a shared
+   * link, redirects the same way. The query string is preserved so a shared
+   * ?horizon= link survives the hop.
+   */
+  const canonicalSlug = assetSlug(resolved.name, resolved.id);
+  if (slug !== canonicalSlug) {
+    const query = new URLSearchParams(
+      Object.entries(p).filter((e): e is [string, string] => e[1] !== undefined),
+    ).toString();
+    permanentRedirect(`/asset/${canonicalSlug}${query ? `?${query}` : ""}`);
+  }
   const user = await currentUser(),
     caps = user ? await entitlements(user.app.id) : capabilities(false);
   // Presentation default only. No derived calculation or research semantic
@@ -201,7 +224,7 @@ export default async function Asset({
                 <Link
                   key={x}
                   className={h === x ? "active" : ""}
-                  href={`/asset/${id}?horizon=${x}`}
+                  href={`/asset/${canonicalSlug}?horizon=${x}`}
                 >
                   {x.toUpperCase()}
                 </Link>

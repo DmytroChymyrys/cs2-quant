@@ -16,6 +16,7 @@ import {
 } from "./ui";
 import { ObservationChart } from "./observation-chart";
 import { WatchButton } from "./watch-button";
+import { assetPath } from "@/lib/asset-slug";
 export async function AssetInspection({
   asset,
   children,
@@ -102,7 +103,7 @@ export async function AssetInspection({
         </div>
         {children}
         <div className="inspection-actions">
-          <LinkButton href={`/asset/${asset.id}`} primary>
+          <LinkButton href={assetPath(asset.name, asset.id)} primary>
             OPEN ASSET INTELLIGENCE ↗
           </LinkButton>
           <WatchButton assetId={asset.id} authenticated={Boolean(user)} />

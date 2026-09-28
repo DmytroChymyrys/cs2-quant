@@ -241,7 +241,7 @@ describe("pages outlive the query they wait on", () => {
       "src/app/(market)/terminal/page.tsx",
       "src/app/(market)/screener/page.tsx",
       "src/app/(market)/assets/page.tsx",
-      "src/app/(market)/asset/[id]/page.tsx",
+      "src/app/(market)/asset/[slug]/page.tsx",
       "src/app/(market)/portfolio/page.tsx",
       "src/app/(market)/watchlist/page.tsx",
     ]) {

@@ -26,6 +26,7 @@ import {
 } from "@/lib/product/intelligence/screener";
 import { displayed } from "@/lib/product/intelligence/contract";
 import { pageMetadata } from "@/lib/seo";
+import { assetPath } from "@/lib/asset-slug";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -266,7 +267,7 @@ export default async function Terminal({
                 />
               )}
               {focus && (
-                <Link className="chart-caption" href={`/asset/${focus.id}`}>
+                <Link className="chart-caption" href={assetPath(focus.name, focus.id)}>
                   Open Asset Intelligence ↗
                 </Link>
               )}

@@ -6,6 +6,7 @@ import {
   indexingAllowed,
 } from "@/lib/seo";
 import { readMarketDataset } from "@/lib/product/intelligence/server";
+import { assetPath } from "@/lib/asset-slug";
 
 /**
  * Cached for an hour rather than regenerated per request.
@@ -70,8 +71,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const observed = dataset.assets.filter((asset) => asset.median !== null);
     for (const asset of observed)
       entries.push({
-        url: absolute(`/asset/${asset.id}`),
-        lastModified: observedAt ?? CONTENT_LAST_MODIFIED,
+        url: absolute(assetPath(asset.name, asset.id)),
+        // This asset's own last observation, not the dataset's newest and not
+        // the build time. Each asset is updated when it is actually observed,
+        // so a shared timestamp would tell Google that all 99 changed together
+        // whenever any one of them did.
+        lastModified: asset.quality.observedAt
+          ? new Date(asset.quality.observedAt)
+          : (observedAt ?? CONTENT_LAST_MODIFIED),
         changeFrequency: "hourly",
         priority: 0.6,
       });

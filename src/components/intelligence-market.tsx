@@ -37,6 +37,7 @@ import {
   THRESHOLD_BASIS,
   type Screen,
 } from "@/lib/product/intelligence/screener";
+import { assetPath } from "@/lib/asset-slug";
 export const marketValue = (
   v: string | number | null | undefined,
   suffix = "",
@@ -391,7 +392,7 @@ export function IntelligenceTable({
               >
                 <td>
                   <Link
-                    href={`/asset/${a.id}`}
+                    href={assetPath(a.name, a.id)}
                     className="asset-name"
                     title={a.name}
                   >
@@ -596,7 +597,7 @@ export function IntelligenceInspection({
           </details>
         </div>
         <div className="inspection-chart">
-          <Link className="btn primary" href={`/asset/${a.id}`}>
+          <Link className="btn primary" href={assetPath(a.name, a.id)}>
             Open Asset Intelligence ↗
           </Link>
         </div>

@@ -4,6 +4,7 @@ import { Box, ChevronRight } from "lucide-react";
 import { type MarketAsset, categoryNames } from "@/lib/product/market";
 import { money, integer, percent, timestamp } from "@/lib/product/format";
 import { ConfidenceBadge, DataState, SemanticBadge } from "./ui";
+import { assetPath } from "@/lib/asset-slug";
 export function MarketTable({
   assets,
   compact = false,
@@ -49,7 +50,7 @@ export function MarketTable({
                     <Box size={16} />
                   </span>
                   <div>
-                    <Link className="asset-name" href={`/asset/${a.id}`}>
+                    <Link className="asset-name" href={assetPath(a.name, a.id)}>
                       {!compact && (
                         <AssetImage name={a.name} media={a.catalog?.media} />
                       )}

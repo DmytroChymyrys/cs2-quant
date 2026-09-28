@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type MarketAsset, categoryNames } from "@/lib/product/market";
 import { integer, money, percent } from "@/lib/product/format";
 import { ConfidenceBadge, SemanticBadge } from "./ui";
+import { assetPath } from "@/lib/asset-slug";
 export function TerminalMonitor({
   assets,
   kind,
@@ -43,7 +44,7 @@ export function TerminalMonitor({
             return (
               <tr key={a.id}>
                 <td>
-                  <Link className="asset-name" href={`/asset/${a.id}`}>
+                  <Link className="asset-name" href={assetPath(a.name, a.id)}>
                     {a.name}
                   </Link>
                   <small>{categoryNames[a.category ?? ""]}</small>

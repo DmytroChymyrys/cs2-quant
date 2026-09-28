@@ -33,6 +33,7 @@ import { HoldingForm } from "@/components/personal-forms";
 import { MutationButton } from "@/components/product-actions";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
 import { TrackEvent } from "@/components/track-event";
+import { assetPath } from "@/lib/asset-slug";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -201,7 +202,7 @@ export default async function Portfolio({
                           <td>
                             <Link
                               className="asset-name"
-                              href={`/asset/${r.assetId}`}
+                              href={assetPath(r.asset?.name ?? "", r.assetId)}
                             >
                               {r.asset && (
                                 <AssetImage

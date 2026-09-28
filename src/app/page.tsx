@@ -24,6 +24,7 @@ import { LandingWorkstations } from "@/components/landing-workstations";
 import "./landing.css";
 import "./asset-images.css";
 import { pageMetadata } from "@/lib/seo";
+import { assetPath } from "@/lib/asset-slug";
 export const metadata = pageMetadata({
   // Next applies title.template to CHILD segments only, so the home page
   // — which shares the root segment with the layout — carries the brand
@@ -236,7 +237,7 @@ export default async function Home() {
                 </div>
                 <div className="lp-workflow-body">
                   <h3>
-                    <Link href={asset ? `/asset/${asset.id}` : "/assets"}>
+                    <Link href={asset ? assetPath(asset.name, asset.id) : "/assets"}>
                       Understand the asset
                     </Link>
                   </h3>
