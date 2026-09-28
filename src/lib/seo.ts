@@ -135,6 +135,22 @@ export const DISALLOWED_PATHS = [
   "/reset-password",
 ];
 
+/**
+ * Google Search Console verification token, supplied by the environment.
+ *
+ * Only needed for the HTML-tag verification method. A Domain property is
+ * verified by DNS TXT record instead and needs nothing here — that is the
+ * stronger option, because it covers every subdomain and both protocols at
+ * once. This exists so the tag method is available without a code change if
+ * DNS is inconvenient.
+ *
+ * Never hardcoded: the token identifies the account that controls the
+ * property, so it belongs with the other production configuration.
+ */
+export function googleSiteVerification(): string | undefined {
+  return process.env.GOOGLE_SITE_VERIFICATION?.trim() || undefined;
+}
+
 /** The only host permitted to invite indexing. */
 export const PRODUCTION_HOST = "floatalpha.com";
 

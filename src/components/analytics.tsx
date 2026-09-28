@@ -1,4 +1,5 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { AnalyticsConsent } from "./analytics-consent";
 import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/ga";
 
 /**
@@ -17,5 +18,11 @@ import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/ga";
  */
 export function Analytics() {
   if (!analyticsEnabled() || !GA_MEASUREMENT_ID) return null;
-  return <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />;
+  return (
+    <>
+      {/* Consent defaults must be in the dataLayer before gtag config runs. */}
+      <AnalyticsConsent />
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+    </>
+  );
 }

@@ -24,6 +24,11 @@ export type AnalyticsEvent =
   /** Result count only. The query string itself is never sent. */
   | { name: "search_used"; params: { result_count: number } }
   | { name: "watchlist_add"; params: { asset_id: string } }
+  /** Category landing pages. Identifies the category, never the visitor. */
+  | {
+      name: "category_viewed";
+      params: { category: string; asset_count: number };
+    }
   | { name: "portfolio_opened"; params?: Record<string, never> }
   | { name: "pricing_viewed"; params?: Record<string, never> }
   | { name: "preview_signup_started"; params: { method: "google" | "email" } };

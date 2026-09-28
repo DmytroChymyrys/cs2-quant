@@ -20,6 +20,7 @@ import {
 } from "@/lib/seo-categories";
 import { PRIVATE_ROBOTS, canonicalOrigin, pageMetadata } from "@/lib/seo";
 import { assetPath } from "@/lib/asset-slug";
+import { TrackEvent } from "@/components/track-event";
 
 export const maxDuration = 30;
 
@@ -85,6 +86,13 @@ export default async function Category({
         <Link href="/cs2-skins">CS2 Skins</Link> ·{" "}
         <span>{seo.h1.replace(" Market Data", "")}</span>
       </nav>
+      <TrackEvent
+        event={{
+          name: "category_viewed",
+          params: { category, asset_count: assets.length },
+        }}
+        eventKey={`category:${category}`}
+      />
       <PageHeading
         eyebrow="CS2 skins · Observed market data"
         title={seo.h1}

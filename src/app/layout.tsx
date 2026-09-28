@@ -6,6 +6,7 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   canonicalOrigin,
+  googleSiteVerification,
   indexingAllowed,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
@@ -37,6 +38,13 @@ export const metadata: Metadata = {
     title: "FloatAlpha — CS2 Skin Market Intelligence & Price Data",
     description: SITE_DESCRIPTION,
   },
+  // Search Console HTML-tag verification. Emitted only when a token is
+  // configured; absent otherwise, rather than an empty tag that would fail
+  // verification confusingly. A Domain property verifies by DNS instead and
+  // needs nothing here.
+  ...(googleSiteVerification()
+    ? { verification: { google: googleSiteVerification() } }
+    : {}),
   // Preview deployments serve the same pages on a different hostname. Letting
   // them be indexed would compete with the branded origin, so only production
   // invites crawling.
