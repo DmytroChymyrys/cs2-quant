@@ -20,6 +20,7 @@ const links = [
   ["Terminal", "/terminal"],
   ["Screener", "/screener"],
   ["Assets", "/assets"],
+  ["CS2 Skins", "/cs2-skins"],
   ["Watchlist", "/watchlist"],
   ["Portfolio", "/portfolio"],
   ["Alerts", "/alerts"],
@@ -220,6 +221,7 @@ export function PublicFooter() {
         <h3>Data & methodology</h3>
         <Link href="/#data">Data transparency</Link>
         <Link href="/assets">Tracked universe</Link>
+        <Link href="/cs2-skins">CS2 skins by category</Link>
         <Link href="/pricing">Free / Pro capabilities</Link>
       </div>
       <div>

@@ -24,6 +24,7 @@ import { marketStory } from "@/lib/product/intelligence/presentation";
 import type { Metadata } from "next";
 import { PRIVATE_ROBOTS, pageMetadata } from "@/lib/seo";
 import { TrackEvent } from "@/components/track-event";
+import { CATEGORY_SEO, categoryPath } from "@/lib/seo-categories";
 import {
   assetPath,
   assetSlug,
@@ -66,7 +67,7 @@ export async function generateMetadata({
   // The canonical is the asset's current slug, never the requested spelling:
   // a legacy UUID URL or an outdated slug must point at the one real URL.
   return pageMetadata({
-    title: `${asset.name} Price & Market Data`,
+    title: `${asset.name} Price, History & Market Data`,
     description: `Observed Skinport listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
     path: assetPath(asset.name, asset.id),
   });
@@ -130,11 +131,20 @@ export default async function Asset({
         }}
         eventKey={`asset:${a.id}`}
       />
+      {a.identity?.category && CATEGORY_SEO[a.identity.category] ? (
+        <nav aria-label="Breadcrumb" className="muted">
+          <Link href="/cs2-skins">CS2 Skins</Link>{" "}
+          ·{" "}
+          <Link href={categoryPath(a.identity.category)}>
+            {CATEGORY_SEO[a.identity.category].h1.replace(" Market Data", "")}
+          </Link>
+        </nav>
+      ) : null}
       <div className="asset-top">
         <AssetImage name={a.name} media={a.artwork} large />
         <PageHeading
           eyebrow="Asset intelligence · Listing references"
-          title={a.name}
+          title={`${a.name} CS2 Market Data`}
           description={
             dataset.evidence === "SYNTHETIC"
               ? "Simulated listing prices, activity and data quality."

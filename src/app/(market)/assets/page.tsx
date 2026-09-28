@@ -38,8 +38,8 @@ export default async function Assets({
     <div className="data-workstation explorer-workstation">
       <PageHeading
         eyebrow="Asset directory"
-        title="Assets explorer"
-        description="The tracked research universe, observed listing references and data quality."
+        title="CS2 Skin Prices & Listing Supply"
+        description="Every asset in the tracked research universe, with its observed listing price, available supply and data quality. Each figure is a recorded observation carrying a source timestamp."
       />
       <EvidenceNotice dataset={dataset} />
       <MarketCategoryTabs

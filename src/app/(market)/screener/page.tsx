@@ -75,7 +75,7 @@ export default async function Screener({
       ) : null}
       <PageHeading
         eyebrow="Descriptive market research"
-        title="Screener"
+        title="CS2 Skin Market Screener — Trends, Gainers & Losers"
         description="Filter observed prices, listings and market activity."
       />
       <EvidenceNotice dataset={dataset} />

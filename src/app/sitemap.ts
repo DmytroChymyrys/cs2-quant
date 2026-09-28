@@ -7,6 +7,7 @@ import {
 } from "@/lib/seo";
 import { readMarketDataset } from "@/lib/product/intelligence/server";
 import { assetPath } from "@/lib/asset-slug";
+import { categoryPath, indexableCategories } from "@/lib/seo-categories";
 
 /**
  * Generated once per deployment and served as a static file.
@@ -85,6 +86,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? new Date(dataset.freshness.marketEvidence.observedAt)
       : null;
     const entries = routeEntries(observedAt);
+    // Category pages, only while they clear the substantive-content threshold.
+    // Driven by the data, so a category that shrinks stops being advertised
+    // rather than becoming a thin indexed page.
+    entries.push({
+      url: absolute("/cs2-skins"),
+      lastModified: observedAt ?? CONTENT_LAST_MODIFIED,
+      changeFrequency: "daily",
+      priority: 0.8,
+    });
+    for (const category of indexableCategories(dataset.assets))
+      entries.push({
+        url: absolute(categoryPath(category.category)),
+        lastModified: observedAt ?? CONTENT_LAST_MODIFIED,
+        changeFrequency: "daily",
+        priority: 0.7,
+      });
     const observed = dataset.assets.filter((asset) => asset.median !== null);
     for (const asset of observed)
       entries.push({

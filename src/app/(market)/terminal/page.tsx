@@ -87,7 +87,7 @@ export default async function Terminal({
   return (
     <div className="terminal terminal-desk terminal-restored">
       <PageHeading
-        title="Terminal"
+        title="CS2 Skin Market Overview"
         eyebrow="Tracked market research"
         description={
           dataset.evidence === "SYNTHETIC"
