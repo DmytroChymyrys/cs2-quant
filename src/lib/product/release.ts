@@ -45,7 +45,7 @@ export const PREVIEW_COPY = {
   offer: "FREE during Preview",
   summary: "Full access to FloatAlpha Pro features during early access.",
   invitation:
-    "Join FloatAlpha during Preview and get full access while we continue expanding market coverage, historical depth and intelligence features.",
+    "Join FloatAlpha during Preview and explore the complete intelligence experience while we expand market coverage and historical depth.",
   stage:
     "Real CS2 market intelligence powered by live market data. Historical coverage and features are continuing to expand.",
 } as const;

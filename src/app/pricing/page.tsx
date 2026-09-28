@@ -10,7 +10,6 @@ import {
 import { money } from "@/lib/product/format";
 import Decimal from "@/lib/product/decimal";
 import {
-  PLANNED_PRO_MONTHLY_USD,
   PREVIEW_COPY,
   previewAccessActive,
 } from "@/lib/product/release";
@@ -45,8 +44,7 @@ export default async function Pricing() {
             {previewAccessActive() && (
               <p className="muted">
                 {PREVIEW_COPY.label} — Pro features are open to everyone while
-                we continue expanding coverage. The price above is what Pro will
-                cost once Preview ends.
+                we continue expanding coverage.
               </p>
             )}
           </div>
@@ -94,17 +92,16 @@ export default async function Pricing() {
                 <p className="eyebrow">BILLING SANDBOX · No real charges</p>
               )}
               {previewAccessActive() ? (
-                /* Preview: the planned price is shown struck through so the
-                   value being given away is legible, and no checkout is
-                   rendered at all — there is nothing to click, not a disabled
-                   button. */
+                /* Preview shows no price at all, struck through or otherwise.
+                   A crossed-out figure reads as "a $14.99 product, temporarily
+                   given away", which anchors expectations to a monetization
+                   model we have not validated — subscription, freemium,
+                   affiliate and API access are all still open. The planned
+                   price stays in release.ts for when that decision is made.
+
+                   No checkout is rendered either: there is nothing to click,
+                   not a disabled button. */
                 <div className="stack preview-offer">
-                  <div className="price">
-                    <s className="muted planned-price">
-                      ${PLANNED_PRO_MONTHLY_USD}
-                      <small style={{ fontSize: 12 }}> / month</small>
-                    </s>
-                  </div>
                   <div className="price cyan">{PREVIEW_COPY.offer}</div>
                   <p className="muted">{PREVIEW_COPY.summary}</p>
                   <p className="muted">{PREVIEW_COPY.invitation}</p>

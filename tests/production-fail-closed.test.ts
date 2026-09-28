@@ -122,7 +122,9 @@ describe("Stripe is inert in production", () => {
 });
 
 describe("the Preview offer", () => {
-  it("shows the planned Pro price, and it is 14.99 not 15.99", () => {
+  it("keeps the planned Pro price recorded but unpublished", () => {
+    // Retained for when the monetization model is decided. It is deliberately
+    // not rendered: see the Preview card test below.
     expect(PLANNED_PRO_MONTHLY_USD).toBe("14.99");
     expect(PLANNED_PRO_MONTHLY_USD).not.toBe("15.99");
   });
@@ -156,16 +158,29 @@ describe("the Preview offer", () => {
     expect(copy).toContain("during preview");
   });
 
-  it("renders no checkout control while Preview is active", async () => {
+  it("renders no checkout control and no price while Preview is active", async () => {
     const { readFile } = await import("node:fs/promises");
     const src = await readFile("src/app/pricing/page.tsx", "utf8");
+    // Scoped to the Pro card's branch: the first previewAccessActive() on the
+    // page is the banner, and slicing from there sweeps in the Free card's
+    // "$0 / month".
+    const proBranchEnd = src.indexOf(") : prices.length ? (");
     const preview = src.slice(
-      src.indexOf("previewAccessActive() ? ("),
-      src.indexOf(") : prices.length ? ("),
+      src.lastIndexOf("previewAccessActive() ? (", proBranchEnd),
+      proBranchEnd,
     );
     // Not a disabled button: no checkout element exists on the Preview path.
     expect(preview).not.toContain("CheckoutButton");
-    expect(preview).toContain("PLANNED_PRO_MONTHLY_USD");
+    /*
+     * And no price, struck through or otherwise. A crossed-out figure reads
+     * as "a $14.99 product temporarily given away", anchoring users to a
+     * monetization model that has not been validated — subscription,
+     * freemium, affiliate and API access are all still open questions.
+     */
+    const code = preview.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, "");
+    expect(code).not.toContain("PLANNED_PRO_MONTHLY_USD");
+    expect(code).not.toContain("<s ");
+    expect(code).not.toContain("/ month");
   });
 });
 
