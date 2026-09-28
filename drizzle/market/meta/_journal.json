@@ -29,6 +29,13 @@
       "when": 1789658020000,
       "tag": "0007_observation_rollups",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789658021000,
+      "tag": "0008_provider_universe_state",
+      "breakpoints": true
     }
   ]
 }

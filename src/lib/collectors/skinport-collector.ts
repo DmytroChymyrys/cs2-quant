@@ -8,6 +8,8 @@ import { prepareSkinport, skinportProvenance } from '../../market-data/transform
 import { identityResolver, trackedSkinportMappings } from '../../market-data/ingestion/identity-resolver';
 import { ingestObservation } from '../../market-data/ingestion/ingestion.service';
 import { toSkinportObservation } from '../../market-data/ingestion/observation-writer';
+import { collectUniverse, universeCollectionEnabled } from './universe-collection';
+import { universeStore as universe_store } from '../db/universe-store';
 export async function collectSkinport(store: CollectorStore, client = skinportClient(), now = () => new Date()) {
   const startedAt = now();
   const id = randomUUID();
@@ -79,6 +81,36 @@ export async function collectSkinport(store: CollectorStore, client = skinportCl
       errorCode: partial ? (!tracked.length ? 'NO_TRACKED_ASSETS' : 'INCOMPLETE_COVERAGE') : null,
       errorMessage: partial ? 'See metadata for absent items or history; configure tracked assets if empty.' : null } satisfies Partial<Run>;
     await store.finish(id, finish, rows);
+    /*
+     * Full-universe accumulation, after the tracked path is committed.
+     *
+     * Deliberately isolated: it issues no upstream request (the complete
+     * response is already in memory), and any failure is logged and swallowed
+     * so it can never fail the run that feeds listing-features-v3. Broad
+     * accumulation must not put the existing intelligence pipeline at risk.
+     */
+    if (universeCollectionEnabled()) {
+      try {
+        const fetched = metadata.itemsFetch as
+          | { bodySha256?: string; responseBytes?: number }
+          | undefined;
+        const universe = await collectUniverse({
+          store: universe_store(),
+          items,
+          transformer: source.transformer,
+          runId: id,
+          startedAt,
+          observedAt,
+          responseSha256: fetched?.bodySha256 ?? null,
+          responseBytes: fetched?.responseBytes ?? null,
+        });
+        log('collector.universe', universe);
+      } catch (error) {
+        log('collector.universe_failed', {
+          errorCode: error instanceof MarketSourceError ? error.sourceCode : 'UNIVERSE_PERSISTENCE_ERROR',
+        });
+      }
+    }
     const timing = await completeTiming();
     log('collector.end', { ...finish, ...timing });
     return { collectorRunId: id, ...finish, ...timing, metadata: undefined };

@@ -64,6 +64,7 @@ describe("fresh co-located bootstrap in the documented order", () => {
       "0001_protect_observation_history",
       "0006_history_payload_dedup",
       "0007_observation_rollups",
+      "0008_provider_universe_state",
     ]);
     expect(applied.product).toEqual([
       "0002_product_accounts_monitoring_billing",
@@ -94,7 +95,53 @@ describe("fresh co-located bootstrap in the documented order", () => {
     const market = await db.query<{ n: number }>(
       "select count(*)::int as n from drizzle.__drizzle_migrations",
     );
-    expect(market.rows[0].n).toBe(4);
+    expect(market.rows[0].n).toBe(5);
+  });
+
+  it("protects provider state history as append-only", async () => {
+    // History is evidence. It matches the protection already on
+    // market_observations: a delta that could be rewritten is not a record of
+    // what was observed.
+    const run = "11111111-1111-1111-1111-111111111111";
+    await db.query(
+      "insert into collector_runs(id,source,window_start,started_at) values($1,'SKINPORT',now(),now())",
+      [run],
+    );
+    await db.query(
+      `insert into provider_assets(provider,venue,external_asset_key,market_hash_name,first_seen_run_id)
+       values('SKINPORT_DIRECT','SKINPORT','AK','AK',$1)`,
+      [run],
+    );
+    const { rows } = await db.query<{ id: string }>(
+      "select id from provider_assets limit 1",
+    );
+    await db.query(
+      `insert into provider_asset_state_history
+         (provider_asset_id,state_hash,present,observed_at,collector_run_id)
+       values($1,'hash',true,now(),$2)`,
+      [rows[0].id, run],
+    );
+    await expect(
+      db.query("update provider_asset_state_history set state_hash='x'"),
+    ).rejects.toThrow("append-only");
+    await expect(
+      db.query("delete from provider_asset_state_history"),
+    ).rejects.toThrow("append-only");
+  });
+
+  it("links provider state to the run that produced it", async () => {
+    const { rows } = await db.query<{ on_table: string; references_table: string }>(
+      `select conrelid::regclass::text as on_table,
+              confrelid::regclass::text as references_table
+         from pg_constraint where contype='f'
+          and conrelid::regclass::text like 'provider_%'`,
+    );
+    const pairs = rows.map((r) => `${r.on_table}->${r.references_table}`);
+    // Delta rows reference the run rather than duplicating its provenance.
+    expect(pairs).toContain("provider_asset_state_history->collector_runs");
+    expect(pairs).toContain("provider_collection_runs->collector_runs");
+    // Provider identity may resolve to a FloatAlpha asset, and need not.
+    expect(pairs).toContain("provider_assets->assets");
   });
 
   it("keeps the cross-family foreign keys intact", async () => {

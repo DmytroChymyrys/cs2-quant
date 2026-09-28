@@ -37,6 +37,12 @@ const MARKET_TABLES = [
   "market_observation_history",
   "market_observations_hourly",
   "market_observations_daily",
+  // Full-universe provider collection. Market family: they are collector
+  // evidence, written by the same runs and referencing collector_runs.
+  "provider_assets",
+  "provider_asset_state",
+  "provider_asset_state_history",
+  "provider_collection_runs",
 ] as const;
 
 const PRODUCT_TABLES = [
