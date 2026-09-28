@@ -285,6 +285,51 @@ export function IntelligenceFilters({
           </label>
         </div>
       </details>
+      {/*
+        CS2-native dimensions, in their own disclosure beside the numeric one
+        so the default filter row stays as short as it was. These read
+        MarketIdentity, which every summary already carries.
+      */}
+      <details>
+        <summary>CS2 asset filters</summary>
+        <div className="filters">
+          <label>
+            Weapon or item
+            <input
+              className="input"
+              type="text"
+              name="weapon"
+              placeholder="AK-47, AWP, Sticker…"
+              defaultValue={s.weapon}
+            />
+          </label>
+          <label>
+            Wear
+            <select name="exterior" defaultValue={s.exterior}>
+              <option value="">Any</option>
+              {[
+                "Factory New",
+                "Minimal Wear",
+                "Field-Tested",
+                "Well-Worn",
+                "Battle-Scarred",
+              ].map((wear) => (
+                <option key={wear} value={wear}>
+                  {wear}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Variant
+            <select name="variant" defaultValue={s.variant}>
+              <option value="">Any</option>
+              <option value="StatTrak™">StatTrak™</option>
+              <option value="Souvenir">Souvenir</option>
+            </select>
+          </label>
+        </div>
+      </details>
       <button className="btn primary">Run screen</button>
       <Link
         className="btn"
@@ -399,12 +444,33 @@ export function IntelligenceTable({
                     <AssetImage name={a.name} media={a.artwork} />
                     {a.name}
                   </Link>
-                  {/* The compact factual reason this asset matched, visible
-                      without opening the detail disclosure. */}
-                  <small className="market-story">
-                    {marketStoryLine(a, screen.horizon, screen.basis) ??
-                      whySurfaced(a, screen)}
-                  </small>
+                  {/*
+                    Why this row is here, in one line.
+
+                    whySurfaced() is preset-aware — under "Listings
+                    Contracting" it states the listing move and the threshold
+                    it cleared — so it answers the question a screened row
+                    raises. marketStoryLine() is the generic price/supply
+                    summary, which is the right answer only when no preset is
+                    narrowing the set and there is no match to explain.
+                    Previously the generic line was tried first and almost
+                    always won, leaving a filtered row explaining something
+                    other than its own selection.
+
+                    Both already existed; neither is a new explanation system.
+                    If neither has anything to say, nothing is rendered rather
+                    than filler.
+                  */}
+                  {(() => {
+                    const reason =
+                      screen.preset === "all"
+                        ? (marketStoryLine(a, screen.horizon, screen.basis) ??
+                          whySurfaced(a, screen))
+                        : whySurfaced(a, screen);
+                    return reason ? (
+                      <small className="market-story">{reason}</small>
+                    ) : null;
+                  })()}
                   {a.identity && (
                     <small className="why-surfaced">
                       {identityText(a.identity)}

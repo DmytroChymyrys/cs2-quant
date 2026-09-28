@@ -71,6 +71,19 @@ export type Screen = {
   sourceMax: number | null;
   priceDirection: string;
   listingDirection: string;
+  /*
+   * CS2-native identity dimensions, from MarketIdentity, which every summary
+   * already carries. Empty string means "any", matching the existing
+   * priceDirection/listingDirection convention rather than introducing a
+   * second way to express an unset filter.
+   *
+   * Deliberately limited to weapon, exterior and variant. Rarity and
+   * collection live in the catalog database and are not on the derived
+   * contract, so filtering on them would be a contract change, not a filter.
+   */
+  weapon: string;
+  exterior: string;
+  variant: string;
 };
 const num = (s: string | undefined) =>
   s !== undefined &&
@@ -147,6 +160,12 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
     volMax: num(p.volMax),
     coverageMin: num(p.coverageMin),
     sourceMax: num(p.sourceMax),
+    // Free text, bounded and compared case-insensitively at filter time. The
+    // identity tokens come from the catalog, so an allowlist here would have
+    // to be regenerated whenever the tracked universe changes.
+    weapon: (p.weapon ?? "").trim().slice(0, 40),
+    exterior: (p.exterior ?? "").trim().slice(0, 40),
+    variant: (p.variant ?? "").trim().slice(0, 40),
     priceDirection: p.priceDirection ?? "",
     listingDirection: p.listingDirection ?? "",
   };
@@ -236,6 +255,22 @@ export function screenAssets(
       listing = a.listingPct[s.horizon] ?? a.listingPct1h,
       vol = volatilityFor(a, s.basis)[s.horizon];
     if (s.q && !a.name.toLowerCase().includes(s.q.toLowerCase())) return false;
+    /*
+     * Identity filters. An asset with no parsed identity cannot satisfy one,
+     * so it is excluded rather than passed through — the filter asks for a
+     * stated property, and "unknown" is not a match for it.
+     *
+     * Weapon matches on substring so "AK" finds "AK-47"; exterior and variant
+     * are closed vocabularies and match exactly.
+     */
+    const identity = a.identity ?? null;
+    if (s.weapon) {
+      const weapon = identity?.weapon;
+      if (!weapon || !weapon.toLowerCase().includes(s.weapon.toLowerCase()))
+        return false;
+    }
+    if (s.exterior && identity?.exterior !== s.exterior) return false;
+    if (s.variant && identity?.variant !== s.variant) return false;
     if (
       !within(a.minimum, s.min, s.max) ||
       !within(a.listings, s.listingMin, s.listingMax) ||

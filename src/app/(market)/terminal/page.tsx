@@ -27,6 +27,8 @@ import {
 import { displayed } from "@/lib/product/intelligence/contract";
 import { pageMetadata } from "@/lib/seo";
 import { assetPath } from "@/lib/asset-slug";
+import { marketPulse } from "@/lib/product/intelligence/pulse";
+import { MarketPulseStrip } from "@/components/market-pulse";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -96,7 +98,15 @@ export default async function Terminal({
         }
       />
       <EvidenceNotice dataset={dataset} />
-      <div className="metric-grid">
+      <MarketPulseStrip pulse={marketPulse(dataset.assets, screen.horizon, screen.basis)} />
+      {/*
+        Coverage moved here from the headline metrics. It answers "how complete
+        is this reading", which qualifies the pulse above rather than competing
+        with it for the first thing a visitor sees.
+      */}
+      <details className="pulse-coverage">
+        <summary>Observation coverage</summary>
+        <div className="metric-grid">
         <Metric
           label="Tracked assets"
           value={count(dataset.assets.length)}
@@ -146,7 +156,8 @@ export default async function Terminal({
           )}
           note="Source or observation > 15m"
         />
-      </div>
+        </div>
+      </details>
       {dataset.error ? (
         <DataState state="SOURCE_UNAVAILABLE" description={dataset.error} />
       ) : (
