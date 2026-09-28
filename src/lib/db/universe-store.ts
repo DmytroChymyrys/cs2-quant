@@ -115,13 +115,15 @@ export function universeStore(db = database()) {
           INSERT INTO provider_assets
             (provider, venue, external_asset_key, version, market_hash_name,
              first_seen_run_id, asset_id)
-          SELECT ${provider}, ${venue}, k, v, n, ${runId}::uuid,
-                 (SELECT id FROM assets WHERE market_hash_name = n LIMIT 1)
-          FROM unnest(
-            ${identities.map((i) => i.externalAssetKey)}::text[],
-            ${identities.map((i) => i.version)}::text[],
-            ${identities.map((i) => i.marketHashName)}::text[]
-          ) AS t(k, v, n)
+          SELECT ${provider}, ${venue}, t.k, t.v, t.n, ${runId}::uuid,
+                 (SELECT id FROM assets WHERE market_hash_name = t.n LIMIT 1)
+          FROM jsonb_to_recordset(${JSON.stringify(
+            identities.map((i) => ({
+              k: i.externalAssetKey,
+              v: i.version,
+              n: i.marketHashName,
+            })),
+          )}::jsonb) AS t(k text, v text, n text)
           ON CONFLICT (provider, venue, external_asset_key, version) DO NOTHING
         `);
       const rows = (await db.execute(sql`
@@ -165,15 +167,30 @@ export function universeStore(db = database()) {
         suggested: deltas.map((d) => d.state.suggestedPrice),
         extra: deltas.map((d) => JSON.stringify(d.state.extra)),
       };
+      /*
+       * One jsonb payload expanded server-side, rather than parallel arrays.
+       * Drizzle's sql template serialises a JS array as a record, which
+       * Postgres refuses to cast to text[] ("cannot cast type record to
+       * text[]"), so array parameters silently fail at runtime.
+       */
       const source = sql`
-        unnest(
-          ${columns.ids}::uuid[], ${columns.hashes}::text[],
-          ${columns.present}::boolean[], ${columns.currency}::text[],
-          ${columns.quantity}::integer[], ${columns.min}::numeric[],
-          ${columns.max}::numeric[], ${columns.mean}::numeric[],
-          ${columns.median}::numeric[], ${columns.suggested}::numeric[],
-          ${columns.extra}::jsonb[]
-        ) AS t(pid, hash, present, currency, qty, mn, mx, avg, med, sug, extra)
+        jsonb_to_recordset(${JSON.stringify(
+          deltas.map((d) => ({
+            pid: d.providerAssetId,
+            hash: d.hash,
+            present: d.state.present,
+            currency: d.state.currency,
+            qty: d.state.quantity,
+            mn: d.state.minPrice,
+            mx: d.state.maxPrice,
+            avg: d.state.meanPrice,
+            med: d.state.medianPrice,
+            sug: d.state.suggestedPrice,
+            extra: d.state.extra,
+          })),
+        )}::jsonb) AS t(pid uuid, hash text, present boolean, currency text,
+                        qty integer, mn numeric, mx numeric, avg numeric,
+                        med numeric, sug numeric, extra jsonb)
       `;
       await db.execute(sql`
         INSERT INTO provider_asset_state_history
@@ -232,7 +249,10 @@ export function universeStore(db = database()) {
         UPDATE provider_asset_state
         SET observed_at = ${observedAt.toISOString()}::timestamptz,
             collector_run_id = ${runId}::uuid
-        WHERE provider_asset_id = ANY(${unchangedIds}::uuid[])
+        WHERE provider_asset_id IN (
+          SELECT value::uuid
+          FROM jsonb_array_elements_text(${JSON.stringify(unchangedIds)}::jsonb)
+        )
       `);
       void provider;
       void venue;
