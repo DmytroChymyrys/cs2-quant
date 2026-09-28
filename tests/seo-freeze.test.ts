@@ -128,13 +128,19 @@ describe("brand icons and social card exist", () => {
       "src/app/apple-icon.tsx",
       "src/app/opengraph-image.tsx",
       "src/app/manifest.ts",
+      // Google also checks the root path directly, independent of the
+      // rel="icon" tag, so both routes exist.
+      "src/app/favicon.ico",
     ])
       expect((await readFile(file, "utf8")).length).toBeGreaterThan(0);
   });
 
   it("sizes each one for its surface", async () => {
     const icon = await readFile("src/app/icon.tsx", "utf8");
-    expect(icon).toContain("width: 32, height: 32");
+    // Google looks for 48px or a multiple when picking a search-result
+    // favicon. A 32px icon is below that and was skipped, which is why
+    // floatalpha.com listed with the generic globe.
+    expect(icon).toContain("width: 96, height: 96");
     const apple = await readFile("src/app/apple-icon.tsx", "utf8");
     expect(apple).toContain("width: 180, height: 180");
     const og = await readFile("src/app/opengraph-image.tsx", "utf8");
