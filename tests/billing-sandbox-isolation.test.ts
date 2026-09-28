@@ -67,12 +67,14 @@ it.each([
   "/api/product/watchlist",
   "/api/product/portfolio",
   "/ops-c8e4",
-])("blocks %s in billing Sandbox before dispatch", (path) => {
+])("blocks %s in billing Sandbox before dispatch", async (path) => {
   expect(
-    proxy(
-      new NextRequest(`https://billing-demo.example.test${path}`, {
-        method: "POST",
-      }),
+    (
+      await proxy(
+        new NextRequest(`https://billing-demo.example.test${path}`, {
+          method: "POST",
+        }),
+      )
     ).status,
   ).toBe(403);
 });
@@ -82,24 +84,28 @@ it.each([
   "/api/product/billing/portal",
   "/api/product/billing/status",
   "/api/stripe/webhook",
-])("passes %s to its own authentication/signature boundary", (path) => {
+])("passes %s to its own authentication/signature boundary", async (path) => {
   expect(
-    proxy(
-      new NextRequest(`https://billing-demo.example.test${path}`, {
-        method: "POST",
-      }),
+    (
+      await proxy(
+        new NextRequest(`https://billing-demo.example.test${path}`, {
+          method: "POST",
+        }),
+      )
     ).headers.get("x-middleware-next"),
   ).toBe("1");
 });
-it("does not change actual production collector dispatch", () => {
+it("does not change actual production collector dispatch", async () => {
   vi.stubEnv("FLOATALPHA_BILLING_SANDBOX", "");
   vi.stubEnv("VERCEL_ENV", "production");
   expect(
-    proxy(
-      new NextRequest(
-        "https://production.invalid/api/internal/collect/skinport",
-        { method: "POST" },
-      ),
+    (
+      await proxy(
+        new NextRequest(
+          "https://production.invalid/api/internal/collect/skinport",
+          { method: "POST" },
+        ),
+      )
     ).headers.get("x-middleware-next"),
   ).toBe("1");
 });

@@ -101,6 +101,26 @@ describe("legacy UUID URLs still resolve", () => {
   });
 });
 
+describe("legacy URLs redirect with a real HTTP status", () => {
+  it("redirects in the proxy, before the response is committed", async () => {
+    // The market layout flushes the shell before the page finishes, so a
+    // redirect thrown inside the page arrives too late to set a status: legacy
+    // URLs returned 200 with a client-side hop. That is not what consolidates
+    // an indexed URL, so the redirect has to happen ahead of rendering.
+    const proxy = await readFile("src/proxy.ts", "utf8");
+    expect(proxy).toContain("isLegacyAssetId");
+    expect(proxy).toContain("308");
+    expect(proxy).toContain("redirectLegacyAssetUrl");
+    // Canonical slugs must not pay for the lookup.
+    expect(proxy).toContain("if (!isLegacyAssetId(segment)) return null;");
+  });
+
+  it("preserves the query string across the redirect", async () => {
+    const proxy = await readFile("src/proxy.ts", "utf8");
+    expect(proxy).toContain("target.search = request.nextUrl.search");
+  });
+});
+
 describe("the asset route redirects rather than serving duplicates", () => {
   it("permanently redirects any non-canonical spelling", async () => {
     const source = await readFile(

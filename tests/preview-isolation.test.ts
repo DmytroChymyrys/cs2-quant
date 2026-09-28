@@ -114,37 +114,39 @@ it.each([
   "/api/product/watchlist",
   "/api/stripe/webhook",
   "/ops-c8e4",
-])("blocks privileged preview route %s before dispatch", (path) => {
-  expect(proxy(new NextRequest(`https://preview.invalid${path}`)).status).toBe(
-    403,
-  );
+])("blocks privileged preview route %s before dispatch", async (path) => {
+  expect(
+    (await proxy(new NextRequest(`https://preview.invalid${path}`))).status,
+  ).toBe(403);
 });
 it.each(["POST", "PUT", "DELETE", "PATCH"])(
   "blocks %s including server actions",
-  (method) => {
+  async (method) => {
     expect(
-      proxy(new NextRequest("https://preview.invalid/assets", { method }))
+      (await proxy(new NextRequest("https://preview.invalid/assets", { method })))
         .status,
     ).toBe(403);
   },
 );
-it("passes through public navigation and image status", () => {
+it("passes through public navigation and image status", async () => {
   for (const path of ["/", "/assets", "/terminal", "/api/asset-images/status"])
     expect(
-      proxy(new NextRequest(`https://preview.invalid${path}`)).headers.get(
+      (await proxy(new NextRequest(`https://preview.invalid${path}`))).headers.get(
         "x-middleware-next",
       ),
     ).toBe("1");
 });
-it("leaves non-preview collector dispatch unchanged", () => {
+it("leaves non-preview collector dispatch unchanged", async () => {
   vi.stubEnv("VERCEL_ENV", "production");
   vi.stubEnv("FLOATALPHA_DEMO_PREVIEW", "");
   expect(
-    proxy(
-      new NextRequest(
-        "https://production.invalid/api/internal/collect/skinport",
-        { method: "POST" },
-      ),
+    (
+      await proxy(
+        new NextRequest(
+          "https://production.invalid/api/internal/collect/skinport",
+          { method: "POST" },
+        ),
+      )
     ).headers.get("x-middleware-next"),
   ).toBe("1");
 });
