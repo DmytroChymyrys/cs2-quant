@@ -123,7 +123,7 @@ export function AuthForm({
                 provider: "google",
                 callbackURL:
                   returnTo ??
-                  (configuration.billingSandbox ? "/pricing" : "/onboarding"),
+                  (configuration.billingSandbox ? "/pricing" : "/continue"),
               })
             }
           >
@@ -205,7 +205,7 @@ export function AuthForm({
                 password,
                 callbackURL:
                   returnTo ??
-                  (configuration.billingSandbox ? "/pricing" : "/onboarding"),
+                  (configuration.billingSandbox ? "/pricing" : "/continue"),
               });
             else if (mode === "login")
               void submit("sign-in/email", { email, password });

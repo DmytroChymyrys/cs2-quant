@@ -98,3 +98,61 @@ describe("the internal console is never measured", () => {
     );
   });
 });
+
+describe("where Google sign-in sends you", () => {
+  it("does not decide from the tab that was clicked", async () => {
+    const form = await source("src/components/auth-form.tsx");
+    /*
+     * Google creates an account for a first-time visitor who clicked "Sign in",
+     * and an established user may well click "Join the Preview". Neither tab
+     * is evidence of whether an account exists, so neither one picks the
+     * destination any more.
+     */
+    // Scoped to the callback default rather than the whole file: `returnTo`
+    // is typed with the routes a caller may request, which is a different
+    // statement from where an unspecified sign-in lands.
+    expect(form).not.toMatch(
+      /billingSandbox \? "\/pricing" : "\/onboarding"/,
+    );
+    expect(
+      form.match(/billingSandbox \? "\/pricing" : "\/continue"/g)?.length,
+    ).toBe(2);
+  });
+
+  it("resolves the destination once the account can actually be read", async () => {
+    const page = await source("src/app/continue/page.tsx");
+    expect(page).toContain(
+      'redirect(user.app.onboarded ? "/terminal" : "/onboarding");',
+    );
+  });
+
+  it("returns an unauthenticated caller to sign-in rather than onward", async () => {
+    const page = await source("src/app/continue/page.tsx");
+    // A callback with no session means authentication did not complete.
+    expect(page).toContain('if (!user) redirect("/login");');
+  });
+
+  it("renders nothing, so no unintended screen flashes", async () => {
+    const page = await source("src/app/continue/page.tsx");
+    expect(page).not.toContain("return (");
+    expect(page).not.toMatch(/<[a-zA-Z]/);
+  });
+
+  it("is never prerendered", async () => {
+    const page = await source("src/app/continue/page.tsx");
+    /*
+     * currentUser() returns null without reaching headers() when auth is
+     * unconfigured, which is exactly the build-time condition, so this page
+     * prerendered as static with the unauthenticated redirect baked in. Every
+     * signed-in visitor would have been bounced to the login screen.
+     */
+    expect(page).toContain('export const dynamic = "force-dynamic";');
+  });
+
+  it("is kept out of search results", async () => {
+    const page = await source("src/app/continue/page.tsx");
+    expect(page).toContain("robots: PRIVATE_ROBOTS");
+    const seo = await source("src/lib/seo.ts");
+    expect(seo).toContain('"/continue"');
+  });
+});

@@ -60,6 +60,9 @@ describe("the indexable surface is frozen", () => {
           "/alerts",
           "/settings",
           "/onboarding",
+          // Authenticated redirect resolver. It renders nothing and is
+          // robots-private, so it is not an indexable surface.
+          "/continue",
         ].includes(f),
     );
     expect(publicFamilies.sort()).toEqual([...FROZEN_ROUTE_FAMILIES].sort());

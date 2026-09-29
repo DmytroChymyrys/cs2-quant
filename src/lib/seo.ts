@@ -131,6 +131,8 @@ export const DISALLOWED_PATHS = [
   "/watchlist",
   "/alerts",
   "/onboarding",
+  // Authenticated redirect resolver; nothing to index and never a landing page.
+  "/continue",
   "/login",
   "/signup",
   "/forgot-password",
