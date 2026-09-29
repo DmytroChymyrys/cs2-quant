@@ -30,6 +30,15 @@ import { WINDOW_MS } from "../config";
 
 export type Stat = { value: number | null; note?: string };
 
+/**
+ * A timestamp as it actually arrives.
+ *
+ * The Neon HTTP driver serialises timestamps to strings, while node-postgres
+ * returns Date objects. Typing these as Date compiled cleanly and then threw
+ * at runtime on `.toISOString()`, so the type says what the value is.
+ */
+export type Timestamp = string | Date | null;
+
 export type FounderOverview = {
   funnel: {
     visitors: Stat;
@@ -53,7 +62,7 @@ export type FounderOverview = {
   };
   provider: {
     cadenceMs: number;
-    lastRunAt: Date | null;
+    lastRunAt: Timestamp;
     assetsReceived: number | null;
     assetsMapped: number | null;
     assetsUnmapped: number | null;
@@ -82,11 +91,11 @@ export type FounderOverview = {
   collector: {
     runs24h: number | null;
     failures24h: number | null;
-    lastRunAt: Date | null;
+    lastRunAt: Timestamp;
     lastStatus: string | null;
   } | null;
   activity: {
-    at: Date;
+    at: Timestamp;
     kind: string;
     detail: string;
   }[];
@@ -178,7 +187,7 @@ export async function readFounderOverview(
      * sign-ins and the durable objects users create — which is what the
      * system genuinely knows, rather than a fabricated feed.
      */
-    const rows = rowsOf<{ at: Date; kind: string; detail: string }>(
+    const rows = rowsOf<{ at: Timestamp; kind: string; detail: string }>(
       await productDatabase().execute(sql`
         (select u.created_at as at, 'REGISTERED' as kind, u.email as detail
            from auth_users u order by u.created_at desc limit 10)
@@ -206,7 +215,7 @@ export async function readFounderOverview(
   const provider = await attempt(async () => {
     const db = database();
     const [run] = rowsOf<{
-      observed_at: Date;
+      observed_at: Timestamp;
       assets_received: number;
       assets_mapped: number;
       assets_unmapped: number;
@@ -246,7 +255,7 @@ export async function readFounderOverview(
     const [row] = rowsOf<{
       runs_24h: number;
       failures_24h: number;
-      last_at: Date;
+      last_at: Timestamp;
       last_status: string;
     }>(
       await database().execute(sql`

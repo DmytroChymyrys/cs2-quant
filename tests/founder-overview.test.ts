@@ -144,6 +144,39 @@ describe("provider universe and intelligence scope stay separate", () => {
   });
 });
 
+describe("timestamps survive both database drivers", () => {
+  it("never calls a Date method on a value that arrives as a string", async () => {
+    const ui = await source("src/components/founder-overview.tsx");
+    /*
+     * The Neon HTTP driver serialises timestamps to strings; node-postgres
+     * returns Date objects. This page reads through the HTTP driver, so
+     * `.toISOString()` on a field typed as Date compiled cleanly and threw at
+     * runtime, returning a 500 for the whole console. Formatting now goes
+     * through helpers that accept either shape.
+     */
+    // Permitted only on a Date this file constructed itself, never on a
+    // value that came from the database.
+    const calls = ui.split(".toISOString()").length - 1;
+    const safe = ui.split("new Date(ms).toISOString()").length - 1;
+    expect(calls).toBe(safe);
+    expect(ui).toContain("const millis = (at: Timestamp)");
+  });
+
+  it("types timestamps for what actually arrives", async () => {
+    const code = await source("src/lib/ops/founder.ts");
+    expect(code).toContain("export type Timestamp = string | Date | null");
+    // Every timestamp field uses it rather than Date.
+    expect(code).toContain("lastRunAt: Timestamp");
+    expect(code).toContain("at: Timestamp");
+  });
+
+  it("builds no string from an undefined timestamp", async () => {
+    const ui = await source("src/components/founder-overview.tsx");
+    // `undefined + " UTC"` renders the literal text "undefined UTC".
+    expect(ui).not.toMatch(/\?\.\w+\(\)\s*\+\s*"/);
+  });
+});
+
 describe("the console stays read-only and protected", () => {
   it("requires an admin for every read", async () => {
     const code = await source("src/lib/ops/founder.ts");

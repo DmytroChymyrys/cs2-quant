@@ -1,4 +1,4 @@
-import type { FounderOverview, Stat } from "@/lib/ops/founder";
+import type { FounderOverview, Stat, Timestamp } from "@/lib/ops/founder";
 
 /**
  * Founder Operations overview.
@@ -18,10 +18,22 @@ const number = (value: number | null) =>
 const megabytes = (bytes: number | null) =>
   bytes === null ? null : `${(bytes / 1e6).toFixed(1)} MB`;
 
-const ago = (at: Date | string | null) => {
+/** Both drivers' timestamp shapes, as milliseconds. */
+const millis = (at: Timestamp) =>
+  at === null ? null : typeof at === "string" ? Date.parse(at) : at.getTime();
+
+/** HH:MM:SS UTC, or null — never a string built from `undefined`. */
+const utc = (at: Timestamp) => {
+  const ms = millis(at);
+  return ms === null || !Number.isFinite(ms)
+    ? null
+    : `${new Date(ms).toISOString().slice(11, 19)} UTC`;
+};
+
+const ago = (at: Timestamp) => {
   if (!at) return null;
-  const then = typeof at === "string" ? Date.parse(at) : at.getTime();
-  if (!Number.isFinite(then)) return null;
+  const then = millis(at);
+  if (then === null || !Number.isFinite(then)) return null;
   const seconds = Math.max(0, Math.round((Date.now() - then) / 1000));
   if (seconds < 90) return `${seconds}s ago`;
   if (seconds < 5400) return `${Math.round(seconds / 60)}m ago`;
@@ -169,7 +181,7 @@ export function FounderOverviewView({ data }: { data: FounderOverview }) {
             <Figure
               label="Last collection"
               value={ago(provider.lastRunAt)}
-              note={provider.lastRunAt?.toISOString().slice(11, 19) + " UTC"}
+              note={utc(provider.lastRunAt) ?? undefined}
             />
             <Figure
               label="Provider assets observed"
