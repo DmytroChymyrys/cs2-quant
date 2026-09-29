@@ -31,7 +31,19 @@ export type AnalyticsEvent =
     }
   | { name: "portfolio_opened"; params?: Record<string, never> }
   | { name: "pricing_viewed"; params?: Record<string, never> }
-  | { name: "preview_signup_started"; params: { method: "google" | "email" } };
+  | { name: "preview_signup_started"; params: { method: "google" | "email" } }
+  /*
+   * A registration that actually completed, so signup conversion can be
+   * measured rather than only signup intent.
+   *
+   * Not the same moment as the attempt. Email signup requires verification,
+   * so an account exists but is unusable until the link is clicked; treating
+   * "verification email sent" as completion would overstate conversion by
+   * however many people never open the mail. This fires on the first
+   * authenticated page load of a verified account — which both the Google
+   * callback and the email verification link reach.
+   */
+  | { name: "preview_signup_completed"; params?: Record<string, never> };
 
 /**
  * The Measurement ID is supplied by the environment, never hard-coded.

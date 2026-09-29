@@ -13,6 +13,7 @@ import {
 } from "@/lib/product/intelligence/server";
 import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
 import { pageMetadata } from "@/lib/seo";
+import { recognizeAsset } from "@/lib/product/recognition";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -32,6 +33,10 @@ export default async function Assets({
     dataset = await readMarketDataset(),
     screen = screenInput(p),
     result = screenAssets(dataset.assets, screen);
+  // Only when a search returned nothing: recognition explains an empty
+  // result, it does not decorate a populated one.
+  const recognition =
+    screen.q && !result.assets.length ? await recognizeAsset(screen.q) : null;
   const focus = result.assets.find((a) => a.id === p.asset) ?? result.assets[0];
   const detail = focus ? await readAssetDetail(focus.id, screen.horizon) : null;
   return (
@@ -56,6 +61,7 @@ export default async function Assets({
           <div className="results-surface">
             <IntelligenceTable
               result={result}
+              recognition={recognition}
               screen={screen}
               params={p}
               path="/assets"

@@ -38,6 +38,7 @@ import {
   type Screen,
 } from "@/lib/product/intelligence/screener";
 import { assetPath } from "@/lib/asset-slug";
+import type { AssetRecognition } from "@/lib/product/recognition";
 export const marketValue = (
   v: string | number | null | undefined,
   suffix = "",
@@ -349,11 +350,18 @@ export function IntelligenceTable({
   screen,
   params,
   path = "/screener",
+  recognition = null,
 }: {
   result: MarketScreenerResult;
   screen: Screen;
   params: Record<string, string | undefined>;
   path?: string;
+  /*
+   * Set when a search matched nothing here but the name is recognised in
+   * market data. Lets the empty state say what is true — we see this item,
+   * we do not yet analyse it — instead of denying the asset entirely.
+   */
+  recognition?: AssetRecognition | null;
 }) {
   const showVolatility =
     screen.sort === "volatility" || screen.preset === "volatility";
@@ -547,12 +555,42 @@ export function IntelligenceTable({
             ))}
           </tbody>
         </table>
-        {!result.assets.length && (
-          <p className="chart-caption">
-            No assets match these filters. Unavailable metrics do not pass
-            numeric filters.
-          </p>
-        )}
+        {!result.assets.length &&
+          (recognition ? (
+            /*
+             * Recognised, not analysed. Consumer language only: no provider
+             * identifiers, no mention of collection internals, and no price
+             * or history, because none is computed for these assets and
+             * showing a partial figure would read as intelligence.
+             */
+            <div className="chart-caption">
+              <p>
+                FloatAlpha recognises{" "}
+                <strong>
+                  {recognition.total} {screen.q} variant
+                  {recognition.total === 1 ? "" : "s"}
+                </strong>{" "}
+                in current market data
+                {recognition.listed > 0
+                  ? `, ${recognition.listed} listed at the latest observation`
+                  : ""}
+                .
+              </p>
+              {recognition.examples.length > 0 && (
+                <p>Including {recognition.examples.join(" · ")}.</p>
+              )}
+              <p>
+                Deep FloatAlpha intelligence — price history, supply movement
+                and activity — currently covers a selected set of assets. This
+                one is observed but not yet analysed.
+              </p>
+            </div>
+          ) : (
+            <p className="chart-caption">
+              No assets match these filters. Unavailable metrics do not pass
+              numeric filters.
+            </p>
+          ))}
       </div>
       <div className="personal-toolbar">
         {result.page > 1 && <Link href={url(result.page - 1)}>Previous</Link>}

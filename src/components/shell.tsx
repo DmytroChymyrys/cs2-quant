@@ -25,7 +25,20 @@ const links = [
   ["Portfolio", "/portfolio"],
   ["Alerts", "/alerts"],
 ];
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  authenticated = false,
+}: {
+  children: ReactNode;
+  /*
+   * Public market pages are fully usable signed out, and previously offered no
+   * way to create an account: search and ads land people on /assets and
+   * /asset/* , where the only account-adjacent control was a pricing chip.
+   * Anonymous visitors get an entry point here; signed-in users get their
+   * account controls instead, so nothing is shown twice.
+   */
+  authenticated?: boolean;
+}) {
   const [searchExpanded, setSearchExpanded] = useState(false);
   const previousFocus = useRef<HTMLElement | null>(null);
   const pathname = usePathname(),
@@ -136,6 +149,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           >
             <Bell size={16} />
           </Link>
+          {!authenticated && (
+            <>
+              <Link className="btn small" href="/login">
+                Sign in
+              </Link>
+              <Link className="btn small primary" href="/signup">
+                Join the Preview
+              </Link>
+            </>
+          )}
           <Link className="btn small" href="/pricing">
             <BadgeCheck size={12} /> Free / Pro
           </Link>
