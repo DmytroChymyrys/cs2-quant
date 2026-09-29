@@ -81,7 +81,7 @@ export function assertPreviewIsolation() {
   if (!isDemoPreview()) throw Error("DEMO_PREVIEW_ENVIRONMENT_REQUIRED");
   const forbidden = Object.keys(process.env).filter(
     (key) =>
-      /DATABASE|POSTGRES|^PG(HOST|PORT|USER|PASSWORD|SERVICE)|^CRON_|^SKINPORT_|^CS2SH_|^BETTER_AUTH_|^STRIPE_|^RESEND_|^GOOGLE_CLIENT_|^TURNSTILE_SECRET|^MARKET_ANALYTICS_SOURCE_URL$/.test(
+      /DATABASE|POSTGRES|^PG(HOST|PORT|USER|PASSWORD|SERVICE)|^CRON_|^SKINPORT_|^CS2SH_|^BETTER_AUTH_|^STRIPE_|^TWILIO_|^RESEND_|^GOOGLE_CLIENT_|^TURNSTILE_SECRET|^MARKET_ANALYTICS_SOURCE_URL$/.test(
         key,
       ) && process.env[key],
   );
