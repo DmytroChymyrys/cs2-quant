@@ -71,6 +71,7 @@ describe("fresh co-located bootstrap in the documented order", () => {
       "0002_product_accounts_monitoring_billing",
       "0003_ops_application_role",
       "0004_ops_audit",
+      "0005_user_lifecycle",
     ]);
     expect(applied.steam).toEqual(["0000_steam_account_link"]);
   });

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui";
 import { Dialog } from "./dialog";
+import { useSignOut } from "./sign-out-control";
 export function MutationButton({
   label,
   endpoint,
@@ -81,29 +82,11 @@ export function MutationButton({
   );
 }
 export function SignOut() {
-  const router = useRouter();
-  const [busy, setBusy] = useState(false);
+  // Shared with the header control so the two cannot drift; see useSignOut.
+  const { signOut, busy, failed } = useSignOut();
   return (
-    <Button
-      disabled={busy}
-      onClick={async () => {
-        setBusy(true);
-        try {
-          const r = await fetch("/api/auth/sign-out", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: "{}",
-          });
-          if (r.ok) {
-            router.push("/login");
-            router.refresh();
-          }
-        } finally {
-          setBusy(false);
-        }
-      }}
-    >
-      Sign out
+    <Button disabled={busy} onClick={signOut}>
+      {failed ? "Try signing out again" : "Sign out"}
     </Button>
   );
 }

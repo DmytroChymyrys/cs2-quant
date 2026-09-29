@@ -26,11 +26,18 @@ export function opsQuery(
       (select count(*)::int from alert_rules where created_at >= ${since}) as "Retained alerts created in window"`,
     users: sql`with selected as (
       select u.id as auth_id,a.id as app_id,u.email,u.created_at,u.email_verified,a.role,a.watch_visited_at,
+        a.blocked_at,a.deleted_at,a.status_reason,
         case when ${pro} then 'Pro' else 'Free' end as plan,coalesce(s.status,'none') as subscription
       from auth_users u left join app_users a on a.auth_user_id=u.id left join billing_subscriptions s on s.user_id=a.id
       where (${search}='' or position(lower(${search}) in lower(u.email))>0 or a.id::text=${search})
       order by u.created_at desc,u.id desc limit 26 offset ${(page - 1) * 25}
     ) select app_id as "Application user ID",email as "Email",coalesce(role,'USER') as "Role",
+      -- Deleted outranks blocked: a closed account that was also blocked reads
+      -- as closed, and the block is recoverable from the audit trail.
+      case when deleted_at is not null then 'Deleted'
+           when blocked_at is not null then 'Blocked'
+           else 'Active' end as "Status",
+      status_reason as "Status reason",
       created_at as "Signed up (UTC)",email_verified as "Verified",plan as "Plan",subscription as "Subscription",
       watch_visited_at as "Watchlist checkpoint (UTC)",
       (select count(*)::int from watchlist_entries w where w.user_id=selected.app_id) as "Watchlist",

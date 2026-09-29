@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/ops/auth";
 import { readOps, type OpsTable } from "@/lib/ops/data";
 import { readFounderOverview } from "@/lib/ops/founder";
 import { FounderOverviewView } from "@/components/founder-overview";
+import { OpsUserActions } from "@/components/ops-user-actions";
 import { OPS_PATH, OPS_SECTIONS, OPS_ACTIVATION } from "@/lib/ops/config";
 import { opsInput, opsSection } from "@/lib/ops/input";
 import { ProductError } from "@/lib/product/api";
@@ -23,9 +24,12 @@ function display(value: unknown) {
 function Table({
   table,
   paginate = false,
+  actions = false,
 }: {
   table: OpsTable;
   paginate?: boolean;
+  /** Renders the account lifecycle controls as a trailing column. */
+  actions?: boolean;
 }) {
   const rows = paginate ? table.rows.slice(0, 25) : table.rows;
   return (
@@ -46,6 +50,7 @@ function Table({
                 {Object.keys(rows[0]).map((key) => (
                   <th key={key}>{key}</th>
                 ))}
+                {actions && <th>Account</th>}
               </tr>
             </thead>
             <tbody>
@@ -54,6 +59,15 @@ function Table({
                   {Object.entries(row).map(([key, value]) => (
                     <td key={key}>{display(value)}</td>
                   ))}
+                  {actions && (
+                    <td>
+                      <OpsUserActions
+                        userId={String(row["Application user ID"] ?? "")}
+                        email={String(row["Email"] ?? "")}
+                        status={String(row["Status"] ?? "Active")}
+                      />
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -103,7 +117,7 @@ export default async function OpsPage({
         <Link href={OPS_PATH}>
           FloatAlpha <strong>Ops</strong>
         </Link>
-        <span>Internal · Read only · UTC</span>
+        <span>Internal · UTC · Account actions are audited</span>
       </header>
       <nav aria-label="Operations">
         {OPS_SECTIONS.map((item) => (
@@ -153,6 +167,7 @@ export default async function OpsPage({
             key={table.title}
             table={table}
             paginate={section === "users"}
+            actions={section === "users"}
           />
         ))}
       {section === "users" && (

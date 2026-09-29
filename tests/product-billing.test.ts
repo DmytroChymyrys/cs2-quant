@@ -62,9 +62,8 @@ beforeAll(async () => {
   vi.stubEnv("STRIPE_SECRET_KEY", "sk_test_local_fixture");
   vi.stubEnv("BETTER_AUTH_URL", "http://localhost:3000");
   vi.stubEnv("PRODUCT_DATABASE_URL", "postgresql://unused/billing_test");
-  await db.exec(
-    await readFile("drizzle-billing/0000_account_billing_sandbox.sql", "utf8"),
-  );
+  for (const tag of ["0000_account_billing_sandbox", "0001_user_lifecycle"])
+    await db.exec(await readFile(`drizzle-billing/${tag}.sql`, "utf8"));
   await db.query("insert into app_users(id) values($1)", [appId]);
   await db.query(
     "insert into billing_subscriptions(user_id,customer_id) values($1,'cus_test')",

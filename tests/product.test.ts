@@ -67,6 +67,7 @@ beforeAll(async () => {
     "0002_product_accounts_monitoring_billing",
     "0003_ops_application_role",
     "0004_ops_audit",
+    "0005_user_lifecycle",
   ])
     // Migration streams are isolated by directory; resolve each file to its owner.
     await db.exec(

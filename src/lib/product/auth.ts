@@ -149,5 +149,16 @@ export const currentUser = cache(async () => {
         .where(eq(appUsers.authUserId, session.user.id))
     )[0];
   }
+  /*
+   * Blocked and soft-deleted accounts are denied here rather than at sign-in.
+   * Every authenticated surface reads through currentUser(), so this is the
+   * one place that cannot be bypassed — an admin can block someone mid-session
+   * and the next request already treats them as signed out, without waiting
+   * for a token to expire.
+   *
+   * Returning null rather than throwing keeps the caller contract: pages
+   * already render their signed-out state for a null user.
+   */
+  if (user?.blockedAt || user?.deletedAt) return null;
   return { app: user, identity: session.user, session: session.session };
 });

@@ -214,3 +214,105 @@
   color: #6b7686;
   margin-left: auto;
 }
+
+/* Account lifecycle controls in the users table. */
+.ops-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.ops-actions button {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #c6d0dc;
+  background: transparent;
+  border: 1px solid #2a3542;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ops-actions button:hover:not(:disabled) {
+  border-color: #3d4b5c;
+  color: #fff;
+}
+.ops-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+/* Irreversible, so it is the only control that reads as dangerous. */
+.ops-actions button.ops-danger {
+  color: #ff6b6b;
+  border-color: #4a2626;
+}
+.ops-actions button.ops-danger:hover:not(:disabled) {
+  background: #2a1616;
+  border-color: #6b3030;
+}
+.ops-error {
+  color: #ff6b6b;
+  font-size: 11px;
+}
+.ops-confirm {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 60;
+}
+.ops-confirm-card {
+  background: #0d1218;
+  border: 1px solid #2a3542;
+  border-radius: 6px;
+  padding: 20px;
+  max-width: 460px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.ops-confirm-card h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.ops-confirm-card p {
+  color: #9aa6b4;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.ops-confirm-card ul {
+  margin: 10px 0;
+  padding-left: 18px;
+  color: #c6d0dc;
+  font-size: 12px;
+}
+.ops-confirm-card label {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #9aa6b4;
+  overflow-wrap: anywhere;
+}
+.ops-confirm-card input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 7px 9px;
+  background: #070b10;
+  border: 1px solid #2a3542;
+  border-radius: 4px;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.ops-confirm-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

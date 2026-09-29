@@ -2,7 +2,15 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Activity, Search, Settings2, Bell, BadgeCheck } from "lucide-react";
+import {
+  Activity,
+  Search,
+  Settings2,
+  Bell,
+  BadgeCheck,
+  LogOut,
+} from "lucide-react";
+import { SignOutControl } from "@/components/sign-out-control";
 import type { ReactNode } from "react";
 export function Brand() {
   return (
@@ -169,6 +177,16 @@ export function AppShell({
           >
             <Settings2 size={15} />
           </Link>
+          {/*
+            Signing out previously required finding it inside Settings. It is
+            the counterpart to the signed-out CTAs next to it, so it belongs in
+            the same cluster and is shown on exactly the opposite condition.
+          */}
+          {authenticated && (
+            <SignOutControl className="btn icon" aria-label="Sign out">
+              <LogOut size={15} />
+            </SignOutControl>
+          )}
         </div>
         <details className="mobile-nav">
           <summary>Market navigation</summary>

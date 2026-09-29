@@ -94,9 +94,33 @@ export const appUsers = pgTable(
     interests: jsonb("interests").$type<string[]>().default([]).notNull(),
     onboarded: boolean("onboarded").default(false).notNull(),
     watchVisitedAt: time("watch_visited_at"),
+    /*
+     * Account lifecycle. Both states deny access through currentUser() and are
+     * reversible; neither releases the email address, so the row keeps its
+     * audit trail and a restore is exact. Only a hard delete frees the address,
+     * and that removes the row outright rather than setting a flag here.
+     *
+     * They are separate columns because they answer different questions: a
+     * block is a moderation action against someone who still exists, a soft
+     * delete is a closed account. A single "status" column would make a
+     * blocked-then-deleted account indistinguishable from either.
+     */
+    blockedAt: time("blocked_at"),
+    deletedAt: time("deleted_at"),
+    statusReason: text("status_reason"),
     ...audit(),
   },
-  (t) => [check("app_user_role", sql`${t.role} in ('USER', 'ADMIN')`)],
+  (t) => [
+    check("app_user_role", sql`${t.role} in ('USER', 'ADMIN')`),
+    // Admin listings filter on these constantly and they are null for almost
+    // every row, so a partial index stays small.
+    index("app_users_blocked")
+      .on(t.blockedAt)
+      .where(sql`${t.blockedAt} is not null`),
+    index("app_users_deleted")
+      .on(t.deletedAt)
+      .where(sql`${t.deletedAt} is not null`),
+  ],
 );
 export const watchEntries = pgTable(
   "watchlist_entries",
@@ -238,7 +262,20 @@ export const adminAudit = pgTable("admin_audit", {
   targetId: uuid("target_id").notNull(),
   occurredAt: time("occurred_at").defaultNow().notNull(),
   metadata: jsonb("metadata")
-    .$type<{ previousRole?: string; role?: string }>()
+    .$type<{
+      previousRole?: string;
+      role?: string;
+      /* Lifecycle actions. Free text supplied by the admin, never request data. */
+      reason?: string;
+      /*
+       * Recorded on a hard delete only, because the row it describes is gone
+       * by the time anyone reads this: the audit entry is the only remaining
+       * evidence that the account existed.
+       */
+      email?: string;
+      cascade?: Record<string, number>;
+      subscriptionCancelled?: string;
+    }>()
     .default({})
     .notNull(),
 });

@@ -8,6 +8,13 @@
       "when": 1789137456164,
       "tag": "0000_account_billing_sandbox",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790000000000,
+      "tag": "0001_user_lifecycle",
+      "breakpoints": true
     }
   ]
 }
