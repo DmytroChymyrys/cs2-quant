@@ -49,6 +49,23 @@ body {
   margin-top: 4px;
 }
 .topbar .nav {
+  /*
+   * The bar carries brand, nav, search, feed badge and account controls on one
+   * line, and the nav is the only child wide enough to absorb pressure. It was
+   * rigid, so adding the signed-out account CTAs made the row 1534px wide
+   * inside a 1440px viewport and pushed the settings control off-screen on
+   * every common laptop width. It now yields and scrolls instead; the squeeze
+   * band below keeps it from actually needing to at those widths.
+   */
+  min-width: 0;
+  flex-shrink: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.topbar .nav::-webkit-scrollbar {
+  display: none;
+}
+.topbar .nav a {
   flex-shrink: 0;
 }
 .nav a {
@@ -486,6 +503,36 @@ body {
 .terminal-desk > .notice {
   margin: 8px 12px;
 }
+/*
+ * Header-only squeeze: reclaims the width the account CTAs need so the single
+ * row still fits. This is not a narrow-screen concession — the bar's content
+ * box is capped at 1400px and centred, so a 1920px display has exactly the
+ * same budget as a 1440px one and needs the same reclaim. The feed badge is
+ * the thing given up: it already hid below 1300px, and the same text stays
+ * permanently visible in the footer status bar.
+ */
+/*
+ * Below the 1400px content box the squeezed nav no longer fits and scrolls.
+ * The fade tells the reader the row continues; it is scoped to this band
+ * because at wider widths nothing is clipped and a fade would just dim the
+ * last link for no reason.
+ */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .topbar .nav {
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+}
+@media (min-width: 1025px) {
+  .nav a {
+    padding: 0 9px;
+  }
+  .header-feed {
+    display: none;
+  }
+  .top-utils {
+    gap: 8px;
+  }
+}
 @media (min-width: 1025px) and (max-width: 1300px) {
   .topbar {
     gap: 8px;
@@ -541,6 +588,13 @@ body {
   }
 }
 @media (max-width: 768px) {
+  .top-utils {
+    /* Wider than a 320px viewport once the CTAs are present; wraps only when
+       it has to, so 390px and 430px phones keep the single row. */
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 6px;
+  }
   .topbar {
     padding: 0 10px;
   }

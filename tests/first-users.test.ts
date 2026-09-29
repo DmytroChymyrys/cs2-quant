@@ -40,6 +40,37 @@ describe("P0-1 · anonymous visitors can reach an account", () => {
   });
 });
 
+describe("P0-1 · the added controls fit the header they were put in", () => {
+  it("lets the navigation yield instead of pushing controls off-screen", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    /*
+     * The bar is a single nowrap row whose content box is capped at 1400px, so
+     * every desktop width has the same budget. The nav was `flex-shrink: 0`,
+     * so the two CTAs made the row 1534px wide and the settings control left
+     * the viewport at 1440px — and at every common laptop width below it.
+     */
+    const start = css.indexOf(".topbar .nav {");
+    const nav = css.slice(start, css.indexOf("}", start));
+    expect(nav).toContain("flex-shrink: 1");
+    expect(nav).toContain("min-width: 0");
+    expect(nav).not.toContain("flex-shrink: 0");
+  });
+
+  it("reclaims the width the CTAs need at every desktop size, not just small ones", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    // A 1920px display has the same 1400px budget as a 1440px one; a
+    // max-width-bounded squeeze would leave the wide case broken.
+    expect(css).toContain("@media (min-width: 1025px) {");
+  });
+
+  it("lets the account controls wrap on a very narrow phone", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    // The controls are wider than a 320px viewport once the CTAs are present.
+    const utils = css.slice(css.indexOf("@media (max-width: 768px) {"));
+    expect(utils.slice(0, 400)).toContain("flex-wrap: wrap");
+  });
+});
+
 describe("P0-2 · observed assets are recognised, not denied", () => {
   it("looks the term up in observed market data", async () => {
     const code = await source("src/lib/product/recognition.ts");
