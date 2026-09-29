@@ -94,9 +94,7 @@ export default async function OpsPage({
   // Only the overview needs it, and it reads several sources; do not pay for
   // it on the table-driven sections.
   const overview =
-    section === "overview"
-      ? await readFounderOverview(input.days)
-      : null;
+    section === "overview" ? await readFounderOverview(input.days) : null;
   const url = (page: number) =>
     `${OPS_PATH}/users?${new URLSearchParams({ days: String(input.days), q: input.search, page: String(page) })}`;
   return (
@@ -147,9 +145,16 @@ export default async function OpsPage({
           Apply
         </button>
       </form>
-      {tables.map((table) => (
-        <Table key={table.title} table={table} paginate={section === "users"} />
-      ))}
+      {/* Overview is served by the founder panels below; its legacy table
+          repeated the same counts in a second, worse form. */}
+      {section !== "overview" &&
+        tables.map((table) => (
+          <Table
+            key={table.title}
+            table={table}
+            paginate={section === "users"}
+          />
+        ))}
       {section === "users" && (
         <div className="ops-filters">
           {input.page > 1 && <Link href={url(input.page - 1)}>Previous</Link>}
@@ -169,8 +174,8 @@ export default async function OpsPage({
               Signup = auth account creation within the window. Activated = a
               user who has watched an asset, recorded a holding, configured an
               alert, or saved a screen. Returning = a session created at least a
-              day after that account was created. Each is counted from
-              persisted rows.
+              day after that account was created. Each is counted from persisted
+              rows.
             </p>
             <p>
               Visitors, asset views and screener query counts exist only in GA4,
