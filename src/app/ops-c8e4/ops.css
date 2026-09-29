@@ -116,3 +116,101 @@
     width: 100%;
   }
 }
+
+/* Founder Operations overview.
+   Reuses the ops panel language rather than introducing a second look for one
+   internal page. Figures wrap on their own, so the grid is responsive without
+   breakpoint-specific layouts. */
+.ops-founder {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ops-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+.ops-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid #1d2733;
+  border-radius: 8px;
+  background: #0c1117;
+}
+.ops-figure-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-figure-value {
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #e6edf5;
+  font-variant-numeric: tabular-nums;
+}
+.ops-figure-note {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #6b7686;
+}
+/* An unmeasurable value is visually quieter than a real one, so a dash is
+   never mistaken for a reading of zero. */
+.ops-figure[data-unavailable="true"] .ops-figure-value {
+  color: #495562;
+  font-weight: 500;
+}
+.ops-figure[data-unavailable="true"] {
+  border-style: dashed;
+}
+.ops-note {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #7c8798;
+}
+.ops-activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ops-activity li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 2px;
+  border-bottom: 1px solid #161d26;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.ops-activity li:last-child {
+  border-bottom: 0;
+}
+.ops-activity-kind {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: #23c9a0;
+  border: 1px solid #1d3b34;
+  border-radius: 4px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+.ops-activity-detail {
+  flex: 1 1 200px;
+  color: #c6d0dc;
+  overflow-wrap: anywhere;
+}
+.ops-activity-at {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #6b7686;
+  margin-left: auto;
+}

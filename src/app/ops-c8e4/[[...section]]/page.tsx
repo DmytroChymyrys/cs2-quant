@@ -3,6 +3,8 @@ import { forbidden, notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/ops/auth";
 import { readOps, type OpsTable } from "@/lib/ops/data";
+import { readFounderOverview } from "@/lib/ops/founder";
+import { FounderOverviewView } from "@/components/founder-overview";
 import { OPS_PATH, OPS_SECTIONS, OPS_ACTIVATION } from "@/lib/ops/config";
 import { opsInput, opsSection } from "@/lib/ops/input";
 import { ProductError } from "@/lib/product/api";
@@ -89,6 +91,12 @@ export default async function OpsPage({
     ),
   );
   const tables = await readOps(section, input.days, input.search, input.page);
+  // Only the overview needs it, and it reads several sources; do not pay for
+  // it on the table-driven sections.
+  const overview =
+    section === "overview"
+      ? await readFounderOverview(input.days)
+      : null;
   const url = (page: number) =>
     `${OPS_PATH}/users?${new URLSearchParams({ days: String(input.days), q: input.search, page: String(page) })}`;
   return (
@@ -151,25 +159,33 @@ export default async function OpsPage({
           )}
         </div>
       )}
-      {section === "overview" && (
-        <section className="ops-panel">
-          <h2>Metric definitions / funnel gaps</h2>
-          <p>{OPS_ACTIVATION}</p>
-          <p>
-            Signup = auth account creation. Window activation = signups in the
-            window that currently retain a watchlist entry. Removed watchlist
-            entries and deleted rules are not retained historical events.
-          </p>
-          <p>
-            Active users, returning users, public/asset visits, checkout starts,
-            and historical subscription starts/cancellations: UNAVAILABLE. No
-            trustworthy event history is stored.
-          </p>
-          <p>
-            These are independent counts, not a measured conversion funnel.
-            Free/Pro breakdown is in Billing.
-          </p>
-        </section>
+      {section === "overview" && overview && (
+        <>
+          <FounderOverviewView data={overview} />
+          <section className="ops-panel">
+            <h2>Metric definitions</h2>
+            <p>{OPS_ACTIVATION}</p>
+            <p>
+              Signup = auth account creation within the window. Activated = a
+              user who has watched an asset, recorded a holding, configured an
+              alert, or saved a screen. Returning = a session created at least a
+              day after that account was created. Each is counted from
+              persisted rows.
+            </p>
+            <p>
+              Visitors, asset views and screener query counts exist only in GA4,
+              which is written from the browser. The server holds no Data API
+              credential, so they are reported Unavailable rather than
+              approximated.
+            </p>
+            <p>
+              The provider universe and the derived intelligence scope are
+              separate: one observes the full Skinport catalogue as change
+              history, the other computes listing-features-v3 over the tracked
+              universe. Free/Pro breakdown is in Billing.
+            </p>
+          </section>
+        </>
       )}
       {section === "product" && (
         <p className="ops-muted">
