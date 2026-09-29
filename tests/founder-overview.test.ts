@@ -43,16 +43,39 @@ describe("no metric is fabricated", () => {
   it("carries no sample data from the mockup", async () => {
     const ui = stripComments(await source("src/components/founder-overview.tsx"));
     // Figures from the mockup that must never appear as literals.
-    for (const fixture of ["4,120", "1.42M", "14.99", "8412", "2,481,209"])
+    for (const fixture of [
+      "4,120",
+      "1.42M",
+      "14.99",
+      "8412",
+      "2,481,209",
+      // The approved cockpit screenshot's readings. They are the real state at
+      // the moment it was captured, which is exactly why they must be read
+      // rather than typed in.
+      "24,948",
+      "24948",
+      "98,398",
+      "24,867",
+      "27.3",
+      "Run #",
+      "Cycle #",
+    ])
       expect(ui).not.toContain(fixture);
   });
 
   it("renders a dash for an unmeasurable value, never zero", async () => {
     const ui = await source("src/components/founder-overview.tsx");
     // "nobody did this" and "we do not measure this" are different facts.
-    expect(ui).toContain('value === null ? "—"');
+    expect(ui).toContain("const missing = value === null");
+    expect(ui).toContain('{missing ? "—" : value}');
     expect(ui).toContain("Unavailable");
     expect(ui).not.toMatch(/\?\?\s*0\b/);
+    /*
+     * A rate with an unknown or zero denominator is unknown, not 0%. Reading
+     * "0.0% conversion" when the signup count could not be read would be a
+     * fabricated measurement dressed as arithmetic.
+     */
+    expect(ui).toContain("whole === null || whole === 0");
   });
 });
 
@@ -131,8 +154,21 @@ describe("provider universe and intelligence scope stay separate", () => {
   it("keeps the derived scope in its own section", async () => {
     const ui = await source("src/components/founder-overview.tsx");
     // ~25,000 observed assets and ~100 derived assets are different facts.
-    expect(ui).toContain("Data engine · provider universe");
-    expect(ui).toContain("Intelligence engine");
+    expect(ui).toContain("Provider Observation");
+    expect(ui).toContain("Intelligence Engine");
+    /*
+     * The scope line is the architecture in one sentence: a broad observed
+     * universe, a far smaller tracked one, and the subset with computed
+     * intelligence. Three facts from three fields, never one number.
+     */
+    for (const field of [
+      "provider?.knownAssets",
+      "intelligence?.trackedAssets",
+      "intelligence?.intelligenceReady",
+    ])
+      expect(ui).toContain(field);
+    for (const word of ["observed", "tracked", "intelligence ready"])
+      expect(ui).toContain(word);
   });
 
   it("uses the agreed vocabulary", async () => {
@@ -174,6 +210,32 @@ describe("timestamps survive both database drivers", () => {
     const ui = await source("src/components/founder-overview.tsx");
     // `undefined + " UTC"` renders the literal text "undefined UTC".
     expect(ui).not.toMatch(/\?\.\w+\(\)\s*\+\s*"/);
+  });
+});
+
+describe("the run log shows real persisted runs", () => {
+  it("reads more than one row of the table it already summarised", async () => {
+    const code = await source("src/lib/ops/founder.ts");
+    // Same production table as the provider block; no new telemetry.
+    expect(code).toContain("from provider_collection_runs r");
+    expect(code).toContain("order by r.observed_at desc");
+  });
+
+  it("identifies a run by its real id, never a counter", async () => {
+    const ui = await source("src/components/founder-overview.tsx");
+    /*
+     * The mockup labelled runs "Run #288". No such column exists — the table
+     * is keyed by a uuid — so inventing a sequence number would be a
+     * fabricated identifier on a console used to check what actually ran.
+     */
+    expect(ui).toContain("const runRef = (id: string)");
+    expect(ui).not.toMatch(/Run\s*#\{/);
+  });
+
+  it("derives the expected run count from the cadence in use", async () => {
+    const ui = await source("src/components/founder-overview.tsx");
+    // Not a typed-in 288: a cadence change has to move this number with it.
+    expect(ui).toContain("86_400_000 / provider.cadenceMs");
   });
 });
 

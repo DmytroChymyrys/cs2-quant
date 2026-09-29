@@ -99,7 +99,25 @@ export type FounderOverview = {
     kind: string;
     detail: string;
   }[];
+  /*
+   * The last few persisted collection runs, newest first. Same table the
+   * provider block already summarises — this reads more than one row of it so
+   * the console can show the recent sequence rather than only the latest
+   * state. No new telemetry, no new source.
+   */
+  recentRuns: {
+    id: string;
+    at: Timestamp;
+    changed: number | null;
+    unchanged: number | null;
+    disappeared: number | null;
+    failures: number | null;
+    status: string | null;
+  }[];
 };
+
+/** How many recent runs the overview lists. */
+const RECENT_RUNS = 4;
 
 const stat = (value: number | null | undefined, note?: string): Stat => ({
   value: value ?? null,
@@ -251,6 +269,34 @@ export async function readFounderOverview(
     return { run, totals };
   });
 
+  const recentRuns =
+    (await attempt(async () => {
+      const rows = rowsOf<{
+        id: string;
+        at: Timestamp;
+        changed: number;
+        unchanged: number;
+        disappeared: number;
+        failures: number;
+        status: string | null;
+      }>(
+        await database().execute(sql`
+          select r.collector_run_id::text as id,
+                 r.observed_at as at,
+                 r.states_changed as changed,
+                 r.states_unchanged as unchanged,
+                 r.disappeared as disappeared,
+                 r.transform_failures as failures,
+                 c.status as status
+          from provider_collection_runs r
+          left join collector_runs c on c.id = r.collector_run_id
+          order by r.observed_at desc
+          limit ${RECENT_RUNS}
+        `),
+      );
+      return rows;
+    })) ?? [];
+
   const collector = await attempt(async () => {
     const [row] = rowsOf<{
       runs_24h: number;
@@ -351,5 +397,6 @@ export async function readFounderOverview(
         }
       : null,
     activity,
+    recentRuns,
   };
 }

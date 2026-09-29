@@ -128,7 +128,7 @@
 }
 .ops-figures {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
   gap: 12px;
 }
 .ops-figure {
@@ -315,4 +315,486 @@
   gap: 8px;
   justify-content: flex-end;
   margin-top: 16px;
+}
+
+/* ── Founder Operations cockpit ─────────────────────────────────────────
+   The approved layout: status header, funnel, the observed → tracked →
+   intelligence-ready scope line, the two engine panels side by side, then
+   engagement, health and the run log. Everything is grid/flex with wrapping
+   minimums, so the page itself never scrolls sideways; only the run table
+   scrolls internally. */
+.ops-founder .ops-panel h2 {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-transform: none;
+}
+.ops-founder .ops-panel > div,
+.ops-founder .ops-panel > ol,
+.ops-founder .ops-panel > p {
+  padding: 14px;
+}
+.ops-founder .ops-panel > .ops-scroll {
+  padding: 0;
+}
+.ops-cockpit-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #141b24;
+  border: 1px solid #333b46;
+  border-radius: 10px;
+  padding: 18px;
+}
+.ops-cockpit-head h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ops-cockpit-head p {
+  margin: 0;
+  padding: 0;
+  color: #8d97a5;
+  max-width: 58ch;
+  line-height: 1.6;
+}
+.ops-tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #6ee7d0;
+  border: 1px solid #1d4a41;
+  background: #10241f;
+  border-radius: 4px;
+  padding: 3px 7px;
+}
+.ops-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ops-chips li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #9aa6b4;
+  background: #0c1117;
+  border: 1px solid #28313d;
+  border-radius: 5px;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+.ops-chips i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #23c9a0;
+}
+.ops-chips li[data-state="attention"] i {
+  background: #e0a33a;
+}
+
+/* Funnel stages. */
+.ops-stages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  gap: 12px;
+}
+.ops-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid #1d2733;
+  border-radius: 8px;
+  background: #0c1117;
+  border-top: 2px solid #28313d;
+}
+.ops-stage[data-active="true"] {
+  border-top-color: #2fb6d4;
+}
+.ops-stage[data-unavailable="true"] {
+  border-style: dashed;
+  border-top-style: solid;
+}
+.ops-stage header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+}
+.ops-stage-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-stage-badge {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: #2fb6d4;
+  border: 1px solid #1d3d49;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.ops-stage-value {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #e6edf5;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.ops-stage-value em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #7c8798;
+  letter-spacing: 0.4px;
+}
+.ops-stage[data-unavailable="true"] .ops-stage-value {
+  color: #495562;
+  font-weight: 500;
+}
+.ops-stage-note {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #6b7686;
+  line-height: 1.5;
+}
+
+/* The architecture line: observed → tracked → intelligence ready. */
+.ops-scope-line {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+}
+.ops-scope-line > li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ops-scope-line strong {
+  font-size: 26px;
+  font-weight: 600;
+  color: #e6edf5;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.ops-scope-line span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-scope-arrow {
+  font-size: 18px;
+  color: #3f4c5c;
+}
+
+/* The two engine panels. */
+.ops-duo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.ops-duo > .ops-panel {
+  margin: 0;
+  height: 100%;
+}
+.ops-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px;
+  border: 1px solid #1d2733;
+  border-radius: 8px;
+  background: #0c1117;
+}
+.ops-hero strong {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #e6edf5;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.ops-hero strong em {
+  font-style: normal;
+  font-size: 15px;
+  color: #6b7686;
+}
+.ops-hero span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-hero small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #23c9a0;
+}
+.ops-hero-split {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.ops-hero-split > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 140px;
+  min-width: 0;
+}
+.ops-hero-split small {
+  color: #6b7686;
+}
+
+/* Last run breakdown. */
+.ops-breakdown {
+  border: 1px solid #1d2733;
+  border-radius: 8px;
+  background: #0c1117;
+}
+.ops-breakdown > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1d2733;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-breakdown > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
+  gap: 10px;
+  padding: 12px;
+}
+.ops-breakdown .ops-figure {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+.ops-breakdown .ops-figure-value {
+  font-size: 19px;
+}
+
+/* Feature vector completion. */
+.ops-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ops-progress > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-progress [role="progressbar"] {
+  height: 6px;
+  border-radius: 3px;
+  background: #182028;
+  overflow: hidden;
+}
+.ops-progress i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #1c8fa8, #2fd4b4);
+}
+
+/* System health row. */
+.ops-healths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  gap: 14px;
+}
+.ops-health {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px;
+  background: #191f27;
+  border: 1px solid #333b46;
+  border-radius: 8px;
+}
+.ops-health > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #7c8798;
+}
+.ops-health i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #23c9a0;
+  flex: none;
+}
+.ops-health[data-state="attention"] i {
+  background: #e0a33a;
+}
+.ops-health[data-state="unknown"] i {
+  background: #495562;
+}
+.ops-health strong {
+  font-size: 15px;
+  color: #23c9a0;
+  font-weight: 600;
+}
+.ops-health[data-state="attention"] strong {
+  color: #e0a33a;
+}
+.ops-health[data-state="unknown"] strong {
+  color: #6b7686;
+}
+.ops-health small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #6b7686;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+/* Run log. */
+.ops-runs td {
+  white-space: nowrap;
+}
+.ops-runs .ops-transitions {
+  font-family: var(--mono);
+  color: #8d97a5;
+  white-space: normal;
+}
+.ops-runs .ops-transitions b {
+  color: #e0a33a;
+  font-weight: 500;
+}
+.ops-runs .ops-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ops-run-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  border-radius: 4px;
+  padding: 3px 8px;
+  border: 1px solid #2b333e;
+  color: #9aa6b4;
+}
+.ops-run-status[data-ok="true"] {
+  color: #6ee7d0;
+  border-color: #1d4a41;
+  background: #10241f;
+}
+.ops-run-status[data-ok="false"] {
+  color: #ff8f8f;
+  border-color: #4a2626;
+  background: #2a1616;
+}
+
+/* Engagement quad and its inline unavailable note. */
+.ops-figures-quad {
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+}
+.ops-note-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  align-items: center;
+}
+.ops-note-inline b {
+  color: #495562;
+  font-weight: 500;
+}
+
+.ops-cockpit-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #262e38;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #6b7686;
+}
+
+@media (max-width: 700px) {
+  .ops-cockpit-head {
+    padding: 14px;
+  }
+  .ops-stage-value {
+    font-size: 26px;
+  }
+  .ops-hero strong {
+    font-size: 28px;
+  }
+  .ops-scope-line strong {
+    font-size: 22px;
+  }
+  /* The arrows read as stacked steps once the line wraps. */
+  .ops-scope-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* An identifier or state is text, not a measurement: monospace at reading
+   size, so `listing-features-v3` does not wrap across two heading-sized
+   lines the way a numeral never would. */
+.ops-figure-value[data-code="true"] {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  overflow-wrap: anywhere;
+  padding: 3px 0;
+}
+/* Inside the paired engine panels the figures sit two-up, matching the
+   approved layout rather than reflowing to three on wide screens. */
+.ops-duo .ops-figures {
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
 }
