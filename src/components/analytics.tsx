@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { AnalyticsConsent } from "./analytics-consent";
+import { AnalyticsRouteGate } from "./analytics-route-gate";
 import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/ga";
 
 /**
@@ -19,10 +20,12 @@ import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/ga";
 export function Analytics() {
   if (!analyticsEnabled() || !GA_MEASUREMENT_ID) return null;
   return (
-    <>
+    // The internal console is operator traffic and is never measured; the gate
+    // withholds the tag entirely on those routes.
+    <AnalyticsRouteGate>
       {/* Consent defaults must be in the dataLayer before gtag config runs. */}
       <AnalyticsConsent />
       <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
-    </>
+    </AnalyticsRouteGate>
   );
 }

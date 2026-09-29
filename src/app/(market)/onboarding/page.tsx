@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/product/auth";
 import { marketSnapshot } from "@/lib/product/market";
 import { AuthRequired } from "@/components/auth-required";
@@ -12,6 +13,14 @@ export const metadata = {
 export default async function Onboarding() {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="market preferences" />;
+  /*
+   * Onboarding runs once. Google sign-in sends every account here, including
+   * one that finished setup months ago, so a returning user was dropped back
+   * onto step 1 of a form they had already completed each time they signed in.
+   * The flag is set when preferences are saved, so it is the same answer the
+   * form itself produced. Preferences stay editable in Settings.
+   */
+  if (user.app.onboarded) redirect("/terminal");
   const snapshot = await marketSnapshot();
   return (
     <div className="onboarding-workstation">

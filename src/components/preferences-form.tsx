@@ -38,6 +38,21 @@ export function PreferencesForm({
       className={onboarding ? "form-grid onboarding-form" : "form-grid"}
       onSubmit={async (e) => {
         e.preventDefault();
+        /*
+         * Step 1 never saves. The continue control and the save control occupy
+         * the same position in this row, so React patches one <button> into
+         * the other — including its type — while the click that triggered the
+         * change is still being dispatched. The browser then performs the
+         * default action against an element that has become a submit button,
+         * and onboarding posted half-configured preferences and redirected to
+         * the terminal before step 2 was ever shown. The keys below stop the
+         * node being reused; this guard means a stray submit still cannot
+         * save an incomplete form.
+         */
+        if (onboarding && step !== 2) {
+          setStep(2);
+          return;
+        }
         const f = new FormData(e.currentTarget);
         setBusy(true);
         try {
@@ -210,16 +225,21 @@ export function PreferencesForm({
           </Link>
         )}
         {onboarding && step === 2 && (
-          <Button type="button" onClick={() => setStep(1)}>
+          <Button key="back" type="button" onClick={() => setStep(1)}>
             Back
           </Button>
         )}
         {onboarding && step === 1 ? (
-          <Button type="button" variant="primary" onClick={() => setStep(2)}>
+          <Button
+            key="continue"
+            type="button"
+            variant="primary"
+            onClick={() => setStep(2)}
+          >
             Continue →
           </Button>
         ) : (
-          <Button variant="primary" disabled={busy}>
+          <Button key="save" variant="primary" disabled={busy}>
             {busy
               ? "Saving…"
               : onboarding

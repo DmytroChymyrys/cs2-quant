@@ -73,6 +73,30 @@ export function analyticsEnabled(
   return vercelEnv === "production";
 }
 
+/**
+ * Route prefixes that analytics must never load on.
+ *
+ * The internal console is operator traffic, not product usage. Measuring it
+ * inflates engagement with the work of running the product and, on a property
+ * this small, a founder clicking through operations would be a visible share
+ * of the numbers the same console reports.
+ *
+ * The prefix is deliberately shorter than the console's real path. This value
+ * ships in every page's JavaScript, so naming the full path here would put the
+ * admin URL in front of every visitor — the prefix excludes it without
+ * publishing it.
+ */
+export const ANALYTICS_EXCLUDED_PREFIXES = ["/ops"] as const;
+
+/** True when analytics must not run for this path. */
+export function analyticsExcludedPath(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return ANALYTICS_EXCLUDED_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`) ||
+      pathname.startsWith(`${prefix}-`),
+  );
+}
+
 declare global {
   interface Window {
     gtag?: (
@@ -92,5 +116,8 @@ declare global {
  */
 export function track(event: AnalyticsEvent): void {
   if (typeof window === "undefined") return;
+  // Belt and braces: the tag is not loaded on excluded routes, but an event
+  // fired from one must not reach the property even if it somehow were.
+  if (analyticsExcludedPath(window.location?.pathname ?? null)) return;
   window.gtag?.("event", event.name, event.params ?? {});
 }
