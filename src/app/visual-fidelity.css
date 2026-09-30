@@ -3630,6 +3630,11 @@ body {
   outline: 2px solid var(--cyan);
   outline-offset: -2px;
 }
+/* Keeps its box so the page below does not jump when the reader toggles;
+   see the comment on the element. */
+.asset-visual-note[data-shown="false"] {
+  visibility: hidden;
+}
 .asset-visual-note {
   margin: 0;
   color: #6b7686;

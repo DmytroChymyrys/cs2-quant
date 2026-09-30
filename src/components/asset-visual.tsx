@@ -284,15 +284,20 @@ export function AssetVisual({
           3D unavailable — showing image.
         </p>
       )}
-      {showing3d && (
+      {eligible && !broken && (
         /*
           Attached to what is actually on screen. The inspect link addresses
           one specific item of this market type, so the float and seed the
           viewer prints belong to that item and not to the asset being priced.
-          In image mode it would describe nothing the reader can see, so it is
-          not shown there.
+
+          In image mode it describes nothing the reader can see, so it is
+          hidden rather than removed: `visibility: hidden` keeps its exact box
+          at every width — no reserved magic number to drift — and takes it
+          out of the accessibility tree, so nothing claims a 3D render that is
+          not showing. Removing it outright moved the evidence strip and every
+          section below by 58px each time the reader touched the switch.
         */
-        <p className="asset-visual-note">
+        <p className="asset-visual-note" data-shown={showing3d}>
           Rendered from a representative item of this asset. Its float and
           pattern are that item&rsquo;s, not a property of the market asset.
         </p>

@@ -615,8 +615,18 @@ describe("readiness is observed, never inferred", () => {
     // false claim about the asset being priced.
     expect(visual).toContain("representative item");
     expect(visual).toContain("not a property of the market asset");
-    // Attached to what is on screen: in image mode it describes nothing.
-    expect(visual).toContain("{showing3d && (");
+    /*
+     * Attached to what is on screen: in image mode it describes nothing, so
+     * it is hidden rather than asserted. Hidden, not removed — removing it
+     * moved the evidence strip and every section below by 58px on each
+     * toggle, and `visibility: hidden` also keeps it out of the
+     * accessibility tree so nothing claims a 3D render that is not showing.
+     */
+    expect(visual).toContain("data-shown={showing3d}");
+    const css = await source("src/app/visual-fidelity.css");
+    const hidden = css.slice(css.indexOf('.asset-visual-note[data-shown="false"] {'));
+    expect(hidden.slice(0, 80)).toContain("visibility: hidden");
+    expect(hidden.slice(0, 80)).not.toContain("display: none");
   });
 });
 
