@@ -43,7 +43,24 @@ export type AnalyticsEvent =
    * authenticated page load of a verified account — which both the Google
    * callback and the email verification link reach.
    */
-  | { name: "preview_signup_completed"; params?: Record<string, never> };
+  | { name: "preview_signup_completed"; params?: Record<string, never> }
+  /*
+   * 3D inspection. Only what the application can actually observe: the reader
+   * asking for the viewer, the cross-origin frame loading, and initialisation
+   * failing. Anything inside the iframe — rotating, entering Arena — is
+   * invisible to us, so there is no event claiming to measure it.
+   *
+   * No inspect link and no Steam identifier is ever sent.
+   */
+  | {
+      name: "asset_3d_view_requested";
+      params: { asset_id: string; category?: string };
+    }
+  | { name: "asset_3d_view_loaded"; params: { asset_id: string } }
+  | {
+      name: "asset_3d_view_failed";
+      params: { asset_id: string; reason: string };
+    };
 
 /**
  * The Measurement ID is supplied by the environment, never hard-coded.

@@ -3505,3 +3505,102 @@ body {
 .terminal-restored > .terminal-grid > .stack > .two-columns > .panel {
   min-height: 0;
 }
+
+/* Asset Intelligence — 3D inspection.
+   Deliberately restrained: the rendered skin is the focal point, so the panel
+   adds a frame and a control and nothing decorative. */
+.asset-3d .panel-title small {
+  color: var(--secondary);
+  font: 10px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+.asset-3d-invite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 22px;
+}
+.asset-3d-invite p {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 12px;
+  max-width: 44ch;
+}
+/* The frame keeps its height before, during and after load, so activating the
+   viewer never shifts the market data underneath it. */
+.asset-3d-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 320px;
+  background: #070b10;
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+.asset-3d-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.asset-3d-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--secondary);
+  font: 11px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.asset-3d-spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #22313f;
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: asset-3d-spin 0.8s linear infinite;
+}
+@keyframes asset-3d-spin {
+  to { transform: rotate(360deg); }
+}
+/* Reduced motion still needs a visible loading state, so the spinner stops
+   turning rather than disappearing. */
+@media (prefers-reduced-motion: reduce) {
+  .asset-3d-spinner { animation: none; }
+}
+.asset-3d-fallback,
+.asset-3d-unavailable {
+  margin: 0;
+  padding: 22px;
+  color: var(--secondary);
+  font-size: 12px;
+}
+.asset-3d-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+.asset-3d-note {
+  margin: 0;
+  padding: 12px 22px 18px;
+  border-top: 1px solid var(--border);
+  color: #6b7686;
+  font: 10.5px var(--mono);
+  line-height: 1.6;
+}
+@media (max-width: 767px) {
+  /* Stack naturally; never force a cramped side-by-side viewer on a phone. */
+  .asset-3d-frame { aspect-ratio: 4 / 3; min-height: 260px; }
+  .asset-3d-invite,
+  .asset-3d-fallback,
+  .asset-3d-unavailable { padding: 16px; }
+  .asset-3d-note { padding: 10px 16px 14px; }
+}

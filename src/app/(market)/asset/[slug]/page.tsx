@@ -13,6 +13,11 @@ import { AssetImage } from "@/components/asset-image";
 import { AvailabilityNotice } from "@/components/intelligence-market";
 import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import { WatchButton } from "@/components/watch-button";
+import { Asset3DPanel } from "@/components/asset-3d-panel";
+import { resolveAsset3dTarget } from "@/lib/product/asset-3d";
+/* Public by design and locked to an origin allowlist on the provider side.
+   The private STEAMWEBAPI_API_KEY is never used in the browser. */
+const CS2_VIEWER_KEY = process.env.NEXT_PUBLIC_CS2_VIEWER_KEY?.trim() ?? "";
 import {
   EvidenceNotice,
   Quality,
@@ -114,6 +119,13 @@ export default async function Asset({
   const permitted = h !== "7d" || caps.historyWindowDays >= 7;
   const detail = await readAssetDetail(id, permitted ? h : "24h");
   if (!detail) notFound();
+  /*
+   * Resolved on the server so eligibility is decided once, from stored
+   * provider evidence, rather than guessed in the browser. It never throws —
+   * an unavailable target is a value, not an error — so 3D cannot take down
+   * the page that carries the market intelligence.
+   */
+  const viewerTarget = await resolveAsset3dTarget(id);
   const a = detail.asset;
   const storyHorizon: Horizon = (
     permitted && h !== "7d" ? h : "24h"
@@ -265,6 +277,13 @@ export default async function Asset({
                 </Notice>
               )}
           </Panel>
+          <Asset3DPanel
+            target={viewerTarget}
+            assetId={a.id}
+            assetName={a.name}
+            category={a.identity?.category}
+            viewerKey={CS2_VIEWER_KEY}
+          />
           <Panel title="Why this asset appears">
             <ul>
               {explain(a, screenInput({ horizon: h === "7d" ? "24h" : h })).map(
