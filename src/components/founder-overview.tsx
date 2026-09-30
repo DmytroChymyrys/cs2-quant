@@ -160,6 +160,7 @@ export function FounderOverviewView({ data }: { data: FounderOverview }) {
     collector,
     recentRuns,
     authMethods,
+    steam,
   } = data;
 
   /*
@@ -476,6 +477,97 @@ export function FounderOverviewView({ data }: { data: FounderOverview }) {
           )}
         </section>
       </div>
+
+      {/*
+        Provider #2, deliberately its own panel rather than a column added to
+        Provider Observation. The two sources observe different venues at
+        different cadences, and one figure spanning both would describe
+        neither.
+      */}
+      <section className="ops-panel">
+        <h2>
+          Provider Observation · SteamWebAPI
+          <small>Steam · provider collection</small>
+        </h2>
+        {steam ? (
+          <>
+            <div className="ops-hero ops-hero-split">
+              <div>
+                <strong>{number(steam.knownAssets) ?? "—"}</strong>
+                <span>Observable assets</span>
+                <small>{steam.enabled ? "Collecting" : "Collection disabled"}</small>
+              </div>
+              <div>
+                <strong>
+                  {number(steam.mappedAssets) ?? "—"}
+                  {steam.knownAssets !== null && (
+                    <em>/ {number(steam.knownAssets)}</em>
+                  )}
+                </strong>
+                <span>Mapped to FloatAlpha</span>
+                <small>
+                  {number(steam.unmappedAssets) ?? "—"} observed without a
+                  canonical asset
+                </small>
+              </div>
+            </div>
+            <div className="ops-figures">
+              <Figure
+                label="Ingestion cadence"
+                value="60 minutes"
+                note={`${number(steam.runs24h) ?? "—"} runs / 24h`}
+              />
+              <Figure
+                label="Last collection"
+                value={ago(steam.lastRunAt)}
+                note={utc(steam.lastRunAt) ?? undefined}
+              />
+              <Figure
+                label="Provider history"
+                value={number(steam.historyRows)}
+                note="transitions · change-only state records"
+              />
+              <Figure
+                label="Storage footprint"
+                value={megabytes(steam.historyBytes)}
+                note="state history relation"
+              />
+            </div>
+            <div className="ops-breakdown">
+              <header>
+                <span>Last run breakdown</span>
+                <small>{steam.collectorVersion ?? "—"}</small>
+              </header>
+              <div>
+                <Figure
+                  label="Changed"
+                  value={number(steam.changed)}
+                  note="state rows written"
+                />
+                <Figure
+                  label="Unchanged"
+                  value={number(steam.unchanged)}
+                  note="observed, nothing written"
+                />
+                <Figure
+                  label="Transform failures"
+                  value={number(steam.transformFailures)}
+                  note="rows that could not be normalized"
+                />
+              </div>
+            </div>
+            <p className="ops-note">
+              Steam-side market observation: listed offers, standing buy orders
+              and realised sales counts. Third-party marketplace values this
+              provider also returns are not collected.
+            </p>
+          </>
+        ) : (
+          <p role="status">
+            Not collecting yet · no SteamWebAPI run has been recorded.
+          </p>
+        )}
+      </section>
 
       {/* 5 · product engagement */}
       <section className="ops-panel">

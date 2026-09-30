@@ -43,6 +43,12 @@ const MARKET_TABLES = [
   "provider_asset_state",
   "provider_asset_state_history",
   "provider_collection_runs",
+  // Provider #2 (SteamWebAPI) market state. Same family and the same reason:
+  // collector evidence referencing collector_runs. Named for the venue they
+  // describe, not for Steam account linking, which is a separate stream.
+  "steam_market_state",
+  "steam_market_state_history",
+  "steam_price_history",
 ] as const;
 
 const PRODUCT_TABLES = [

@@ -49,7 +49,7 @@ describe("stream isolation is structural, not only guarded", () => {
     }
   });
 
-  it("market owns exactly the six market migrations", async () => {
+  it("market owns exactly the seven market migrations", async () => {
     expect(await journalTags("market")).toEqual([
       "0000_initial_market_snapshots",
       "0001_protect_observation_history",
@@ -57,6 +57,7 @@ describe("stream isolation is structural, not only guarded", () => {
       "0007_observation_rollups",
       "0008_provider_universe_state",
       "0009_provider_identity_nulls",
+      "0010_steamwebapi_provider",
     ]);
   });
 
@@ -237,7 +238,14 @@ describe("the duplicate steam migration is resolved", () => {
   it("only one steam migration file exists across all streams", async () => {
     const all: string[] = [];
     for (const name of Object.keys(STREAMS) as StreamName[])
-      all.push(...(await sqlFilesIn(name)).filter((f) => /steam/i.test(f)));
+      all.push(
+        ...(await sqlFilesIn(name)).filter(
+          // SteamWebAPI is a market-data vendor whose filename matches this
+          // pattern. Account linking is what this guard is about, and that is
+          // still expected to exist exactly once.
+          (f) => /steam/i.test(f) && !/steamwebapi/i.test(f),
+        ),
+      );
     expect(all).toEqual(["0000_steam_account_link.sql"]);
   });
 

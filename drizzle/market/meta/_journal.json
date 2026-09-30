@@ -43,6 +43,13 @@
       "when": 1789658022000,
       "tag": "0009_provider_identity_nulls",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790010000000,
+      "tag": "0010_steamwebapi_provider",
+      "breakpoints": true
     }
   ]
 }

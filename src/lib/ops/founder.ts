@@ -5,6 +5,7 @@ import { productDatabase } from "../product/db";
 import { database } from "../db";
 import { readMarketDataset } from "../product/intelligence/server";
 import { WINDOW_MS } from "../config";
+import { steamCollectionEnabled } from "../collectors/steamwebapi-collector";
 
 /**
  * Founder Operations overview.
@@ -87,6 +88,25 @@ export type FounderOverview = {
     observedAt: string | null;
     computedAt: string | null;
     error: string | null;
+  } | null;
+  /**
+   * Provider #2. Null until SteamWebAPI has produced a run, so the console can
+   * say "not collecting yet" rather than render zeros that look like failure.
+   */
+  steam: {
+    knownAssets: number | null;
+    mappedAssets: number | null;
+    unmappedAssets: number | null;
+    historyRows: number | null;
+    historyBytes: number | null;
+    lastRunAt: Timestamp;
+    runs24h: number | null;
+    changed: number | null;
+    unchanged: number | null;
+    disappeared: number | null;
+    transformFailures: number | null;
+    collectorVersion: string | null;
+    enabled: boolean;
   } | null;
   collector: {
     runs24h: number | null;
@@ -230,6 +250,12 @@ export async function readFounderOverview(
     return rows;
   })) ?? [];
 
+  /*
+   * Every provider query below is scoped by provider. These tables were built
+   * multi-provider and SteamWebAPI now writes to them too; without the filter
+   * the Skinport panel would silently report 65,000 observable assets and a
+   * run log interleaving two different cadences.
+   */
   const provider = await attempt(async () => {
     const db = database();
     const [run] = rowsOf<{
@@ -249,7 +275,9 @@ export async function readFounderOverview(
         select observed_at, assets_received, assets_mapped, assets_unmapped,
                states_changed, states_unchanged, disappeared, reappeared,
                transform_failures, collector_version, normalization_version
-        from provider_collection_runs order by observed_at desc limit 1
+        from provider_collection_runs
+        where provider = 'SKINPORT_DIRECT'
+        order by observed_at desc limit 1
       `),
     );
     const [totals] = rowsOf<{
@@ -259,11 +287,13 @@ export async function readFounderOverview(
       runs_24h: number;
     }>(
       await db.execute(sql`
-        select (select count(*) from provider_assets)::int as known,
+        select (select count(*) from provider_assets
+                  where provider = 'SKINPORT_DIRECT')::int as known,
                (select count(*) from provider_asset_state_history)::int as history_rows,
                pg_total_relation_size('provider_asset_state_history')::bigint as history_bytes,
                (select count(*) from provider_collection_runs
-                  where observed_at >= now() - interval '24 hours')::int as runs_24h
+                  where provider = 'SKINPORT_DIRECT'
+                    and observed_at >= now() - interval '24 hours')::int as runs_24h
       `),
     );
     return { run, totals };
@@ -290,12 +320,53 @@ export async function readFounderOverview(
                  c.status as status
           from provider_collection_runs r
           left join collector_runs c on c.id = r.collector_run_id
+          where r.provider = 'SKINPORT_DIRECT'
           order by r.observed_at desc
           limit ${RECENT_RUNS}
         `),
       );
       return rows;
     })) ?? [];
+
+  const steam = await attempt(async () => {
+    const db = database();
+    const [run] = rowsOf<{
+      observed_at: Timestamp;
+      states_changed: number;
+      states_unchanged: number;
+      disappeared: number;
+      transform_failures: number;
+      collector_version: string;
+    }>(
+      await db.execute(sql`
+        select observed_at, states_changed, states_unchanged, disappeared,
+               transform_failures, collector_version
+        from provider_collection_runs
+        where provider = 'STEAMWEBAPI'
+        order by observed_at desc limit 1
+      `),
+    );
+    const [totals] = rowsOf<{
+      known: number;
+      mapped: number;
+      history_rows: number;
+      history_bytes: number;
+      runs_24h: number;
+    }>(
+      await db.execute(sql`
+        select (select count(*) from provider_assets
+                  where provider = 'STEAMWEBAPI')::int as known,
+               (select count(*) from provider_assets
+                  where provider = 'STEAMWEBAPI' and asset_id is not null)::int as mapped,
+               (select count(*) from steam_market_state_history)::int as history_rows,
+               pg_total_relation_size('steam_market_state_history')::bigint as history_bytes,
+               (select count(*) from provider_collection_runs
+                  where provider = 'STEAMWEBAPI'
+                    and observed_at >= now() - interval '24 hours')::int as runs_24h
+      `),
+    );
+    return { run, totals };
+  });
 
   const collector = await attempt(async () => {
     const [row] = rowsOf<{
@@ -388,6 +459,27 @@ export async function readFounderOverview(
           error: dataset.error,
         }
       : null,
+    steam:
+      steam && (steam.totals?.known ?? 0) > 0
+        ? {
+            knownAssets: steam.totals?.known ?? null,
+            mappedAssets: steam.totals?.mapped ?? null,
+            unmappedAssets:
+              steam.totals
+                ? Math.max(0, steam.totals.known - steam.totals.mapped)
+                : null,
+            historyRows: steam.totals?.history_rows ?? null,
+            historyBytes: Number(steam.totals?.history_bytes ?? 0) || null,
+            lastRunAt: steam.run?.observed_at ?? null,
+            runs24h: steam.totals?.runs_24h ?? null,
+            changed: steam.run?.states_changed ?? null,
+            unchanged: steam.run?.states_unchanged ?? null,
+            disappeared: steam.run?.disappeared ?? null,
+            transformFailures: steam.run?.transform_failures ?? null,
+            collectorVersion: steam.run?.collector_version ?? null,
+            enabled: steamCollectionEnabled(),
+          }
+        : null,
     collector: collector
       ? {
           runs24h: collector.runs_24h ?? null,
