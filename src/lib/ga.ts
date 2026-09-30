@@ -45,21 +45,39 @@ export type AnalyticsEvent =
    */
   | { name: "preview_signup_completed"; params?: Record<string, never> }
   /*
-   * 3D inspection. Only what the application can actually observe: the reader
-   * asking for the viewer, the cross-origin frame loading, and initialisation
-   * failing. Anything inside the iframe — rotating, entering Arena — is
-   * invisible to us, so there is no event claiming to measure it.
+   * 3D inspection.
    *
-   * No inspect link and no Steam identifier is ever sent.
+   * Automatic initialisation and a reader switching modes are different facts
+   * and are never merged: for a verified asset the viewer starts on its own,
+   * so an initialisation is not evidence that anyone wanted it. Only
+   * asset_visual_mode_changed measures intent.
+   *
+   * asset_3d_loaded comes from the provider's own readiness message, not from
+   * an iframe load event, which proves nothing about whether a weapon is on
+   * screen. The provider emits no error message, so a failure is a timeout —
+   * the reason field says which.
+   *
+   * Arena happens inside a cross-origin frame and is invisible to us, so there
+   * is no event claiming to count it. No inspect link and no Steam identifier
+   * is ever sent.
    */
   | {
-      name: "asset_3d_view_requested";
+      name: "asset_3d_auto_initialized";
       params: { asset_id: string; category?: string };
     }
-  | { name: "asset_3d_view_loaded"; params: { asset_id: string } }
+  | { name: "asset_3d_loaded"; params: { asset_id: string } }
   | {
-      name: "asset_3d_view_failed";
+      name: "asset_3d_failed";
       params: { asset_id: string; reason: string };
+    }
+  | {
+      name: "asset_visual_mode_changed";
+      params: {
+        asset_id: string;
+        from: "image" | "3d";
+        to: "image" | "3d";
+        category?: string;
+      };
     };
 
 /**

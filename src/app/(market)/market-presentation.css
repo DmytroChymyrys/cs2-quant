@@ -92,6 +92,18 @@
 #main-content.market-workspace .asset-top > .page-heading { flex: 1 1 320px; }
 #main-content.market-workspace .asset-top > .snapshot-transparency { flex-basis: 100%; order: 2; margin: 0; }
 #main-content.market-workspace .asset-top > .metric-grid { flex: 1 1 100%; grid-template-columns: repeat(5,minmax(0,1fr)); order: 3; }
+/*
+ * The hero visual is now roughly 375px tall on every asset that renders in
+ * 3D, where it used to be a 104px thumbnail. Centring the title against a
+ * frame that tall leaves it floating in the middle of nothing, so the row
+ * top-aligns whenever the visual is present.
+ *
+ * This lives here because this file is what actually lays the row out: the
+ * grid declared in visual-fidelity.css never applies, since these ID-based
+ * selectors outrank it. A class-based `align-items` override elsewhere loses
+ * the same way, which is why the earlier attempt at it had no effect.
+ */
+#main-content.market-workspace .asset-top:has(> .asset-visual) { align-items: flex-start; }
 #main-content.market-workspace .asset-intelligence .terminal-grid { gap: 16px; border: 0; }
 #main-content.market-workspace .asset-intelligence .terminal-grid > .stack { border: 0; }
 #main-content.market-workspace .asset-intelligence .chart svg { height: 360px; }

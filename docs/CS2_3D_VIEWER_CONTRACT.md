@@ -1,11 +1,13 @@
 # CS2 3D Viewer — integration contract
 
-**Documentation only. Nothing in this document is implemented.** No iframe, no
-viewer key, no Arena, no public configuration variable has been added.
+**Status: implemented and live.** The viewer ships on Asset Intelligence and,
+since V1.1, is the default representation for assets whose category is known to
+render well. Sections 1-11 below are the discovery record and are kept as
+written; sections 12-14 describe what is actually deployed.
 
 This records what was verified about the SteamWebAPI / cs2screen interactive
-viewer so the next phase can be designed without re-investigating, and so the
-credential boundary is written down before anyone writes the embed.
+viewer so the integration did not have to be re-investigated, and so the
+credential boundary was written down before anyone wrote the embed.
 
 ---
 
@@ -212,8 +214,91 @@ Controls that **cannot** be hidden from the application side: everything in the
 table above is panel-side only. FloatAlpha code cannot suppress a provider
 control, so anything left enabled in the panel will appear inside the frame.
 
-## Explicitly not done in this batch
+## 13. Readiness, and the failure we cannot observe
 
-No iframe, no `NEXT_PUBLIC_CS2_VIEWER_KEY`, no viewer key obtained or committed,
-no Arena, no generic asset→inspect-link mapping, no Connect Steam, no change to
-any product page.
+`iframe.onload` proves only that a document loaded. It does not prove the
+inspect target was accepted, that WebGL started, or that a weapon is on screen,
+so promoting 3D on load is how a reader gets shown an empty black box.
+
+The viewer posts to its parent instead. Observed on the wire, it emits exactly
+**two** message types:
+
+| Message | Meaning |
+|---|---|
+| `cs2viewer:ready` | The viewer is usable. This is the only signal 3D is promoted on. |
+| `cs2viewer:preview` | A screenshot the visitor took. Unused. |
+
+**There is no error message.** Failure is therefore not directly observable.
+The integration infers it from the absence of `cs2viewer:ready` within 20
+seconds, which is a real limitation rather than a design choice: a viewer that
+fails in under 20s still costs the reader the full timeout before the image
+returns, and a viewer that is merely slow on a cold WebGL start is
+indistinguishable from one that is broken.
+
+This is mitigated, not solved, by never removing the image: it holds the hero
+for the whole interval, so a timeout costs the reader nothing but the 3D view
+they would not have got anyway. If the provider later emits an error message,
+the timeout should become a backstop rather than the primary signal.
+
+Messages are accepted only from `https://3d.cs2screen.com`. Any page can
+postMessage into ours, and only the viewer's own origin is evidence that the
+viewer is working.
+
+## 14. V1.1 — 3D as the default representation
+
+V1 offered 3D behind a toggle that defaulted to a 160x104 static thumbnail in a
+600px hero. V1.1 inverts that for assets we have actually looked at.
+
+**Eligibility is two separate questions**, and conflating them was the trap:
+
+1. *Is there a target?* A renderable certificate inspect link in
+   `provider_assets.static_metadata->>'inspectlink'`. Measured in production:
+   **74 of the 100 tracked assets**. The other 26 are containers, which are not
+   inspectable items — a real absence, not a gap to paper over.
+2. *Is it known to render well?* The asset's `itemgroup`. A link only proves
+   something will render, never that it renders **well**, so only verified
+   categories are promoted into the hero unattended.
+
+Verified categories: `rifle`, `pistol`, `sniper rifle`, `smg`, `shotgun`,
+`machinegun`, `knife`, `gloves`, `sticker`. Rifle, pistol, sniper rifle, knife,
+gloves and sticker were each opened in the viewer — a sticker renders as a
+genuine embossed decal, and gloves and knives frame correctly despite very
+different geometry. SMG, shotgun and machinegun are included as the same
+weapon-skin family as the three weapon classes that were checked; they were not
+each opened by hand, and that is the weakest claim in this table.
+
+Everything else — `graffiti`, `charm`, `agent`, `music kit`, `patch`,
+`container`, `equipment` — shows the image by default **even when a link
+exists**, and keeps 3D on the switch. All 74 link-bearing tracked assets fall
+in verified categories, so in practice every asset that can show 3D does.
+
+**The image is never a consolation prize.** Both representations share one
+stage, one aspect ratio and one width, so switching does not restructure the
+page and the hero has stable dimensions from first paint. The image is centred
+with `object-fit: contain` and never distorted; against production art (512x384
+source, ~552x327 frame) it renders at roughly 436x327, scaled down rather than
+up.
+
+**Nothing waits for the viewer.** The image renders immediately and holds the
+hero while the viewer starts behind it. There is no blank hero and no spinner
+where the asset should be.
+
+**The preference is per-session.** An explicit choice is remembered in
+`sessionStorage` and outranks the default in both directions, so choosing the
+image once does not mean re-choosing it on every asset. It is a display
+preference, not a setting: no account field, no database, nothing that follows
+the reader to another device or outlives the tab.
+
+### Analytics
+
+| Event | Fires when |
+|---|---|
+| `asset_3d_auto_initialized` | 3D started because it is the default. **Not evidence of interest.** |
+| `asset_visual_mode_changed` | The reader switched, with `from` and `to`. The only event that measures intent. |
+| `asset_3d_loaded` | The provider's readiness message arrived. |
+| `asset_3d_failed` | With a `reason`: `READY_TIMEOUT` or `IFRAME_ERROR`. |
+
+Under V1.1 most 3D sessions are automatic, so a single combined event would
+report enthusiasm nobody expressed. Rotation and Arena happen inside a
+cross-origin iframe and remain invisible to the parent; no event claims
+otherwise.

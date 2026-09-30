@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
  * cs2screen interactive viewer — the only place that knows this vendor exists.
  *
  * Everything provider-specific lives here: the origin, the query contract, the
- * iframe permissions. `Asset3DPanel` above it speaks only in FloatAlpha terms,
- * so replacing the 3D vendor later is a change to this file rather than to
- * Asset Intelligence.
+ * readiness message, the iframe permissions. `Asset3DPanel` above it speaks
+ * only in FloatAlpha terms, so replacing the 3D vendor later is a change to
+ * this file rather than to Asset Intelligence.
  *
  * ## The URL contract
  *
@@ -30,6 +30,24 @@ import { useEffect, useRef, useState } from "react";
  */
 
 export const CS2SCREEN_ORIGIN = "https://3d.cs2screen.com";
+
+/**
+ * The provider's readiness message, observed on the wire.
+ *
+ * `iframe.onload` proves only that a document loaded — not that the inspect
+ * target was accepted, that WebGL started, or that a weapon is on screen. The
+ * viewer posts `{type:"cs2viewer:ready"}` to its parent when it is actually
+ * usable, and that is what this component waits for.
+ *
+ * The provider emits exactly two message types, `cs2viewer:ready` and
+ * `cs2viewer:preview`. **There is no error message.** Failure is therefore not
+ * directly observable and is inferred from the absence of readiness within a
+ * timeout — a real limitation, recorded rather than papered over.
+ */
+const READY_MESSAGE = "cs2viewer:ready";
+
+/** Longer than a cold WebGL start, short enough to fail before a reader gives up. */
+const READY_TIMEOUT_MS = 20_000;
 
 export function cs2screenViewerUrl({
   inspectLink,
@@ -69,90 +87,76 @@ export function cs2screenViewerUrl({
  * blanket `allow="*"`. The sandbox permits scripts, same-origin (the viewer
  * needs its own storage for settings) and popups for its screenshot download —
  * but not top-navigation, so the frame cannot move the page underneath it.
+ *
+ * Automatic initialisation does not widen any of this.
  */
 const ALLOW = "fullscreen; gamepad; xr-spatial-tracking";
 const SANDBOX =
   "allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-downloads";
 
-/** Longer than a cold WebGL start, short enough to fail before a user gives up. */
-const LOAD_TIMEOUT_MS = 25_000;
-
 export function CS2ScreenViewer({
   inspectLink,
   viewerKey,
   title,
-  onLoaded,
+  onReady,
   onFailed,
-  onExit,
 }: {
   inspectLink: string;
   viewerKey: string;
   title: string;
-  onLoaded?: () => void;
+  /** Fired on the provider's own readiness message, never on iframe load. */
+  onReady?: () => void;
   onFailed?: (reason: string) => void;
-  /** Hands the reader back to the static image when 3D cannot be shown. */
-  onExit?: () => void;
 }) {
-  const [state, setState] = useState<"loading" | "ready" | "failed">("loading");
+  const [failed, setFailed] = useState(false);
   const settled = useRef(false);
 
   useEffect(() => {
-    /*
-     * The iframe is cross-origin, so `load` firing is the only signal the
-     * parent can honestly observe — it means the document loaded, not that the
-     * item rendered. Anything more specific would be invented. The timeout
-     * covers the case where the frame never loads at all.
-     */
-    const timer = setTimeout(() => {
+    const finish = (ok: boolean, reason: string) => {
       if (settled.current) return;
       settled.current = true;
-      setState("failed");
-      onFailed?.("TIMEOUT");
-    }, LOAD_TIMEOUT_MS);
-    return () => clearTimeout(timer);
-  }, [onFailed]);
+      if (ok) onReady?.();
+      else {
+        setFailed(true);
+        onFailed?.(reason);
+      }
+    };
+    const onMessage = (event: MessageEvent) => {
+      // Origin-checked: any page can post to us, and only the viewer's own
+      // message may be treated as evidence that the viewer is working.
+      if (event.origin !== CS2SCREEN_ORIGIN) return;
+      const type =
+        typeof event.data === "object" && event.data !== null
+          ? (event.data as { type?: unknown }).type
+          : undefined;
+      if (type === READY_MESSAGE) finish(true, "READY");
+    };
+    window.addEventListener("message", onMessage);
+    // No error message exists, so silence past the timeout is the only
+    // failure signal available.
+    const timer = setTimeout(() => finish(false, "READY_TIMEOUT"), READY_TIMEOUT_MS);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      clearTimeout(timer);
+    };
+  }, [onReady, onFailed]);
 
-  const src = cs2screenViewerUrl({ inspectLink, viewerKey });
+  if (failed) return null;
 
   return (
-    <div className="asset-3d-frame" data-state={state}>
-      {state === "loading" && (
-        <div className="asset-3d-loading" role="status">
-          <span className="asset-3d-spinner" aria-hidden="true" />
-          <span>Loading 3D view…</span>
-        </div>
-      )}
-      {state === "failed" ? (
-        <div className="asset-3d-fallback" role="status">
-          <p>3D preview unavailable.</p>
-          {onExit && (
-            <button type="button" className="btn small" onClick={onExit}>
-              Back to image
-            </button>
-          )}
-        </div>
-      ) : (
-        <iframe
-          src={src}
-          title={title}
-          allow={ALLOW}
-          sandbox={SANDBOX}
-          loading="lazy"
-          referrerPolicy="strict-origin"
-          onLoad={() => {
-            if (settled.current) return;
-            settled.current = true;
-            setState("ready");
-            onLoaded?.();
-          }}
-          onError={() => {
-            if (settled.current) return;
-            settled.current = true;
-            setState("failed");
-            onFailed?.("IFRAME_ERROR");
-          }}
-        />
-      )}
-    </div>
+    <iframe
+      className="asset-3d-frame"
+      src={cs2screenViewerUrl({ inspectLink, viewerKey })}
+      title={title}
+      allow={ALLOW}
+      sandbox={SANDBOX}
+      referrerPolicy="strict-origin"
+      onError={() => {
+        if (settled.current) return;
+        settled.current = true;
+        setFailed(true);
+        onFailed?.("IFRAME_ERROR");
+      }}
+    />
   );
 }

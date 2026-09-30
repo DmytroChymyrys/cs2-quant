@@ -3506,77 +3506,88 @@ body {
   min-height: 0;
 }
 
-/* Asset Intelligence — the asset visual, image or 3D.
-   3D is another representation of the same thing the image shows, so it shares
-   one area and one control rather than occupying a second section. */
+/* Asset Intelligence — the asset visual.
+   Image and 3D are two representations of one thing, so they share one frame,
+   one footprint and one control. Switching between them must not restructure
+   the page. */
 .asset-visual {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
+/* One stage, one aspect ratio, whichever mode is showing — so the hero has
+   stable dimensions from first paint and the viewer arriving causes no shift. */
 .asset-visual-stage {
   position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 58vh;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
   background: #070b10;
 }
-/* Both layers stay in the tree once 3D is open; the inactive one is hidden so
-   the iframe is never torn down by a toggle. */
-.asset-visual-layer[data-active="false"] {
-  display: none;
-}
-/*
- * In 3D the active layer fills the stage exactly.
- *
- * Without this the chain is a percentage height against an auto-height
- * ancestor, which resolves to `auto` — and an iframe with auto height falls
- * back to its intrinsic 150px. The stage measured 375px while the iframe
- * measured 150px, so the viewer laid itself out for a 150px viewport: its
- * bottom-anchored controls and item card sat near the top of the frame with
- * empty background below. Absolute positioning gives every descendant a
- * definite box to resolve against.
- */
-.asset-visual[data-mode="3d"] .asset-visual-layer[data-active="true"] {
+.asset-visual-layer {
   position: absolute;
   inset: 0;
 }
-/* In image mode the stage is only as tall as the image; in 3D it takes a
-   deliberate, useful height without swallowing the first viewport. */
-.asset-visual[data-mode="3d"] .asset-visual-stage {
-  aspect-ratio: 16 / 10;
-  max-height: 58vh;
+/* Both layers stay in the tree once 3D is mounted; the inactive one is hidden
+   so the iframe is never torn down by a toggle. */
+.asset-visual-layer[data-active="false"] {
+  visibility: hidden;
 }
 /*
- * The identity column is 235px, which is fine for a thumbnail and useless for
- * a 3D scene — the provider's own controls overlap at that width and long
- * geometry like an AWP crops. In 3D the column widens; the title and metric
- * grid keep their positions beside it, so the asset and its market state are
- * still the first things read.
+ * The iframe needs a definite box. A percentage height against an auto-height
+ * ancestor resolves to `auto`, and an iframe with auto height falls back to
+ * its intrinsic 150px — the viewer then lays itself out for a 150px viewport,
+ * with its bottom-anchored controls near the top and empty background below.
  */
-@media (min-width: 1025px) {
-  /*
-   * Sized on the item, not on a parent track. `.asset-top` resolves to a flex
-   * container in practice despite declaring a grid, so grid-template-columns
-   * is inert there — and the stage is width:100% with an aspect ratio, so it
-   * never demands width of its own either. Giving the visual a definite width
-   * works under both layout models. The upper bound keeps narrower desktops
-   * from handing the whole row to the viewer.
-   */
-  .asset-visual[data-mode="3d"] {
-    width: min(600px, 44vw);
-    flex: 0 0 auto;
-  }
+.asset-3d-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #070b10;
 }
-@media (max-width: 1024px) {
-  /* Narrow desktops and tablets: the hero stacks, so use the full width
-     rather than inheriting the thumbnail column. */
-  .asset-visual[data-mode="3d"] {
-    width: 100%;
-  }
-  .asset-intelligence .asset-top:has(.asset-visual[data-mode="3d"]) {
-    align-items: flex-start;
-  }
+/*
+ * The static image is a real representation, not a thumbnail.
+ *
+ * `.asset-image-well` is normally a 160x104 inline box, and `asset-images.css`
+ * is imported by the market layout — i.e. AFTER this file — so an equally
+ * specific override would lose. These selectors are deliberately one class
+ * heavier than `.asset-image-well.large`.
+ *
+ * Inside the stage the well stops being a framed chip and becomes the frame
+ * itself: no border of its own, no fixed size, just centring.
+ */
+.asset-visual .asset-visual-layer .asset-image-well {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: transparent;
+}
+/*
+ * `contain` fills the frame on one axis and letterboxes the other, so the
+ * artwork is never distorted. Measured against production art: the source is
+ * 512x384, and the desktop frame's content box is about 552x327 — so the image
+ * is scaled DOWN to roughly 436x327, filling the frame's height. It occupies
+ * the same hero footprint as 3D without being upscaled.
+ *
+ * The element carries width/height attributes of 160x104 for the thumbnail
+ * case; these declarations override them, and both axes are set so the
+ * attributes cannot reintroduce the thumbnail box.
+ */
+.asset-visual .asset-visual-layer .asset-image-well img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .asset-visual-switch {
   display: inline-flex;
@@ -3600,9 +3611,11 @@ body {
 .asset-visual-switch button + button {
   border-left: 1px solid var(--border);
 }
+/* Selected state carries a background and a border, not colour alone. */
 .asset-visual-switch button[aria-pressed="true"] {
   background: #16212c;
   color: var(--cyan);
+  box-shadow: inset 0 -2px 0 var(--cyan);
 }
 .asset-visual-switch button:focus-visible {
   outline: 2px solid var(--cyan);
@@ -3615,67 +3628,21 @@ body {
   line-height: 1.6;
   max-width: 62ch;
 }
-/* The viewer fills the stage it was given. */
-.asset-3d-frame {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #070b10;
-  overflow: hidden;
-}
-.asset-3d-frame iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-.asset-3d-loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: var(--secondary);
-  font: 11px var(--mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.asset-3d-spinner {
-  width: 13px;
-  height: 13px;
-  border: 2px solid #22313f;
-  border-top-color: var(--cyan);
-  border-radius: 50%;
-  animation: asset-3d-spin 0.8s linear infinite;
-}
-@keyframes asset-3d-spin {
-  to { transform: rotate(360deg); }
-}
-/* Reduced motion still needs a visible loading state, so the spinner stops
-   turning rather than disappearing. */
-@media (prefers-reduced-motion: reduce) {
-  .asset-3d-spinner { animation: none; }
-}
-.asset-3d-fallback {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  height: 100%;
-  min-height: 300px;
-  padding: 22px;
-  color: var(--secondary);
-  font-size: 12px;
-  text-align: center;
-}
-.asset-3d-fallback p {
-  margin: 0;
+@media (min-width: 1025px) {
+  /*
+   * Sized on the item, not on a parent track: `.asset-top` resolves to a flex
+   * container despite declaring a grid, so grid-template-columns is inert
+   * there. The visual now keeps this width in both modes, so Image and 3D
+   * occupy the same hero footprint.
+   */
+  .asset-visual {
+    width: min(600px, 44vw);
+    flex: 0 0 auto;
+  }
 }
 @media (max-width: 767px) {
-  /* Full width, comfortably tall, never a cramped side-by-side viewer. */
-  .asset-visual[data-mode="3d"] .asset-visual-stage {
+  /* Full width and a taller frame; never a cramped side-by-side viewer. */
+  .asset-visual-stage {
     aspect-ratio: 4 / 3;
     max-height: none;
   }

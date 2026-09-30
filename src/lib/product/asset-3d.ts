@@ -30,9 +30,41 @@ import { database } from "../db";
  * weapons — that is a real absence, not a gap to paper over.
  */
 
+/**
+ * Categories whose rendering has been looked at, not merely link-checked.
+ *
+ * A non-null inspectlink is not evidence that an asset looks right in the
+ * viewer, so defaulting to 3D is gated on the category as well as the link.
+ *
+ * Empirically checked in the viewer: rifle, pistol, sniper rifle, knife,
+ * gloves and sticker — a sticker renders as a genuine embossed decal, and
+ * gloves and knives frame correctly despite very different geometry. SMG,
+ * shotgun and machinegun are included as the same weapon-skin family as the
+ * three weapon classes that were checked; they were not each opened by hand.
+ *
+ * Everything else — containers, graffiti, charms, agents, music kits, patches
+ * — stays unverified and shows the image by default, even when a link exists.
+ */
+export const VERIFIED_3D_CATEGORIES = new Set([
+  "rifle",
+  "pistol",
+  "sniper rifle",
+  "smg",
+  "shotgun",
+  "machinegun",
+  "knife",
+  "gloves",
+  "sticker",
+]);
+
 export type Asset3dTarget =
   | {
       status: "AVAILABLE";
+      /**
+       * Whether this category is known to render well, and so whether 3D may
+       * be the default rather than merely offered.
+       */
+      verified: boolean;
       /** The complete Steam inspect link, unmodified. */
       inspectLink: string;
       /** Where it came from, so the UI never implies FloatAlpha measured it. */
@@ -85,6 +117,7 @@ export async function resolveAsset3dTarget(
   try {
     const result = (await db.execute(sql`
       SELECT pa.static_metadata->>'inspectlink' AS inspect_link,
+             pa.static_metadata->>'itemgroup' AS item_group,
              (
                SELECT count(*)::int FROM provider_assets other
                WHERE other.provider = ${PROVIDER}
@@ -96,7 +129,11 @@ export async function resolveAsset3dTarget(
         AND pa.asset_id = ${assetId}::uuid
       LIMIT 1
     `)) as unknown as {
-      rows: { inspect_link: string | null; sharing: number }[];
+      rows: {
+        inspect_link: string | null;
+        item_group: string | null;
+        sharing: number;
+      }[];
     };
     const row = result.rows[0];
     if (!row) return { status: "UNAVAILABLE", reason: "NO_PROVIDER_ASSET" };
@@ -106,6 +143,9 @@ export async function resolveAsset3dTarget(
       return { status: "UNAVAILABLE", reason: "MALFORMED_INSPECT_LINK" };
     return {
       status: "AVAILABLE",
+      verified: VERIFIED_3D_CATEGORIES.has(
+        (row.item_group ?? "").trim().toLowerCase(),
+      ),
       inspectLink: link,
       provenance: {
         provider: PROVIDER,

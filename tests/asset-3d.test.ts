@@ -12,6 +12,11 @@ import {
   cs2screenViewerUrl,
   CS2SCREEN_ORIGIN,
 } from "../src/components/cs2screen-viewer";
+import {
+  chooseInitialVisualMode,
+  parseVisualMode,
+  VISUAL_MODE_PREFERENCE_KEY,
+} from "../src/lib/product/asset-visual-mode";
 
 const source = (path: string) => readFile(path, "utf8");
 /*
@@ -80,13 +85,45 @@ describe("eligibility is resolved on the server", () => {
     vi.stubEnv("NEXT_PUBLIC_CS2_VIEWER_KEY", "pk_testkey000000000000000");
     const target = await resolveAsset3dTarget(
       "11111111-1111-1111-1111-111111111111",
-      db([{ inspect_link: PLUS, sharing: 1 }]),
+      db([{ inspect_link: PLUS, item_group: "rifle", sharing: 1 }]),
     );
     expect(target).toEqual({
       status: "AVAILABLE",
+      verified: true,
       inspectLink: PLUS,
       provenance: { provider: "STEAMWEBAPI", venue: "STEAM", shared: false },
     });
+    vi.unstubAllEnvs();
+  });
+
+  it("separates 'has a link' from 'is known to render well'", async () => {
+    vi.stubEnv("NEXT_PUBLIC_CS2_VIEWER_KEY", "pk_testkey000000000000000");
+    const verifiedOf = async (itemGroup: unknown) => {
+      const t = await resolveAsset3dTarget(
+        "11111111-1111-1111-1111-111111111111",
+        db([{ inspect_link: PLUS, item_group: itemGroup, sharing: 1 }]),
+      );
+      return t.status === "AVAILABLE" && t.verified;
+    };
+    // Looked at in the viewer, or the same weapon-skin family as one that was.
+    for (const group of [
+      "rifle",
+      "pistol",
+      "sniper rifle",
+      "knife",
+      "gloves",
+      "sticker",
+      "SMG",
+      "  Shotgun  ",
+    ])
+      expect(await verifiedOf(group), String(group)).toBe(true);
+    /*
+     * These have links too. A link only proves something will render, never
+     * that it renders well, so they show the image by default and keep 3D on
+     * the switch rather than being promoted into the hero unseen.
+     */
+    for (const group of ["graffiti", "agent", "music kit", "patch", "charm", null, ""])
+      expect(await verifiedOf(group), String(group)).toBe(false);
     vi.unstubAllEnvs();
   });
 
@@ -94,7 +131,7 @@ describe("eligibility is resolved on the server", () => {
     vi.stubEnv("NEXT_PUBLIC_CS2_VIEWER_KEY", "pk_testkey000000000000000");
     const target = await resolveAsset3dTarget(
       "11111111-1111-1111-1111-111111111111",
-      db([{ inspect_link: PLUS, sharing: 4 }]),
+      db([{ inspect_link: PLUS, item_group: "rifle", sharing: 4 }]),
     );
     // Measured: no shared link spans two different skins. That is a
     // measurement, so it is surfaced rather than assumed permanent.
@@ -220,57 +257,148 @@ describe("3D is a representation of the asset, not a second section", () => {
     const page = await source("src/app/(market)/asset/[slug]/page.tsx");
     expect(page).toContain("image={<AssetImage name={a.name}");
   });
+});
 
-  it("defaults to the image", async () => {
-    const visual = await source("src/components/asset-visual.tsx");
-    expect(visual).toContain('useState<"image" | "3d">("image")');
+describe("which representation a reader lands on", () => {
+  it("defaults an asset that renders well to 3D", () => {
+    // The whole point of V1.1: on a rifle or a knife, 3D IS the asset, and a
+    // 160x104 thumbnail in a 600px hero was not a presentation of anything.
+    expect(chooseInitialVisualMode({ verified: true, stored: null })).toBe("3d");
   });
 
-  it("offers the switch only for an eligible asset", async () => {
+  it("defaults everything else to the image", () => {
+    /*
+     * An unverified category has never been opened in the viewer. Showing it
+     * anyway would make the hero a guess, and the first impression of an
+     * asset page is not a place to guess.
+     */
+    expect(chooseInitialVisualMode({ verified: false, stored: null })).toBe("image");
+  });
+
+  it("lets a choice made earlier in the session outrank the default", () => {
+    // Both directions: the reader has seen the switch and used it.
+    expect(chooseInitialVisualMode({ verified: true, stored: "image" })).toBe("image");
+    expect(chooseInitialVisualMode({ verified: false, stored: "3d" })).toBe("3d");
+  });
+
+  it("ignores anything in storage that is not a mode", () => {
+    // sessionStorage returns whatever is in it, including values we never
+    // wrote; an unrecognised one must fall through to the default, not throw.
+    for (const junk of ["", "3D", "IMAGE", "true", "null", null, undefined, 3])
+      expect(parseVisualMode(junk), String(junk)).toBeNull();
+    expect(parseVisualMode("image")).toBe("image");
+    expect(parseVisualMode("3d")).toBe("3d");
+  });
+
+  it("stores the preference for the session only", async () => {
     const visual = await source("src/components/asset-visual.tsx");
-    expect(visual).toContain('const eligible = target.status === "AVAILABLE"');
-    expect(visual).toContain("{eligible && (");
+    /*
+     * sessionStorage, not localStorage and not the account: this is how the
+     * page looks, not something the reader configured, and it must not follow
+     * them to another device or outlive the tab.
+     */
+    expect(visual).toContain("sessionStorage.getItem(VISUAL_MODE_PREFERENCE_KEY)");
+    expect(visual).toContain("sessionStorage.setItem(VISUAL_MODE_PREFERENCE_KEY, mode)");
+    expect(visual).not.toContain("localStorage");
+    expect(VISUAL_MODE_PREFERENCE_KEY).toBe("floatalpha.assetVisualMode");
+  });
+
+  it("survives storage being unavailable", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    // Private windows and blocked site data throw on access. A preference
+    // that cannot be read is not a reason for the hero to fail.
+    const read = visual.slice(visual.indexOf("function readPreference"));
+    expect(read.slice(0, 260)).toContain("try {");
+    expect(read.slice(0, 260)).toContain("catch");
+    const write = visual.slice(visual.indexOf("function writePreference"));
+    expect(write.slice(0, 260)).toContain("try {");
+    expect(write.slice(0, 260)).toContain("catch");
+  });
+
+  it("renders the image first even when 3D will win", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    /*
+     * The server has no sessionStorage, so the initial state must be the same
+     * on both sides or the markup mismatches. The image is also the only
+     * thing that can be on screen instantly, so the hero is never blank and
+     * never a spinner while a third-party frame starts.
+     */
+    /*
+     * The preference lives in sessionStorage, which the server cannot see.
+     * Reading it during render — or branching on `typeof window` — produces
+     * markup the server never sent, and React discards the subtree on
+     * hydration. useSyncExternalStore takes a separate server snapshot for
+     * exactly this, so the first client render matches and the real value is
+     * picked up without a correcting setState.
+     */
+    expect(visual).toContain("useSyncExternalStore(");
+    expect(visual).toContain("const NO_SERVER_PREFERENCE = () => null;");
+    expect(visual).not.toContain("typeof window");
+    // And the image layer is always in the tree, never conditional on 3D.
+    const stage = visual.slice(visual.indexOf('className="asset-visual-stage"'));
+    expect(stage.slice(0, 200)).toContain("{image}");
   });
 });
 
-describe("activation is lazy and the viewer is not torn down", () => {
-  it("mounts no iframe until 3D is chosen", async () => {
+describe("the switch offers both, in the order the product means", () => {
+  it("puts 3D first for an eligible asset", async () => {
     const visual = await source("src/components/asset-visual.tsx");
-    expect(visual).toContain("const [mounted, setMounted] = useState(false)");
-    expect(visual).toContain("{eligible && mounted && (");
+    const group = visual.slice(visual.indexOf('className="asset-visual-switch"'));
+    // Reading order is a claim about which one matters here.
+    expect(group.indexOf('choose("3d")')).toBeLessThan(group.indexOf('choose("image")'));
   });
 
-  it("goes straight to the viewer with no intermediate click", async () => {
+  it("withdraws the switch when 3D is not on offer", async () => {
     const visual = await source("src/components/asset-visual.tsx");
-    // One control, one action: Image | 3D. No "Launch viewer" card between.
-    expect(visual).not.toContain("View in 3D");
-    expect(visual).toContain("onClick={show3d}");
+    // Not eligible, or already failed: a control that cannot deliver is worse
+    // than no control.
+    expect(visual).toContain("{eligible && !broken && (");
   });
 
-  it("hides rather than unmounts when switching back to the image", async () => {
-    const visual = await source("src/components/asset-visual.tsx");
+  it("marks the selected side for more than colour", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    const on = css.slice(css.indexOf('.asset-visual-switch button[aria-pressed="true"] {'));
+    expect(on.slice(0, 200)).toContain("background:");
+    expect(on.slice(0, 200)).toContain("box-shadow:");
+  });
+});
+
+describe("image and 3D occupy the same hero", () => {
+  it("gives the stage one footprint regardless of mode", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    const stage = css.slice(css.indexOf(".asset-visual-stage {"));
     /*
-     * A reader who has gone showroom → Arena → showroom and then glances at
-     * the image must not lose that state on the way back, so the inactive
-     * layer is hidden with CSS and the iframe survives.
+     * V1 sized the stage only under [data-mode="3d"], so switching back to
+     * the image collapsed the hero to a 160x104 chip and the page jumped.
+     * The aspect ratio is now unconditional.
      */
-    expect(visual).toContain('data-active={mode === "3d"}');
-    const css = await source("src/app/visual-fidelity.css");
-    expect(css).toContain('.asset-visual-layer[data-active="false"] {');
-    expect(css).toContain("display: none;");
-  });
-
-  it("mounts the viewer at most once per page view", async () => {
-    const visual = await source("src/components/asset-visual.tsx");
-    expect(visual).toContain("if (everActivated.current) return;");
-  });
-
-  it("keeps its dimensions while loading, so nothing shifts", async () => {
-    const css = await source("src/app/visual-fidelity.css");
-    const stage = css.slice(css.indexOf('.asset-visual[data-mode="3d"] .asset-visual-stage'));
-    expect(stage).toContain("aspect-ratio");
+    expect(stage.slice(0, 300)).toContain("aspect-ratio: 16 / 10");
     // 3D must not swallow the first viewport; the asset summary stays visible.
-    expect(stage).toContain("max-height: 58vh");
+    expect(stage.slice(0, 300)).toContain("max-height: 58vh");
+    expect(css).not.toContain('.asset-visual[data-mode="3d"] .asset-visual-stage');
+  });
+
+  it("gives the visual one width regardless of mode", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    const desktop = css.slice(css.indexOf("@media (min-width: 1025px) {", css.indexOf(".asset-visual-note")));
+    expect(desktop).toContain("width: min(600px, 44vw)");
+    // Not keyed on the mode, or the column would resize as the reader toggles.
+    expect(css).not.toContain('.asset-visual[data-mode="3d"] {');
+  });
+
+  it("presents the image as a hero, not as a thumbnail", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    const well = css.slice(css.indexOf(".asset-visual .asset-visual-layer .asset-image-well {"));
+    /*
+     * `.asset-image-well` is a 160x104 framed chip by default and
+     * asset-images.css is imported after this file, so these selectors are
+     * deliberately one class heavier. Inside the stage the well is the frame.
+     */
+    expect(well.slice(0, 300)).toContain("width: 100%");
+    expect(well.slice(0, 300)).toContain("height: 100%");
+    const img = css.slice(css.indexOf(".asset-visual .asset-visual-layer .asset-image-well img {"));
+    // contain fills one axis and letterboxes the other: never distorted.
+    expect(img.slice(0, 200)).toContain("object-fit: contain");
   });
 
   it("gives the iframe a definite box to render into", async () => {
@@ -279,28 +407,105 @@ describe("activation is lazy and the viewer is not torn down", () => {
      * A percentage height against an auto-height ancestor resolves to `auto`,
      * and an iframe with auto height falls back to its intrinsic 150px. The
      * stage measured 375px while the iframe measured 150px, so the viewer laid
-     * itself out for a 150px viewport — controls and item card near the top,
-     * empty background below. The active layer is absolutely positioned so
-     * every descendant resolves against a definite box.
+     * itself out for a 150px viewport — controls near the top, empty
+     * background below. Every layer is absolutely positioned so the frame
+     * resolves against a definite box.
      */
-    expect(css).toContain(
-      '.asset-visual[data-mode="3d"] .asset-visual-layer[data-active="true"] {',
-    );
-    const fill = css.slice(
-      css.indexOf('.asset-visual[data-mode="3d"] .asset-visual-layer[data-active="true"] {'),
-    );
-    expect(fill.slice(0, 120)).toContain("position: absolute");
-    expect(fill.slice(0, 120)).toContain("inset: 0");
-    // A min-height on the live frame would fight the stage's aspect ratio.
-    const frame = css.slice(css.indexOf(".asset-3d-frame {"), css.indexOf(".asset-3d-frame iframe"));
-    expect(frame).not.toContain("min-height");
+    const layer = css.slice(css.indexOf(".asset-visual-layer {"));
+    expect(layer.slice(0, 120)).toContain("position: absolute");
+    expect(layer.slice(0, 120)).toContain("inset: 0");
+    const frame = css.slice(css.indexOf(".asset-3d-frame {"));
+    expect(frame.slice(0, 200)).toContain("height: 100%");
+    // A min-height on the frame would fight the stage's aspect ratio.
+    expect(frame.slice(0, 200)).not.toContain("min-height");
   });
 
-  it("degrades to a message with a way back to the image", async () => {
+  it("hides rather than unmounts when switching back to the image", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    /*
+     * A reader who has gone showroom -> Arena -> showroom and then glances at
+     * the image must not lose that state on the way back. `display: none`
+     * would also give the frame a zero box and re-run the 150px bug on the
+     * way out, so the inactive layer is hidden with visibility instead.
+     */
+    expect(visual).toContain("data-active={showing3d}");
+    const css = await source("src/app/visual-fidelity.css");
+    const hidden = css.slice(css.indexOf('.asset-visual-layer[data-active="false"] {'));
+    expect(hidden.slice(0, 120)).toContain("visibility: hidden");
+    expect(hidden.slice(0, 120)).not.toContain("display: none");
+  });
+});
+
+describe("readiness is observed, never inferred", () => {
+  it("waits for the provider's own message", async () => {
     const viewer = await source("src/components/cs2screen-viewer.tsx");
-    expect(viewer).toContain("3D preview unavailable");
-    expect(viewer).toContain("Back to image");
-    expect(viewer).toContain("LOAD_TIMEOUT_MS");
+    /*
+     * iframe.onload proves only that a document loaded — not that the inspect
+     * target was accepted, that WebGL started, or that a weapon is on screen.
+     * Promoting 3D on load is how you show a reader an empty black box and
+     * call it ready.
+     */
+    expect(viewer).toContain('const READY_MESSAGE = "cs2viewer:ready"');
+    expect(viewer).toContain("onReady?.()");
+    expect(viewer).not.toContain("onLoad={");
+  });
+
+  it("believes only the viewer's own origin", async () => {
+    const viewer = await code("src/components/cs2screen-viewer.tsx");
+    // Any page can postMessage to us; only this one is evidence.
+    expect(viewer).toContain("if (event.origin !== CS2SCREEN_ORIGIN) return;");
+  });
+
+  it("treats silence as failure, because no error message exists", async () => {
+    const viewer = await source("src/components/cs2screen-viewer.tsx");
+    /*
+     * The provider emits exactly two message types, cs2viewer:ready and
+     * cs2viewer:preview. There is no error event, so failure is not directly
+     * observable and a timeout is the only signal available. That is a real
+     * limitation and it is written down rather than papered over.
+     */
+    const body = await code("src/components/cs2screen-viewer.tsx");
+    expect(body).toContain('finish(false, "READY_TIMEOUT")');
+    expect(body).toContain("setTimeout(");
+    // No message type is treated as failure, because none exists.
+    expect(body).not.toContain('"cs2viewer:error"');
+  });
+
+  it("keeps the image up until 3D is genuinely usable", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    // Not "mounted", not "loaded": ready, and ready means the provider said so.
+    expect(visual).toContain('const showing3d = wanted === "3d" && ready');
+    // `wanted` already excludes a broken viewer, so there is one rule, not two
+    // that could disagree.
+    expect(visual).toContain("eligible && !broken");
+  });
+
+  it("falls back to the image once, without retrying the provider", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain("setBroken(true)");
+    /*
+     * `broken` feeds the single rule that decides the mode, so a failure
+     * falls back to the image without a second setState racing it. A failure
+     * that re-offered itself would become a retry loop against a third party,
+     * and the reader would watch the hero flicker.
+     */
+    const wanted = visual.slice(visual.indexOf("const wanted: Mode ="));
+    expect(wanted.slice(0, 220)).toContain("!broken");
+    expect(visual).toContain("const showViewer = eligible && !broken && mounted");
+  });
+
+  it("says so when 3D was expected and did not arrive", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    // Silent substitution would read as the image simply being the design.
+    expect(visual).toContain("3D unavailable");
+  });
+
+  it("starts the viewer at most once per page view", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain("if (!mounted || announced.current) return;");
+    // Mounting is a latch: once the frame exists it is never torn down, so
+    // toggling to the image and back does not restart the provider.
+    expect(visual).toContain('if (wanted === "3d" && !mounted) setMounted(true);');
   });
 
   it("keeps the representative-item meaning intact", async () => {
@@ -310,6 +515,8 @@ describe("activation is lazy and the viewer is not torn down", () => {
     // false claim about the asset being priced.
     expect(visual).toContain("representative item");
     expect(visual).toContain("not a property of the market asset");
+    // Attached to what is on screen: in image mode it describes nothing.
+    expect(visual).toContain("{showing3d && (");
   });
 });
 
@@ -331,17 +538,36 @@ describe("iframe permissions are minimal and deliberate", () => {
     expect(sandbox).not.toContain("allow-top-navigation");
     expect(sandbox).not.toContain("allow-modals");
   });
+
+  it("does not widen anything because 3D now starts automatically", async () => {
+    const viewer = await source("src/components/cs2screen-viewer.tsx");
+    /*
+     * Starting without a click is a product decision, not a permission one.
+     * Fullscreen in particular stays a control the reader presses.
+     */
+    expect(viewer).not.toContain("requestFullscreen");
+    expect(viewer).not.toContain("allow-storage-access-by-user-activation");
+  });
 });
 
 describe("analytics record only what we can observe", () => {
-  it("defines the three events and no invented ones", async () => {
+  it("distinguishes 3D we started from 3D the reader asked for", async () => {
     const ga = await source("src/lib/ga.ts");
+    /*
+     * Under V1.1 most 3D sessions are automatic, so one combined event would
+     * report interest that nobody expressed. asset_3d_auto_initialized counts
+     * the default firing; asset_visual_mode_changed is the only one that
+     * measures intent, and it carries which way the reader went.
+     */
     for (const name of [
-      "asset_3d_view_requested",
-      "asset_3d_view_loaded",
-      "asset_3d_view_failed",
+      "asset_3d_auto_initialized",
+      "asset_3d_loaded",
+      "asset_3d_failed",
+      "asset_visual_mode_changed",
     ])
       expect(ga).toContain(`name: "${name}"`);
+    // The V1 vocabulary described a click that no longer happens.
+    expect(ga).not.toContain("asset_3d_view_requested");
     /*
      * Rotating and entering Arena happen inside a cross-origin iframe and are
      * invisible to the parent. An asset_3d_arena_requested event would be a
@@ -350,13 +576,48 @@ describe("analytics record only what we can observe", () => {
     expect(ga).not.toContain("asset_3d_arena");
   });
 
-  it("never sends the inspect link or a Steam identifier", async () => {
+  it("records a load only on the provider's readiness message", async () => {
     const panel = await source("src/components/asset-3d-panel.tsx");
-    const calls = [...panel.matchAll(/track\(\{[\s\S]*?\}\);/g)].map((m) => m[0]);
-    expect(calls.length).toBeGreaterThan(0);
-    for (const call of calls)
-      for (const forbidden of ["inspectLink", "inspect_link", "steamid", "steam_id"])
-        expect(call, forbidden).not.toContain(forbidden);
+    const loaded = panel.slice(panel.indexOf("const ready = useCallback"));
+    expect(loaded.slice(0, 300)).toContain('name: "asset_3d_loaded"');
+    expect(loaded.slice(0, 300)).toContain("onReady?.()");
+  });
+
+  it("names why 3D failed instead of counting failures", async () => {
+    const panel = await source("src/components/asset-3d-panel.tsx");
+    // READY_TIMEOUT and IFRAME_ERROR are different problems; one number that
+    // merges them cannot tell us which one to fix, so the reason the viewer
+    // gave is carried through into the event rather than dropped.
+    const failed = panel.slice(panel.indexOf("const failed = useCallback"));
+    expect(failed.slice(0, 300)).toContain('name: "asset_3d_failed"');
+    expect(failed.slice(0, 300)).toContain("reason }");
+    const viewer = await code("src/components/cs2screen-viewer.tsx");
+    for (const reason of ["READY_TIMEOUT", "IFRAME_ERROR"])
+      expect(viewer, reason).toContain(`"${reason}"`);
+  });
+
+  it("carries the direction of an explicit switch", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    const call = visual.slice(visual.indexOf('name: "asset_visual_mode_changed"'));
+    // image->3d and 3d->image mean opposite things about the default.
+    expect(call.slice(0, 260)).toContain("from: wanted,");
+    expect(call.slice(0, 260)).toContain("to: next,");
+    // Pressing the side that is already active is not a switch.
+    expect(visual).toContain("if (next === wanted) return;");
+  });
+
+  it("never sends the inspect link or a Steam identifier", async () => {
+    for (const file of [
+      "src/components/asset-3d-panel.tsx",
+      "src/components/asset-visual.tsx",
+    ]) {
+      const body = await source(file);
+      const calls = [...body.matchAll(/track\(\{[\s\S]*?\}\);/g)].map((m) => m[0]);
+      expect(calls.length, file).toBeGreaterThan(0);
+      for (const call of calls)
+        for (const forbidden of ["inspectLink", "inspect_link", "steamid", "steam_id"])
+          expect(call, `${file} ${forbidden}`).not.toContain(forbidden);
+    }
   });
 });
 
@@ -369,6 +630,14 @@ describe("provider isolation", () => {
     expect(panel).not.toContain("3d.cs2screen.com");
     expect(panel).not.toContain("inspectlink=");
     expect(panel).toContain("CS2ScreenViewer");
+  });
+
+  it("keeps the readiness protocol in the viewer alone", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    const panel = await source("src/components/asset-3d-panel.tsx");
+    // A vendor's message name is a vendor detail; the product says "ready".
+    for (const body of [visual, panel]) expect(body).not.toContain("cs2viewer:");
+    expect(visual).not.toContain("postMessage");
   });
 
   it("takes a resolved target, not a market hash name", async () => {
