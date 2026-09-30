@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 // The probe measured a 7.9s full-universe response; the rest is transform and
 // persistence across ~39.7k assets, so this needs more than the Skinport route.
 export const maxDuration = 300;
-export async function POST(request: Request) {
+async function run(request: Request) {
   if (!authorized(request)) return json({ error: 'UNAUTHORIZED' }, 401);
   try {
     const result = await collectSteamWebApi({ store: collectorStore() });
@@ -14,3 +14,7 @@ export async function POST(request: Request) {
     return json(result, failed ? 502 : 200);
   } catch { return json({ error: 'COLLECTION_UNAVAILABLE' }, 503); }
 }
+export async function POST(request: Request) { return run(request); }
+// Vercel cron issues GET. Both methods are guarded by the same secret, and the
+// hourly window claim makes a duplicate invocation cost no provider credit.
+export async function GET(request: Request) { return run(request); }
