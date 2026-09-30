@@ -8,10 +8,9 @@ import {
 } from "@/lib/product/intelligence/server";
 import type { Horizon } from "@/lib/product/intelligence/contract";
 import { screenInput, explain } from "@/lib/product/intelligence/screener";
-import { PageHeading, Panel, Metric, DataState, Notice } from "@/components/ui";
+import { PageHeading, Panel, DataState, Notice } from "@/components/ui";
 import { AssetImage } from "@/components/asset-image";
 import { AvailabilityNotice } from "@/components/intelligence-market";
-import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import { WatchButton } from "@/components/watch-button";
 import { AssetVisual } from "@/components/asset-visual";
 import { resolveAsset3dTarget } from "@/lib/product/asset-3d";
@@ -20,11 +19,10 @@ import { resolveAsset3dTarget } from "@/lib/product/asset-3d";
 const CS2_VIEWER_KEY = process.env.NEXT_PUBLIC_CS2_VIEWER_KEY?.trim() ?? "";
 import {
   EvidenceNotice,
+  MarketSnapshot,
   Quality,
-  marketValue,
 } from "@/components/intelligence-market";
 import { ObservationChart } from "@/components/observation-chart";
-import { MarketStorySummary } from "@/components/intelligence-market";
 import { marketStory } from "@/lib/product/intelligence/presentation";
 import type { Metadata } from "next";
 import { PRIVATE_ROBOTS, pageMetadata } from "@/lib/seo";
@@ -152,15 +150,15 @@ export default async function Asset({
           </Link>
         </nav>
       ) : null}
-      <div className="asset-top">
-        <AssetVisual
-          image={<AssetImage name={a.name} media={a.artwork} large />}
-          target={viewerTarget}
-          assetId={a.id}
-          assetName={a.name}
-          category={a.identity?.category}
-          viewerKey={CS2_VIEWER_KEY}
-        />
+      {/*
+        Identity first, across the hero.
+        
+        It used to sit beside the viewer, where a two-line title had to be
+        centred against a 375px frame and left roughly 280px of empty column
+        under it. Spanning the width removes that imbalance and puts what the
+        asset IS ahead of what it is doing.
+      */}
+      <div className="asset-identity">
         <PageHeading
           eyebrow="Asset intelligence · Listing references"
           title={`${a.name} CS2 Market Data`}
@@ -169,76 +167,50 @@ export default async function Asset({
               ? "Simulated listing prices, activity and data quality."
               : "Observed listing prices, activity and data quality."
           }
+          /* The action belongs to the asset, not to a summary block it
+             happened to sit next to. */
+          action={
+            dataset.evidence === "SYNTHETIC" ? (
+              /* Not `chart-caption`: that carries a top border meant for text
+                 under a chart, which reads as a stray rule beside a title. */
+              <p className="asset-identity-note">
+                Synthetic assets cannot be saved to a real account.
+              </p>
+            ) : (
+              <WatchButton assetId={a.id} authenticated={!!user} />
+            )
+          }
         />
-        <EvidenceNotice dataset={dataset} />
         <AvailabilityNotice asset={a} />
-        {/* What happened to price, what happened to supply, over which
-            horizon, and how deep the book is — before any tile. */}
-        <MarketStorySummary story={story} displayHorizon={h} />
-        <div className="metric-grid">
-          <Metric
-            label={
-              availabilityPresentation(a).current
-                ? "Minimum listing reference"
-                : "Last observed minimum listing"
-            }
-            value={marketValue(a.minimum, " USD")}
-            note={
-              story.minimumChange
-                ? `${story.minimumChange} / ${story.horizon}`
-                : `No ${story.horizon} comparison observed`
-            }
-          />
-          <Metric
-            label={
-              dataset.evidence === "SYNTHETIC"
-                ? "Simulated median"
-                : "Observed median"
-            }
-            value={marketValue(a.median, " USD")}
-            note={
-              story.medianChange
-                ? `${story.medianChange} / ${story.horizon}`
-                : `No ${story.horizon} comparison observed`
-            }
-          />
-          <Metric
-            label={
-              availabilityPresentation(a).current
-                ? "Venue listing quantity"
-                : "Last observed listing quantity"
-            }
-            value={marketValue(a.listings)}
-            note={
-              story.listingChangePct
-                ? `${story.listingChangePct} / ${story.horizon}${story.listingFromTo ? ` · ${story.listingFromTo}` : ""}`
-                : `No ${story.horizon} comparison observed`
-            }
-          />
-          <Metric
-            label={
-              dataset.evidence === "SYNTHETIC"
-                ? "Simulated activity · 1h"
-                : "Observed activity · 1h"
-            }
-            value={marketValue(a.activity, " / 100")}
-          />
-          {a.volatility["24h"] !== null && (
-            <Metric
-              label="24h volatility"
-              value={marketValue(a.volatility["24h"], "%")}
-              note="Sample standard deviation of minimum-listing log returns"
-            />
-          )}
-        </div>
-        {dataset.evidence === "SYNTHETIC" ? (
-          <p className="chart-caption">
-            Synthetic assets cannot be saved to a real account.
-          </p>
-        ) : (
-          <WatchButton assetId={a.id} authenticated={!!user} />
-        )}
       </div>
+      {/*
+        The asset and its immediate market state, side by side. The visual
+        keeps the larger share: 3D is what makes this page about a specific
+        thing, and the snapshot is context for it rather than the point.
+      */}
+      <div className="asset-hero">
+        <AssetVisual
+          image={<AssetImage name={a.name} media={a.artwork} large />}
+          target={viewerTarget}
+          assetId={a.id}
+          assetName={a.name}
+          category={a.identity?.category}
+          viewerKey={CS2_VIEWER_KEY}
+        />
+        <MarketSnapshot
+          asset={a}
+          story={story}
+          dataset={dataset}
+          displayHorizon={h}
+        />
+      </div>
+      {/*
+        The detailed evidence strip stays whole and stays on the page. The
+        snapshot above carries only the data-as-of summary; the three ages and
+        the methodology disclosure remain here, and Data quality and
+        provenance further down remains authoritative.
+      */}
+      <EvidenceNotice dataset={dataset} />
       <div className="terminal-grid">
         <div className="stack">
           <Panel

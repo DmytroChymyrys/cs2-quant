@@ -3637,18 +3637,12 @@ body {
   line-height: 1.6;
   max-width: 62ch;
 }
-@media (min-width: 1025px) {
-  /*
-   * Sized on the item, not on a parent track: `.asset-top` resolves to a flex
-   * container despite declaring a grid, so grid-template-columns is inert
-   * there. The visual now keeps this width in both modes, so Image and 3D
-   * occupy the same hero footprint.
-   */
-  .asset-visual {
-    width: min(600px, 44vw);
-    flex: 0 0 auto;
-  }
-}
+/*
+ * The visual fills whatever column it is given. It used to set its own width,
+ * because its parent resolved to a flex container whose grid-template-columns
+ * was inert; the hero is a real grid now, so the track decides and both modes
+ * inherit the same box.
+ */
 @media (max-width: 767px) {
   /* Full width and a taller frame; never a cramped side-by-side viewer. */
   .asset-visual-stage {

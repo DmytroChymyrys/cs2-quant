@@ -92,18 +92,119 @@
 #main-content.market-workspace .asset-top > .page-heading { flex: 1 1 320px; }
 #main-content.market-workspace .asset-top > .snapshot-transparency { flex-basis: 100%; order: 2; margin: 0; }
 #main-content.market-workspace .asset-top > .metric-grid { flex: 1 1 100%; grid-template-columns: repeat(5,minmax(0,1fr)); order: 3; }
+
 /*
- * The hero visual is now roughly 375px tall on every asset that renders in
- * 3D, where it used to be a 104px thumbnail. Centring the title against a
- * frame that tall leaves it floating in the middle of nothing, so the row
- * top-aligns whenever the visual is present.
+ * Asset Intelligence hero.
  *
- * This lives here because this file is what actually lays the row out: the
- * grid declared in visual-fidelity.css never applies, since these ID-based
- * selectors outrank it. A class-based `align-items` override elsewhere loses
- * the same way, which is why the earlier attempt at it had no effect.
+ * Identity spans the width, then the asset and its immediate market state sit
+ * side by side. Previously the title was a flex item beside the viewer, which
+ * centred roughly 100px of text against a 375px frame and left the rest of
+ * that column empty — the empty space was an accident of the grid, not a
+ * decision.
+ *
+ * These selectors carry the ID because this file lays the workspace out and
+ * its ID-based rules outrank anything class-based elsewhere; a plain class
+ * rule for the same job would silently lose.
  */
-#main-content.market-workspace .asset-top:has(> .asset-visual) { align-items: flex-start; }
+#main-content.market-workspace .asset-identity { padding: 4px 0 14px; }
+#main-content.market-workspace .asset-identity .page-heading {
+  border: 0;
+  padding: 0;
+  min-height: 0;
+  gap: 16px;
+  align-items: flex-start;
+}
+/*
+ * Asset names carry meaning in their casing — "AK-47 | Redline (Field-Tested)"
+ * is the market hash name, not a heading to shout. The uppercase default
+ * reached this h1 through a `.asset-top` override that the restructure
+ * removed, so it is restated here against the container that exists now.
+ */
+#main-content.market-workspace .asset-identity .page-heading h1 {
+  text-transform: none;
+  line-height: 1.25;
+  margin: 6px 0 0;
+}
+/* The action belongs to the title, so it sits on the title's line rather than
+   centred against the whole block. */
+#main-content.market-workspace .asset-identity .page-heading > :last-child:not(:first-child) {
+  flex: 0 0 auto;
+  margin-top: 14px;
+}
+/* The title keeps the room it needs and the action drops below it rather than
+   crushing a long asset name into a column. */
+#main-content.market-workspace .asset-identity .page-heading {
+  flex-wrap: wrap;
+}
+#main-content.market-workspace .asset-identity .page-heading > :first-child {
+  flex: 1 1 min(420px, 100%);
+}
+#main-content.market-workspace .asset-identity-note {
+  margin: 14px 0 0;
+  padding: 0;
+  border: 0;
+  color: var(--secondary);
+  font: 10.5px/1.6 var(--mono);
+}
+/*
+ * The visual keeps the larger share. 3D is what makes this page about one
+ * specific thing; the snapshot is context for it, not the point. At 1400px of
+ * content this gives the viewer about 63% - inside the 55-65% the design
+ * calls for, but expressed as a ratio so it stays balanced at other widths.
+ */
+#main-content.market-workspace .asset-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.68fr) minmax(280px, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 0 0 12px;
+}
+#main-content.market-workspace .market-snapshot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 13px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+#main-content.market-workspace .market-snapshot-title {
+  margin: 0;
+  font: 10px var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+/* One rule per row, separated by a line rather than boxed individually:
+   five nested cards inside a card is density without meaning. */
+#main-content.market-workspace .market-snapshot .metric {
+  min-height: 0;
+  padding: 9px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: none;
+}
+#main-content.market-workspace .market-snapshot .metric:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+#main-content.market-workspace .market-snapshot .metric-value { font-size: 19px; }
+#main-content.market-workspace .market-snapshot .metric-note { font-size: 9.5px; }
+#main-content.market-workspace .market-snapshot-note,
+#main-content.market-workspace .market-snapshot-freshness {
+  margin: 0;
+  font: 10px/1.6 var(--mono);
+  color: #6b7686;
+}
+#main-content.market-workspace .market-snapshot-freshness {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+@media (max-width: 1024px) {
+  /* Never squeezed beside the viewer: below this the snapshot would be a
+     column of wrapped labels next to a viewer too narrow to inspect. */
+  #main-content.market-workspace .asset-hero { grid-template-columns: 1fr; }
+}
 #main-content.market-workspace .asset-intelligence .terminal-grid { gap: 16px; border: 0; }
 #main-content.market-workspace .asset-intelligence .terminal-grid > .stack { border: 0; }
 #main-content.market-workspace .asset-intelligence .chart svg { height: 360px; }

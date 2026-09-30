@@ -863,6 +863,116 @@ export function MarketStorySummary({
     </div>
   );
 }
+/**
+ * The immediate market state, beside the asset rather than below it.
+ *
+ * This is a relocation, not a new surface. Every value here already powered
+ * the page: the tiles came from the metric grid under the hero and the
+ * comparisons came from `MarketStorySummary`, which showed the same four
+ * facts a second time in percentage form. Both are gone from the asset page
+ * and their content lives here, once.
+ *
+ * ## Depth is not a fifth number
+ *
+ * The old summary printed "Depth" and the metric grid printed "Venue listing
+ * quantity", and they were the same field — `story.listings` IS
+ * `asset.listings`. What depth actually adds is an emphasis band: a count of 3
+ * and a count of 10,942 do not describe the same market. So the band and its
+ * THIN DEPTH note ride with the listing count instead of appearing as a
+ * separate row that repeats the figure above it.
+ *
+ * ## What it deliberately does not contain
+ *
+ * Nothing about the rendered item. The viewer's own card shows that item's
+ * float, seed and wear, and those belong to one example of this market type —
+ * putting them here would present an instance property as a property of the
+ * asset being priced.
+ */
+export function MarketSnapshot({
+  asset,
+  story,
+  dataset,
+  displayHorizon,
+}: {
+  asset: MarketAssetSummary;
+  story: MarketStory;
+  dataset: MarketDataset;
+  displayHorizon: string;
+}) {
+  const synthetic = dataset.evidence === "SYNTHETIC";
+  // Same availability rule the metric grid used: a stale asset must not have
+  // its last observation labelled as the current market.
+  const current = availabilityPresentation(asset).current;
+  const comparison = (change: string | null) =>
+    change ? `${change} / ${story.horizon}` : `No ${story.horizon} comparison observed`;
+  return (
+    <aside className="market-snapshot" aria-label="Market snapshot">
+      <h2 className="market-snapshot-title">Market snapshot</h2>
+      <div className="market-snapshot-metrics">
+        <Metric
+          label={current ? "Minimum listing reference" : "Last observed minimum listing"}
+          value={marketValue(asset.minimum, " USD")}
+          note={comparison(story.minimumChange)}
+        />
+        <Metric
+          label={synthetic ? "Simulated median" : "Observed median"}
+          value={marketValue(asset.median, " USD")}
+          note={comparison(story.medianChange)}
+        />
+        <Metric
+          label={current ? "Venue listing quantity" : "Last observed listing quantity"}
+          value={marketValue(asset.listings)}
+        >
+          {story.listingChangePct
+            ? `${story.listingChangePct} / ${story.horizon}${story.listingFromTo ? ` \u00b7 ${story.listingFromTo}` : ""}`
+            : `No ${story.horizon} comparison observed`}
+          {/* The depth band, carried with the count it describes. */}
+          {story.depthNote ? (
+            <span className="depth" data-depth={story.depth}>
+              {" "}
+              {story.depthNote}
+            </span>
+          ) : null}
+        </Metric>
+        <Metric
+          label={synthetic ? "Simulated activity \u00b7 1h" : "Observed activity \u00b7 1h"}
+          value={marketValue(asset.activity, " / 100")}
+        />
+        {asset.volatility["24h"] !== null && (
+          <Metric
+            label="24h volatility"
+            value={marketValue(asset.volatility["24h"], "%")}
+            note="Sample standard deviation of minimum-listing log returns"
+          />
+        )}
+      </div>
+      {/*
+        The chart and the comparison can be looking at different windows, and
+        a reader comparing a 7d chart against a 24h change needs to be told
+        which is which. This note moved with the numbers it explains.
+      */}
+      {displayHorizon !== story.horizon ? (
+        <p className="market-snapshot-note">
+          Chart shows {displayHorizon}; summary compares over {story.horizon},
+          the longest horizon with a derived comparison.
+        </p>
+      ) : null}
+      {/*
+        A summary, not a replacement. The full evidence strip below the hero
+        keeps the three ages, and Data quality and provenance further down
+        remains authoritative for timestamps and scope.
+      */}
+      {dataset.scope ? (
+        <p className="market-snapshot-freshness">
+          Data as of{" "}
+          {dataset.scope.to.replace("T", " ").replace(".000Z", " UTC")}
+          {" \u00b7 "}
+          {dataset.snapshot?.stale ? "STALE SNAPSHOT" : "Selected snapshot"}
+        </p>
+      ) : null}
+    </aside>
+  );
+}
 export function PresetDefinitions() {
   return (
     <details className="chart-caption">

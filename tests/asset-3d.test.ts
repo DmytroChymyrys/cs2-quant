@@ -453,11 +453,22 @@ describe("image and 3D occupy the same hero", () => {
   });
 
   it("gives the visual one width regardless of mode", async () => {
+    /*
+     * The width comes from the hero grid track, not from the visual, so
+     * Image and 3D cannot be sized differently even by accident. The visual
+     * used to set its own width because its parent resolved to a flex
+     * container whose grid-template-columns was inert; the hero is a real
+     * grid now.
+     */
     const css = await source("src/app/visual-fidelity.css");
-    const desktop = css.slice(css.indexOf("@media (min-width: 1025px) {", css.indexOf(".asset-visual-note")));
-    expect(desktop).toContain("width: min(600px, 44vw)");
-    // Not keyed on the mode, or the column would resize as the reader toggles.
-    expect(css).not.toContain('.asset-visual[data-mode="3d"] {');
+    const visual = css.slice(css.indexOf(".asset-visual {"));
+    expect(visual.slice(0, 160)).toContain("width: 100%");
+    // No width, anywhere, keyed on which representation is showing.
+    expect(css).not.toMatch(/\.asset-visual\[data-mode=[^\]]*\]\s*\{[^}]*width/);
+    const hero = await source("src/app/(market)/market-presentation.css");
+    const row = hero.slice(hero.indexOf(".asset-hero {"));
+    expect(row.slice(0, 260)).toContain("grid-template-columns");
+    expect(row.slice(0, 260)).not.toContain("data-mode");
   });
 
   it("presents the image as a hero, not as a thumbnail", async () => {
