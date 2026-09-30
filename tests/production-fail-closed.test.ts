@@ -189,7 +189,16 @@ describe("Steam account linking ships no runtime code at all", () => {
   // strongest possible fail-closed guarantee is absence, so that is what is
   // asserted here rather than the behaviour of a module that is not shipped.
   it("has no Steam runtime module", async () => {
-    const tracked = (await trackedFiles()).filter((f) => /steam/i.test(f));
+    /*
+     * SteamWebAPI is a third-party CS2 market-data vendor and has nothing to do
+     * with signing in through Valve. Its filenames match /steam/i, so they are
+     * set aside by namespace here and then held to their own rule below —
+     * otherwise this guard would either fail on unrelated market-data work or
+     * be loosened into meaninglessness.
+     */
+    const tracked = (await trackedFiles()).filter(
+      (f) => /steam/i.test(f) && !/steamwebapi/i.test(f),
+    );
     // Only the migration and its explicit command may mention Steam.
     expect(tracked.sort()).toEqual([
       "drizzle-steam/0000_steam_account_link.sql",
@@ -197,6 +206,30 @@ describe("Steam account linking ships no runtime code at all", () => {
       "reports/migration-split/superseded/0005_steam_account_link.sql",
       "scripts/migrate-steam.ts",
     ]);
+  });
+
+  it("keeps the market-data vendor clear of account linking", async () => {
+    /*
+     * The namespace exemption above is only safe while nothing inside it
+     * touches authentication. A session cookie, an OpenID handshake or an
+     * auth plugin appearing under a market-data path would be account linking
+     * wearing a different name.
+     */
+    const { readFile } = await import("node:fs/promises");
+    const vendor = (await trackedFiles()).filter((f) => /steamwebapi/i.test(f));
+    expect(vendor.length).toBeGreaterThan(0);
+    for (const file of vendor) {
+      const text = await readFile(file, "utf8");
+      for (const forbidden of [
+        "steamloginsecure",
+        "openid",
+        "steamAccountLinking",
+        "identitysecret",
+        "sharedsecret",
+        "revocationcode",
+      ])
+        expect(text.toLowerCase(), file).not.toContain(forbidden.toLowerCase());
+    }
   });
 
   it("registers no Steam auth plugin", async () => {

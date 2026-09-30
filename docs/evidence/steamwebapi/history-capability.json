@@ -1,0 +1,77 @@
+{
+  "GET /history (steam, default)": {
+    "status": 200,
+    "bytes": 45534,
+    "durationMs": 333,
+    "error": null,
+    "points": 461,
+    "earliest": "2014-02-19",
+    "latest": "2026-09-24",
+    "sample": [
+      {
+        "id": 1392768000,
+        "createdat": "2014-02-19T00:00:00+00:00",
+        "price": 42.85,
+        "sold": 1112,
+        "daydiff": 16120
+      },
+      {
+        "id": 1393632000,
+        "createdat": "2014-03-01T00:00:00+00:00",
+        "price": 31.55,
+        "sold": 238,
+        "daydiff": 16130
+      }
+    ]
+  },
+  "GET /history (origin=markets)": {
+    "status": 429,
+    "bytes": 199,
+    "durationMs": 206,
+    "error": null
+  },
+  "POST /items/history (3 items)": {
+    "status": 200,
+    "bytes": 281456,
+    "durationMs": 334,
+    "error": null,
+    "points": 4607,
+    "earliest": "2014-02-19",
+    "latest": "2026-09-30",
+    "sample": [
+      {
+        "worth": 42.85,
+        "size": 1,
+        "date": "2014-02-19T00:00:00+00:00"
+      },
+      {
+        "worth": 42.85,
+        "size": 1,
+        "date": "2014-02-20T00:00:00+00:00"
+      }
+    ]
+  },
+  "GET /markets/history (premium)": {
+    "status": 200,
+    "bytes": 3263,
+    "durationMs": 215,
+    "error": null,
+    "points": 1
+  },
+  "GET /market/skinport/prices": {
+    "status": 200,
+    "bytes": 139,
+    "durationMs": 213,
+    "error": null,
+    "points": 1,
+    "sample": [
+      {
+        "market_hash_name": "AK-47 | Redline (Field-Tested)",
+        "price": 26.5,
+        "quantity": 556,
+        "createdat": "2026-09-28T00:00:00+00:00",
+        "variants": null
+      }
+    ]
+  }
+}

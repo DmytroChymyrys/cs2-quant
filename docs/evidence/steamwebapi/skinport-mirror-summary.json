@@ -1,0 +1,31 @@
+{
+  "status": 200,
+  "rows": 47976,
+  "bytes": 6695251,
+  "createdatDistribution": {
+    "2026-09-28": 47976
+  },
+  "sample": [
+    {
+      "market_hash_name": "Pixel Chestplate",
+      "price": 0.53,
+      "quantity": 15,
+      "createdat": "2026-09-28T00:00:00+00:00",
+      "variants": null
+    },
+    {
+      "market_hash_name": "StatTrak™ M4A4 | Evil Daimyo (Well-Worn)",
+      "price": 9.1,
+      "quantity": 10,
+      "createdat": "2026-09-28T00:00:00+00:00",
+      "variants": null
+    },
+    {
+      "market_hash_name": "StatTrak™ SSG 08 | Rapid Transit (Well-Worn)",
+      "price": 3.36,
+      "quantity": 9,
+      "createdat": "2026-09-28T00:00:00+00:00",
+      "variants": null
+    }
+  ]
+}

@@ -1,0 +1,501 @@
+{
+  "rows": 39703,
+  "fields": [
+    {
+      "field": "buyordermedian",
+      "types": "number",
+      "nullPct": 9.06,
+      "zeroPct": 0.21,
+      "negatives": 0,
+      "example": 120
+    },
+    {
+      "field": "buyorderprice",
+      "types": "number",
+      "nullPct": 9.06,
+      "zeroPct": 0.21,
+      "negatives": 0,
+      "example": 124.06
+    },
+    {
+      "field": "buyordervolume",
+      "types": "number",
+      "nullPct": 9.27,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 79
+    },
+    {
+      "field": "classid",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "3005826668"
+    },
+    {
+      "field": "createdat",
+      "types": "object",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "{\"date\":\"2025-05-12 12:52:23.000000\",\"timezone_type\":3,\"timezone\":\"UTC\"}"
+    },
+    {
+      "field": "defindex",
+      "types": "number",
+      "nullPct": 7.26,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 522
+    },
+    {
+      "field": "firstseenat",
+      "types": "string",
+      "nullPct": 10.25,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "2018-11-18T00:00:00+00:00"
+    },
+    {
+      "field": "groupid",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "ab0351533cca0884a04d19412d6947af"
+    },
+    {
+      "field": "groupname",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "Stiletto Knife | Safari Mesh"
+    },
+    {
+      "field": "hourstosold",
+      "types": "number",
+      "nullPct": 57.23,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 2
+    },
+    {
+      "field": "id",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "000ca093"
+    },
+    {
+      "field": "instanceid",
+      "types": "string",
+      "nullPct": 0.02,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "188530669"
+    },
+    {
+      "field": "issouvenir",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": false
+    },
+    {
+      "field": "isstar",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": false
+    },
+    {
+      "field": "isstattrak",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": true
+    },
+    {
+      "field": "itemgroup",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "knife"
+    },
+    {
+      "field": "itemname",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "safari mesh"
+    },
+    {
+      "field": "itemtype",
+      "types": "string",
+      "nullPct": 25.59,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "stiletto knife"
+    },
+    {
+      "field": "lateststeamsellat",
+      "types": "object",
+      "nullPct": 10.25,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "{\"date\":\"2026-09-23 12:00:00.000000\",\"timezone_type\":3,\"timezone\":\"UTC\"}"
+    },
+    {
+      "field": "marketable",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": true
+    },
+    {
+      "field": "markethashname",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "★ StatTrak™ Stiletto Knife | Safari Mesh (Battle-Scarred)"
+    },
+    {
+      "field": "markettradablerestriction",
+      "types": "number",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 7
+    },
+    {
+      "field": "marketvolume",
+      "types": "number",
+      "nullPct": 11.26,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 36579.29
+    },
+    {
+      "field": "maxfloat",
+      "types": "number",
+      "nullPct": 55.51,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 0.8
+    },
+    {
+      "field": "minfloat",
+      "types": "number",
+      "nullPct": 55.51,
+      "zeroPct": 32.95,
+      "negatives": 0,
+      "example": 0.06
+    },
+    {
+      "field": "normalizedname",
+      "types": "string",
+      "nullPct": 0.01,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "stattrak stiletto knife safari mesh battle scarred"
+    },
+    {
+      "field": "offervolume",
+      "types": "number",
+      "nullPct": 0,
+      "zeroPct": 12.35,
+      "negatives": 0,
+      "example": 0
+    },
+    {
+      "field": "paintindex",
+      "types": "number",
+      "nullPct": 55.51,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 72
+    },
+    {
+      "field": "points",
+      "types": "number",
+      "nullPct": 12.11,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 1299
+    },
+    {
+      "field": "priceavg",
+      "types": "number",
+      "nullPct": 9.24,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 161.86
+    },
+    {
+      "field": "pricelatest",
+      "types": "number",
+      "nullPct": 12.14,
+      "zeroPct": 0.21,
+      "negatives": 0,
+      "example": 0
+    },
+    {
+      "field": "pricelatestsell",
+      "types": "number",
+      "nullPct": 9.24,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 126.25234985352
+    },
+    {
+      "field": "pricemax",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 184.77000427246
+    },
+    {
+      "field": "pricemedian",
+      "types": "number",
+      "nullPct": 9.24,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 166.76
+    },
+    {
+      "field": "pricemedian24h",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 126.25
+    },
+    {
+      "field": "pricemedian30d",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 132.02
+    },
+    {
+      "field": "pricemedian7d",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 126.25
+    },
+    {
+      "field": "pricemedian90d",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 167.11
+    },
+    {
+      "field": "pricemin",
+      "types": "number",
+      "nullPct": 14.45,
+      "zeroPct": 1.02,
+      "negatives": 0,
+      "example": 126.25234985352
+    },
+    {
+      "field": "pricemix",
+      "types": "number",
+      "nullPct": 7.37,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 126.25234985352
+    },
+    {
+      "field": "pricereal",
+      "types": "number",
+      "nullPct": 13.16,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 140
+    },
+    {
+      "field": "pricerealmedian",
+      "types": "number",
+      "nullPct": 13.16,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 223.6
+    },
+    {
+      "field": "pricesafe",
+      "types": "number",
+      "nullPct": 21.58,
+      "zeroPct": 0.99,
+      "negatives": 0,
+      "example": 121.77
+    },
+    {
+      "field": "priceupdatedat",
+      "types": "object",
+      "nullPct": 3.48,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "{\"date\":\"2026-09-30 18:02:56.000000\",\"timezone_type\":3,\"timezone\":\"UTC\"}"
+    },
+    {
+      "field": "quality",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "StatTrak™"
+    },
+    {
+      "field": "rarity",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "Covert"
+    },
+    {
+      "field": "realmarketsquantity",
+      "types": "number",
+      "nullPct": 0,
+      "zeroPct": 13.16,
+      "negatives": 0,
+      "example": 16
+    },
+    {
+      "field": "releasedat",
+      "types": "object",
+      "nullPct": 65.31,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "{\"date\":\"2021-05-04 00:00:00.000000\",\"timezone_type\":3,\"timezone\":\"UTC\"}"
+    },
+    {
+      "field": "slug",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "stattraktm-stiletto-knife-safari-mesh-battle-scarred"
+    },
+    {
+      "field": "sold24h",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 46.52,
+      "negatives": 0,
+      "example": 0
+    },
+    {
+      "field": "sold30d",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 12.31,
+      "negatives": 0,
+      "example": 2
+    },
+    {
+      "field": "sold7d",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 23.89,
+      "negatives": 0,
+      "example": 1
+    },
+    {
+      "field": "sold90d",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 5.21,
+      "negatives": 0,
+      "example": 9
+    },
+    {
+      "field": "soldtoday",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 52.39,
+      "negatives": 0,
+      "example": 0
+    },
+    {
+      "field": "soldtotal",
+      "types": "number",
+      "nullPct": 10.25,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": 273
+    },
+    {
+      "field": "tag1",
+      "types": "string",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "Knife"
+    },
+    {
+      "field": "tag7",
+      "types": "string",
+      "nullPct": 58.44,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "The Horizon Collection"
+    },
+    {
+      "field": "tradable",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": true
+    },
+    {
+      "field": "unstable",
+      "types": "boolean",
+      "nullPct": 0,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": false
+    },
+    {
+      "field": "wear",
+      "types": "string",
+      "nullPct": 55.4,
+      "zeroPct": 0,
+      "negatives": 0,
+      "example": "bs"
+    },
+    {
+      "field": "winloss",
+      "types": "number",
+      "nullPct": 17.27,
+      "zeroPct": 0.19,
+      "negatives": 2800,
+      "example": 66.67
+    },
+    {
+      "field": "winlossprice",
+      "types": "number",
+      "nullPct": 17.27,
+      "zeroPct": 0.19,
+      "negatives": 2800,
+      "example": 0.02
+    }
+  ]
+}

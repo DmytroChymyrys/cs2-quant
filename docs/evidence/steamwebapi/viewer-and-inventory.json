@@ -1,0 +1,61 @@
+{
+  "screenshotUsage": {
+    "status": 200,
+    "body": {
+      "status": "success",
+      "active": true,
+      "limits": {
+        "minute": 2,
+        "day": 50,
+        "month": 500
+      },
+      "usage": {
+        "minute": 0,
+        "day": 0,
+        "month": 0,
+        "total": 0,
+        "blocked": 0
+      },
+      "timezone": "UTC",
+      "period": "calendar",
+      "unit": "authenticated_requests"
+    }
+  },
+  "screenshotRender": {
+    "status": 200,
+    "bytes": 121179,
+    "durationMs": 5246,
+    "returned": "success",
+    "isDataUri": "data:image/avif;base64,A",
+    "jobPending": false,
+    "error": null
+  },
+  "inventory": {
+    "status": 200,
+    "bytes": 10638,
+    "rows": 2,
+    "error": null,
+    "uniqueFields": [
+      "count",
+      "assetid",
+      "nametag",
+      "image",
+      "tags",
+      "descriptions",
+      "inspectlinkparsed",
+      "float",
+      "tradelocked",
+      "contextid",
+      "owneronly",
+      "tradeprotected",
+      "tradeprotectedmaxdays"
+    ],
+    "floatBlock": {
+      "floatvalue": null,
+      "paintseed": null,
+      "stickers": null,
+      "keychains": null,
+      "certificate": null
+    }
+  }
+}

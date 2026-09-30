@@ -1,0 +1,75 @@
+{
+  "intervalMinutes": 10.1,
+  "universe": 39703,
+  "changed": {
+    "steam": 942,
+    "third": 10715,
+    "either": 10910
+  },
+  "estimatedRowBytes": 664,
+  "cadenceProjections": [
+    {
+      "label": "5 min",
+      "callsPer30d": 8640,
+      "withinQuota": false,
+      "steamRowsPerDay": 5472,
+      "allRowsPerDay": 64800,
+      "storageGb30d": 1.29,
+      "storageGbYear": 15.7
+    },
+    {
+      "label": "15 min",
+      "callsPer30d": 2880,
+      "withinQuota": false,
+      "steamRowsPerDay": 5568,
+      "allRowsPerDay": 64800,
+      "storageGb30d": 1.29,
+      "storageGbYear": 15.7
+    },
+    {
+      "label": "30 min",
+      "callsPer30d": 1440,
+      "withinQuota": true,
+      "steamRowsPerDay": 5616,
+      "allRowsPerDay": 64800,
+      "storageGb30d": 1.29,
+      "storageGbYear": 15.7
+    },
+    {
+      "label": "hourly",
+      "callsPer30d": 720,
+      "withinQuota": true,
+      "steamRowsPerDay": 5592,
+      "allRowsPerDay": 64800,
+      "storageGb30d": 1.29,
+      "storageGbYear": 15.7
+    },
+    {
+      "label": "2-hourly",
+      "callsPer30d": 360,
+      "withinQuota": true,
+      "steamRowsPerDay": 5592,
+      "allRowsPerDay": 64812,
+      "storageGb30d": 1.29,
+      "storageGbYear": 15.71
+    },
+    {
+      "label": "6-hourly",
+      "callsPer30d": 120,
+      "withinQuota": true,
+      "steamRowsPerDay": 3768,
+      "allRowsPerDay": 43640,
+      "storageGb30d": 0.87,
+      "storageGbYear": 10.58
+    },
+    {
+      "label": "daily",
+      "callsPer30d": 30,
+      "withinQuota": true,
+      "steamRowsPerDay": 942,
+      "allRowsPerDay": 10910,
+      "storageGb30d": 0.22,
+      "storageGbYear": 2.64
+    }
+  ]
+}

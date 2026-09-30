@@ -1,0 +1,248 @@
+{
+  "directPresent": 24906,
+  "canonical": 100,
+  "swaUniverse": 39703,
+  "swaMirror": 47976,
+  "mapping": {
+    "canonicalInSwa": 100,
+    "canonicalTotal": 100,
+    "directInSwa": 24846,
+    "directTotal": 24906,
+    "swaNotInDirect": 14857
+  },
+  "comparison": {
+    "n": 24754,
+    "exact": 8527,
+    "medianAbsPct": 0.4068415808701504,
+    "p75": 0.986842105263166,
+    "p90": 7.272727272727268,
+    "p99": 51.60349854227406,
+    "within1": 18570,
+    "within5": 21530,
+    "within10": 22896,
+    "quantityExact": 17762,
+    "quantityCompared": 24754
+  },
+  "worst": [
+    {
+      "name": "Sticker Slab | br0 (Foil) | Austin 2025",
+      "ours": 0.07,
+      "theirs": 3.02,
+      "ourQty": 3,
+      "theirQty": 3,
+      "diff": 2.95,
+      "pctDiff": 4214.285714285714,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir P90 | Wash me (Well-Worn)",
+      "ours": 0.08,
+      "theirs": 2.3,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 2.2199999999999998,
+      "pctDiff": 2774.9999999999995,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | Scorch Loop",
+      "ours": 0.13,
+      "theirs": 2.88,
+      "ourQty": 35,
+      "theirQty": 42,
+      "diff": 2.75,
+      "pctDiff": 2115.3846153846152,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | oBo (Foil) | Berlin 2019",
+      "ours": 1.16,
+      "theirs": 18.27,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 17.11,
+      "pctDiff": 1475,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | Skulltorgeist",
+      "ours": 0.7,
+      "theirs": 9.38,
+      "ourQty": 12,
+      "theirQty": 11,
+      "diff": 8.680000000000001,
+      "pctDiff": 1240.0000000000002,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "MP9 | Cobalt Paisley (Field-Tested)",
+      "ours": 0.2,
+      "theirs": 1.62,
+      "ourQty": 30,
+      "theirQty": 29,
+      "diff": 1.4200000000000002,
+      "pctDiff": 710,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir P90 | Glacier Mesh (Field-Tested)",
+      "ours": 2.09,
+      "theirs": 16.02,
+      "ourQty": 5,
+      "theirQty": 4,
+      "diff": 13.93,
+      "pctDiff": 666.5071770334929,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | G2 Esports (Foil) | Austin 2025",
+      "ours": 0.02,
+      "theirs": 0.14,
+      "ourQty": 61,
+      "theirQty": 60,
+      "diff": 0.12000000000000001,
+      "pctDiff": 600,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir SSG 08 | Hand Brake (Minimal Wear)",
+      "ours": 2.5,
+      "theirs": 17.28,
+      "ourQty": 7,
+      "theirQty": 6,
+      "diff": 14.780000000000001,
+      "pctDiff": 591.2,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir Charm | Austin 2025 Highlight | Jimpphat Double Entry",
+      "ours": 0.06,
+      "theirs": 0.35,
+      "ourQty": 9,
+      "theirQty": 8,
+      "diff": 0.29,
+      "pctDiff": 483.3333333333333,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir Charm | Austin 2025 Highlight | The Flying Spray",
+      "ours": 0.06,
+      "theirs": 0.35,
+      "ourQty": 5,
+      "theirQty": 4,
+      "diff": 0.29,
+      "pctDiff": 483.3333333333333,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir P90 | Scorched (Minimal Wear)",
+      "ours": 1.48,
+      "theirs": 6.56,
+      "ourQty": 55,
+      "theirQty": 54,
+      "diff": 5.08,
+      "pctDiff": 343.2432432432432,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker Slab | Evidence (Holo)",
+      "ours": 1.15,
+      "theirs": 4.87,
+      "ourQty": 5,
+      "theirQty": 4,
+      "diff": 3.72,
+      "pctDiff": 323.47826086956525,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | Rare Atom (Glitter) | Shanghai 2024",
+      "ours": 0.54,
+      "theirs": 2.28,
+      "ourQty": 88,
+      "theirQty": 35,
+      "diff": 1.7399999999999998,
+      "pctDiff": 322.2222222222222,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | ALEX (Foil) | Berlin 2019",
+      "ours": 0.49,
+      "theirs": 1.98,
+      "ourQty": 10,
+      "theirQty": 9,
+      "diff": 1.49,
+      "pctDiff": 304.0816326530612,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir Charm | Budapest 2025 Highlight | frozen B-site burst",
+      "ours": 0.06,
+      "theirs": 0.24,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 0.18,
+      "pctDiff": 300,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | Team Spirit | Shanghai 2024",
+      "ours": 0.02,
+      "theirs": 0.08,
+      "ourQty": 237,
+      "theirQty": 236,
+      "diff": 0.06,
+      "pctDiff": 300,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | misutaaa (Gold) | Stockholm 2021",
+      "ours": 2.97,
+      "theirs": 11.15,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 8.18,
+      "pctDiff": 275.4208754208754,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Sticker | kRYSTAL (Foil) | Boston 2018",
+      "ours": 7.87,
+      "theirs": 27.99,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 20.119999999999997,
+      "pctDiff": 255.65438373570518,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    },
+    {
+      "name": "Souvenir AK-47 | Crane Flight (Field-Tested)",
+      "ours": 44.08,
+      "theirs": 153.62,
+      "ourQty": 2,
+      "theirQty": 1,
+      "diff": 109.54,
+      "pctDiff": 248.50272232304903,
+      "observedAt": "2026-09-30T18:35:13.282Z",
+      "mirrorAt": "2026-09-28T00:00:00+00:00"
+    }
+  ]
+}

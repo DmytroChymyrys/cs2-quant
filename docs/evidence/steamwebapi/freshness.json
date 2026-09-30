@@ -1,0 +1,157 @@
+{
+  "generatedAt": "2026-09-30T18:30:27.758Z",
+  "priceUpdatedAt": {
+    "label": "priceupdatedat",
+    "edgesHours": [
+      1,
+      6,
+      24,
+      72,
+      168,
+      720
+    ],
+    "counts": [
+      9199,
+      26872,
+      641,
+      249,
+      1356,
+      1,
+      2
+    ],
+    "missing": 1383
+  },
+  "latestSteamSellAt": {
+    "label": "lateststeamsellat (last Steam sale)",
+    "edgesHours": [
+      24,
+      168,
+      720,
+      2160,
+      8760
+    ],
+    "counts": [
+      14881,
+      7262,
+      3359,
+      6742,
+      3050,
+      338
+    ],
+    "missing": 4071
+  },
+  "priceUpdatedNewest": "2026-09-30T18:29:12.000Z",
+  "priceUpdatedOldest": "2026-08-18T19:26:07.000Z",
+  "nullByGroup": {
+    "knife": {
+      "n": 3413,
+      "nullLatest": 481,
+      "nullSell": 0
+    },
+    "sticker": {
+      "n": 18264,
+      "nullLatest": 2765,
+      "nullSell": 2285
+    },
+    "rifle": {
+      "n": 3353,
+      "nullLatest": 448,
+      "nullSell": 371
+    },
+    "graffiti": {
+      "n": 1812,
+      "nullLatest": 4,
+      "nullSell": 0
+    },
+    "machinegun": {
+      "n": 451,
+      "nullLatest": 31,
+      "nullSell": 35
+    },
+    "pistol": {
+      "n": 4192,
+      "nullLatest": 453,
+      "nullSell": 470
+    },
+    "smg": {
+      "n": 2769,
+      "nullLatest": 220,
+      "nullSell": 193
+    },
+    "sniper rifle": {
+      "n": 1514,
+      "nullLatest": 208,
+      "nullSell": 179
+    },
+    "gloves": {
+      "n": 470,
+      "nullLatest": 73,
+      "nullSell": 10
+    },
+    "shotgun": {
+      "n": 1470,
+      "nullLatest": 118,
+      "nullSell": 112
+    },
+    "equipment": {
+      "n": 75,
+      "nullLatest": 10,
+      "nullSell": 11
+    },
+    "container": {
+      "n": 463,
+      "nullLatest": 5,
+      "nullSell": 0
+    },
+    "charm": {
+      "n": 984,
+      "nullLatest": 4,
+      "nullSell": 0
+    },
+    "music kit": {
+      "n": 188,
+      "nullLatest": 0,
+      "nullSell": 1
+    },
+    "tool": {
+      "n": 2,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "patch": {
+      "n": 112,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "collectible": {
+      "n": 45,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "key": {
+      "n": 27,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "tag": {
+      "n": 1,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "gift": {
+      "n": 3,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "agent": {
+      "n": 63,
+      "nullLatest": 0,
+      "nullSell": 0
+    },
+    "pass": {
+      "n": 32,
+      "nullLatest": 0,
+      "nullSell": 0
+    }
+  }
+}

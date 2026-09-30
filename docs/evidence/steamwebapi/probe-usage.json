@@ -1,0 +1,29 @@
+{
+  "package": "Item Small",
+  "subscriptionStart": "2026-09-30T00:00:00+00:00",
+  "subscriptionUntil": "2026-10-30T18:15:49+00:00",
+  "usage": {
+    "minute": 0,
+    "hour": 26,
+    "today": 27,
+    "week": 27,
+    "month": 27
+  },
+  "creditsByEndpoint": {
+    "item": 10,
+    "items": 8,
+    "account": 3,
+    "inventory": 2,
+    "markets_history_all": 2,
+    "items_history": 1,
+    "history": 1
+  },
+  "providerStatus": {
+    "register": true,
+    "critical": false,
+    "healty": false,
+    "notice": "Steam Prices Broken because Steam updated their APIs",
+    "updatedat": null
+  },
+  "note": "today/month include a small number of calls made by the account owner before this probe began."
+}
