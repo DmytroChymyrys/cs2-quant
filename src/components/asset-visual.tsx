@@ -12,6 +12,7 @@ import { track } from "@/lib/ga";
 import type { Asset3dTarget } from "@/lib/product/asset-3d";
 import {
   chooseInitialVisualMode,
+  isSoftwareRenderer,
   parseVisualMode,
   VISUAL_MODE_PREFERENCE_KEY,
   type AssetVisualMode as Mode,
@@ -64,6 +65,41 @@ function writePreference(mode: Mode) {
 }
 
 /*
+ * Can this browser actually draw 3D?
+ *
+ * Measured once and cached: the answer cannot change within a page view, and
+ * creating a WebGL context is far too expensive to repeat on every render.
+ *
+ * A context that fails outright, or one whose renderer is a software
+ * rasteriser, means the viewer will boot and then show its own "requires
+ * hardware acceleration" card. Checking here costs one throwaway canvas and
+ * saves a reader an iframe they cannot use.
+ */
+let acceleration: boolean | null = null;
+
+function detectAcceleration(): boolean {
+  if (acceleration !== null) return acceleration;
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl2");
+    if (!gl) return (acceleration = false);
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    /*
+     * Without the extension there is no renderer string to judge, which is
+     * treated as capable — see isSoftwareRenderer. The context existing at
+     * all is already the stronger half of the signal.
+     */
+    const renderer = info
+      ? (gl.getParameter(info.UNMASKED_RENDERER_WEBGL) as string | null)
+      : null;
+    return (acceleration = !isSoftwareRenderer(renderer));
+  } catch {
+    // A browser that throws on canvas or WebGL is not one to hand an iframe.
+    return (acceleration = false);
+  }
+}
+
+/*
  * The preference is read through useSyncExternalStore rather than in an
  * effect. The server snapshot is `null`, so the server and the first client
  * render agree and hydration is clean; React then re-reads on the client
@@ -72,6 +108,12 @@ function writePreference(mode: Mode) {
  */
 const NO_SUBSCRIPTION = () => () => {};
 const NO_SERVER_PREFERENCE = () => null;
+/*
+ * The server cannot know the reader's GPU, so it renders the image and no
+ * iframe. That is the honest default: a machine that cannot draw 3D never
+ * receives the frame at all.
+ */
+const NO_SERVER_ACCELERATION = () => false;
 
 export function AssetVisual({
   image,
@@ -97,6 +139,11 @@ export function AssetVisual({
     readPreference,
     NO_SERVER_PREFERENCE,
   );
+  const accelerated = useSyncExternalStore(
+    NO_SUBSCRIPTION,
+    detectAcceleration,
+    NO_SERVER_ACCELERATION,
+  );
   /** An explicit choice on this page view, which outranks the stored one. */
   const [chosen, setChosen] = useState<Mode | null>(null);
   const [ready, setReady] = useState(false);
@@ -111,7 +158,11 @@ export function AssetVisual({
   /** What the reader should be looking at, given everything known so far. */
   const wanted: Mode =
     eligible && !broken
-      ? chooseInitialVisualMode({ verified, stored: chosen ?? stored })
+      ? chooseInitialVisualMode({
+          verified,
+          stored: chosen ?? stored,
+          accelerated,
+        })
       : "image";
 
   /*

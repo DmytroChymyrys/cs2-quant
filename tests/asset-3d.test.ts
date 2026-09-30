@@ -14,6 +14,7 @@ import {
 } from "../src/components/cs2screen-viewer";
 import {
   chooseInitialVisualMode,
+  isSoftwareRenderer,
   parseVisualMode,
   VISUAL_MODE_PREFERENCE_KEY,
 } from "../src/lib/product/asset-visual-mode";
@@ -275,6 +276,52 @@ describe("which representation a reader lands on", () => {
     expect(chooseInitialVisualMode({ verified: false, stored: null })).toBe("image");
   });
 
+  it("does not default to 3D on a browser that cannot draw it", () => {
+    /*
+     * Observed directly: on a software renderer the viewer boots, posts
+     * cs2viewer:ready, and then draws its own "requires hardware
+     * acceleration" card. Readiness says the viewer app started, not that
+     * anything was drawn — so promoting on it alone puts a third party's
+     * error message in the hero and hides a perfectly good image.
+     */
+    expect(chooseInitialVisualMode({ verified: true, stored: null, accelerated: false }))
+      .toBe("image");
+    expect(chooseInitialVisualMode({ verified: true, stored: null, accelerated: true }))
+      .toBe("3d");
+  });
+
+  it("still honours an explicit request for 3D on such a browser", () => {
+    // Being refused without being told is worse than being told by the wrong
+    // party; the reader who asks sees the viewer's own explanation.
+    expect(chooseInitialVisualMode({ verified: true, stored: "3d", accelerated: false }))
+      .toBe("3d");
+  });
+
+  it("recognises software rasterisers by name", () => {
+    for (const renderer of [
+      "SwiftShader",
+      "Google SwiftShader",
+      "llvmpipe (LLVM 15.0.7, 256 bits)",
+      "Microsoft Basic Render Driver",
+      "Software Rasterizer",
+    ])
+      expect(isSoftwareRenderer(renderer), renderer).toBe(true);
+    /*
+     * Real GPUs, and the browsers that withhold the string. Refusing 3D to
+     * every privacy-hardened browser would be a far bigger error than
+     * occasionally offering it to a slow one.
+     */
+    for (const renderer of [
+      "ANGLE (Apple, Apple M2 Pro, OpenGL 4.1)",
+      "NVIDIA GeForce RTX 3060/PCIe/SSE2",
+      "AMD Radeon Pro 5500M OpenGL Engine",
+      null,
+      undefined,
+      "",
+    ])
+      expect(isSoftwareRenderer(renderer), String(renderer)).toBe(false);
+  });
+
   it("lets a choice made earlier in the session outrank the default", () => {
     // Both directions: the reader has seen the switch and used it.
     expect(chooseInitialVisualMode({ verified: true, stored: "image" })).toBe("image");
@@ -464,6 +511,21 @@ describe("image and 3D occupy the same hero", () => {
 });
 
 describe("readiness is observed, never inferred", () => {
+  it("does not treat readiness as proof that anything was drawn", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    /*
+     * The frame is cross-origin, so its contents cannot be inspected. What
+     * can be checked is the same browser's own WebGL renderer, which the
+     * iframe shares — and a browser that cannot draw 3D never receives the
+     * frame at all, rather than receiving one it will fill with an error.
+     */
+    expect(visual).toContain("detectAcceleration");
+    expect(visual).toContain('canvas.getContext("webgl2")');
+    expect(visual).toContain("WEBGL_debug_renderer_info");
+    // The server cannot know the reader's GPU, so it must not assume one.
+    expect(visual).toContain("const NO_SERVER_ACCELERATION = () => false;");
+  });
+
   it("waits for the provider's own message", async () => {
     const viewer = await source("src/components/cs2screen-viewer.tsx");
     /*

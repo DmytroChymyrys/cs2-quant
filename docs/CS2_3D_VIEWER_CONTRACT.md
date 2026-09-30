@@ -225,8 +225,28 @@ The viewer posts to its parent instead. Observed on the wire, it emits exactly
 
 | Message | Meaning |
 |---|---|
-| `cs2viewer:ready` | The viewer is usable. This is the only signal 3D is promoted on. |
+| `cs2viewer:ready` | The viewer **application started**. See the warning below. |
 | `cs2viewer:preview` | A screenshot the visitor took. Unused. |
+
+**`cs2viewer:ready` does not mean anything was drawn.** Observed directly: on a
+machine without hardware acceleration the viewer boots, posts
+`cs2viewer:ready` at the normal time, and then draws its own error card —
+*"This browser is using software rendering. This viewer requires hardware
+acceleration."* Promoting on readiness alone therefore puts a third party's
+error message in the hero and hides a perfectly good image.
+
+The frame is cross-origin, so its contents cannot be inspected. What can be
+checked is **the same browser's own WebGL renderer**, which the iframe shares.
+Before 3D is made the default, the parent creates a throwaway `webgl2` context
+and reads `WEBGL_debug_renderer_info`; a missing context, or a renderer
+matching a software rasteriser (SwiftShader, llvmpipe, Microsoft Basic Render
+Driver…), means the image stays and the frame is never sent. A browser that
+withholds the renderer string is treated as capable — refusing 3D to every
+privacy-hardened browser would be a far bigger error than occasionally
+offering it to a slow one.
+
+An **explicit** request for 3D is still honoured on such a browser. Being
+refused without being told is worse than being told by the wrong party.
 
 **There is no error message.** Failure is therefore not directly observable.
 The integration infers it from the absence of `cs2viewer:ready` within 20
@@ -243,6 +263,14 @@ the timeout should become a backstop rather than the primary signal.
 Messages are accepted only from `https://3d.cs2screen.com`. Any page can
 postMessage into ours, and only the viewer's own origin is evidence that the
 viewer is working.
+
+### Measured timing
+
+Readiness arrives about **2.8-3.1 seconds** after load (four production assets,
+2787-3111ms). The image holds the hero for that whole interval, and the switch
+shows 3D as the selected side with a quiet "Loading 3D" line beneath the frame
+— otherwise the page asserts that the image is the answer for three seconds and
+then silently contradicts itself.
 
 ## 14. V1.1 — 3D as the default representation
 
@@ -282,6 +310,10 @@ up.
 **Nothing waits for the viewer.** The image renders immediately and holds the
 hero while the viewer starts behind it. There is no blank hero and no spinner
 where the asset should be.
+
+**There is a third question**, added after the first production run: *can this
+browser draw 3D at all?* See §13 — a software renderer keeps the image, and the
+frame is never sent.
 
 **The preference is per-session.** An explicit choice is remembered in
 `sessionStorage` and outranks the default in both directions, so choosing the
