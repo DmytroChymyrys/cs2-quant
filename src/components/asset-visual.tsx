@@ -163,6 +163,15 @@ export function AssetVisual({
   // Not "mounted", not "loaded": the image holds the hero until the provider
   // says the viewer is genuinely usable.
   const showing3d = wanted === "3d" && ready;
+  /*
+   * Measured in production: the viewer takes about three seconds to report
+   * itself ready. For that whole interval the image is on screen, and if the
+   * control also marked Image as the selected side the page would be telling
+   * the reader that the image IS the answer — then silently contradicting
+   * itself. The switch therefore reflects what was chosen, which is `wanted`,
+   * while the image acts as the placeholder it is.
+   */
+  const loading3d = wanted === "3d" && !ready;
 
   return (
     <div className="asset-visual" data-mode={showing3d ? "3d" : "image"}>
@@ -190,17 +199,33 @@ export function AssetVisual({
           aria-label="Asset visual representation"
         >
           {/* 3D first, because for these assets it is the intended view. */}
-          <button type="button" onClick={() => choose("3d")} aria-pressed={showing3d}>
+          <button
+            type="button"
+            onClick={() => choose("3d")}
+            aria-pressed={wanted === "3d"}
+            data-loading={loading3d || undefined}
+          >
             3D
           </button>
           <button
             type="button"
             onClick={() => choose("image")}
-            aria-pressed={!showing3d}
+            aria-pressed={wanted === "image"}
           >
             Image
           </button>
         </div>
+      )}
+      {loading3d && !broken && (
+        /*
+          Said once, quietly, under the frame — not over the asset. A spinner
+          on top of the artwork would hide the one thing that is ready, and
+          the reader would be watching a placeholder for something they can
+          already see.
+        */
+        <p className="asset-visual-note" role="status">
+          Loading 3D &mdash; showing the image meanwhile.
+        </p>
       )}
       {broken && (
         // Silent substitution would read as the image simply being the design.

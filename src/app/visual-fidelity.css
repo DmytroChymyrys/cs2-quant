@@ -3617,6 +3617,15 @@ body {
   color: var(--cyan);
   box-shadow: inset 0 -2px 0 var(--cyan);
 }
+/*
+ * Selected but not yet showing. The provider takes about three seconds, and
+ * for that interval the reader is looking at the image while the control says
+ * 3D — so the control has to say why. Dimmed text plus the selected
+ * background reads as "on its way", where full strength would read as "done".
+ */
+.asset-visual-switch button[data-loading] {
+  color: #7f8b9c;
+}
 .asset-visual-switch button:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: -2px;

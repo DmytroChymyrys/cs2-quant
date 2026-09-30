@@ -355,6 +355,33 @@ describe("the switch offers both, in the order the product means", () => {
     expect(visual).toContain("{eligible && !broken && (");
   });
 
+  it("does not claim the image while 3D is on its way", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    /*
+     * Measured in production: cs2viewer:ready arrives about three seconds
+     * after load. If the control marked Image as selected for those three
+     * seconds it would be telling the reader that the image is the answer,
+     * then silently contradicting itself — which reads as the default never
+     * having changed at all. aria-pressed follows what was chosen, not what
+     * has finished rendering.
+     */
+    expect(visual).toContain('aria-pressed={wanted === "3d"}');
+    expect(visual).toContain('aria-pressed={wanted === "image"}');
+    expect(visual).not.toContain("aria-pressed={showing3d}");
+    expect(visual).not.toContain("aria-pressed={!showing3d}");
+  });
+
+  it("says that 3D is coming, without covering the asset", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain('const loading3d = wanted === "3d" && !ready');
+    expect(visual).toContain("Loading 3D");
+    // A spinner over the artwork would hide the one thing that IS ready.
+    // Read from the code, not the comments — the comments discuss spinners.
+    expect(await code("src/components/asset-visual.tsx")).not.toContain("spinner");
+    // And it is gone once the viewer arrives, or once it has failed.
+    expect(visual).toContain("{loading3d && !broken && (");
+  });
+
   it("marks the selected side for more than colour", async () => {
     const css = await source("src/app/visual-fidelity.css");
     const on = css.slice(css.indexOf('.asset-visual-switch button[aria-pressed="true"] {'));
