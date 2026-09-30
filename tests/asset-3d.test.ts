@@ -273,6 +273,29 @@ describe("activation is lazy and the viewer is not torn down", () => {
     expect(stage).toContain("max-height: 58vh");
   });
 
+  it("gives the iframe a definite box to render into", async () => {
+    const css = await source("src/app/visual-fidelity.css");
+    /*
+     * A percentage height against an auto-height ancestor resolves to `auto`,
+     * and an iframe with auto height falls back to its intrinsic 150px. The
+     * stage measured 375px while the iframe measured 150px, so the viewer laid
+     * itself out for a 150px viewport — controls and item card near the top,
+     * empty background below. The active layer is absolutely positioned so
+     * every descendant resolves against a definite box.
+     */
+    expect(css).toContain(
+      '.asset-visual[data-mode="3d"] .asset-visual-layer[data-active="true"] {',
+    );
+    const fill = css.slice(
+      css.indexOf('.asset-visual[data-mode="3d"] .asset-visual-layer[data-active="true"] {'),
+    );
+    expect(fill.slice(0, 120)).toContain("position: absolute");
+    expect(fill.slice(0, 120)).toContain("inset: 0");
+    // A min-height on the live frame would fight the stage's aspect ratio.
+    const frame = css.slice(css.indexOf(".asset-3d-frame {"), css.indexOf(".asset-3d-frame iframe"));
+    expect(frame).not.toContain("min-height");
+  });
+
   it("degrades to a message with a way back to the image", async () => {
     const viewer = await source("src/components/cs2screen-viewer.tsx");
     expect(viewer).toContain("3D preview unavailable");
