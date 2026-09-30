@@ -13,7 +13,7 @@ import { AssetImage } from "@/components/asset-image";
 import { AvailabilityNotice } from "@/components/intelligence-market";
 import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import { WatchButton } from "@/components/watch-button";
-import { Asset3DPanel } from "@/components/asset-3d-panel";
+import { AssetVisual } from "@/components/asset-visual";
 import { resolveAsset3dTarget } from "@/lib/product/asset-3d";
 /* Public by design and locked to an origin allowlist on the provider side.
    The private STEAMWEBAPI_API_KEY is never used in the browser. */
@@ -153,7 +153,14 @@ export default async function Asset({
         </nav>
       ) : null}
       <div className="asset-top">
-        <AssetImage name={a.name} media={a.artwork} large />
+        <AssetVisual
+          image={<AssetImage name={a.name} media={a.artwork} large />}
+          target={viewerTarget}
+          assetId={a.id}
+          assetName={a.name}
+          category={a.identity?.category}
+          viewerKey={CS2_VIEWER_KEY}
+        />
         <PageHeading
           eyebrow="Asset intelligence · Listing references"
           title={`${a.name} CS2 Market Data`}
@@ -277,13 +284,6 @@ export default async function Asset({
                 </Notice>
               )}
           </Panel>
-          <Asset3DPanel
-            target={viewerTarget}
-            assetId={a.id}
-            assetName={a.name}
-            category={a.identity?.category}
-            viewerKey={CS2_VIEWER_KEY}
-          />
           <Panel title="Why this asset appears">
             <ul>
               {explain(a, screenInput({ horizon: h === "7d" ? "24h" : h })).map(

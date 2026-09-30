@@ -46,6 +46,12 @@ export function cs2screenViewerUrl({
   url.searchParams.set("inspectlink", inspectLink);
   url.searchParams.set("embed", "1");
   url.searchParams.set("lang", language);
+  /*
+   * The showroom presentation — black background, lighting, which controls
+   * exist — is configured in the cs2screen panel, not here. See
+   * docs/CS2_3D_VIEWER_CONTRACT.md for the exact settings this integration
+   * expects; a URL parameter cannot override a panel setting.
+   */
   return url.toString();
 }
 
@@ -77,12 +83,15 @@ export function CS2ScreenViewer({
   title,
   onLoaded,
   onFailed,
+  onExit,
 }: {
   inspectLink: string;
   viewerKey: string;
   title: string;
   onLoaded?: () => void;
   onFailed?: (reason: string) => void;
+  /** Hands the reader back to the static image when 3D cannot be shown. */
+  onExit?: () => void;
 }) {
   const [state, setState] = useState<"loading" | "ready" | "failed">("loading");
   const settled = useRef(false);
@@ -114,9 +123,14 @@ export function CS2ScreenViewer({
         </div>
       )}
       {state === "failed" ? (
-        <p className="asset-3d-fallback" role="status">
-          3D preview unavailable. Market intelligence below is unaffected.
-        </p>
+        <div className="asset-3d-fallback" role="status">
+          <p>3D preview unavailable.</p>
+          {onExit && (
+            <button type="button" className="btn small" onClick={onExit}>
+              Back to image
+            </button>
+          )}
+        </div>
       ) : (
         <iframe
           src={src}

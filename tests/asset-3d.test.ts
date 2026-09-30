@@ -206,46 +206,87 @@ describe("the private credential cannot reach the browser", () => {
   });
 });
 
-describe("the panel is lazy, bounded and honest", () => {
-  it("mounts no iframe before the reader asks", async () => {
-    const panel = await source("src/components/asset-3d-panel.tsx");
-    expect(panel).toContain("const [active, setActive] = useState(false)");
-    expect(panel).toContain("{active ? (");
+describe("3D is a representation of the asset, not a second section", () => {
+  it("lives in the hero visual and nowhere else on the page", async () => {
+    const page = await source("src/app/(market)/asset/[slug]/page.tsx");
+    expect(page).toContain("<AssetVisual");
+    // The standalone lower section is gone; two entry points for one concept
+    // would compete with each other and duplicate the vertical space.
+    expect(page).not.toContain("<Asset3DPanel");
+    expect(page).not.toContain("3D INSPECTION");
   });
 
-  it("creates at most one viewer per page view", async () => {
-    const panel = await source("src/components/asset-3d-panel.tsx");
-    expect(panel).toContain("if (requested.current) return;");
+  it("wraps the existing image rather than replacing it", async () => {
+    const page = await source("src/app/(market)/asset/[slug]/page.tsx");
+    expect(page).toContain("image={<AssetImage name={a.name}");
   });
 
-  it("shows no control when there is nothing to render", async () => {
-    const panel = await source("src/components/asset-3d-panel.tsx");
-    const unavailable = panel.slice(
-      panel.indexOf('target.status === "UNAVAILABLE"'),
-      panel.indexOf("return (\n    <section className=\"panel asset-3d\" aria-labelledby=\"asset-3d-heading\">\n      <h2 id=\"asset-3d-heading\" className=\"panel-title\">\n        3D inspection\n        <small>"),
-    );
-    expect(unavailable).not.toContain("View in 3D");
+  it("defaults to the image", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain('useState<"image" | "3d">("image")');
   });
 
-  it("states that the render is a representative item", async () => {
-    const panel = await source("src/components/asset-3d-panel.tsx");
-    // A canonical asset is a market type; the float on screen belongs to one
-    // example of it and saying so is the difference between context and a
-    // false claim about the asset being priced.
-    expect(panel).toContain("representative item");
+  it("offers the switch only for an eligible asset", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain('const eligible = target.status === "AVAILABLE"');
+    expect(visual).toContain("{eligible && (");
+  });
+});
+
+describe("activation is lazy and the viewer is not torn down", () => {
+  it("mounts no iframe until 3D is chosen", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain("const [mounted, setMounted] = useState(false)");
+    expect(visual).toContain("{eligible && mounted && (");
+  });
+
+  it("goes straight to the viewer with no intermediate click", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    // One control, one action: Image | 3D. No "Launch viewer" card between.
+    expect(visual).not.toContain("View in 3D");
+    expect(visual).toContain("onClick={show3d}");
+  });
+
+  it("hides rather than unmounts when switching back to the image", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    /*
+     * A reader who has gone showroom → Arena → showroom and then glances at
+     * the image must not lose that state on the way back, so the inactive
+     * layer is hidden with CSS and the iframe survives.
+     */
+    expect(visual).toContain('data-active={mode === "3d"}');
+    const css = await source("src/app/visual-fidelity.css");
+    expect(css).toContain('.asset-visual-layer[data-active="false"] {');
+    expect(css).toContain("display: none;");
+  });
+
+  it("mounts the viewer at most once per page view", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).toContain("if (everActivated.current) return;");
   });
 
   it("keeps its dimensions while loading, so nothing shifts", async () => {
     const css = await source("src/app/visual-fidelity.css");
-    const frame = css.slice(css.indexOf(".asset-3d-frame {"));
-    expect(frame).toContain("aspect-ratio");
-    expect(frame).toContain("min-height");
+    const stage = css.slice(css.indexOf('.asset-visual[data-mode="3d"] .asset-visual-stage'));
+    expect(stage).toContain("aspect-ratio");
+    // 3D must not swallow the first viewport; the asset summary stays visible.
+    expect(stage).toContain("max-height: 58vh");
   });
 
-  it("degrades to a message rather than a page error", async () => {
+  it("degrades to a message with a way back to the image", async () => {
     const viewer = await source("src/components/cs2screen-viewer.tsx");
     expect(viewer).toContain("3D preview unavailable");
+    expect(viewer).toContain("Back to image");
     expect(viewer).toContain("LOAD_TIMEOUT_MS");
+  });
+
+  it("keeps the representative-item meaning intact", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    // A canonical asset is a market type; the float on screen belongs to one
+    // example of it, and saying so is the difference between context and a
+    // false claim about the asset being priced.
+    expect(visual).toContain("representative item");
+    expect(visual).toContain("not a property of the market asset");
   });
 });
 
@@ -297,7 +338,9 @@ describe("analytics record only what we can observe", () => {
 });
 
 describe("provider isolation", () => {
-  it("keeps cs2screen out of the product component", async () => {
+  it("keeps cs2screen out of the product components", async () => {
+    const visual = await source("src/components/asset-visual.tsx");
+    expect(visual).not.toContain("cs2screen");
     const panel = await source("src/components/asset-3d-panel.tsx");
     // Swapping 3D vendors should touch the viewer file, not Asset Intelligence.
     expect(panel).not.toContain("3d.cs2screen.com");

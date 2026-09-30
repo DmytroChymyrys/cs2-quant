@@ -3506,38 +3506,76 @@ body {
   min-height: 0;
 }
 
-/* Asset Intelligence — 3D inspection.
-   Deliberately restrained: the rendered skin is the focal point, so the panel
-   adds a frame and a control and nothing decorative. */
-.asset-3d .panel-title small {
-  color: var(--secondary);
-  font: 10px var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-left: 10px;
-}
-.asset-3d-invite {
+/* Asset Intelligence — the asset visual, image or 3D.
+   3D is another representation of the same thing the image shows, so it shares
+   one area and one control rather than occupying a second section. */
+.asset-visual {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 22px;
+  gap: 8px;
 }
-.asset-3d-invite p {
-  margin: 0;
+.asset-visual-stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #070b10;
+}
+/* Both layers stay in the tree once 3D is open; the inactive one is hidden so
+   the iframe is never torn down by a toggle. */
+.asset-visual-layer[data-active="false"] {
+  display: none;
+}
+/* In image mode the stage is only as tall as the image; in 3D it takes a
+   deliberate, useful height without swallowing the first viewport. */
+.asset-visual[data-mode="3d"] .asset-visual-stage {
+  aspect-ratio: 16 / 10;
+  max-height: 58vh;
+}
+.asset-visual-switch {
+  display: inline-flex;
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0c1117;
+}
+.asset-visual-switch button {
+  appearance: none;
+  border: 0;
+  background: transparent;
   color: var(--secondary);
-  font-size: 12px;
-  max-width: 44ch;
+  font: 10px var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  cursor: pointer;
 }
-/* The frame keeps its height before, during and after load, so activating the
-   viewer never shifts the market data underneath it. */
+.asset-visual-switch button + button {
+  border-left: 1px solid var(--border);
+}
+.asset-visual-switch button[aria-pressed="true"] {
+  background: #16212c;
+  color: var(--cyan);
+}
+.asset-visual-switch button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: -2px;
+}
+.asset-visual-note {
+  margin: 0;
+  color: #6b7686;
+  font: 10.5px var(--mono);
+  line-height: 1.6;
+  max-width: 62ch;
+}
+/* The viewer fills the stage it was given. */
 .asset-3d-frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  min-height: 320px;
+  height: 100%;
+  min-height: 300px;
   background: #070b10;
-  border-top: 1px solid var(--border);
   overflow: hidden;
 }
 .asset-3d-frame iframe {
@@ -3574,33 +3612,28 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .asset-3d-spinner { animation: none; }
 }
-.asset-3d-fallback,
-.asset-3d-unavailable {
-  margin: 0;
+.asset-3d-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 300px;
   padding: 22px;
   color: var(--secondary);
   font-size: 12px;
-}
-.asset-3d-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
   text-align: center;
 }
-.asset-3d-note {
+.asset-3d-fallback p {
   margin: 0;
-  padding: 12px 22px 18px;
-  border-top: 1px solid var(--border);
-  color: #6b7686;
-  font: 10.5px var(--mono);
-  line-height: 1.6;
 }
 @media (max-width: 767px) {
-  /* Stack naturally; never force a cramped side-by-side viewer on a phone. */
-  .asset-3d-frame { aspect-ratio: 4 / 3; min-height: 260px; }
-  .asset-3d-invite,
-  .asset-3d-fallback,
-  .asset-3d-unavailable { padding: 16px; }
-  .asset-3d-note { padding: 10px 16px 14px; }
+  /* Full width, comfortably tall, never a cramped side-by-side viewer. */
+  .asset-visual[data-mode="3d"] .asset-visual-stage {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+  .asset-3d-frame,
+  .asset-3d-fallback { min-height: 240px; }
 }

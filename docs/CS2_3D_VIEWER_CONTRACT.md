@@ -183,6 +183,35 @@ re-checked before any commitment depends on it.
 
 ---
 
+## 12. Required cs2screen panel configuration (V1)
+
+The URL carries the key, the inspect link, `embed=1` and a language. Everything
+about presentation is a **panel setting** — a query parameter cannot override
+one — so the intended FloatAlpha experience depends on these being set.
+
+| Setting | Required value | Why |
+|---|---|---|
+| Showroom background | **Black / near-black** | It is the viewer's default here and it blends into FloatAlpha instead of announcing a third-party site |
+| Background selector | **Hidden** | The map chooser (Dust II, Mirage, Nuke, Office…) turns the asset page into a generic skin viewer. The environment experience belongs in Arena |
+| Lighting | Studio or CS2 | Even lighting reads best against black; a map preset fights the page |
+| Rotate on open | **On** | The item should be alive when the reader arrives |
+| Initial item size | Fit the frame | Geometry varies enormously between a knife and an AWP |
+| Reset camera | **On** | Cheap recovery from an awkward angle |
+| Fullscreen | **On** | Explicit user action only; entering 3D never auto-fullscreens |
+| **Arena** | **On** | The second state V1 is built around |
+| Catalog browsing | **Off** | FloatAlpha chooses the asset; browsing makes it a marketplace |
+| Customize (float/seed/StatTrak) | **Off** | Editing the item would contradict the representative-item disclaimer |
+| Own inspect-link input | **Off** | The application controls what is inspected |
+| Visitor agent selection | **Off** | Not needed to inspect an asset |
+| Visitor glove selection | **Off** | Distinct from *inspecting* a glove asset, which works normally |
+| Language picker | Optional | The URL already requests English |
+| Branding | FloatAlpha logo + watermark | Already configured and visible in production |
+| **Origin allowlist** | **`floatalpha.com`** | Keys are locked to up to 16 origins; the viewer will not load on an unlisted domain |
+
+Controls that **cannot** be hidden from the application side: everything in the
+table above is panel-side only. FloatAlpha code cannot suppress a provider
+control, so anything left enabled in the panel will appear inside the frame.
+
 ## Explicitly not done in this batch
 
 No iframe, no `NEXT_PUBLIC_CS2_VIEWER_KEY`, no viewer key obtained or committed,
