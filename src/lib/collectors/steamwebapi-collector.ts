@@ -251,20 +251,28 @@ export async function collectSteamWebApi({
     const durationMs = finishedAt.getTime() - startedAt.getTime();
     const status =
       !persistenceHealthy || transformFailures > 0 ? "PARTIAL" : "SUCCESS";
-    await store.audit({
-      ...base,
-      claimKey: null,
-      status,
-      itemsReceived: response.rows.length,
-      itemsHttpStatus: response.status,
-      observationsInserted: rowsWritten,
-      metadata: {
-        provenance: steamWebApiProvenance,
-        persistenceHealthy,
-        responseSha256: response.bodySha256,
-        responseBytes: response.responseBytes,
+    /*
+     * finish(), not audit(). audit() INSERTs and is only valid for a run that
+     * was never claimed — the duplicate-window path below. A claimed run
+     * already has its row, so inserting again conflicts on the primary key and
+     * takes down a collection whose writes had all succeeded.
+     */
+    await store.finish(
+      id,
+      {
+        status,
+        itemsReceived: response.rows.length,
+        itemsHttpStatus: response.status,
+        observationsInserted: rowsWritten,
+        metadata: {
+          provenance: steamWebApiProvenance,
+          persistenceHealthy,
+          responseSha256: response.bodySha256,
+          responseBytes: response.responseBytes,
+        },
       },
-    });
+      [],
+    );
     await store.completeTiming(id, { finishedAt, durationMs });
 
     const result: SteamCollectionResult = {
@@ -292,15 +300,10 @@ export async function collectSteamWebApi({
     const durationMs = finishedAt.getTime() - startedAt.getTime();
     const code =
       error instanceof SteamWebApiError ? error.code : "COLLECTION_FAILED";
-    await store.audit({
-      ...base,
-      claimKey: null,
-      status: "FAILED",
-      errorCode: code,
-      // The credential can appear in neither branch: the client never puts it
-      // in a URL, and the message here is a fixed code.
-      errorMessage: code,
-    });
+    // Same reason as the success path: the row exists, so this updates it.
+    // The credential can appear in neither branch — the client never puts it
+    // in a URL, and the message here is a fixed code.
+    await store.finish(id, { status: "FAILED", errorCode: code, errorMessage: code }, []);
     await store.completeTiming(id, { finishedAt, durationMs });
     log("steam.collector.failed", { errorCode: code, durationMs });
     return {

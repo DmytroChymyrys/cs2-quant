@@ -271,6 +271,26 @@ describe("the collector is additive and safe", () => {
     expect(route).toContain("!result.persistenceHealthy");
   });
 
+  it("closes a claimed run with finish, never with audit", async () => {
+    const code = await source("src/lib/collectors/steamwebapi-collector.ts");
+    /*
+     * audit() INSERTs and is only valid for a run that was never claimed. A
+     * claimed run already has its row, so a second insert conflicts on the
+     * primary key — which took down a production run whose Steam writes had
+     * every one succeeded. audit() may appear exactly once, on the
+     * duplicate-window path where no row exists.
+     */
+    expect(code.match(/store\.audit\(/g) ?? []).toHaveLength(1);
+    const duplicateBranch = code.slice(
+      code.indexOf("DUPLICATE_WINDOW"),
+      code.indexOf("steam.collector.start"),
+    );
+    expect(duplicateBranch).toContain("store.audit(");
+    // Both terminal paths of a claimed run update rather than insert.
+    expect(code).toContain('await store.finish(id, { status: "FAILED"');
+    expect(code).toContain("await store.finish(\n      id,");
+  });
+
   it("does not touch the Skinport collector or its cadence", async () => {
     const skinport = await source("src/lib/collectors/skinport-collector.ts");
     expect(skinport).not.toMatch(/steamwebapi/i);
