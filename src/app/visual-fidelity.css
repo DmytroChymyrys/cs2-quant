@@ -3532,6 +3532,19 @@ body {
   aspect-ratio: 16 / 10;
   max-height: 58vh;
 }
+/*
+ * The identity column is 235px, which is fine for a thumbnail and useless for
+ * a 3D scene — the provider's own controls overlap at that width and long
+ * geometry like an AWP crops. In 3D the column widens; the title and metric
+ * grid keep their positions beside it, so the asset and its market state are
+ * still the first things read.
+ */
+@media (min-width: 1025px) {
+  .asset-intelligence .asset-top:has(.asset-visual[data-mode="3d"]) {
+    grid-template-columns: minmax(0, 600px) minmax(0, 1fr) 125px;
+    align-items: start;
+  }
+}
 .asset-visual-switch {
   display: inline-flex;
   align-self: flex-start;

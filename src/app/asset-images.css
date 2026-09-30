@@ -35,22 +35,29 @@
   }
 }
 
-/* Keep optional artwork within the identity column, not the metric grid. */
+/* Keep optional artwork within the identity column, not the metric grid.
+   The artwork is now wrapped by .asset-visual, which owns the image/3D
+   switch, so the placement keys on the wrapper as well as the bare well —
+   otherwise adding that wrapper silently moved the whole hero. */
 @media (min-width: 1025px) {
-  .asset-intelligence .asset-top:has(> .asset-image-well) > .asset-image-well {
+  .asset-intelligence .asset-top:has(> .asset-image-well) > .asset-image-well,
+  .asset-intelligence .asset-top:has(> .asset-visual) > .asset-visual {
     grid-column: 1;
     grid-row: 1;
     margin-bottom: 0;
   }
-  .asset-intelligence .asset-top:has(> .asset-image-well) > .page-heading {
+  .asset-intelligence .asset-top:has(> .asset-image-well) > .page-heading,
+  .asset-intelligence .asset-top:has(> .asset-visual) > .page-heading {
     grid-column: 1;
     grid-row: 2;
   }
-  .asset-intelligence .asset-top:has(> .asset-image-well) > .metric-grid {
+  .asset-intelligence .asset-top:has(> .asset-image-well) > .metric-grid,
+  .asset-intelligence .asset-top:has(> .asset-visual) > .metric-grid {
     grid-column: 2;
     grid-row: 1 / span 2;
   }
-  .asset-intelligence .asset-top:has(> .asset-image-well) > form {
+  .asset-intelligence .asset-top:has(> .asset-image-well) > form,
+  .asset-intelligence .asset-top:has(> .asset-visual) > form {
     grid-column: 3;
     grid-row: 1 / span 2;
   }
