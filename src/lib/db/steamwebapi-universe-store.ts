@@ -7,7 +7,7 @@ import {
   STEAM_VENUE,
   steamStateHash,
   type SteamDelta,
-} from "../../market-data/ingestion/steam-provider-state";
+} from "../../market-data/ingestion/steamwebapi-provider-state";
 
 /**
  * Persistence for Provider #2.

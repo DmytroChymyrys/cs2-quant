@@ -37,7 +37,7 @@ import { createHash } from "node:crypto";
 
 /** Recorded with every run so a row traces to the code that produced it. */
 export const STEAM_COLLECTOR_VERSION = "steamwebapi-items@1";
-export const STEAM_NORMALIZATION_VERSION = "steam-provider-state@1";
+export const STEAM_NORMALIZATION_VERSION = "steamwebapi-provider-state@1";
 
 export const STEAM_PROVIDER = "STEAMWEBAPI";
 export const STEAM_VENUE = "STEAM";

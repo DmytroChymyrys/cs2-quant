@@ -18,9 +18,9 @@ import {
   STEAM_VENUE,
   type SteamDelta,
   type SteamObserved,
-} from "../../market-data/ingestion/steam-provider-state";
+} from "../../market-data/ingestion/steamwebapi-provider-state";
 import { providerKey } from "../db/universe-store";
-import { steamUniverseStore, type SteamUniverseStore } from "../db/steam-universe-store";
+import { steamUniverseStore, type SteamUniverseStore } from "../db/steamwebapi-universe-store";
 import type { CollectorStore, Run } from "../db/collector-store";
 
 /**

@@ -9,7 +9,7 @@ import {
   STEAM_STATE_FINGERPRINT_FIELDS,
   STEAM_VENUE,
   type SteamObserved,
-} from "../src/market-data/ingestion/steam-provider-state";
+} from "../src/market-data/ingestion/steamwebapi-provider-state";
 import {
   steamStateOf,
   transformSteamItem,

@@ -2,7 +2,7 @@ import {
   STEAM_COLLECTOR_VERSION,
   type SteamMarketState,
   type SteamObserved,
-} from "../../ingestion/steam-provider-state";
+} from "../../ingestion/steamwebapi-provider-state";
 
 /**
  * SteamWebAPI row → normalized observation.
