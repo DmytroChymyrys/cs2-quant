@@ -3540,15 +3540,20 @@ body {
  * still the first things read.
  */
 @media (min-width: 1025px) {
+  /*
+   * Sized on the item, not on a parent track. `.asset-top` resolves to a flex
+   * container in practice despite declaring a grid, so grid-template-columns
+   * is inert there — and the stage is width:100% with an aspect ratio, so it
+   * never demands width of its own either. Giving the visual a definite width
+   * works under both layout models. The upper bound keeps narrower desktops
+   * from handing the whole row to the viewer.
+   */
+  .asset-visual[data-mode="3d"] {
+    width: min(600px, 44vw);
+    flex: 0 0 auto;
+  }
   .asset-intelligence .asset-top:has(.asset-visual[data-mode="3d"]) {
-    /*
-     * A definite track, not minmax(0, 600px): the stage is width:100% with an
-     * aspect ratio, so it never demands width of its own and an upper-bounded
-     * track simply collapses back to the thumbnail size. min() keeps narrower
-     * desktops from giving the whole row to the viewer.
-     */
-    grid-template-columns: min(600px, 44vw) minmax(0, 1fr) 125px;
-    align-items: start;
+    align-items: flex-start;
   }
 }
 .asset-visual-switch {
