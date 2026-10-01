@@ -95,6 +95,34 @@ export const CATEGORY_SEO: Record<string, CategorySeo> = {
 };
 
 /** Assets in a category that carry an observed median. */
+/**
+ * Is there enough evidence on this asset's page to be worth indexing?
+ *
+ * A median alone arrives with the first observation, so an asset tracked an
+ * hour ago already satisfies the old gate while its chart holds a handful of
+ * points and every comparison on the page reads "not observed". Indexing that
+ * creates exactly the thin page the catalogue is supposed to avoid, and it
+ * does so at the moment the universe grows — when the most new pages appear
+ * at once.
+ *
+ * Maturity is therefore read from evidence the page itself depends on, using
+ * the existing derived fields rather than a new score:
+ *
+ *   - an observed median, as before; and
+ *   - a derived 24h minimum-price return, which is the comparison the summary
+ *     leads with and which the derivation leaves null until the window holds
+ *     enough samples to support it.
+ *
+ * Nothing here changes what is collected, derived or displayed. An immature
+ * asset still has a page, still collects, and becomes indexable on its own
+ * once the evidence exists.
+ */
+export function indexableAsset(asset: MarketAssetSummary): boolean {
+  // Fails closed: an asset carrying no returns at all has no evidence, which
+  // is a reason to withhold it rather than to throw.
+  return asset.median !== null && (asset.returns?.["24h"] ?? null) !== null;
+}
+
 export function categoryAssets(
   assets: readonly MarketAssetSummary[],
   category: string,
@@ -102,6 +130,20 @@ export function categoryAssets(
   return assets.filter(
     (a) => (a.identity?.category ?? "other") === category && a.median !== null,
   );
+}
+
+/**
+ * The assets that make a category page worth indexing.
+ *
+ * Counted from mature members only: a category whose twelve assets are all
+ * two days old is twelve thin pages and an index page listing them, which is
+ * worse than not having the page at all.
+ */
+export function indexableCategoryAssets(
+  assets: readonly MarketAssetSummary[],
+  category: string,
+): MarketAssetSummary[] {
+  return categoryAssets(assets, category).filter(indexableAsset);
 }
 
 /**
@@ -115,7 +157,11 @@ export function indexableCategories(
   assets: readonly MarketAssetSummary[],
 ): CategorySeo[] {
   return Object.values(CATEGORY_SEO)
-    .map((seo) => ({ seo, count: categoryAssets(assets, seo.category).length }))
+    .map((seo) => ({
+      seo,
+      // Mature members only; see indexableAsset.
+      count: indexableCategoryAssets(assets, seo.category).length,
+    }))
     .filter(({ count }) => count >= CATEGORY_MIN_ASSETS)
     // Count descending, then name, so equal coverage yields a stable order
     // rather than one that depends on declaration order.

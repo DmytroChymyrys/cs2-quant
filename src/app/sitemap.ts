@@ -7,7 +7,11 @@ import {
 } from "@/lib/seo";
 import { readMarketDataset } from "@/lib/product/intelligence/server";
 import { assetPath } from "@/lib/asset-slug";
-import { categoryPath, indexableCategories } from "@/lib/seo-categories";
+import {
+  categoryPath,
+  indexableAsset,
+  indexableCategories,
+} from "@/lib/seo-categories";
 
 /**
  * Generated once per deployment and served as a static file.
@@ -102,7 +106,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "daily",
         priority: 0.7,
       });
-    const observed = dataset.assets.filter((asset) => asset.median !== null);
+    /*
+     * Mature assets only. A median arrives with the first observation, so the
+     * old gate would have submitted all fifty new assets to Google on the day
+     * they started collecting, each with a near-empty chart. They enter the
+     * sitemap on their own once the evidence their page leads with exists.
+     */
+    const observed = dataset.assets.filter(indexableAsset);
     for (const asset of observed)
       entries.push({
         url: absolute(assetPath(asset.name, asset.id)),

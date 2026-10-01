@@ -10,7 +10,7 @@ import { skinportClient } from "../src/market-data/adapters/skinport/skinport.cl
 import { provenanceFromRun } from "../src/market-data/ingestion/provenance-reader";
 import { item, history } from "./fixtures";
 
-it("persists 100 unchanged Skinport observations with joined provenance, preserves clocks and makes no requests/writes for duplicate windows", async () => {
+it("persists every tracked asset\u2019s unchanged Skinport observations with joined provenance, preserves clocks and makes no requests/writes for duplicate windows", async () => {
   const pg = new PGlite();
   try {
     for (const path of [
@@ -21,7 +21,12 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
     const approved = JSON.parse(
       await readFile("config/tracked-assets.json", "utf8"),
     ) as { marketHashName: string }[];
-    expect(approved).toHaveLength(100);
+    // The universe size is whatever the production record defines; pinning a
+    // number here only makes an expansion fail a test about persistence.
+    const universe = JSON.parse(
+      await readFile("config/production-universe.json", "utf8"),
+    ) as { assets: string[] };
+    expect(approved).toHaveLength(universe.assets.length);
     for (const asset of approved)
       await pg.query(
         "insert into assets(market_hash_name,is_tracked) values ($1,true)",
@@ -75,10 +80,10 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
     const first = await collectSkinport(store, client, now);
     expect(first).toMatchObject({
       status: "SUCCESS",
-      trackedAssets: 100,
-      itemsMatched: 100,
+      trackedAssets: approved.length,
+      itemsMatched: approved.length,
       itemsMissing: 0,
-      observationsInserted: 100,
+      observationsInserted: approved.length,
       durationMs: 750,
       finishedAt: new Date("2026-09-09T09:00:00.750Z"),
     });
@@ -92,7 +97,7 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
     }>(
       `select o.min_price,o.observed_at,o.source_updated_at,r.metadata,r.started_at,r.source from market_observations o join collector_runs r on r.id=o.collector_run_id`,
     );
-    expect(persisted.rows).toHaveLength(100);
+    expect(persisted.rows).toHaveLength(approved.length);
     for (const row of persisted.rows) {
       expect(row.min_price).toBe("11.33000000");
       expect(new Date(row.observed_at)).toEqual(
@@ -125,12 +130,12 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
           "select count(*)::int n from market_observations",
         )
       ).rows[0].n,
-    ).toBe(100);
+    ).toBe(approved.length);
     // Advance a full cadence so this is genuinely the next window.
     elapsed = WINDOW_MS;
     expect(await collectSkinport(store, client, now)).toMatchObject({
       status: "SUCCESS",
-      observationsInserted: 100,
+      observationsInserted: approved.length,
     });
     expect(fetcher).toHaveBeenCalledTimes(4);
     expect(
@@ -139,7 +144,8 @@ it("persists 100 unchanged Skinport observations with joined provenance, preserv
           "select count(*)::int n from market_observations",
         )
       ).rows[0].n,
-    ).toBe(200);
+      // Two collection windows, every tracked asset observed in each.
+    ).toBe(approved.length * 2);
     await expect(
       db.execute(sql`update market_observations set quantity=1`),
     ).rejects.toThrow();

@@ -9,11 +9,18 @@ import {
 } from "../src/lib/seo-categories";
 import type { MarketAssetSummary } from "../src/lib/product/intelligence/contract";
 
-const asset = (category: string, i: number, median: string | null = "10") =>
+const asset = (
+  category: string,
+  i: number,
+  median: string | null = "10",
+  // A mature asset carries a derived 24h comparison; see indexableAsset.
+  returns: Record<string, string | null> = { "1h": "0.1", "6h": "0.1", "24h": "0.1" },
+) =>
   ({
     id: `${i.toString(16).padStart(8, "0")}-0cb0-47b3-a9f5-33fac74cfcbf`,
     name: `${category} item ${i}`,
     median,
+    returns,
     identity: { category, weapon: null, exterior: null, variant: null },
   }) as unknown as MarketAssetSummary;
 
@@ -32,8 +39,9 @@ describe("categories are published only when substantive", () => {
   });
 
   it("matches the production distribution recorded in the strategy", () => {
-    // stickers 20, cases 20, rifles 18, knives 15, gloves 15 qualify;
-    // snipers 6 and pistols 6 do not.
+    // The pre-expansion distribution: stickers 20, cases 20, rifles 18,
+    // knives 15, gloves 15 qualify; snipers 6 and pistols 6 do not. Counted
+    // from MATURE members, which is what indexableCategories now does.
     const live = indexableCategories(
       universe({
         stickers: 20,

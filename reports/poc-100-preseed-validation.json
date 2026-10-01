@@ -1,5 +1,5 @@
 {
-  "validatedAt": "2026-09-09T17:35:57.239Z",
+  "validatedAt": "2026-10-01T14:51:22.992Z",
   "assets": [
     {
       "marketHashName": "Danger Zone Case",
@@ -417,7 +417,7 @@
     },
     {
       "marketHashName": "Souvenir AWP | Dragon Lore (Factory New)",
-      "itemsMatches": 1,
+      "itemsMatches": 0,
       "historyMatches": 1,
       "uniqueProposalName": true
     },
@@ -600,23 +600,328 @@
       "itemsMatches": 1,
       "historyMatches": 1,
       "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "★ Bayonet | Tiger Tooth (Factory New)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "★ Moto Gloves | Blood Pressure (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "★ Paracord Knife | Fade (Factory New)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "★ Specialist Gloves | Crimson Web (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "AK-47 | Olive Polycam (Minimal Wear)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "AUG | Sweeper (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Dual Berettas | Contractor (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "FAMAS | Colony (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Five-SeveN | Coolant (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "G3SG1 | Desert Storm (Battle-Scarred)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "G3SG1 | Desert Storm (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "G3SG1 | Jungle Dashed (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Galil AR | Sage Spray (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "M4A1-S | Solitude (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MAG-7 | Rust Coat (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MAG-7 | Rust Coat (Well-Worn)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MP5-SD | Dirt Drop (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MP7 | Army Recon (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MP7 | Forest DDPAT (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MP9 | Sand Dashed (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "MP9 | Slide (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Nova | Mandrel (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Nova | Predator (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Nova | Sand Dune (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "P250 | Boreal Forest (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "P250 | Facility Draft (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "P250 | Metallic DDPAT (Factory New)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "P90 | Sand Spray (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "PP-Bizon | Facility Sketch (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "PP-Bizon | Sand Dashed (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SCAR-20 | Contractor (Battle-Scarred)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SCAR-20 | Contractor (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SCAR-20 | Poultrygeist (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SCAR-20 | Sand Mesh (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SG 553 | Waves Perforated (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SSG 08 | Blue Spruce (Battle-Scarred)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "SSG 08 | Blue Spruce (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | BLAST.tv | Paris 2023",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | ENCE | Paris 2023",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | Grayhound Gaming | Paris 2023",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | PGL | Copenhagen 2024",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | The MongolZ | Paris 2023",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Sticker | Vitality | Paris 2023",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Tec-9 | Army Mesh (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Tec-9 | Groundwater (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "Tec-9 | Urban DDPAT (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "UMP-45 | Facility Dark (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "UMP-45 | Mudder (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "USP-S | Alpine Camo (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
+    },
+    {
+      "marketHashName": "XM1014 | Blue Spruce (Field-Tested)",
+      "itemsMatches": 1,
+      "historyMatches": 1,
+      "uniqueProposalName": true
     }
   ],
   "failures": [],
+  "admissions": 50,
+  "retained": 100,
+  "retainedWithoutCurrentListing": [
+    "Souvenir AWP | Dragon Lore (Factory New)"
+  ],
   "items": {
     "status": 200,
-    "startedAt": "2026-09-09T17:35:55.086Z",
-    "finishedAt": "2026-09-09T17:35:57.182Z",
-    "bodyReceivedAt": "2026-09-09T17:35:56.721Z",
-    "bodySha256": "9dc1878ae94052740e50412a7c21cffb438a7e90ef24282682f07adc9f50c48d",
-    "responseBytes": 10448482
+    "startedAt": "2026-10-01T14:51:20.910Z",
+    "finishedAt": "2026-10-01T14:51:22.831Z",
+    "bodyReceivedAt": "2026-10-01T14:51:22.375Z",
+    "bodySha256": "f7943886e8679054f33646b6b00310e70b399182e8cb3866b5a604a2232b32f1",
+    "responseBytes": 10357726
   },
   "history": {
     "status": 200,
-    "startedAt": "2026-09-09T17:35:55.115Z",
-    "finishedAt": "2026-09-09T17:35:56.425Z",
-    "bodyReceivedAt": "2026-09-09T17:35:55.568Z",
-    "bodySha256": "9d2216b714f572f896d4490b777e5a720269e7a54dbf35350249770a3bee63ed",
-    "responseBytes": 20864033
+    "startedAt": "2026-10-01T14:51:20.936Z",
+    "finishedAt": "2026-10-01T14:51:22.302Z",
+    "bodyReceivedAt": "2026-10-01T14:51:21.466Z",
+    "bodySha256": "06bb33ad5046dd1257dfee6f9d30251e5b5f61d95993f1bfe0ab5b49363d7431",
+    "responseBytes": 21052114
   }
 }
