@@ -33,11 +33,12 @@ export function AuthForm({
     configured: boolean;
     email: boolean;
     google: boolean;
+    steam: boolean;
     turnstileSiteKey: string | null;
     billingSandbox?: boolean;
   };
   token?: string;
-  returnTo?: "/pricing" | "/settings" | "/onboarding";
+  returnTo?: "/pricing" | "/settings" | "/onboarding" | "/steam/finish";
 }) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -147,6 +148,45 @@ export function AuthForm({
             </svg>
             Continue with Google
           </Button>
+          {configuration.steam && (
+            /*
+             * One button for both signing in and signing up: Steam verifies
+             * the identity and FloatAlpha decides what it resolves to. A
+             * separate "sign up with Steam" would be a promise this cannot
+             * keep, because only the callback knows whether the identity is
+             * already linked.
+             */
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true);
+                setMessage("");
+                try {
+                  const response = await fetch("/api/auth/steam/auth", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: "{}",
+                  });
+                  const body = await response.json();
+                  if (!response.ok || !body?.url) throw Error();
+                  window.location.href = body.url;
+                } catch {
+                  setBusy(false);
+                  setMessage("Steam sign-in is unavailable right now.");
+                }
+              }}
+            >
+              <svg className="steam-mark" aria-hidden="true" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M11.98 2a10 10 0 0 0-9.96 9.02l5.35 2.21a2.82 2.82 0 0 1 1.6-.5l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.43v.2a2.83 2.83 0 0 1-5.6.55l-3.83-1.59A10 10 0 1 0 11.98 2zm-4.3 13.17 1.22.51a2.14 2.14 0 1 0 1.2-2.9l1.27.53a1.58 1.58 0 1 1-1.22 2.9zm9.95-5.94a2.51 2.51 0 1 0-5.02 0 2.51 2.51 0 0 0 5.02 0zm-4.4 0a1.89 1.89 0 1 1 3.78 0 1.89 1.89 0 0 1-3.77 0z"
+                />
+              </svg>
+              Continue with Steam
+            </Button>
+          )}
           <div className="row">
             <span className="divider spacer" />
             <small>OR CONTINUE WITH EMAIL</small>

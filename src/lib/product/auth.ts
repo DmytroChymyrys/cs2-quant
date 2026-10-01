@@ -17,7 +17,7 @@ import {
 } from "./schema";
 import { sendEmail, emailConfigured } from "./email";
 import { billingSandboxEnabled } from "./billing-config";
-import { steamAccountLinking } from "./steam";
+import { steamAccountLinking, steamConnectionEnabled } from "./steam";
 export function authConfiguration() {
   const configured = Boolean(
     process.env.BETTER_AUTH_SECRET &&
@@ -32,6 +32,9 @@ export function authConfiguration() {
     google:
       configured &&
       Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    // Steam sign-in rides the same flag as Steam linking: one feature, one
+    // switch, so the button cannot appear while the endpoints refuse.
+    steam: configured && steamConnectionEnabled(),
     turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? null,
   };
 }

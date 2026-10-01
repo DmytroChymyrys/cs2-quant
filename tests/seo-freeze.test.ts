@@ -63,6 +63,14 @@ describe("the indexable surface is frozen", () => {
           // Authenticated redirect resolver. It renders nothing and is
           // robots-private, so it is not an indexable surface.
           "/continue",
+          /*
+           * Steam sign-in decision and completion screens. Both are reachable
+           * only mid-authentication, carry PRIVATE_ROBOTS, and are disallowed
+           * in robots.txt — the same class as /login and /continue, not a new
+           * public family.
+           */
+          "/steam/choose",
+          "/steam/finish",
         ].includes(f),
     );
     expect(publicFamilies.sort()).toEqual([...FROZEN_ROUTE_FAMILIES].sort());

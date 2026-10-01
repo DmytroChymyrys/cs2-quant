@@ -144,6 +144,44 @@ async function stillSignedIn(user = owner) {
   expect((await session.json()).user.id).toBe(user.id);
 }
 
+
+/* ---------------------------------------------------------------- AUTH ---
+ * Steam as a way to sign in, not only to connect.
+ *
+ * AUTH has no initiating session to bind to, so its protection is the
+ * challenge itself. These exercise that boundary and, as much as anything,
+ * the boundary BETWEEN the two modes: a state issued for one must be
+ * unusable by the other.
+ */
+async function beginAuth() {
+  const response = await auth.handler(request("steam/auth", {}));
+  expect(response.status).toBe(200);
+  const { url } = await response.json();
+  const providerURL = new URL(url);
+  expect(providerURL.origin + providerURL.pathname).toBe(STEAM_OPENID);
+  expect(providerURL.searchParams.get("openid.realm")).toBe(`${origin}/`);
+  const set = response.headers.get("set-cookie") ?? "";
+  expect(set).toContain("HttpOnly");
+  expect(set).toContain("SameSite=Lax");
+  return {
+    returnTo: providerURL.searchParams.get("openid.return_to")!,
+    cookie: cookies(response),
+  };
+}
+/** Drives a logged-out Steam sign-in to wherever it lands. */
+async function authRoundTrip(id = steamId, extraCookie = "") {
+  const started = await beginAuth();
+  const jar = extraCookie ? `${extraCookie}; ${started.cookie}` : started.cookie;
+  const landed = await callback(assertion(started.returnTo, id), jar);
+  return {
+    location: landed.headers.get("location") ?? "",
+    cookie: [jar, cookies(landed)].filter(Boolean).join("; "),
+    response: landed,
+  };
+}
+const post = (path: string, cookie: string) =>
+  auth.handler(request(path, {}, cookie));
+
 beforeAll(async () => {
   vi.stubEnv(
     "BETTER_AUTH_SECRET",
@@ -168,14 +206,20 @@ beforeAll(async () => {
         "utf8",
       ),
     );
-  await db.exec(
-    await readFile("drizzle-steam/0000_steam_account_link.sql", "utf8"),
-  );
-  // Re-applying the canonical Steam migration is a no-op: it is the single
-  // owner of this index and is guarded by IF NOT EXISTS.
-  await db.exec(
-    await readFile("drizzle-steam/0000_steam_account_link.sql", "utf8"),
-  );
+  /*
+   * The whole steam stream, in order, read from the journal rather than
+   * named here — otherwise a migration added later is silently missing from
+   * the tests and the schema under test drifts from production. That is
+   * exactly how the nullable-email change was first missed.
+   */
+  const steamJournal = JSON.parse(
+    await readFile("drizzle-steam/meta/_journal.json", "utf8"),
+  ) as { entries: { tag: string }[] };
+  for (const entry of steamJournal.entries)
+    await db.exec(await readFile(`drizzle-steam/${entry.tag}.sql`, "utf8"));
+  // Re-applying the stream is a no-op: every member is idempotent.
+  for (const entry of steamJournal.entries)
+    await db.exec(await readFile(`drizzle-steam/${entry.tag}.sql`, "utf8"));
   auth = authService()!;
   owner = await signUp("steam-owner@example.test");
   other = await signUp("steam-other@example.test");
@@ -634,4 +678,162 @@ it("accepts Next.js internal request URLs only with the configured public Host",
       external,
     ),
   ).toThrow();
+});
+
+it("starts Steam sign-in without a session and issues its own challenge", async () => {
+  const started = await beginAuth();
+  // No session cookie was sent, and none is required: AUTH is for logged-out
+  // visitors. The challenge is what protects it.
+  expect(started.cookie).toContain("steam_auth");
+  expect(started.cookie).not.toContain("steam_link");
+});
+
+it("keeps AUTH and LINK states mutually unusable", async () => {
+  /*
+   * The two modes share a callback, so this is the boundary that matters
+   * most. A LINK state presented with an AUTH cookie, or the reverse, must
+   * find nothing: different cookie names, different record identifiers, and
+   * the intent is stored server-side inside the record.
+   */
+  const link = await begin();
+  const authStart = await beginAuth();
+  const linkState = new URL(link.returnTo).searchParams.get("state")!;
+  const authState = new URL(authStart.returnTo).searchParams.get("state")!;
+  expect(linkState).not.toBe(authState);
+
+  // A LINK assertion replayed while holding the AUTH cookie.
+  const crossed = new URL(link.returnTo);
+  const forged = await callback(assertion(crossed.toString()), authStart.cookie);
+  expect(forged.headers.get("location")).toContain("steam=failed");
+  // And the genuine LINK flow still works afterwards, unaffected.
+  const honest = await callback(assertion(link.returnTo), link.cookie);
+  expect(honest.headers.get("location")).toContain("steam=connected");
+  await post("unlink-account", owner.cookie);
+});
+
+it("signs in an existing Steam identity and creates no second user", async () => {
+  const before = await beginAuth();
+  await callback(assertion(before.returnTo), before.cookie);
+  // Link it to the owner first, so the identity is known.
+  const link = await begin();
+  await callback(assertion(link.returnTo), link.cookie);
+
+  const users = async () =>
+    (await auth.$context).internalAdapter as unknown as object;
+  void users;
+  const first = await authRoundTrip();
+  expect(first.location).toBe("/continue");
+  const second = await authRoundTrip();
+  // Idempotent: repeated Steam sign-in creates a session and nothing else.
+  expect(second.location).toBe("/continue");
+  await post("unlink-account", owner.cookie);
+});
+
+it("never auto-creates an account for an unlinked Steam identity", async () => {
+  /*
+   * The trap this exists to prevent: a SteamID belongs to exactly one
+   * FloatAlpha account, so creating one here would consume it and leave
+   * someone with a Google account permanently unable to connect that Steam
+   * identity to it.
+   */
+  const landed = await authRoundTrip(otherSteamId);
+  expect(landed.location).toBe("/steam/choose");
+  expect(landed.cookie).toContain("steam_pending");
+});
+
+it("creates exactly one user with no invented email when the visitor chooses a new account", async () => {
+  const landed = await authRoundTrip(otherSteamId);
+  const created = await post("steam/create-account", landed.cookie);
+  expect(created.status).toBe(200);
+  expect((await created.json()).url).toBe("/continue");
+  const ctx = await auth.$context;
+  const account = await ctx.internalAdapter.findAccountByKey({
+    providerId: "steam",
+    accountId: otherSteamId,
+  });
+  expect(account).toBeTruthy();
+  const user = await ctx.internalAdapter.findUserById(account!.userId);
+  // No placeholder address, ever.
+  expect(user!.email ?? null).toBeNull();
+});
+
+it("consumes the pending identity exactly once", async () => {
+  const landed = await authRoundTrip(otherSteamId);
+  const first = await post("steam/create-account", landed.cookie);
+  expect(first.status).toBe(200);
+  // A retry, a double click, or a replayed request finds nothing.
+  const second = await post("steam/create-account", landed.cookie);
+  expect(second.status).toBeGreaterThanOrEqual(400);
+});
+
+it("refuses a pending identity without the browser it was issued to", async () => {
+  const landed = await authRoundTrip(otherSteamId);
+  void landed;
+  // The signed cookie is the binding; a request without it has nothing.
+  const naked = await post("steam/create-account", "");
+  expect(naked.status).toBeGreaterThanOrEqual(400);
+});
+
+it("does not silently link Steam when a session already exists", async () => {
+  /*
+   * An authenticated visitor who reaches Steam sign-in by accident must not
+   * have an identity attached because a browser session happened to exist.
+   */
+  const landed = await authRoundTrip(otherSteamId, owner.cookie);
+  expect(landed.location).toContain("already-signed-in");
+  const ctx = await auth.$context;
+  const accounts = await ctx.internalAdapter.findAccounts(owner.id);
+  expect(accounts.some((a) => a.providerId === "steam")).toBe(false);
+});
+
+it("links a verified identity to an existing account only with a fresh session", async () => {
+  const landed = await authRoundTrip(otherSteamId);
+  const finished = await post("steam/finish", `${landed.cookie}; ${owner.cookie}`);
+  expect(finished.status).toBe(200);
+  const ctx = await auth.$context;
+  const accounts = await ctx.internalAdapter.findAccounts(owner.id);
+  expect(accounts.filter((a) => a.providerId === "steam")).toHaveLength(1);
+  await post("unlink-account", owner.cookie);
+});
+
+it("refuses to replace a Steam identity the destination account already has", async () => {
+  const link = await begin();
+  await callback(assertion(link.returnTo), link.cookie);
+  const landed = await authRoundTrip(otherSteamId);
+  const finished = await post("steam/finish", `${landed.cookie}; ${owner.cookie}`);
+  expect(finished.status).toBe(409);
+  const ctx = await auth.$context;
+  const accounts = await ctx.internalAdapter.findAccounts(owner.id);
+  // Still the original identity; never replaced.
+  expect(accounts.find((a) => a.providerId === "steam")!.accountId).toBe(steamId);
+  await post("unlink-account", owner.cookie);
+});
+
+it("keeps a Steam-only account able to sign in", async () => {
+  const landed = await authRoundTrip(otherSteamId);
+  const created = await post("steam/create-account", landed.cookie);
+  const session = cookies(created);
+  const ctx = await auth.$context;
+  const account = await ctx.internalAdapter.findAccountByKey({
+    providerId: "steam",
+    accountId: otherSteamId,
+  });
+  /*
+   * Steam is the only way into this account and there is no email address to
+   * recover with, so disconnecting it would make the account unreachable
+   * forever.
+   */
+  const refused = await auth.handler(
+    request("unlink-account", { accountId: account!.id }, session),
+  );
+  expect(refused.status).toBeGreaterThanOrEqual(400);
+  /*
+   * The refusal must be FloatAlpha's own. Better Auth also declines to unlink
+   * a sole account, so asserting only the status would pass even with this
+   * guard deleted — the test would prove nothing about the protection it is
+   * named after.
+   */
+  expect((await refused.json()).code).toBe("ONLY_LOGIN_METHOD");
+  const after = await ctx.internalAdapter.findAccounts(account!.userId);
+  expect(after.some((a) => a.providerId === "steam")).toBe(true);
 });

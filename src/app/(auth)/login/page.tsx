@@ -28,7 +28,9 @@ export default async function Page({
             returnTo={
               params.next === "/pricing" ||
               params.next === "/settings" ||
-              params.next === "/onboarding"
+              params.next === "/onboarding" ||
+              // Returning from the Steam choice screen to finish linking.
+              params.next === "/steam/finish"
                 ? params.next
                 : undefined
             }

@@ -137,6 +137,12 @@ export const DISALLOWED_PATHS = [
   "/signup",
   "/forgot-password",
   "/reset-password",
+  /*
+   * Steam sign-in decision and completion screens. Reachable only in the
+   * middle of authenticating, both robots-private, and neither is an entry
+   * point — the same class as /login and /continue.
+   */
+  "/steam/",
 ];
 
 /**
