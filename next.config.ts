@@ -31,6 +31,32 @@ const config: NextConfig = {
         ],
       },
       {
+        /*
+         * Vercel serves a production deployment on its own `.vercel.app` host
+         * as well as on the custom domain. Measured: cs2-quant.vercel.app
+         * returns the entire site at 200 — home, screener, category and asset
+         * pages — with a robots.txt saying `Allow: /` and no X-Robots-Tag. It
+         * is a second crawlable copy of everything.
+         *
+         * The canonical tags served there already point at floatalpha.com,
+         * which is the strongest signal and is probably why this has not
+         * caused trouble. But a crawlable 200 duplicate relies on Google
+         * honouring a hint, where not being indexable is a statement.
+         *
+         * A redirect would be stronger still, and is the wrong tool here:
+         * Vercel's cron scheduler invokes /api/internal/refresh,
+         * /api/internal/collect/steamwebapi and
+         * /api/internal/asset-images/health on this exact host. Redirecting it
+         * would route the collectors through a hop the scheduler has no reason
+         * to follow, and break collection to tidy up a search result.
+         *
+         * Scoped by Host, so nothing on floatalpha.com is affected.
+         */
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<deployment>.*)\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
         source: `${OPS_PATH}/:path*`,
         headers: [
           { key: "Cache-Control", value: "private, no-store, max-age=0" },
