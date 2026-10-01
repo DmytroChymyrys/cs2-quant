@@ -209,6 +209,16 @@ export async function deriveBuildBatch(
 
   const runs = await deps.loadRuns(scope);
   let derivedNow = 0;
+  /*
+   * Assets the sink actually reported. An asset with no observations in the
+   * window never reaches the sink — the chunked loop skips it before features
+   * are computed — so without this it would stay PENDING forever and the build
+   * could never reach completion. Production has exactly one such asset today:
+   * a tracked name the collector reports as missing, which legitimately
+   * derives nothing.
+   */
+  const reported = new Set<string>();
+  let budgetExhausted = false;
   try {
     await deriveChunked(
       scope,
@@ -216,6 +226,7 @@ export async function deriveBuildBatch(
       pending.map((p) => p.assetName),
       (name) => deps.loadAsset(scope, name),
       async (assetName, features, historyValues) => {
+        reported.add(assetName);
         await noteAssetAttempt(deps.state, build.buildId, assetName);
         const written = await persistAssetFeatures(
           deps.write,
@@ -245,7 +256,29 @@ export async function deriveBuildBatch(
     );
   } catch (error) {
     if (!(error instanceof BudgetExhausted)) throw error;
+    budgetExhausted = true;
   }
+
+  /*
+   * Only after a COMPLETE pass over the batch: every asset the sink did not
+   * report derived nothing, which is a real and correct outcome rather than
+   * unfinished work. When the budget stopped the pass, the unreported assets
+   * were simply never reached, and marking them here would silently drop them
+   * from the snapshot.
+   */
+  if (!budgetExhausted)
+    for (const candidate of pending)
+      if (!reported.has(candidate.assetName)) {
+        await noteAssetAttempt(deps.state, build.buildId, candidate.assetName);
+        const counted = await completeAsset(
+          deps.state,
+          build.buildId,
+          candidate.assetName,
+          { features: 0, historyValues: 0, observations: 0 },
+        );
+        if (counted) derivedNow += 1;
+      }
+
   const totals = await recordedTotals(deps.state, build.buildId);
   return { derivedNow, remaining: totals.pending };
 }

@@ -445,6 +445,113 @@ describe("nothing partial is ever published", () => {
   });
 });
 
+describe("an asset that derives nothing", () => {
+  /*
+   * Production found this, not the suite. One tracked asset had no
+   * observations in the window — the collector reports it missing — and the
+   * chunked loop skips such an asset before the sink, so it was never
+   * checkpointed. The build sat at 99/100 and could never complete.
+   */
+  const MISSING = "Fixture asset absent";
+  const withMissing = { ...intended, assets: [...ASSETS, MISSING] };
+
+  function depsWithMissing(
+    q: Awaited<ReturnType<typeof freshDb>>["q"],
+    budgetMs: number,
+  ): BuildDeps {
+    const loader = memoryChunkLoader(INPUT);
+    return {
+      state: q,
+      write: q as never,
+      loadRuns: async () => INPUT.runs,
+      // The fixture has no observations for MISSING, exactly as production.
+      loadAsset: async (_scope, name) => loader(name),
+      budgetMs,
+    };
+  }
+
+  it("completes the build instead of stalling one asset short", async () => {
+    const { db, q } = await freshDb();
+    const all = [...ASSETS, MISSING];
+    const claimed = await claimBuild({ state: q }, withMissing);
+    await advanceBuild(depsWithMissing(q, 60_000), claimed.build, all); // PLAN
+    const derived = await advanceBuild(
+      depsWithMissing(q, 60_000),
+      (await openBuild(q))!,
+      all,
+    );
+    expect(derived.assetsCompleted).toBe(all.length);
+    expect(derived.readyToComplete, "the build must be able to finish").toBe(true);
+
+    const build = await openBuild(q);
+    expect(build!.status).toBe("COMPLETING");
+    // Recorded as derived, with nothing written — not as an error.
+    const empty = await q.query(
+      "select status, features_written from derived_build_assets where build_id=$1 and asset_name=$2",
+      [claimed.build.buildId, MISSING],
+    );
+    expect(String(empty.rows[0].status)).toBe("DONE");
+    expect(Number(empty.rows[0].features_written)).toBe(0);
+    await db.close();
+  });
+
+  it("does not mark unreached assets done when the budget stops the pass", async () => {
+    const { db, q } = await freshDb();
+    const all = [...ASSETS, MISSING];
+    const claimed = await claimBuild({ state: q }, withMissing);
+    await advanceBuild(depsWithMissing(q, 0), claimed.build, all); // PLAN
+    const first = await advanceBuild(
+      depsWithMissing(q, 0),
+      (await openBuild(q))!,
+      all,
+    );
+    /*
+     * A zero budget stops after the first asset. The rest were never reached,
+     * so treating them as "derived nothing" would silently drop real assets
+     * from the snapshot.
+     */
+    expect(first.derivedNow).toBe(1);
+    const pending = await q.query(
+      "select count(*)::int as n from derived_build_assets where build_id=$1 and status='PENDING'",
+      [claimed.build.buildId],
+    );
+    expect(Number(pending.rows[0].n)).toBe(all.length - 1);
+    await db.close();
+  });
+
+  it("still produces the single-invocation snapshot exactly", async () => {
+    // The absent asset must change nothing about what is derived.
+    const whole = await freshDb();
+    const single = derive(INPUT);
+    await whole.db.exec("BEGIN");
+    await persistSnapshot(whole.q as never, single, makeReport(INPUT, single));
+    await whole.db.exec("COMMIT");
+    const expected = await snapshotDigest(whole.q, single.snapshotId);
+
+    const split = await freshDb();
+    const all = [...ASSETS, MISSING];
+    const claimed = await claimBuild({ state: split.q }, withMissing);
+    await advanceBuild(depsWithMissing(split.q, 60_000), claimed.build, all);
+    await advanceBuild(
+      depsWithMissing(split.q, 60_000),
+      (await openBuild(split.q))!,
+      all,
+    );
+    const build = await openBuild(split.q);
+    /*
+     * The identity differs from the 3-asset snapshot because the universe is
+     * part of the scope, which is correct. What must match is the derived
+     * content: an asset with no observations contributes nothing.
+     */
+    const actual = await snapshotDigest(split.q, build!.snapshotId!);
+    expect(actual.featureCount).toBe(expected.featureCount);
+    expect(actual.featureDigest).toBe(expected.featureDigest);
+    expect(actual.valueDigest).toBe(expected.valueDigest);
+    await whole.db.close();
+    await split.db.close();
+  });
+});
+
 describe("the frozen scope", () => {
   it("derives the window the build started with, not the caller's clock", async () => {
     const { db, q } = await freshDb();
