@@ -37,6 +37,33 @@ export type MarketSnapshot = {
   error: boolean;
   asOf: string;
 };
+/*
+ * A note on the NULLS in the ORDER BY clauses below, which look redundant and
+ * are not.
+ *
+ * `observations_asset_source_time` is (asset_id, source, observed_at DESC
+ * NULLS LAST). In Postgres, `ORDER BY x DESC` means DESC NULLS **FIRST**, so
+ * a query written the natural way does not match the index ordering — and the
+ * planner cannot use the index to satisfy `LIMIT 1`. It reads every matching
+ * row and sorts: measured at 5,703 rows per asset across 100 assets, which is
+ * the entire 1 GB table, for 100 rows of output.
+ *
+ * `observed_at` is NOT NULL, so the two orderings are identical in practice.
+ * The planner has no way to know that, and says so only in EXPLAIN.
+ *
+ * Measured on production before and after, with EXPLAIN (ANALYZE, BUFFERS):
+ *
+ *   latest observation lateral   1438 ms -> 1.7 ms
+ *   first observation lateral     320 ms -> 1.0 ms
+ *   whole marketSnapshot query   2822 ms -> single-digit ms
+ *
+ * This query is awaited by the landing page AND by AuthNarrative on /login,
+ * which is why both were ~2.8 s while /signup, rendering the same components
+ * without it, served in 0.1 s.
+ *
+ * The ascending lateral wants NULLS FIRST, not LAST: a backward scan of a
+ * DESC NULLS LAST index yields ASC NULLS FIRST.
+ */
 export const marketSnapshot = cache(async (): Promise<MarketSnapshot> => {
   const asOf = new Date().toISOString();
   if (!process.env.DATABASE_URL) return { assets: [], error: true, asOf };
@@ -47,9 +74,9 @@ export const marketSnapshot = cache(async (): Promise<MarketSnapshot> => {
  o.sales_24h_volume as "sales24h",o.sales_7d_volume as "sales7d",o.sales_30d_volume as "sales30d",o.sales_90d_volume as "sales90d",
  o.observed_at::text as "observedAt",o.source_updated_at::text as "sourceUpdatedAt",f.observed_at::text as "firstObservedAt",
  b.median_price as "baselineMedian",b.quantity as "baselineQuantity",b.sales_24h_volume as "baselineSales",b.observed_at::text as "baselineAt"
- from assets a left join lateral(select * from market_observations where asset_id=a.id and source='SKINPORT' order by observed_at desc limit 1)o on true
- left join lateral(select observed_at from market_observations where asset_id=a.id and source='SKINPORT' order by observed_at limit 1)f on true
- left join lateral(select median_price,quantity,sales_24h_volume,observed_at from market_observations where asset_id=a.id and source='SKINPORT' and observed_at<=o.observed_at-interval '24 hours' and observed_at>=o.observed_at-interval '24 hours 10 minutes' order by observed_at desc limit 1)b on true
+ from assets a left join lateral(select * from market_observations where asset_id=a.id and source='SKINPORT' order by observed_at desc nulls last limit 1)o on true
+ left join lateral(select observed_at from market_observations where asset_id=a.id and source='SKINPORT' order by observed_at nulls first limit 1)f on true
+ left join lateral(select median_price,quantity,sales_24h_volume,observed_at from market_observations where asset_id=a.id and source='SKINPORT' and observed_at<=o.observed_at-interval '24 hours' and observed_at>=o.observed_at-interval '24 hours 10 minutes' order by observed_at desc nulls last limit 1)b on true
  where a.is_tracked order by a.market_hash_name`);
     const assets = result.rows.map((raw) => {
       const row = raw as Omit<
@@ -105,7 +132,7 @@ export async function marketHistory(
 ): Promise<{ points: HistoryPoint[]; error: boolean }> {
   try {
     const result = await database().execute(
-      sql`select observed_at::text as at,median_price as median,quantity,sales_24h_volume as sales from (select observed_at,median_price,quantity,sales_24h_volume from market_observations where asset_id=${id}::uuid and source='SKINPORT' and observed_at>=now()-(${days}*interval '1 day') order by observed_at desc limit 10000)recent order by observed_at`,
+      sql`select observed_at::text as at,median_price as median,quantity,sales_24h_volume as sales from (select observed_at,median_price,quantity,sales_24h_volume from market_observations where asset_id=${id}::uuid and source='SKINPORT' and observed_at>=now()-(${days}*interval '1 day') order by observed_at desc nulls last limit 10000)recent order by observed_at`,
     );
     return { points: result.rows as HistoryPoint[], error: false };
   } catch {
