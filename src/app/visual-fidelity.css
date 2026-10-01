@@ -2778,6 +2778,14 @@ body {
   color: #4285f4;
   margin-right: 8px;
 }
+/* Sized here as well as in the auth layout: an SVG left to its intrinsic
+   size expands to fill whatever box it is in. */
+.steam-mark {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
 .auth-narrative {
   width: 100%;
 }

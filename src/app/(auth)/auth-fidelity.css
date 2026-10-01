@@ -57,7 +57,8 @@
   width: 100%;
   gap: 12px;
 }
-.auth-fields .google-mark {
+.auth-fields .google-mark,
+.auth-fields .steam-mark {
   width: 16px;
   height: 16px;
   margin: 0;
