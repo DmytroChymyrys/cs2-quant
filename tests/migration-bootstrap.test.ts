@@ -74,7 +74,10 @@ describe("fresh co-located bootstrap in the documented order", () => {
       "0004_ops_audit",
       "0005_user_lifecycle",
     ]);
-    expect(applied.steam).toEqual(["0000_steam_account_link"]);
+    expect(applied.steam).toEqual([
+      "0000_steam_account_link",
+      "0001_steam_auth_identity",
+    ]);
   });
 
   it("produces every market and product table", async () => {
@@ -185,8 +188,11 @@ describe("re-running a bootstrapped database is a no-op", () => {
       expect(await applyStream(stream)).toEqual([]);
   });
 
-  it("the duplicate steam migration cannot be applied twice", async () => {
-    // Idempotent by IF NOT EXISTS, and the ledger already records it.
+  it("the steam stream cannot be applied twice", async () => {
+    /*
+     * Idempotent by construction — IF NOT EXISTS on the index, DROP NOT NULL
+     * on an already-nullable column — and the ledger already records both.
+     */
     const before = await db.query<{ n: number }>(
       "select count(*)::int as n from drizzle_steam.__drizzle_migrations",
     );
@@ -195,7 +201,8 @@ describe("re-running a bootstrapped database is a no-op", () => {
       "select count(*)::int as n from drizzle_steam.__drizzle_migrations",
     );
     expect(after.rows[0].n).toBe(before.rows[0].n);
-    expect(after.rows[0].n).toBe(1);
+    // One row per migration in the stream, unchanged by a second run.
+    expect(after.rows[0].n).toBe(2);
   });
 });
 

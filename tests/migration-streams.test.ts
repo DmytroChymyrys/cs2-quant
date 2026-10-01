@@ -70,8 +70,17 @@ describe("stream isolation is structural, not only guarded", () => {
     ]);
   });
 
-  it("steam owns exactly one migration", async () => {
-    expect(await journalTags("steam")).toEqual(["0000_steam_account_link"]);
+  it("steam owns only account-identity migrations", async () => {
+    /*
+     * The stream may grow — account linking added a constraint, Steam
+     * authentication made email nullable — but every member must be about
+     * account identity. A market, collector or billing migration appearing
+     * here would be applied by a command that deliberately does not replay
+     * those streams.
+     */
+    const tags = await journalTags("steam");
+    expect(tags).toEqual(["0000_steam_account_link", "0001_steam_auth_identity"]);
+    for (const tag of tags) expect(tag, tag).toMatch(/steam/);
   });
 
   it("numbering gaps are acceptable and present", async () => {
@@ -246,7 +255,16 @@ describe("the duplicate steam migration is resolved", () => {
           (f) => /steam/i.test(f) && !/steamwebapi/i.test(f),
         ),
       );
-    expect(all).toEqual(["0000_steam_account_link.sql"]);
+    /*
+     * The point is that account-linking migrations live in exactly one
+     * stream, not that there is exactly one of them. A duplicate of the same
+     * migration in another stream is the failure this guards against.
+     */
+    expect(all).toEqual([
+      "0000_steam_account_link.sql",
+      "0001_steam_auth_identity.sql",
+    ]);
+    expect(new Set(all).size).toBe(all.length);
   });
 
   it("the canonical owner is the steam stream, matching what is applied", async () => {

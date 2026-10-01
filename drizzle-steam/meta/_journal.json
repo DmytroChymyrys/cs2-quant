@@ -8,6 +8,13 @@
       "when": 1789420200000,
       "tag": "0000_steam_account_link",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791000000000,
+      "tag": "0001_steam_auth_identity",
+      "breakpoints": true
     }
   ]
 }

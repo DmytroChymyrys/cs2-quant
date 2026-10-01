@@ -184,28 +184,49 @@ describe("the Preview offer", () => {
   });
 });
 
-describe("Steam account linking ships no runtime code at all", () => {
-  // The Steam implementation is deliberately not part of this branch. The
-  // strongest possible fail-closed guarantee is absence, so that is what is
-  // asserted here rather than the behaviour of a module that is not shipped.
-  it("has no Steam runtime module", async () => {
+describe("Steam account linking is gated, not absent", () => {
+  /*
+   * This block previously asserted that no Steam code existed at all, which
+   * was the right guarantee while the implementation was deliberately held
+   * out of the branch. Steam account linking is now a shipped, flag-gated
+   * feature, so absence is no longer the property to protect — fail-closed
+   * behaviour is.
+   *
+   * What must still hold: the feature is off unless explicitly enabled, it is
+   * never enabled in the public demo, no Steam credential is stored, and the
+   * market-data vendor stays clear of authentication.
+   */
+  it("is disabled unless explicitly enabled, and never in the demo", async () => {
+    const source = await committed("src/lib/product/steam.ts");
+    expect(source).toContain('process.env.STEAM_ACCOUNT_LINKING_ENABLED === "true"');
+    expect(source).toContain('process.env.FLOATALPHA_DEMO_PREVIEW !== "true"');
+  });
+
+  it("refuses both Steam endpoints when the flag is absent", async () => {
+    const source = await committed("src/lib/product/steam.ts");
+    // Not a UI concern: the endpoints themselves must refuse.
+    // Both endpoints check it; the UI gate is separate and not sufficient.
+    expect(source.match(/steamConnectionEnabled\(\)/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
+    expect(source).toContain('code: "STEAM_UNAVAILABLE"');
+  });
+
+  it("stores no Steam credential or token", async () => {
+    const source = await committed("src/lib/product/steam.ts");
     /*
-     * SteamWebAPI is a third-party CS2 market-data vendor and has nothing to do
-     * with signing in through Valve. Its filenames match /steam/i, so they are
-     * set aside by namespace here and then held to their own rule below —
-     * otherwise this guard would either fail on unrelated market-data work or
-     * be loosened into meaninglessness.
+     * Steam OpenID returns an identity assertion, not a credential. Nothing
+     * here may persist one, and production confirmed the account row carries
+     * null access, refresh and id tokens.
      */
-    const tracked = (await trackedFiles()).filter(
-      (f) => /steam/i.test(f) && !/steamwebapi/i.test(f),
-    );
-    // Only the migration and its explicit command may mention Steam.
-    expect(tracked.sort()).toEqual([
-      "drizzle-steam/0000_steam_account_link.sql",
-      "drizzle-steam/meta/_journal.json",
-      "reports/migration-split/superseded/0005_steam_account_link.sql",
-      "scripts/migrate-steam.ts",
-    ]);
+    for (const forbidden of ["accessToken", "refreshToken", "idToken", "password"])
+      expect(source, forbidden).not.toContain(forbidden);
+  });
+
+  it("logs nothing from the Steam paths", async () => {
+    for (const file of ["src/lib/product/steam.ts", "src/lib/product/steam-openid.ts"]) {
+      const source = await committed(file);
+      // An assertion, state or cookie in a log is a credential in a log.
+      expect(source, file).not.toMatch(/console\.(log|info|warn|error|debug)/);
+    }
   });
 
   it("keeps the market-data vendor clear of account linking", async () => {
@@ -232,16 +253,28 @@ describe("Steam account linking ships no runtime code at all", () => {
     }
   });
 
-  it("registers no Steam auth plugin", async () => {
-    expect(await committed("src/lib/product/auth.ts")).not.toMatch(/steam/i);
+  it("installs the plugin without disturbing the other auth methods", async () => {
+    const source = await committed("src/lib/product/auth.ts");
+    /*
+     * Steam is an additional plugin, not a replacement. Email/password and
+     * Google must still be configured exactly as before — the risk of adding
+     * an auth provider is quietly changing the ones that already work.
+     */
+    expect(source).toContain("steamAccountLinking()");
+    expect(source).toContain("emailAndPassword:");
+    expect(source).toContain("requireEmailVerification: true");
+    expect(source).toContain("socialProviders:");
   });
 
-  it("exposes no Steam surface in the product pages", async () => {
-    for (const page of [
-      "src/app/(market)/settings/page.tsx",
-      "src/app/(market)/onboarding/page.tsx",
-    ])
-      expect(await committed(page)).not.toMatch(/steam/i);
+  it("never invents an email address for a Steam identity", async () => {
+    const steam = await committed("src/lib/product/steam.ts");
+    /*
+     * Steam OpenID supplies no verified address. A synthetic one would be
+     * trusted by password reset, verification and support, so the column is
+     * nullable instead.
+     */
+    for (const forbidden of ["@steam", "@floatalpha", "@example", "noreply@"])
+      expect(steam.toLowerCase(), forbidden).not.toContain(forbidden);
   });
 });
 

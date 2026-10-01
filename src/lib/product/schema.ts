@@ -22,7 +22,21 @@ const audit = () => ({
 export const authUser = pgTable("auth_users", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  email: text("email").notNull().unique(),
+  /*
+   * Nullable because Steam OpenID supplies no verified email address, and a
+   * synthetic one would be a lie the rest of the product would then trust:
+   * password reset, verification and support all key on this column.
+   *
+   * Email/password accounts are unaffected. Better Auth still requires and
+   * verifies an address on that path (`requireEmailVerification: true`), so
+   * the requirement is enforced where it means something rather than by a
+   * column constraint that only forces an invented value.
+   *
+   * The unique index is kept: Postgres treats NULLs as distinct, so any number
+   * of Steam-only accounts coexist while two accounts still cannot share a
+   * real address.
+   */
+  email: text("email").unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
   ...audit(),

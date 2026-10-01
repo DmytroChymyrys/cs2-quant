@@ -113,6 +113,22 @@ export async function evaluateAlerts() {
       )
       .limit(100);
     for (const { event, email } of pending) {
+      /*
+       * A Steam-authenticated account has no email address. There is nowhere
+       * to deliver this, and inventing a destination would be worse than not
+       * sending: the alert stays visible in the product, which is where the
+       * user already reads it.
+       *
+       * Marked delivered rather than left PENDING so it is not retried every
+       * run forever against an address that will never exist.
+       */
+      if (!email) {
+        await db
+          .update(alertEvents)
+          .set({ emailState: "SKIPPED_NO_ADDRESS" })
+          .where(eq(alertEvents.id, event.id));
+        continue;
+      }
       try {
         await sendEmail(
           email,
