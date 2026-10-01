@@ -23,6 +23,8 @@ import { selectSnapshot } from "../../derived-market/active-snapshot";
 import { resolveDerivedDatabase } from "../../derived-market/config";
 import { profileForMethod } from "../../derived-market/cadence";
 import { summary, seriesPoint, historyContract } from "./map";
+// TEMPORARY instrumentation. See read-timing.ts to remove.
+import { recorder, measureBytes } from "./read-timing";
 import { FIXTURE_AS_OF, fixtureDataset } from "./fixtures";
 import { DEMO_AS_OF, demoDataset } from "./demo";
 import { DEMO_UNIVERSE } from "./demo-universe";
@@ -232,6 +234,7 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
     // Fail closed on an absent or ambiguous derived database. There is no
     // fallback to the market database: serving it would look like success while
     // showing something that was never a reviewed snapshot.
+    const perf = recorder();
     const derived = resolveDerivedDatabase();
     if (!derived.ok) {
       console.error(
@@ -246,20 +249,23 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           : "The analytics database is misconfigured. Real observations are not being shown, and nothing is being substituted.",
       );
     }
+    const connectAt = performance.now();
     const db = connection(derived.url);
+    perf.mark("connect", performance.now() - connectAt);
     // Resolution order: explicit override, then the active pointer, then
     // UNAVAILABLE. The pointer is what a refresh moves, so a new snapshot
     // reaches readers without a redeploy; the override outranks it so a
     // specific snapshot can be pinned or a bad activation bypassed.
-    const selection = await selectSnapshot(
-      db,
-      process.env.PRODUCT_ANALYTICS_SNAPSHOT_ID,
+    const selection = await perf.step("snapshot_pointer", () =>
+      selectSnapshot(db, process.env.PRODUCT_ANALYTICS_SNAPSHOT_ID),
     );
     if (selection.snapshotId === null) return unavailable(selection.reason);
     const snapshotId = selection.snapshotId;
-    const head = await db.query(
-      "select method,scope,created_at,report from derived_market_snapshots where id=$1",
-      [snapshotId],
+    const head = await perf.step("snapshot_head", () =>
+      db.query(
+        "select method,scope,created_at,report from derived_market_snapshots where id=$1",
+        [snapshotId],
+      ),
     );
     // Readable is deliberately wider than derivable. Gating on the single
     // active contract would make every snapshot produced under a previous
@@ -272,17 +278,25 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
       );
     const metadata = validateSnapshotHead(head.rows[0]);
     const scope = metadata.scope;
+    // Timed individually although they run concurrently, so a slow one is
+    // not hidden behind the other.
     const [rows, versions] = await Promise.all([
-      db.query(
-        `select distinct on(asset_id) asset_id,feature,count(*) over(partition by asset_id)::int as available
+      perf.step("features_query", () =>
+        db.query(
+          `select distinct on(asset_id) asset_id,feature,count(*) over(partition by asset_id)::int as available
         from derived_market_features where snapshot_id=$1 order by asset_id,observed_at desc,observation_id desc limit 1001`,
-        [snapshotId],
+          [snapshotId],
+        ),
       ),
-      db.query(
-        "select version,hash,first_seen_at,last_seen_at,left_censored from derived_history_versions where snapshot_id=$1 order by version limit 2017",
-        [snapshotId],
+      perf.step("versions_query", () =>
+        db.query(
+          "select version,hash,first_seen_at,last_seen_at,left_censored from derived_history_versions where snapshot_id=$1 order by version limit 2017",
+          [snapshotId],
+        ),
       ),
     ]);
+    perf.size("features_query", { rows: rows.rows.length });
+    perf.size("versions_query", { rows: versions.rows.length });
     if (rows.rows.length > 1000) throw new Error("READ_LIMIT");
     const hs = new Map<number, MarketHistoryVersion>(
       versions.rows.map((v) => [
@@ -297,6 +311,7 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         },
       ]),
     );
+    const transformAt = performance.now();
     for (const r of rows.rows) validateFeature(r.feature, scope);
     const assets = rows.rows.map((r) =>
       summary(
@@ -309,6 +324,10 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         snapshotMethod,
       ),
     );
+    perf.mark("transform", performance.now() - transformAt, {
+      rows: rows.rows.length,
+    });
+    const availabilityAt = performance.now();
     // Availability is recorded per asset in the reviewed snapshot report.
     const availability = (
       metadata.report as {
@@ -330,7 +349,12 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         asset.availabilityObservedAt = entry.lastActiveAt ?? null;
       }
     }
-    const artwork = await catalogPresentation(assets);
+    perf.mark("availability_merge", performance.now() - availabilityAt);
+    // A separate database, queried sequentially after all the derived work.
+    const artwork = await perf.step("catalog_presentation", () =>
+      catalogPresentation(assets),
+    );
+    perf.size("catalog_presentation", { rows: artwork.size });
     for (const asset of assets) {
       const presentation = artwork.get(asset.id);
       const media = presentation?.media;
@@ -341,6 +365,12 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
           : null;
     }
     const computedAt = new Date(metadata.created_at).toISOString();
+    // Measured after the timed stages so it cannot inflate any of them.
+    perf.size("features_query", { bytes: measureBytes(rows.rows) });
+    perf.report("perf.read_market_dataset", {
+      snapshotMethod,
+      assets: assets.length,
+    });
     return {
       snapshotId,
       snapshot: {
