@@ -837,3 +837,117 @@ it("keeps a Steam-only account able to sign in", async () => {
   const after = await ctx.internalAdapter.findAccounts(account!.userId);
   expect(after.some((a) => a.providerId === "steam")).toBe(true);
 });
+
+/* ------------------------------------------------- identity provenance ---
+ * The invariant that was missing when a one-minute-old account was reported
+ * as "the pre-existing user": LINK must begin with an account that already
+ * existed, and must leave the user counts untouched.
+ */
+async function population() {
+  const ctx = await auth.$context;
+  const users = await ctx.adapter.findMany({ model: "user" });
+  const accounts = await ctx.adapter.findMany({ model: "account" });
+  return {
+    users: users.length,
+    accounts: accounts.length,
+    steam: (accounts as { providerId: string }[]).filter(
+      (a) => a.providerId === "steam",
+    ).length,
+  };
+}
+
+it("LINK attaches Steam to an account that already existed, creating nobody", async () => {
+  /*
+   * The forensic case this encodes: a Google sign-in created a new FloatAlpha
+   * user, and Steam was linked to it 69 seconds later. LINK behaved correctly
+   * both times — what was never checked was that the account it attached to
+   * predated the test. Counts alone cannot show that.
+   */
+  const ctx = await auth.$context;
+  const before = await population();
+  const existing = await ctx.internalAdapter.findUserById(owner.id);
+  const existedAt = new Date(existing!.createdAt).getTime();
+  expect(Date.now() - existedAt).toBeGreaterThan(0);
+
+  const link = await begin();
+  const landed = await callback(assertion(link.returnTo), link.cookie);
+  expect(landed.headers.get("location")).toContain("steam=connected");
+
+  const after = await population();
+  expect(after.users, "LINK must create no auth user").toBe(before.users);
+  expect(after.steam).toBe(before.steam + 1);
+  // The same account, not a namesake created moments earlier.
+  const still = await ctx.internalAdapter.findUserById(owner.id);
+  expect(new Date(still!.createdAt).getTime()).toBe(existedAt);
+  const steamRow = (await ctx.internalAdapter.findAccounts(owner.id)).find(
+    (a) => a.providerId === "steam",
+  );
+  expect(steamRow!.accountId).toBe(steamId);
+  await post("unlink-account", owner.cookie);
+});
+
+it("AUTH after LINK signs in that exact account and creates nothing", async () => {
+  const ctx = await auth.$context;
+  const link = await begin();
+  await callback(assertion(link.returnTo), link.cookie);
+  const before = await population();
+
+  const landed = await authRoundTrip();
+  expect(landed.location).toBe("/continue");
+  const after = await population();
+  expect(after.users, "AUTH must create no auth user").toBe(before.users);
+  expect(after.accounts, "AUTH must create no provider row").toBe(before.accounts);
+  // The identity still belongs to the account LINK attached it to.
+  const owns = await ctx.internalAdapter.findAccountByKey({
+    providerId: "steam",
+    accountId: steamId,
+  });
+  expect(owns!.userId).toBe(owner.id);
+  await post("unlink-account", owner.cookie);
+});
+
+it("a second Google identity is a separate account and inherits no Steam", async () => {
+  /*
+   * Exactly what happened in production: signing in with a DIFFERENT Google
+   * account creates a new FloatAlpha user. It must never reach the first
+   * account's Steam identity, and nothing may match the two by email.
+   */
+  const ctx = await auth.$context;
+  const link = await begin();
+  await callback(assertion(link.returnTo), link.cookie);
+
+  const second = await signUp("steam-second-identity@example.test");
+  expect(second.id).not.toBe(owner.id);
+  const theirs = await ctx.internalAdapter.findAccounts(second.id);
+  expect(theirs.some((a) => a.providerId === "steam")).toBe(false);
+  // And the identity is still the first account's.
+  const owns = await ctx.internalAdapter.findAccountByKey({
+    providerId: "steam",
+    accountId: steamId,
+  });
+  expect(owns!.userId).toBe(owner.id);
+  await post("unlink-account", owner.cookie);
+});
+
+it("an unknown Steam identity never silently attaches to anyone", async () => {
+  const ctx = await auth.$context;
+  const before = await population();
+  const landed = await authRoundTrip(otherSteamId);
+  // A decision is required; nothing was created or attached.
+  expect(landed.location).toBe("/steam/choose");
+  const mid = await population();
+  expect(mid.users).toBe(before.users);
+  expect(mid.accounts).toBe(before.accounts);
+
+  const created = await post("steam/create-account", landed.cookie);
+  expect(created.status).toBe(200);
+  const after = await population();
+  // Exactly one new account, explicitly chosen.
+  expect(after.users).toBe(before.users + 1);
+  expect(after.steam).toBe(before.steam + 1);
+  const owns = await ctx.internalAdapter.findAccountByKey({
+    providerId: "steam",
+    accountId: otherSteamId,
+  });
+  expect(owns!.userId).not.toBe(owner.id);
+});
