@@ -99,6 +99,14 @@ export const authRateLimit = pgTable("auth_rate_limits", {
   count: integer("count").notNull(),
   lastRequest: bigint("last_request", { mode: "number" }).notNull(),
 });
+/**
+ * The way an account first came into existence.
+ *
+ * Fixed set, stored as text with a check constraint rather than a pg enum: the
+ * values are read by humans in the admin surfaces and an enum would make
+ * adding a provider a type-level migration for no benefit here.
+ */
+export type SignupMethod = "EMAIL" | "GOOGLE" | "STEAM" | "UNKNOWN";
 export const appUsers = pgTable(
   "app_users",
   {
@@ -125,10 +133,32 @@ export const appUsers = pgTable(
     blockedAt: time("blocked_at"),
     deletedAt: time("deleted_at"),
     statusReason: text("status_reason"),
+    /*
+     * How this account was created, written once at creation and immutable
+     * afterwards -- a database trigger refuses to change it, so no later
+     * refactor can quietly rewrite acquisition history.
+     *
+     * Deliberately NOT derivable from auth_accounts. That table answers "how
+     * can this person sign in today?", which changes every time an identity is
+     * linked or unlinked. A Google signup who connects Steam is still a Google
+     * signup; reading the provider set would say otherwise.
+     *
+     * UNKNOWN is a real answer, not a failure: it marks an account whose
+     * provenance could not be established from evidence, and is preferred to a
+     * plausible guess that would later be quoted as acquisition data.
+     */
+    signupMethod: text("signup_method")
+      .$type<SignupMethod>()
+      .default("UNKNOWN")
+      .notNull(),
     ...audit(),
   },
   (t) => [
     check("app_user_role", sql`${t.role} in ('USER', 'ADMIN')`),
+    check(
+      "app_user_signup_method",
+      sql`${t.signupMethod} in ('EMAIL', 'GOOGLE', 'STEAM', 'UNKNOWN')`,
+    ),
     // Admin listings filter on these constantly and they are null for almost
     // every row, so a partial index stays small.
     index("app_users_blocked")

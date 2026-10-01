@@ -160,6 +160,7 @@ export function FounderOverviewView({ data }: { data: FounderOverview }) {
     collector,
     recentRuns,
     authMethods,
+  signupMethods,
     steam,
   } = data;
 
@@ -663,9 +664,30 @@ export function FounderOverviewView({ data }: { data: FounderOverview }) {
           label="Authentication"
           ok={authOk}
           state={authOk === null ? null : "Operational"}
+          /*
+           * Identities, not accounts: one person may hold several, including
+           * more than one from the same provider, so these do not sum to the
+           * number of users and are not meant to.
+           */
           detail={
             authMethods
-              ? `${authMethods.credential} password · ${authMethods.google} Google`
+              ? `${authMethods.credential} password · ${authMethods.google} Google · ${authMethods.steam} Steam`
+              : "Unavailable · could not read accounts"
+          }
+        />
+        <Health
+          label="Signed up with"
+          ok={signupMethods === null ? null : true}
+          state={signupMethods === null ? null : "Recorded"}
+          /*
+           * How accounts were CREATED. Fixed at creation, so unlike the row
+           * above this does not move when somebody connects another identity.
+           * Unknown is shown rather than hidden: it is the honest answer for
+           * accounts whose provenance predates the record.
+           */
+          detail={
+            signupMethods
+              ? `${signupMethods.email} email · ${signupMethods.google} Google · ${signupMethods.steam} Steam · ${signupMethods.unknown} unknown`
               : "Unavailable · could not read accounts"
           }
         />

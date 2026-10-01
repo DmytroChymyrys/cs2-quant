@@ -39,12 +39,6 @@ import { POST as holding } from "../src/app/api/product/portfolio/route";
 import { POST as createAlert } from "../src/app/api/product/alerts/route";
 import { evaluateAlerts } from "../src/lib/product/alerts";
 import { marketSnapshot } from "../src/lib/product/market";
-const MARKET_MIGRATIONS = new Set([
-  "0000_initial_market_snapshots",
-  "0001_protect_observation_history",
-  "0006_history_payload_dedup",
-  "0007_observation_rollups",
-]);
 
 const req = (
   path: string,
@@ -61,21 +55,22 @@ beforeAll(async () => {
   vi.stubEnv("BETTER_AUTH_URL", "http://localhost:3000");
   vi.stubEnv("DATABASE_URL", "postgresql://unused/test");
   vi.stubEnv("STRIPE_PRO_MONTHLY_PRICE_ID", "price_test");
+  /*
+   * The product stream is read from its journal rather than listed here, so a
+   * migration added later cannot be silently missing and leave the schema under
+   * test drifting from production.
+   */
   for (const file of [
     "0000_initial_market_snapshots",
     "0001_protect_observation_history",
-    "0002_product_accounts_monitoring_billing",
-    "0003_ops_application_role",
-    "0004_ops_audit",
-    "0005_user_lifecycle",
   ])
-    // Migration streams are isolated by directory; resolve each file to its owner.
-    await db.exec(
-      await readFile(
-        `drizzle/${MARKET_MIGRATIONS.has(file) ? "market" : "product"}/${file}.sql`,
-        "utf8",
-      ),
-    );
+    await db.exec(await readFile(`drizzle/market/${file}.sql`, "utf8"));
+  for (const entry of (
+    JSON.parse(
+      await readFile("drizzle/product/meta/_journal.json", "utf8"),
+    ) as { entries: { tag: string }[] }
+  ).entries)
+    await db.exec(await readFile(`drizzle/product/${entry.tag}.sql`, "utf8"));
   await db.query(
     "insert into auth_users(id,name,email) values($1,'Test','test@example.test')",
     [authId],

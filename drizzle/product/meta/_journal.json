@@ -29,6 +29,13 @@
       "when": 1790000000000,
       "tag": "0005_user_lifecycle",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790100000000,
+      "tag": "0006_signup_method",
+      "breakpoints": true
     }
   ]
 }

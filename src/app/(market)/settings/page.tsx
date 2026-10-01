@@ -18,6 +18,8 @@ import { billingSandboxEnabled } from "@/lib/product/billing-config";
 import { BillingReturn } from "@/components/billing-return";
 import { SteamConnection } from "@/components/steam-connection";
 import { steamConnection, steamConnectionEnabled } from "@/lib/product/steam";
+import { GoogleConnections } from "@/components/google-connections";
+import { googleConnections, googleLinkingEnabled } from "@/lib/product/google-link";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
 export const metadata = {
   title: "Settings",
@@ -27,14 +29,15 @@ export const metadata = {
 export default async function Settings({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string; steam?: string }>;
+  searchParams: Promise<{ checkout?: string; steam?: string; google?: string }>;
 }) {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="account" />;
   const caps = await entitlements(user.app.id);
   const billing = await billingAccount(user.app.id);
-  const { checkout, steam } = await searchParams;
+  const { checkout, steam, google } = await searchParams;
   const connection = await steamConnection(user.identity.id);
+  const googleLinked = await googleConnections(user.identity.id);
   return (
     <div className="personal-workstation account-workstation">
       <PageHeading
@@ -111,6 +114,11 @@ export default async function Settings({
                   connection={connection}
                   enabled={steamConnectionEnabled()}
                   outcome={steam}
+                />
+                <GoogleConnections
+                  connections={googleLinked}
+                  enabled={googleLinkingEnabled()}
+                  outcome={google}
                 />
               </div>
             </Panel>

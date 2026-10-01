@@ -22,11 +22,16 @@ export function opsQuery(
       (select count(*)::int from auth_users where created_at >= ${since}) as "Signups in window",
       (select count(*)::int from app_users a where a.auth_user_id is not null and exists(select 1 from watchlist_entries w where w.user_id=a.id)) as "Currently activated users",
       (select count(*)::int from auth_users u join app_users a on a.auth_user_id=u.id where u.created_at >= ${since} and exists(select 1 from watchlist_entries w where w.user_id=a.id)) as "Signups in window currently activated",
+      (select count(*)::int from app_users where signup_method='EMAIL') as "Signed up with email",
+      (select count(*)::int from app_users where signup_method='GOOGLE') as "Signed up with Google",
+      (select count(*)::int from app_users where signup_method='STEAM') as "Signed up with Steam",
+      -- Legacy rows whose provenance could not be established from evidence.
+      (select count(*)::int from app_users where signup_method='UNKNOWN') as "Signup method unknown",
       (select count(*)::int from watchlist_entries where created_at >= ${since}) as "Retained watchlist additions in window",
       (select count(*)::int from alert_rules where created_at >= ${since}) as "Retained alerts created in window"`,
     users: sql`with selected as (
       select u.id as auth_id,a.id as app_id,u.email,u.created_at,u.email_verified,a.role,a.watch_visited_at,
-        a.blocked_at,a.deleted_at,a.status_reason,
+        a.blocked_at,a.deleted_at,a.status_reason,coalesce(a.signup_method,'UNKNOWN') as signup_method,
         case when ${pro} then 'Pro' else 'Free' end as plan,coalesce(s.status,'none') as subscription
       from auth_users u left join app_users a on a.auth_user_id=u.id left join billing_subscriptions s on s.user_id=a.id
       where (${search}='' or position(lower(${search}) in lower(u.email))>0 or a.id::text=${search})
@@ -38,7 +43,32 @@ export function opsQuery(
            when blocked_at is not null then 'Blocked'
            else 'Active' end as "Status",
       status_reason as "Status reason",
-      created_at as "Signed up (UTC)",email_verified as "Verified",plan as "Plan",subscription as "Subscription",
+      created_at as "Signed up (UTC)",
+      /*
+       * Two different questions, deliberately two columns.
+       *
+       * "Signed up with" is how the account was created. It is written once and
+       * a database trigger refuses to change it, so it keeps meaning the same
+       * thing however many identities are connected later.
+       *
+       * "Auth methods" is how this person can sign in TODAY. It moves every
+       * time an identity is linked or unlinked, and counts repeats because one
+       * user may hold several identities from the same provider.
+       *
+       * Collapsing them into one column would make a Google signup who later
+       * connected Steam indistinguishable from a Steam signup, and acquisition
+       * numbers would drift as people linked accounts.
+       */
+      signup_method as "Signed up with",
+      coalesce((select string_agg(m.label || ' (' || m.n || ')', ', ' order by m.label)
+        from (select case provider_id when 'credential' then 'Email'
+                                      when 'google' then 'Google'
+                                      when 'steam' then 'Steam'
+                                      else initcap(provider_id) end as label,
+                     count(*)::int as n
+              from auth_accounts where user_id=selected.auth_id
+              group by provider_id) m),'None') as "Auth methods",
+      email_verified as "Verified",plan as "Plan",subscription as "Subscription",
       watch_visited_at as "Watchlist checkpoint (UTC)",
       (select count(*)::int from watchlist_entries w where w.user_id=selected.app_id) as "Watchlist",
       (select count(*)::int from alert_rules r where r.user_id=selected.app_id) as "Alerts"

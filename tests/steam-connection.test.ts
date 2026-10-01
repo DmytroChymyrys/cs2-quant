@@ -26,12 +26,6 @@ import {
   verifySteamAssertion,
 } from "../src/lib/product/steam-openid";
 
-const MARKET_MIGRATIONS = new Set([
-  "0000_initial_market_snapshots",
-  "0001_protect_observation_history",
-  "0006_history_payload_dedup",
-  "0007_observation_rollups",
-]);
 
 const origin = "http://localhost:3338";
 const ns = "http://specs.openid.net/auth/2.0";
@@ -195,17 +189,16 @@ beforeAll(async () => {
   for (const file of [
     "0000_initial_market_snapshots",
     "0001_protect_observation_history",
-    "0002_product_accounts_monitoring_billing",
-    "0003_ops_application_role",
-    "0004_ops_audit",
   ])
-    // Migration streams are isolated by directory; resolve each file to its owner.
-    await db.exec(
-      await readFile(
-        `drizzle/${MARKET_MIGRATIONS.has(file) ? "market" : "product"}/${file}.sql`,
-        "utf8",
-      ),
-    );
+    await db.exec(await readFile(`drizzle/market/${file}.sql`, "utf8"));
+  // The product stream from its journal, for the same reason the steam stream
+  // is read from its own below.
+  for (const entry of (
+    JSON.parse(
+      await readFile("drizzle/product/meta/_journal.json", "utf8"),
+    ) as { entries: { tag: string }[] }
+  ).entries)
+    await db.exec(await readFile(`drizzle/product/${entry.tag}.sql`, "utf8"));
   /*
    * The whole steam stream, in order, read from the journal rather than
    * named here — otherwise a migration added later is silently missing from
@@ -309,7 +302,9 @@ it("treats reconnecting the same account as connected and blocks another user's 
 
 it("disconnects via Better Auth's native endpoint and preserves email login and app data", async () => {
   await db.query(
-    "insert into app_users(auth_user_id,categories) values($1,'[\"knives\"]') on conflict(auth_user_id) do nothing",
+    // The profile row already exists -- it is created with the account -- so this
+    // seeds the app data whether or not this insert is the one that creates it.
+    "insert into app_users(auth_user_id,categories) values($1,'[\"knives\"]') on conflict(auth_user_id) do update set categories=excluded.categories",
     [owner.id],
   );
   const first = await begin();

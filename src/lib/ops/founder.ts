@@ -48,7 +48,24 @@ export type FounderOverview = {
     returning: Stat;
     windowDays: number;
   };
-  authMethods: { credential: number; google: number } | null;
+  /*
+   * Two different questions. `authMethods` counts provider identities -- how
+   * people can sign in today, which moves as accounts are linked. `signupMethods`
+   * counts accounts by how they were created, which never moves. Reporting only
+   * the first would make acquisition look like it shifted every time somebody
+   * connected a second identity.
+   */
+  authMethods: {
+    credential: number;
+    google: number;
+    steam: number;
+  } | null;
+  signupMethods: {
+    email: number;
+    google: number;
+    steam: number;
+    unknown: number;
+  } | null;
   engagement: {
     watchlistEntries: Stat;
     watchlistUsers: Stat;
@@ -169,6 +186,11 @@ export async function readFounderOverview(
       returning: number;
       credential: number;
       google: number;
+      steam: number;
+      signup_email: number;
+      signup_google: number;
+      signup_steam: number;
+      signup_unknown: number;
       watchlist_entries: number;
       watchlist_users: number;
       alert_rules: number;
@@ -203,6 +225,12 @@ export async function readFounderOverview(
              where s.created_at > u.created_at + interval '1 day')::int as returning,
           (select count(*) from auth_accounts where provider_id = 'credential')::int as credential,
           (select count(*) from auth_accounts where provider_id = 'google')::int as google,
+          (select count(*) from auth_accounts where provider_id = 'steam')::int as steam,
+          -- Acquisition, recorded at creation and immutable thereafter.
+          (select count(*) from app_users where signup_method = 'EMAIL')::int as signup_email,
+          (select count(*) from app_users where signup_method = 'GOOGLE')::int as signup_google,
+          (select count(*) from app_users where signup_method = 'STEAM')::int as signup_steam,
+          (select count(*) from app_users where signup_method = 'UNKNOWN')::int as signup_unknown,
           (select count(*) from watchlist_entries)::int as watchlist_entries,
           (select count(distinct user_id) from watchlist_entries)::int as watchlist_users,
           (select count(*) from alert_rules)::int as alert_rules,
@@ -409,7 +437,19 @@ export async function readFounderOverview(
       windowDays,
     },
     authMethods: product
-      ? { credential: product.credential, google: product.google }
+      ? {
+          credential: product.credential,
+          google: product.google,
+          steam: product.steam,
+        }
+      : null,
+    signupMethods: product
+      ? {
+          email: product.signup_email,
+          google: product.signup_google,
+          steam: product.signup_steam,
+          unknown: product.signup_unknown,
+        }
       : null,
     engagement: {
       watchlistEntries: stat(product?.watchlist_entries),

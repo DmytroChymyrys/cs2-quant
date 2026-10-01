@@ -1,6 +1,7 @@
 import { AuthNarrative } from "@/components/auth-narrative";
 import { AuthForm } from "@/components/auth-form";
 import { authConfiguration } from "@/lib/product/auth";
+import { SignInProblem } from "@/components/sign-in-problem";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
 export const metadata = {
   title: "Sign in",
@@ -21,6 +22,8 @@ export default async function Page({
           <span className="eyebrow">FloatAlpha / Account access</span>
           <h1>Welcome back</h1>
           <p className="muted">Sign in to your FloatAlpha account.</p>
+          {/* A failed social callback lands here; onAPIError.errorURL sends it. */}
+          <SignInProblem error={params.error} />
           <AuthForm
             mode="login"
             configuration={authConfiguration()}

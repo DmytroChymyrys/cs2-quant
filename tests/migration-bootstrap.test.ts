@@ -73,12 +73,20 @@ describe("fresh co-located bootstrap in the documented order", () => {
       "0003_ops_application_role",
       "0004_ops_audit",
       "0005_user_lifecycle",
+      "0006_signup_method",
     ]);
     expect(applied.steam).toEqual([
       "0000_steam_account_link",
       "0001_steam_auth_identity",
     ]);
-  });
+    /*
+     * Every migration in all three streams, executed for real against PGlite.
+     * It is the slowest test in the suite by a wide margin and it grows with
+     * each migration added, so it gets a timeout of its own rather than living
+     * just under the global one and failing the day a stream gains a member --
+     * which is exactly what happened when the product stream reached 0006.
+     */
+  }, 90_000);
 
   it("produces every market and product table", async () => {
     const { rows } = await db.query<{ table_name: string }>(
