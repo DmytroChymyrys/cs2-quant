@@ -217,8 +217,15 @@ describe("Steam account linking is gated, not absent", () => {
      * here may persist one, and production confirmed the account row carries
      * null access, refresh and id tokens.
      */
-    for (const forbidden of ["accessToken", "refreshToken", "idToken", "password"])
-      expect(source, forbidden).not.toContain(forbidden);
+    /*
+     * Field assignments, not the bare words. The disconnect guard's message
+     * reads "Add an email password or Google first", which is prose the user
+     * sees — matching the substring flagged that as a stored credential.
+     */
+    for (const field of ["accessToken", "refreshToken", "idToken", "password"])
+      expect(source, field).not.toMatch(
+        new RegExp(`\\b${field}\\s*:`),
+      );
   });
 
   it("logs nothing from the Steam paths", async () => {
