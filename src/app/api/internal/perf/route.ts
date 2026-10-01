@@ -59,6 +59,68 @@ const CANDIDATES: { name: string; sql: string }[] = [
   },
 ];
 
+/**
+ * The statement proposed to replace FEATURES_SQL, exactly as it would ship.
+ *
+ * `order by c.asset_id` before the limit is load-bearing: the old shape got
+ * that ordering as a by-product of DISTINCT ON, and the READ_LIMIT guard
+ * depends on which 1001 rows come back, not merely how many.
+ */
+const PROPOSED_SQL = `select c.asset_id,f.feature,c.available
+        from (select asset_id,count(*)::int as available
+              from derived_market_features where snapshot_id=$1 group by asset_id) c
+        cross join lateral (
+          select feature from derived_market_features
+          where snapshot_id=$1 and asset_id=c.asset_id
+          order by observed_at desc,observation_id desc limit 1
+        ) f
+        order by c.asset_id limit 1001`;
+
+/**
+ * Old versus new on the live snapshot, compared in the database.
+ *
+ * Both sides expose observation_id and observed_at so the comparison can check
+ * that the SAME physical row was selected, not merely that the counts line up.
+ * The feature payload is compared by md5 of its text form.
+ */
+const EQUIVALENCE_SQL = `
+with old as (
+  select distinct on(asset_id) asset_id,observation_id,observed_at,feature,
+         count(*) over(partition by asset_id)::int as available
+  from derived_market_features where snapshot_id=$1
+  order by asset_id,observed_at desc,observation_id desc
+  limit 1001
+),
+new as (
+  select c.asset_id,f.observation_id,f.observed_at,f.feature,c.available
+  from (select asset_id,count(*)::int as available
+        from derived_market_features where snapshot_id=$1 group by asset_id) c
+  cross join lateral (
+    select observation_id,observed_at,feature from derived_market_features
+    where snapshot_id=$1 and asset_id=c.asset_id
+    order by observed_at desc,observation_id desc limit 1
+  ) f
+  order by c.asset_id limit 1001
+)
+select
+  (select count(*) from old)::int as old_rows,
+  (select count(*) from new)::int as new_rows,
+  (select count(*) from old o full outer join new n on n.asset_id=o.asset_id
+     where o.asset_id is null or n.asset_id is null)::int as asset_mismatch,
+  (select count(*) from old o join new n on n.asset_id=o.asset_id
+     where o.available is distinct from n.available)::int as available_mismatch,
+  (select count(*) from old o join new n on n.asset_id=o.asset_id
+     where o.observation_id is distinct from n.observation_id)::int as observation_mismatch,
+  (select count(*) from old o join new n on n.asset_id=o.asset_id
+     where o.observed_at is distinct from n.observed_at)::int as observed_at_mismatch,
+  (select count(*) from old o join new n on n.asset_id=o.asset_id
+     where md5(o.feature::text) is distinct from md5(n.feature::text))::int as feature_mismatch,
+  (select md5(string_agg(md5(feature::text),'' order by asset_id)) from old) as old_digest,
+  (select md5(string_agg(md5(feature::text),'' order by asset_id)) from new) as new_digest,
+  (select string_agg(asset_id::text,',' order by asset_id) from old) is not distinct from
+  (select string_agg(asset_id::text,',' order by asset_id) from new) as same_asset_order
+`;
+
 export async function GET(request: Request) {
   if (!authorized(request))
     return Response.json({ error: "UNAUTHORIZED" }, { status: 401 });
@@ -123,6 +185,28 @@ export async function GET(request: Request) {
               } catch {
                 candidates[candidate.name] = { error: "EXPLAIN_FAILED" };
               }
+            }
+            // Equivalence first: a faster query that returns different
+            // rows is not an optimisation.
+            try {
+              const eq = await pool.query(EQUIVALENCE_SQL, [
+                selection.snapshotId,
+              ]);
+              body.equivalence = eq.rows[0];
+            } catch {
+              body.equivalence = { error: "COMPARISON_FAILED" };
+            }
+            try {
+              const p = await pool.query(
+                `EXPLAIN (ANALYZE, BUFFERS, SUMMARY) ${PROPOSED_SQL}`,
+                [selection.snapshotId],
+              );
+              body.proposed = {
+                sql: PROPOSED_SQL,
+                plan: p.rows.map((r) => r["QUERY PLAN"]),
+              };
+            } catch {
+              body.proposed = { error: "EXPLAIN_FAILED" };
             }
             body.explain = {
               sql: FEATURES_SQL,
