@@ -54,6 +54,34 @@ describe("an asset becomes indexable when its evidence exists", () => {
   });
 });
 
+describe("the asset page itself withholds indexing until it is mature", () => {
+  it("marks an immature asset page noindex", async () => {
+    const page = await (await import("node:fs/promises")).readFile(
+      "src/app/(market)/asset/[slug]/page.tsx",
+      "utf8",
+    );
+    /*
+     * Sitemap exclusion alone is not enough: an immature asset is linked from
+     * the screener, so Google can reach it without the sitemap. The page uses
+     * the same gate rather than a second rule that could drift from it.
+     */
+    expect(page).toContain("const indexable = indexableAsset(asset)");
+    expect(page).toContain(
+      "return indexable ? metadata : { ...metadata, robots: PRIVATE_ROBOTS };",
+    );
+  });
+
+  it("keeps the reader's page intact while withholding it from the index", async () => {
+    const page = await (await import("node:fs/promises")).readFile(
+      "src/app/(market)/asset/[slug]/page.tsx",
+      "utf8",
+    );
+    // Only robots changes; title, description and canonical are unaffected.
+    expect(page).toContain("title: `${asset.name} Price, History & Market Data`");
+    expect(page).toContain("path: assetPath(asset.name, asset.id)");
+  });
+});
+
 describe("a category is indexable only through mature members", () => {
   const mature = (n: number) =>
     Array.from({ length: n }, (_, i) => asset({ id: `m${i}` }));

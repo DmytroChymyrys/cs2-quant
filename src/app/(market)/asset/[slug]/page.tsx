@@ -27,7 +27,11 @@ import { marketStory } from "@/lib/product/intelligence/presentation";
 import type { Metadata } from "next";
 import { PRIVATE_ROBOTS, pageMetadata } from "@/lib/seo";
 import { TrackEvent } from "@/components/track-event";
-import { CATEGORY_SEO, categoryPath } from "@/lib/seo-categories";
+import {
+  CATEGORY_SEO,
+  categoryPath,
+  indexableAsset,
+} from "@/lib/seo-categories";
 import {
   assetPath,
   assetSlug,
@@ -67,13 +71,25 @@ export async function generateMetadata({
     : resolveAssetSegment(slug, dataset.assets);
   if (!asset || asset.median === null)
     return { title: "Asset", robots: PRIVATE_ROBOTS };
+  /*
+   * A newly tracked asset has a real page from its first observation — a name,
+   * a price, a chart that is honest about having almost nothing in it — and it
+   * is linked from the screener, so keeping it out of the sitemap is not on
+   * its own enough to keep it out of the index.
+   *
+   * The same maturity gate the sitemap uses therefore marks it noindex until
+   * the evidence its page leads with exists. Nothing is hidden from a reader;
+   * the page simply does not ask to be ranked while it has nothing to say.
+   */
+  const indexable = indexableAsset(asset);
   // The canonical is the asset's current slug, never the requested spelling:
   // a legacy UUID URL or an outdated slug must point at the one real URL.
-  return pageMetadata({
+  const metadata = pageMetadata({
     title: `${asset.name} Price, History & Market Data`,
     description: `Observed Skinport listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
     path: assetPath(asset.name, asset.id),
   });
+  return indexable ? metadata : { ...metadata, robots: PRIVATE_ROBOTS };
 }
 
 export default async function Asset({
