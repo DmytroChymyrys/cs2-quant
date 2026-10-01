@@ -62,6 +62,9 @@ export const authAccount = pgTable(
   },
   (t) => [
     uniqueIndex("auth_provider_subject").on(t.providerId, t.accountId),
+    uniqueIndex("auth_one_steam_per_user")
+      .on(t.userId)
+      .where(sql`${t.providerId} = 'steam'`),
     index("auth_accounts_user").on(t.userId),
   ],
 );

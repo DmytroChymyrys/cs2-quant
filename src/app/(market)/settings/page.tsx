@@ -16,6 +16,8 @@ import { MutationButton, SignOut } from "@/components/product-actions";
 import { billingAccount } from "@/lib/product/billing-account";
 import { billingSandboxEnabled } from "@/lib/product/billing-config";
 import { BillingReturn } from "@/components/billing-return";
+import { SteamConnection } from "@/components/steam-connection";
+import { steamConnection, steamConnectionEnabled } from "@/lib/product/steam";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
 export const metadata = {
   title: "Settings",
@@ -25,13 +27,14 @@ export const metadata = {
 export default async function Settings({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string }>;
+  searchParams: Promise<{ checkout?: string; steam?: string }>;
 }) {
   const user = await currentUser();
   if (!user) return <AuthRequired feature="account" />;
   const caps = await entitlements(user.app.id);
   const billing = await billingAccount(user.app.id);
-  const { checkout } = await searchParams;
+  const { checkout, steam } = await searchParams;
+  const connection = await steamConnection(user.identity.id);
   return (
     <div className="personal-workstation account-workstation">
       <PageHeading
@@ -45,6 +48,7 @@ export default async function Settings({
           <a href="#identity">
             Account <span>01</span>
           </a>
+          <a href="#connected-accounts">Connected accounts</a>
           <a href="#preferences">
             Preferences <span>02</span>
           </a>
@@ -97,6 +101,17 @@ export default async function Settings({
                   <strong className="cyan">{caps.plan}</strong>
                   <span className="muted">Current workspace access</span>
                 </div>
+              </div>
+            </Panel>
+          </div>
+          <div id="connected-accounts">
+            <Panel title="Connected accounts">
+              <div className="pad">
+                <SteamConnection
+                  connection={connection}
+                  enabled={steamConnectionEnabled()}
+                  outcome={steam}
+                />
               </div>
             </Panel>
           </div>

@@ -37,7 +37,7 @@ export function AuthForm({
     billingSandbox?: boolean;
   };
   token?: string;
-  returnTo?: "/pricing";
+  returnTo?: "/pricing" | "/settings" | "/onboarding";
 }) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);

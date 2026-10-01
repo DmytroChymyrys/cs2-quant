@@ -17,6 +17,7 @@ import {
 } from "./schema";
 import { sendEmail, emailConfigured } from "./email";
 import { billingSandboxEnabled } from "./billing-config";
+import { steamAccountLinking } from "./steam";
 export function authConfiguration() {
   const configured = Boolean(
     process.env.BETTER_AUTH_SECRET &&
@@ -115,14 +116,17 @@ export function authService() {
             },
           }
         : {},
-    plugins: process.env.TURNSTILE_SECRET_KEY
-      ? [
-          captcha({
-            provider: "cloudflare-turnstile",
-            secretKey: process.env.TURNSTILE_SECRET_KEY,
-          }),
-        ]
-      : [],
+    plugins: [
+      steamAccountLinking(),
+      ...(process.env.TURNSTILE_SECRET_KEY
+        ? [
+            captcha({
+              provider: "cloudflare-turnstile",
+              secretKey: process.env.TURNSTILE_SECRET_KEY,
+            }),
+          ]
+        : []),
+    ],
   });
 }
 export const currentUser = cache(async () => {
