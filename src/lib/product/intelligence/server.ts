@@ -283,8 +283,43 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
     const [rows, versions] = await Promise.all([
       perf.step("features_query", () =>
         db.query(
-          `select distinct on(asset_id) asset_id,feature,count(*) over(partition by asset_id)::int as available
-        from derived_market_features where snapshot_id=$1 order by asset_id,observed_at desc,observation_id desc limit 1001`,
+          /*
+           * One row per asset: its newest observation, and how many
+           * observations it has in this snapshot.
+           *
+           * Written as an aggregate plus a lateral rather than the obvious
+           * `distinct on ... count(*) over (partition by asset_id)`, because
+           * that shape made the window function read every row of the
+           * snapshot through the heap. Measured in production: a parallel
+           * sequential scan of a 2.2 GB table, 198,485 rows sorted on disk
+           * across three workers — roughly 310 MB spilled and 600 MB of temp
+           * I/O — to return 99 rows, in 2,019 ms.
+           *
+           * Split in two, both halves use `derived_features_asset_time`
+           * (snapshot_id, asset_id, observed_at): the count is an index-only
+           * scan with zero heap fetches, and the newest row is 99 backward
+           * index lookups touching two rows each. Same plan, 56.8 ms, no
+           * temp files.
+           *
+           * `order by c.asset_id` before the limit is load-bearing. The old
+           * shape got that ordering as a by-product of `distinct on`, and
+           * READ_LIMIT below depends on WHICH 1001 rows come back, not only
+           * how many. Do not drop it because 99 assets make it look moot.
+           *
+           * Verified against the live snapshot before adoption: identical
+           * asset set, identical `available` counts, identical selected
+           * observation_id and observed_at, and an identical md5 digest over
+           * the whole feature payload.
+           */
+          `select c.asset_id,f.feature,c.available
+        from (select asset_id,count(*)::int as available
+              from derived_market_features where snapshot_id=$1 group by asset_id) c
+        cross join lateral (
+          select feature from derived_market_features
+          where snapshot_id=$1 and asset_id=c.asset_id
+          order by observed_at desc,observation_id desc limit 1
+        ) f
+        order by c.asset_id limit 1001`,
           [snapshotId],
         ),
       ),

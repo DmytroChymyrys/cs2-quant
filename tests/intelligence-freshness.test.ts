@@ -82,7 +82,16 @@ function setup(options: { override?: string; pointer?: unknown } = {}) {
               },
             ],
           }
-        : sql.includes("distinct on")
+        : /*
+             The dataset read is the one that computes the availability
+             count. Keyed on that rather than on a SQL construct: the query
+             was rewritten from `distinct on` to an aggregate plus a lateral
+             for performance, and a double that recognises a statement by its
+             syntax silently starts returning no rows when it is reformatted.
+             Not keyed on the table name either, because the per-asset detail
+             read selects from the same table.
+          */
+          sql.includes("as available")
           ? {
               rows: [
                 { feature: feature(CRANE, 1, true), available: 2016 },

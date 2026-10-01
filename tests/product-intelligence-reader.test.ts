@@ -53,7 +53,9 @@ function setup(method = METHOD) {
   query.mockImplementation(async (sql: string) =>
     sql.includes("select method")
       ? { rows: [{ method, scope, created_at: scope.to, report: {} }] }
-      : sql.includes("distinct on")
+      : // The dataset read is the one that computes the availability count;
+        // the detail read below selects `feature` from the same table.
+        sql.includes("as available")
         ? { rows: [{ feature, available: 288 }] }
         : sql.includes("select feature")
           ? { rows: [{ feature }] }
@@ -109,7 +111,13 @@ describe("analytics read boundary", () => {
     setup();
     const d = await readAssetDetail(feature.asset_id, "1h");
     expect(d?.asset.minimum).toBe("123");
-    const call = query.mock.calls.find((c) => c[0].includes("select feature"));
+    /*
+     * The detail read is the one bound to a specific asset. `select feature`
+     * alone no longer identifies it: the dataset read now selects the same
+     * column inside a lateral, and it runs first, so a looser match finds the
+     * wrong call and compares the wrong parameters.
+     */
+    const call = query.mock.calls.find((c) => c[0].includes("asset_id=$2"));
     expect(call?.[1]).toEqual([
       "a".repeat(64),
       feature.asset_id,
@@ -123,7 +131,9 @@ describe("analytics read boundary", () => {
     setup();
     const prior = query.getMockImplementation()!;
     query.mockImplementation(async (sql, ...args) => {
-      if (sql.includes("select feature")) throw Error("offline");
+      // The per-asset detail read, not the dataset read that now also
+      // selects `feature` inside its lateral.
+      if (sql.includes("asset_id=$2")) throw Error("offline");
       return prior(sql, ...args);
     });
     expect(await readAssetDetail(feature.asset_id, "1h")).toMatchObject({
