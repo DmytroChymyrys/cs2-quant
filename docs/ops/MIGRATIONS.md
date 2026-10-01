@@ -47,6 +47,45 @@ A fresh co-located database must be bootstrapped in this order:
 The product runner asserts the market prerequisite explicitly and fails with
 `MIGRATION_PREREQUISITE_MISSING` rather than part-applying.
 
+## Proving the target before migrating production
+
+The runners validate the FAMILY of a database. They do not prove it is the
+database you meant. Those are different questions, and the second one has
+already been a live hazard: `.env.steam-preview.local` defines its own
+`PRODUCT_DATABASE_URL` aimed at the steam-acceptance Neon project, and that
+database has the same product table shape, so a product migration aimed at it
+would succeed. The mistake would be silent.
+
+Before any product migration against production:
+
+```bash
+PRODUCT_DATABASE_URL="<production DATABASE_URL>" \
+  node scripts/verify-migration-target.mjs
+```
+
+It must print `PROVEN — all 8 checks passed` and exit `0`. Anything else: stop.
+
+The verifier is strictly read-only — SELECTs only, no DDL, no writes, and it
+never invokes the migrator. It reads no `.env` file: the connection string is
+supplied on the command line, so the verifier can never itself be the thing
+that loads the wrong environment. It proves identity from DATA (the tracked
+universe, observation volume, the auth-user boundary, the provider identities,
+the recorded product revision) plus an explicit refusal of known
+non-production hosts, because a shape check alone cannot tell the two apart.
+
+It is deliberately not reusable across environments. Relaxing a check to make
+it pass somewhere else removes the only property it has.
+
+Only once it prints `PROVEN`:
+
+```bash
+PRODUCT_DATABASE_URL="<production DATABASE_URL>" npm run -s db:migrate:product:plan
+PRODUCT_DATABASE_URL="<production DATABASE_URL>" npm run db:migrate:product
+```
+
+The plan must list exactly the migrations you intend, by tag and SHA-256. Any
+mismatch — an extra entry, a different hash — stops the rollout.
+
 ## Fail-closed validation
 
 Each runner validates before migrating and raises one of:
