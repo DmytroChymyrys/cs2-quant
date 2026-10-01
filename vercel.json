@@ -20,6 +20,10 @@
       "schedule": "20 * * * *"
     },
     {
+      "path": "/api/internal/refresh",
+      "schedule": "*/5 * * * *"
+    },
+    {
       "path": "/api/internal/asset-images/health",
       "schedule": "*/10 * * * *"
     },

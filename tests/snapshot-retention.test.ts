@@ -281,10 +281,19 @@ describe("retention never runs before a successful activation", () => {
     const src = await readFile("src/lib/derived-market/refresh-run.ts", "utf8");
     // The only call sites for retention in the refresh are inside a branch that
     // requires the run to have activated and the pointer to name what it built.
+    /*
+     * Bounded by the FIRST measurements assignment that follows the retention
+     * block, not the first in the file: a bounded refresh step reports
+     * measurements before it ever reaches retention, so an unanchored search
+     * finds that one and silently slices nothing.
+     */
+    const retentionAt = src.indexOf("// 8. Retention");
+    expect(retentionAt).toBeGreaterThan(-1);
     const guard = src.slice(
-      src.indexOf("// 8. Retention"),
-      src.indexOf("outcome.measurements = {"),
+      retentionAt,
+      src.indexOf("outcome.measurements = {", retentionAt),
     );
+    expect(guard.length).toBeGreaterThan(0);
     expect(guard).toContain('outcome.result === "ACTIVATED"');
     expect(guard).toContain("verified?.snapshotId === derived.snapshotId");
     for (const call of ["planRetention(", "executeRetention("]) {

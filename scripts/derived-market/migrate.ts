@@ -18,6 +18,7 @@ try {
     "002_active_snapshot.sql",
     "003_activation_ledger.sql",
     "004_refresh_runs.sql",
+    "005_snapshot_builds.sql",
   ];
   await client.query("BEGIN");
   await client.query("SELECT pg_advisory_xact_lock(730,3)");

@@ -17,9 +17,18 @@ import {
 } from "./features";
 
 export type AssetChunkLoader = (assetName: string) => Promise<RawObservation[]>;
+/**
+ * Receives one asset's output.
+ *
+ * The History payloads produced while deriving this asset are passed with it,
+ * rather than only being returned at the end, so a caller that persists per
+ * asset can write a complete, self-contained unit. Without that split a build
+ * spanning invocations would lose the payloads derived by earlier ones.
+ */
 export type FeatureSink = (
   assetName: string,
   features: Feature[],
+  historyValues: Derived["historyValues"],
 ) => void | Promise<void>;
 
 /**
@@ -37,7 +46,23 @@ export async function deriveChunked(
   loadAsset: AssetChunkLoader,
   onFeatures: FeatureSink,
   maxDays: number = DEFAULT_SCOPE_DAYS,
+  options: { features?: boolean } = {},
 ): Promise<Omit<Derived, "features"> & { observations: number }> {
+  /*
+   * `features: false` walks the identical loop and skips only the per-asset
+   * feature computation, which is the expensive part. Everything that feeds
+   * the snapshot identity — the observation digests, the duplicate pairs, the
+   * run seed — is produced by the same code either way, so a planning pass
+   * cannot drift from the derivation that follows it. That matters because
+   * the identity must be fixed BEFORE any feature row can be written: a
+   * feature references its snapshot by foreign key, and the snapshot id is a
+   * digest over every observation in the window.
+   */
+  const withFeatures = options.features ?? true;
+  // In planning mode `historyValues` and `dimensions` stay empty, because both
+  // are produced by `assetFeatures`. A planning result must therefore be used
+  // only for the identity, the scope, the history versions and the duplicate
+  // accounting — never as a source of snapshot content.
   // Runs are window-level, so History episodes are built once for every asset.
   const seed = prepare({ scope, runs, observations: [] }, maxDays);
   const { historyVersions, historyByRun } = buildHistoryVersions(
@@ -63,10 +88,13 @@ export async function deriveChunked(
     for (const o of data.raw) observationDigests.push(observationDigest(o));
     duplicatePairs.push(...data.duplicatePairs);
     observations += data.raw.length;
+    if (!withFeatures) continue;
+    const historyValuesBefore = historyValues.length;
     const features: Feature[] = [];
     for (const assetRows of Map.groupBy(data.valid, (o) => o.assetId).values())
       features.push(...assetFeatures(assetRows, ctx));
-    if (features.length) await onFeatures(assetName, features);
+    if (features.length)
+      await onFeatures(assetName, features, historyValues.slice(historyValuesBefore));
   }
 
   const sortedScope = { ...scope, assets: [...scope.assets].sort() };

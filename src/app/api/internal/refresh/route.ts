@@ -1,5 +1,9 @@
 import { authorized, json } from "@/lib/auth";
-import { runRefresh, refreshSummary } from "@/lib/derived-market/refresh-run";
+import {
+  runRefresh,
+  refreshSummary,
+  DEFAULT_DERIVE_BUDGET_MS,
+} from "@/lib/derived-market/refresh-run";
 import { COLLECTION_UNIVERSE } from "@/lib/derived-market/universe";
 
 export const runtime = "nodejs";
@@ -34,12 +38,20 @@ export async function GET(request: Request) {
 
 async function handle(request: Request) {
   if (!authorized(request)) return json({ error: "UNAUTHORIZED" }, 401);
+  /*
+   * One bounded step per invocation. Derivation stops at an asset boundary
+   * once the budget is spent and the build stays open; the continuation
+   * schedule advances it on the next tick. Nothing is published until the
+   * whole universe is derived and validated, so a build spanning several
+   * invocations is invisible to readers.
+   */
   const outcome = await runRefresh({
     sourceUrl: process.env.MARKET_ANALYTICS_SOURCE_URL ?? "",
     assets: [...COLLECTION_UNIVERSE],
     retain: true,
     note: "vercel cron",
     invokedBy: "vercel-cron",
+    budgetMs: DEFAULT_DERIVE_BUDGET_MS,
   });
   const summary = refreshSummary(outcome);
   // One structured line per run, which is what the canary evidence is built

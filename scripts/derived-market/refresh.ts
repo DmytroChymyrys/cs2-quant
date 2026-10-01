@@ -38,6 +38,13 @@ const universe = JSON.parse(await readFile(args.universe!, "utf8"));
 const outcome = await runRefresh({
   sourceUrl: process.env.MARKET_ANALYTICS_SOURCE_URL ?? "",
   assets: universe.assets as string[],
+  /*
+   * The CLI has no platform invocation ceiling, so it drives the build to
+   * completion in one call and behaves exactly as it did before builds could
+   * span invocations. Only the scheduled endpoint takes a bounded step.
+   */
+  untilComplete: true,
+  budgetMs: Number.MAX_SAFE_INTEGER,
   from: args.from,
   to: args.to,
   maxDays: args["max-days"] ? Number(args["max-days"]) : undefined,
