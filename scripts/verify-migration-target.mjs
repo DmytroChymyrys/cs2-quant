@@ -171,35 +171,50 @@ try {
 
   await probe("expected provider identities present", async () => {
     const rows = await q(
-      `select provider_id, account_id from auth_accounts order by created_at`,
+      `select provider_id, account_id, user_id::text from auth_accounts order by created_at`,
     );
+    /*
+     * Four identities in creation order. The fourth is the second Google
+     * subject attached by the explicit Connect Google flow on 2026-10-02 --
+     * one FloatAlpha user legitimately holding two Google identities plus
+     * Steam is the whole point of the Phase B work, not an anomaly.
+     *
+     * Ownership is asserted as well as presence. Presence alone would pass
+     * even if a subject had moved to a different user, which is precisely the
+     * failure the identity rollout existed to close.
+     */
     const want = [
-      ["credential", null],
-      ["google", "1015"],
-      ["steam", "7656"],
+      ["credential", null, "28e9"],
+      ["google", "1015", "9ca0"],
+      ["steam", "7656", "9ca0"],
+      ["google", "1081", "9ca0"],
     ];
     return {
       ok:
-        rows.length === 3 &&
+        rows.length === 4 &&
         want.every(
-          ([provider, subject], i) =>
+          ([provider, subject, owner], i) =>
             rows[i]?.provider_id === provider &&
-            (subject === null || rows[i].account_id.startsWith(subject)),
+            (subject === null || rows[i].account_id.startsWith(subject)) &&
+            rows[i]?.user_id.startsWith(owner),
         ),
       detail:
         rows
-          .map((r) => `${r.provider_id}:${r.account_id.slice(0, 4)}…`)
+          .map(
+            (r) =>
+              `${r.provider_id}:${r.account_id.slice(0, 4)}…→${r.user_id.slice(0, 4)}…`,
+          )
           .join(" ") || "none",
     };
   });
 
   await probe(
-    "product stream at the pre-0006 revision (4 applied)",
+    "product stream at the pre-0007 revision (5 applied)",
     async () => {
       const [r] = await q(
         `select count(*)::int n from drizzle_product.__drizzle_migrations`,
       );
-      return { ok: r.n === 4, detail: `${r.n} recorded` };
+      return { ok: r.n === 5, detail: `${r.n} recorded` };
     },
   );
 } finally {
