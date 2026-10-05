@@ -98,6 +98,14 @@ export class SteamWebApiError extends Error {
   }
 }
 
+export type SteamInventoryResponse = {
+  rows: unknown[];
+  status: number;
+  startedAt: Date;
+  finishedAt: Date;
+  responseBytes: number;
+};
+
 export type SteamItemsResponse = {
   rows: unknown[];
   status: number;
@@ -169,6 +177,81 @@ export function steamWebApiClient(fetchImpl: typeof fetch = fetch) {
         startedAt,
         finishedAt: new Date(),
         bodySha256: createHash("sha256").update(text).digest("hex"),
+        responseBytes: Buffer.byteLength(text, "utf8"),
+      };
+    },
+
+    /**
+     * One account's CS2 inventory.
+     *
+     * The provider fetches this server-side with its own Steam session, so
+     * availability depends on the TARGET profile's privacy settings rather
+     * than on anything FloatAlpha holds. A refusal is therefore evidence about
+     * that profile, not about our credential -- which is why the caller
+     * classifies 401/403 as UNAVAILABLE and never as "the inventory is empty".
+     *
+     * `state` is deliberately NOT sent. The discovery probe passed
+     * `state=fallback`, but the parameter's semantics are undocumented and a
+     * cached or fallback answer must never reach a code path that can close
+     * ownership intervals. The provider default is used instead.
+     *
+     * No `select` here: unlike the 39k-row catalogue, one inventory is small
+     * (the probe measured ~5 KB for two items), and the fields we need are
+     * item-instance fields the catalogue projection does not carry.
+     */
+    async inventory(steamId: string): Promise<SteamInventoryResponse> {
+      const key = process.env.STEAMWEBAPI_API_KEY?.trim();
+      if (!key) throw new SteamWebApiError("NOT_CONFIGURED");
+      if (!/^\d{17}$/.test(steamId))
+        throw new SteamWebApiError("MALFORMED_BODY", null, "INVALID_STEAM_ID");
+
+      const url = new URL("/steam/api/inventory", BASE);
+      url.searchParams.set("steam_id", steamId);
+      url.searchParams.set("game", "cs2");
+      url.searchParams.set("parse", "1");
+      url.searchParams.set("production", "1");
+
+      const startedAt = new Date();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+      let response: Response;
+      let text: string;
+      try {
+        response = await fetchImpl(url, {
+          // Header auth, so the credential cannot leak through a logged URL.
+          headers: { "X-Api-Key": key, accept: "application/json" },
+          signal: controller.signal,
+        });
+        text = await response.text();
+      } catch (cause) {
+        throw new SteamWebApiError(
+          (cause as Error)?.name === "AbortError" ? "TIMEOUT" : "NETWORK_ERROR",
+        );
+      } finally {
+        clearTimeout(timer);
+      }
+      if (!response.ok)
+        throw new SteamWebApiError("HTTP_ERROR", response.status);
+
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        throw new SteamWebApiError("MALFORMED_BODY", response.status);
+      }
+      const rows = Array.isArray(parsed)
+        ? parsed
+        : ((parsed as { data?: unknown[] })?.data ?? null);
+      // A 200 carrying something that is not a list of items is a provider
+      // failure, never an empty inventory.
+      if (!Array.isArray(rows))
+        throw new SteamWebApiError("MALFORMED_BODY", response.status);
+
+      return {
+        rows,
+        status: response.status,
+        startedAt,
+        finishedAt: new Date(),
         responseBytes: Buffer.byteLength(text, "utf8"),
       };
     },
