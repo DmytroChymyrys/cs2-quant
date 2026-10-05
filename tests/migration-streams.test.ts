@@ -58,6 +58,7 @@ describe("stream isolation is structural, not only guarded", () => {
       "0008_provider_universe_state",
       "0009_provider_identity_nulls",
       "0010_steamwebapi_provider",
+      "0011_inventory_price_lookup_index",
     ]);
   });
 

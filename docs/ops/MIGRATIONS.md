@@ -224,6 +224,36 @@ contents, so the caller must state the family explicitly.
 | --- | --- | --- | --- |
 | `0006_history_payload_dedup.sql` | MARKET | yes, directly | **no** |
 | `0007_observation_rollups.sql` | MARKET | yes, directly | **no** |
+| `0011_inventory_price_lookup_index.sql` | MARKET | yes, directly, 2026-10-05 21:42 UTC | **no** |
+
+### `0011_inventory_price_lookup_index` — applied directly 2026-10-05
+
+`CREATE INDEX IF NOT EXISTS provider_assets_normalized_name ON provider_assets
+(provider, (normalize(regexp_replace(btrim(market_hash_name), '\s+', ' ', 'g'),
+NFC)))`. One additive statement, 671 ms, no table change and no data touched.
+
+MARKET family even though a product feature drives it: the index is on
+`provider_assets`, so `classifyMigration` returns MARKET and the product stream
+correctly refuses it. The product stream remains at `0007_inventory`.
+
+It serves the Inventory read model, which resolves holdings to Skinport
+references by the NORMALISED market key. Matching on an expression meant no
+existing index applied and every page load sequentially scanned all 65,139
+rows.
+
+Measured on production, same 150-key lookup, no planner settings changed:
+
+| | plan | time |
+| --- | --- | --- |
+| before | Hash Semi Join over a `provider_assets` Seq Scan (25,309 rows after filter) | 216 ms |
+| after | Nested Loop, Index Scan, 150 index searches | 2.3 ms |
+
+Smaller partial variants were built and measured first, inside a rolled-back
+transaction, and the planner declined both — they would have cost disk and
+changed nothing. The full composite is used because it is the one PostgreSQL
+actually selects.
+
+Not recorded in `drizzle.__drizzle_migrations`, per rule 4 above.
 
 Both are additive. Neither is recorded in `drizzle.__drizzle_migrations`, so a
 future migrator run would try to re-create their objects and fail. That is

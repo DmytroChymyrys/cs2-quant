@@ -50,6 +50,13 @@
       "when": 1790010000000,
       "tag": "0010_steamwebapi_provider",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790400000000,
+      "tag": "0011_inventory_price_lookup_index",
+      "breakpoints": true
     }
   ]
 }
