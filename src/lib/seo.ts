@@ -129,6 +129,8 @@ export const DISALLOWED_PATHS = [
   "/settings",
   "/portfolio",
   "/watchlist",
+  // Authenticated CS2 inventory; user-owned data, never a landing page.
+  "/inventory",
   "/alerts",
   "/onboarding",
   // Authenticated redirect resolver; nothing to index and never a landing page.

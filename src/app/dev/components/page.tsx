@@ -11,6 +11,8 @@ import {
   ConfidenceBadge,
 } from "@/components/ui";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
+import { InventoryTable } from "@/components/inventory-table";
+import type { InventoryHoldingView } from "@/lib/product/inventory-holdings";
 const stateGroups = [
   {
     title: "02 Data semantics, provenance & collecting states",
@@ -30,6 +32,48 @@ const stateGroups = [
     states: ["NO_RESULTS", "EMPTY", "AUTH_REQUIRED", "PRO_LOCKED"] as const,
   },
 ];
+
+/*
+ * Inventory fixtures. Development-only, like everything on this board, and
+ * deliberately chosen to exercise the cases that break layouts: a very long
+ * CS2 name, ★ and ™, an unpriced item, a stack, and an unresolved item.
+ */
+const INVENTORY_FIXTURE: InventoryHoldingView[] = [
+  {
+    id: "f1", steamAssetId: "1", marketHashName: "AK-47 | Redline (Field-Tested)",
+    quantity: 1, identityStatus: "MATCHED", marketDepth: "TRACKED",
+    assetPath: "/asset/ak-47-redline-field-tested-00000000",
+    tradable: true, marketable: true, nameTag: null,
+    unitPrice: "42.18", positionValue: "42.18",
+    firstSeenAt: "2026-10-01T00:00:00.000Z", lastSeenAt: "2026-10-05T00:00:00.000Z",
+  },
+  {
+    id: "f2", steamAssetId: "2",
+    marketHashName: "★ StatTrak™ Karambit | Doppler Phase 2 (Factory New)",
+    quantity: 1, identityStatus: "MATCHED", marketDepth: "BROAD",
+    assetPath: null, tradable: false, marketable: true, nameTag: "my knife",
+    unitPrice: "1184.40", positionValue: "1184.40",
+    firstSeenAt: "2026-10-01T00:00:00.000Z", lastSeenAt: "2026-10-05T00:00:00.000Z",
+  },
+  {
+    id: "f3", steamAssetId: "3",
+    marketHashName: "Souvenir Galil AR | Chromatic Aberration (Battle-Scarred)",
+    quantity: 12, identityStatus: "MATCHED", marketDepth: "BROAD",
+    assetPath: null, tradable: true, marketable: true, nameTag: null,
+    unitPrice: "3.05", positionValue: "36.60",
+    firstSeenAt: "2026-10-01T00:00:00.000Z", lastSeenAt: "2026-10-05T00:00:00.000Z",
+  },
+  {
+    id: "f4", steamAssetId: "4",
+    marketHashName: "Sticker | Team Spirit (Holo) | Copenhagen 2024",
+    quantity: 3, identityStatus: "UNMATCHED", marketDepth: "NONE",
+    assetPath: null, tradable: true, marketable: true, nameTag: null,
+    // Unpriced: must render as unavailable, never as $0.00.
+    unitPrice: null, positionValue: null,
+    firstSeenAt: "2026-10-01T00:00:00.000Z", lastSeenAt: "2026-10-05T00:00:00.000Z",
+  },
+];
+
 export const metadata = {
   title: "Component gallery",
   description: "Internal component gallery.",
@@ -231,6 +275,18 @@ export default function Gallery() {
               </Panel>
             ))}
           </div>
+        </section>
+
+        <section>
+          <h2 className="state-section-title">
+            09 CS2 inventory · holdings table
+          </h2>
+          <p className="pad">
+            Fixture holdings, not production observations. Exercises market
+            depth badges, an unpriced item, a stack quantity, Unicode names and
+            a name long enough to test overflow.
+          </p>
+          <InventoryTable holdings={INVENTORY_FIXTURE} />
         </section>
       </div>
     </AppShell>

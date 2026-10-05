@@ -31,6 +31,7 @@ const links = [
   ["CS2 Skins", "/cs2-skins"],
   ["Watchlist", "/watchlist"],
   ["Portfolio", "/portfolio"],
+  ["Inventory", "/inventory"],
   ["Alerts", "/alerts"],
 ];
 export function AppShell({
@@ -269,6 +270,7 @@ export function PublicFooter() {
         <h3>Account</h3>
         <Link href="/settings">Account & billing</Link>
         <Link href="/watchlist">Watchlist</Link>
+        <Link href="/inventory">CS2 inventory</Link>
         <Link href="/alerts">Condition alerts</Link>
       </div>
       <div className="footer-disclosure">

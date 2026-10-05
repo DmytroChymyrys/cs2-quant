@@ -57,6 +57,9 @@ describe("the indexable surface is frozen", () => {
           "/reset-password",
           "/watchlist",
           "/portfolio",
+          // Authenticated CS2 inventory. PRIVATE_ROBOTS, same class as
+          // /portfolio and /watchlist, not a new public family.
+          "/inventory",
           "/alerts",
           "/settings",
           "/onboarding",
