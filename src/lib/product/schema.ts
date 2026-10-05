@@ -300,6 +300,195 @@ export const savedScreens = pgTable(
   (t) => [index("saved_screens_user").on(t.userId)],
 );
 
+/**
+ * Steam inventory: the product integration, its sync provenance and the
+ * ownership intervals it produces.
+ *
+ * Deliberately separate from authentication. `auth_accounts` answers "who is
+ * this person?"; these tables answer "what do they own?". Inventory code never
+ * writes to an auth table, and the only link to identity is `app_users.id` as
+ * an owner.
+ */
+export type SyncOutcome =
+  | "OK_ITEMS"
+  | "OK_EMPTY"
+  | "UNAVAILABLE"
+  | "PROVIDER_ERROR"
+  | "RATE_LIMITED"
+  | "TIMEOUT";
+export type IdentityStatus = "MATCHED" | "UNMATCHED" | "AMBIGUOUS";
+export type MarketDepth = "TRACKED" | "BROAD" | "NONE";
+export type RemovedReason = "ABSENT" | "IDENTITY_CHANGED";
+export type SyncTrigger = "CRON" | "MANUAL" | "FIRST_CONNECT";
+
+export const steamIntegrations = pgTable(
+  "steam_integrations",
+  {
+    userId: uuid("user_id")
+      .primaryKey()
+      .references(() => appUsers.id, { onDelete: "cascade" }),
+    /*
+     * The integration's own SteamID, copied at connect rather than read from
+     * auth_accounts during a sync. Disconnecting Steam must be a product
+     * decision that preserves the last snapshot, not a foreign key that
+     * destroys inventory capability.
+     */
+    steamId: text("steam_id").notNull().unique(),
+    status: text("status")
+      .$type<"ACTIVE" | "DISCONNECTED">()
+      .default("ACTIVE")
+      .notNull(),
+    connectedAt: time("connected_at").defaultNow().notNull(),
+    disconnectedAt: time("disconnected_at"),
+    lastAttemptAt: time("last_attempt_at"),
+    lastSuccessAt: time("last_success_at"),
+    /* The most recent ATTEMPT. Not the lifecycle, and not freshness. */
+    lastOutcome: text("last_outcome").$type<SyncOutcome>(),
+    nextEligibleAt: time("next_eligible_at"),
+    /*
+     * There is no SYNCING status. A sync is in flight exactly while
+     * `syncLeaseExpiresAt > now()`, so a crashed invocation recovers by
+     * expiry rather than leaving a state somebody has to clear by hand.
+     */
+    syncLeaseId: uuid("sync_lease_id"),
+    syncLeaseExpiresAt: time("sync_lease_expires_at"),
+    ...audit(),
+  },
+  (t) => [
+    check("steam_integration_status", sql`${t.status} in ('ACTIVE', 'DISCONNECTED')`),
+    check(
+      "steam_integration_outcome",
+      sql`${t.lastOutcome} is null or ${t.lastOutcome} in ('OK_ITEMS','OK_EMPTY','UNAVAILABLE','PROVIDER_ERROR','RATE_LIMITED','TIMEOUT')`,
+    ),
+    index("steam_integration_lease")
+      .on(t.syncLeaseExpiresAt)
+      .where(sql`${t.syncLeaseExpiresAt} is not null`),
+  ],
+);
+
+/** Append-only provenance. One row per attempt, authoritative or not. */
+export const inventorySyncRuns = pgTable(
+  "inventory_sync_runs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => appUsers.id, { onDelete: "cascade" }),
+    startedAt: time("started_at").defaultNow().notNull(),
+    finishedAt: time("finished_at"),
+    outcome: text("outcome").$type<SyncOutcome>(),
+    /*
+     * Only an authoritative run may establish absence. A privacy refusal is
+     * evidence about the provider, never about the inventory.
+     */
+    authoritative: boolean("authoritative").default(false).notNull(),
+    httpStatus: integer("http_status"),
+    errorCode: text("error_code"),
+    itemsReceived: integer("items_received").default(0).notNull(),
+    itemsMatched: integer("items_matched").default(0).notNull(),
+    itemsUnmatched: integer("items_unmatched").default(0).notNull(),
+    itemsAmbiguous: integer("items_ambiguous").default(0).notNull(),
+    itemsAdded: integer("items_added").default(0).notNull(),
+    itemsRemoved: integer("items_removed").default(0).notNull(),
+    identityAnomalies: integer("identity_anomalies").default(0).notNull(),
+    itemsReappeared: integer("items_reappeared").default(0).notNull(),
+    durationMs: integer("duration_ms"),
+    trigger: text("trigger").$type<SyncTrigger>().notNull(),
+  },
+  (t) => [
+    check(
+      "inventory_run_outcome",
+      sql`${t.outcome} is null or ${t.outcome} in ('OK_ITEMS','OK_EMPTY','UNAVAILABLE','PROVIDER_ERROR','RATE_LIMITED','TIMEOUT')`,
+    ),
+    check("inventory_run_trigger", sql`${t.trigger} in ('CRON','MANUAL','FIRST_CONNECT')`),
+    index("inventory_runs_user_time").on(t.userId, t.startedAt),
+  ],
+);
+
+/**
+ * Temporal ownership intervals.
+ *
+ * One row is one period during which an item instance was observed. An item
+ * that leaves and returns is two rows, never a reopened one.
+ *
+ * V1 LIMITATION: ownership intervals are preserved; quantity history within an
+ * interval is not, and cannot be reconstructed from the run table, which holds
+ * per-run totals rather than per-item evidence.
+ */
+export const inventoryHoldings = pgTable(
+  "inventory_holdings",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => appUsers.id, { onDelete: "cascade" }),
+    /** Steam INSTANCE identity. Not the market identity. */
+    steamAssetId: text("steam_asset_id").notNull(),
+    classId: text("class_id"),
+    instanceId: text("instance_id"),
+    /**
+     * The V1 canonical market key — NOT an immutable global identity. Valve
+     * owns this string. It is simply the strongest cross-system key we have.
+     */
+    marketHashName: text("market_hash_name").notNull(),
+    /** NFC, trimmed, whitespace collapsed, case PRESERVED. */
+    normalizedName: text("normalized_name").notNull(),
+    quantity: integer("quantity").default(1).notNull(),
+    tradable: boolean("tradable"),
+    marketable: boolean("marketable"),
+    tradelockedUntil: time("tradelocked_until"),
+    nameTag: text("name_tag"),
+    identityStatus: text("identity_status").$type<IdentityStatus>().notNull(),
+    marketDepth: text("market_depth").$type<MarketDepth>().notNull(),
+    /** Advisory. Holdings are not keyed on it and survive its removal. */
+    assetId: uuid("asset_id").references(() => assets.id, { onDelete: "set null" }),
+    firstSeenAt: time("first_seen_at").defaultNow().notNull(),
+    lastSeenAt: time("last_seen_at").defaultNow().notNull(),
+    removedAt: time("removed_at"),
+    firstSeenRunId: uuid("first_seen_run_id")
+      .notNull()
+      .references(() => inventorySyncRuns.id, { onDelete: "cascade" }),
+    lastSeenRunId: uuid("last_seen_run_id")
+      .notNull()
+      .references(() => inventorySyncRuns.id, { onDelete: "cascade" }),
+    removedRunId: uuid("removed_run_id").references(() => inventorySyncRuns.id, {
+      onDelete: "cascade",
+    }),
+    removedReason: text("removed_reason").$type<RemovedReason>(),
+  },
+  (t) => [
+    check("inventory_identity_status", sql`${t.identityStatus} in ('MATCHED','UNMATCHED','AMBIGUOUS')`),
+    check("inventory_market_depth", sql`${t.marketDepth} in ('TRACKED','BROAD','NONE')`),
+    check("inventory_quantity_positive", sql`${t.quantity} > 0`),
+    check(
+      "inventory_removed_reason",
+      sql`${t.removedReason} is null or ${t.removedReason} in ('ABSENT','IDENTITY_CHANGED')`,
+    ),
+    check(
+      "inventory_unmatched_has_no_depth",
+      sql`${t.identityStatus} <> 'UNMATCHED' or ${t.marketDepth} = 'NONE'`,
+    ),
+    check(
+      "inventory_tracked_has_asset",
+      sql`${t.marketDepth} <> 'TRACKED' or ${t.assetId} is not null`,
+    ),
+    check(
+      "inventory_closure_consistent",
+      sql`(${t.removedAt} is null and ${t.removedRunId} is null and ${t.removedReason} is null)
+       or (${t.removedAt} is not null and ${t.removedRunId} is not null and ${t.removedReason} is not null)`,
+    ),
+    // Invariant guard, never an ON CONFLICT target: the sync lease already
+    // guarantees one writer per user.
+    uniqueIndex("inventory_one_open_interval")
+      .on(t.userId, t.steamAssetId)
+      .where(sql`${t.removedAt} is null`),
+    index("inventory_user_open").on(t.userId).where(sql`${t.removedAt} is null`),
+    index("inventory_user_market_key").on(t.userId, t.normalizedName),
+    index("inventory_user_interval").on(t.userId, t.firstSeenAt, t.removedAt),
+    index("inventory_unresolved").on(t.userId).where(sql`${t.identityStatus} <> 'MATCHED'`),
+  ],
+);
+
 // Allowlisted administrative audit records. No arbitrary request metadata.
 export const adminAudit = pgTable("admin_audit", {
   id: uuid("id").defaultRandom().primaryKey(),

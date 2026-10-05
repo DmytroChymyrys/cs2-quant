@@ -66,6 +66,12 @@ const PRODUCT_TABLES = [
   "saved_screens",
   "watchlist_entries",
   "admin_audit",
+  // Steam inventory: a product integration and the user-owned data it
+  // produces. Listed here so the family guard classifies 0007 as PRODUCT
+  // rather than UNKNOWN -- an unclassified migration is refused, not applied.
+  "steam_integrations",
+  "inventory_sync_runs",
+  "inventory_holdings",
 ] as const;
 
 export const STREAMS: Record<StreamName, MigrationStream> = {

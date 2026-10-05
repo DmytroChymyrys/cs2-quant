@@ -209,12 +209,12 @@ try {
   });
 
   await probe(
-    "product stream at the pre-0007 revision (5 applied)",
+    "product stream at the current revision (6 applied)",
     async () => {
       const [r] = await q(
         `select count(*)::int n from drizzle_product.__drizzle_migrations`,
       );
-      return { ok: r.n === 5, detail: `${r.n} recorded` };
+      return { ok: r.n === 6, detail: `${r.n} recorded` };
     },
   );
 } finally {
