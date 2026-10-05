@@ -57,7 +57,9 @@ const item = (over: Partial<ObservedItem> & { steamAssetId: string }): ObservedI
 async function sync(items: ObservedItem[], who = userId) {
   const runId = await startInventorySyncRun(who, "CRON");
   expect(await acquireInventorySyncLease(who, runId)).toBe(true);
-  return applyAuthoritativeInventoryObservation({ userId: who, runId, items });
+  const outcome = await applyAuthoritativeInventoryObservation({ userId: who, runId, items });
+  if (!outcome.applied) throw new Error(`apply refused: ${outcome.reason}`);
+  return outcome;
 }
 
 const openRows = async (who = userId) =>
@@ -386,6 +388,32 @@ it("T. every non-authoritative outcome preserves the previous holdings", async (
   expect(await openRows()).toHaveLength(2);
 });
 
+it("U0. an EXPIRED lease cannot apply, even if nobody else took over", async () => {
+  await sync([item({ steamAssetId: "U0-A" })]);
+  const before = await openRows();
+
+  const slow = await startInventorySyncRun(userId, "CRON");
+  expect(await acquireInventorySyncLease(userId, slow)).toBe(true);
+  // The lease lapses while the provider is still answering. Nothing else has
+  // claimed it, so the lease id still matches -- only the clock has moved.
+  await db.execute(
+    `update steam_integrations set sync_lease_expires_at = now() - interval '1 second' where user_id = '${userId}'`,
+  );
+
+  /*
+   * This must still be refused. An expired lease means another invocation may
+   * claim the integration at any instant, including between this check and
+   * these writes; the window is only safe while the lease is genuinely held.
+   */
+  const outcome = await applyAuthoritativeInventoryObservation({
+    userId, runId: slow, items: [],
+  });
+  expect(outcome).toEqual({ applied: false, reason: "LEASE_LOST" });
+  // An authoritative empty would have closed everything. It did not.
+  expect(await openRows()).toEqual(before);
+  expect(await openRows()).toHaveLength(1);
+});
+
 it("U. a stale invocation cannot release a newer lease", async () => {
   const stale = await startInventorySyncRun(userId, "CRON");
   expect(await acquireInventorySyncLease(userId, stale)).toBe(true);
@@ -399,10 +427,16 @@ it("U. a stale invocation cannot release a newer lease", async () => {
   expect(await releaseInventorySyncLease(userId, stale)).toBe(false);
   expect((await integration()).syncLeaseId).toBe(fresh);
 
-  // And its apply path cannot clear the newer lease either.
-  await applyAuthoritativeInventoryObservation({
+  /*
+   * And its apply path is refused outright. A request slower than the lease
+   * TTL must not be able to write an observation the newer owner has already
+   * superseded.
+   */
+  const outcome = await applyAuthoritativeInventoryObservation({
     userId, runId: stale, items: [item({ steamAssetId: "U1" })],
   });
+  expect(outcome).toEqual({ applied: false, reason: "LEASE_LOST" });
+  expect(await openRows()).toHaveLength(0);
   expect((await integration()).syncLeaseId).toBe(fresh);
 });
 

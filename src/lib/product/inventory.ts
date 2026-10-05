@@ -62,15 +62,25 @@ export type ObservedItem = {
 
 type Db = ReturnType<typeof productDatabase>;
 
-/** Opens a run row before anything else, so a crash still leaves a trace. */
+/**
+ * Opens a run row.
+ *
+ * The id may be supplied by the caller. The lease is keyed on the run id, and
+ * the lease must be won BEFORE a run row exists -- otherwise every losing
+ * attempt leaves an unfinished run behind and the table fills with rows that
+ * never represented a real synchronisation. The orchestrator therefore mints
+ * the id, wins the lease with it, and only then records the run under the same
+ * id.
+ */
 export async function startInventorySyncRun(
   userId: string,
   trigger: SyncTrigger,
   db: Db = productDatabase(),
+  id?: string,
 ): Promise<string> {
   const [run] = await db
     .insert(inventorySyncRuns)
-    .values({ userId, trigger })
+    .values(id ? { id, userId, trigger } : { userId, trigger })
     .returning({ id: inventorySyncRuns.id });
   return run.id;
 }
@@ -189,6 +199,17 @@ export async function recordNonAuthoritativeRun(
   });
 }
 
+/**
+ * Either the observation was applied, or the caller no longer owned the lease.
+ *
+ * Returned rather than thrown: losing a lease to a slow request is an expected
+ * outcome of the design, not an exceptional one, and the caller must handle it
+ * either way.
+ */
+export type ApplyOutcome =
+  | ({ applied: true } & ApplyResult)
+  | { applied: false; reason: "LEASE_LOST" };
+
 export type ApplyResult = {
   received: number;
   added: number;
@@ -222,7 +243,7 @@ export async function applyAuthoritativeInventoryObservation(
     nextEligibleAt?: Date | null;
   },
   db: Db = productDatabase(),
-): Promise<ApplyResult> {
+): Promise<ApplyOutcome> {
   /*
    * Defensive dedupe before anything is compared. A provider that repeats an
    * assetid in one response would otherwise produce two inserts for one
@@ -232,6 +253,28 @@ export async function applyAuthoritativeInventoryObservation(
   for (const item of input.items) observed.set(item.steamAssetId, item);
 
   return db.transaction(async (tx) => {
+    /*
+     * Prove we still hold the lease before writing anything.
+     *
+     * A request slower than the lease TTL can return after a second
+     * invocation has taken over. Without this check that stale answer would
+     * be applied as authoritative -- closing intervals for items the newer,
+     * more recent observation has already seen. The guard is inside the
+     * transaction so the ownership it proves is the ownership the writes use.
+     */
+    const held = await tx
+      .select({ userId: steamIntegrations.userId })
+      .from(steamIntegrations)
+      .where(
+        and(
+          eq(steamIntegrations.userId, input.userId),
+          eq(steamIntegrations.syncLeaseId, input.runId),
+          gt(steamIntegrations.syncLeaseExpiresAt, new Date()),
+        ),
+      );
+    if (!held.length)
+      return { applied: false as const, reason: "LEASE_LOST" as const };
+
     const open = await tx
       .select()
       .from(inventoryHoldings)
@@ -399,7 +442,7 @@ export async function applyAuthoritativeInventoryObservation(
           eq(steamIntegrations.syncLeaseId, input.runId),
         ),
       );
-    return result;
+    return { applied: true as const, ...result };
   });
 }
 
