@@ -365,11 +365,25 @@ describe("the refresh job reads the market database read-only", () => {
     expect(src).toContain("BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY");
     // The only pool built from the market URL is pinned read-only at the server.
     const sourcePool = src.slice(
-      src.indexOf("source = new Pool("),
+      src.indexOf("source = openPool("),
       src.indexOf("const reader = await source.connect()"),
     );
     expect(sourcePool).toContain("default_transaction_read_only=on");
     expect(src.match(/connectionString: sourceUrl/g)).toHaveLength(1);
+    /*
+     * Pools are constructed through an injectable factory so a test can observe
+     * which databases a run opens — the activation cooldown's guarantee is that
+     * a no-op opens the derived database and never the market one, which is not
+     * visible from any return value.
+     *
+     * That seam must not become a way to reach the market database without the
+     * read-only pinning above, so the default is asserted here: production
+     * passes no factory and therefore always gets pg's Pool with these options.
+     */
+    expect(src).toContain(
+      "const openPool = options.openPool ?? ((config: PoolConfig) => new Pool(config));",
+    );
+    expect(src.match(/new Pool\(/g)).toHaveLength(1);
     // Nothing in the refresh path writes through the market connection.
     expect(src).not.toMatch(
       /reader\.query\(\s*["'`](?!BEGIN|COMMIT|ROLLBACK)/i,

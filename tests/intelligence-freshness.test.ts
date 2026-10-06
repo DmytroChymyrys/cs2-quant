@@ -14,6 +14,7 @@ vi.mock("../src/lib/catalog/presentation", () => ({
 }));
 import { readMarketDataset } from "../src/lib/product/intelligence/server";
 import { METHOD, type Feature } from "../src/lib/derived-market/model";
+import { DERIVED_STALE_AFTER_SECONDS } from "../src/lib/derived-market/policy";
 
 const DRAGON_LORE = "Souvenir AWP | Dragon Lore (Factory New)";
 const CRANE = "AK-47 | Crane Flight (Field-Tested)";
@@ -220,5 +221,47 @@ describe("availability survives the pointer", () => {
     const crane = d.assets.find((a) => a.name === CRANE)!;
     expect(crane.availability).toBe("ACTIVE");
     expect(crane.listings).toBe(14);
+  });
+});
+
+/**
+ * The staleness flag means "publication may have degraded", not "an hour
+ * passed". Derived activation is deliberately rate-limited to sixty minutes and
+ * a generation then takes several five-minute continuation ticks to build, so a
+ * threshold near the cooldown would mark healthy operation as degraded for most
+ * of every cycle — which is what the hard-coded fifteen minutes would have done
+ * once the cooldown shipped.
+ *
+ * These drive the real read model rather than the predicate, so reverting
+ * server.ts to a literal threshold fails here even while policy.ts is correct.
+ */
+describe("the product read model takes staleness from policy", () => {
+  const atScopeEndPlus = async (minutes: number) => {
+    setup({ pointer: POINTER });
+    vi.setSystemTime(Date.parse(scope.to) + minutes * 60_000);
+    const d = await readMarketDataset();
+    vi.useRealTimers();
+    return d.snapshot!;
+  };
+
+  it("is not stale at 15 minutes, where the old threshold fired", async () => {
+    const s = await atScopeEndPlus(15);
+    expect(s.ageSeconds).toBe(900);
+    expect(s.stale).toBe(false);
+  });
+
+  it("is not stale at 60 minutes, a normal point in the cooldown cycle", async () => {
+    expect((await atScopeEndPlus(60)).stale).toBe(false);
+  });
+
+  it("is not stale at exactly 90 minutes", async () => {
+    const s = await atScopeEndPlus(90);
+    expect(s.ageSeconds).toBe(DERIVED_STALE_AFTER_SECONDS);
+    expect(s.stale).toBe(false);
+  });
+
+  it("is stale beyond 90 minutes", async () => {
+    expect((await atScopeEndPlus(91)).stale).toBe(true);
+    expect((await atScopeEndPlus(300)).stale).toBe(true);
   });
 });

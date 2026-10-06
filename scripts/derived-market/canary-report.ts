@@ -74,6 +74,15 @@ try {
         rejectedRuns: rows.filter((r) => r.result === "REJECTED").length,
         lockedRuns: rows.filter((r) => r.result === "LOCK_HELD_ELSEWHERE")
           .length,
+        /*
+         * The continuation schedule's three outcomes, kept apart because they
+         * mean different things operationally: work was advanced, no work was
+         * due, or the run collided with another. A rising cooldown count is
+         * the expected steady state, not a fault; a continued count that never
+         * reaches an activation is.
+         */
+        continuedRuns: rows.filter((r) => r.result === "CONTINUES").length,
+        cooldownRuns: rows.filter((r) => r.result === "COOLDOWN").length,
         byInvoker: Object.fromEntries(
           [...new Set(rows.map((r) => r.invoked_by))].map((k) => [
             k,

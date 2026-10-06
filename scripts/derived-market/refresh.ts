@@ -31,6 +31,13 @@ const { values: args } = parseArgs({
     "retain-dry-run": { type: "boolean", default: false },
     /** Repeatable. Snapshots the caller requires retention to keep. */
     protect: { type: "string", multiple: true, default: [] },
+    /*
+     * Start a build even if the last activation is newer than the policy
+     * interval. Off by default, so an ordinary CLI run obeys the same freshness
+     * policy the schedule does; an operator who genuinely needs a generation
+     * now has to say so, and the flag records that they did.
+     */
+    "ignore-cooldown": { type: "boolean", default: false },
   },
 });
 
@@ -53,6 +60,8 @@ const outcome = await runRefresh({
   retainDryRun: args["retain-dry-run"],
   protect: args.protect,
   note: args.note,
+  // Omitted means production policy. Zero is the deliberate, visible bypass.
+  cooldownMs: args["ignore-cooldown"] ? 0 : undefined,
   invokedBy: "cli",
 });
 

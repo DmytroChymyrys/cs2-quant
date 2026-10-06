@@ -19,7 +19,7 @@
  *      before that leaves the previously active snapshot serving traffic, and
  *      retention never runs unless the pointer was moved and verified.
  */
-import { Pool, type PoolClient } from "pg";
+import { Pool, type PoolClient, type PoolConfig } from "pg";
 import {
   STEP,
   validateScope,
@@ -34,11 +34,14 @@ import {
   finishBuild,
   noteBuildAttempt,
   noteBuildFailure,
+  openBuild,
   readBuild,
   recordedTotals,
   MAX_BUILD_ATTEMPTS,
   type Build,
 } from "./build-state";
+import { activationCooldown } from "./activation-cooldown";
+import { DERIVED_ACTIVATION_COOLDOWN_MS } from "./policy";
 import type { Derived } from "./features";
 import {
   tryAcquireRefreshLock,
@@ -55,6 +58,12 @@ export type RefreshResult =
   /** A bounded step completed; work remains for the next invocation. */
   | "CONTINUES"
   | "ACTIVATED"
+  /**
+   * Nothing was in flight and the last activation is too recent to start a new
+   * build. Not a failure and not an error: the scheduled, expected outcome of
+   * most continuation ticks. See activation-cooldown.ts.
+   */
+  | "COOLDOWN"
   | "VALIDATED_NOT_ACTIVATED"
   | "REJECTED"
   | "LOCK_HELD_ELSEWHERE"
@@ -96,6 +105,27 @@ export type RefreshOptions = {
   budgetMs?: number;
   /** Keep advancing until the build completes. The CLI default. */
   untilComplete?: boolean;
+  /**
+   * Minimum age of the last successful activation before a NEW build may be
+   * started.
+   *
+   * Omitting it means PRODUCTION POLICY (DERIVED_ACTIVATION_COOLDOWN_MS), not
+   * "no cooldown". A caller that knows nothing about the cron route must still
+   * get the safe behaviour, so the default cannot be zero; disabling the gate
+   * has to be deliberate and visible, which is what an explicit 0 is for.
+   *
+   * An unfinished build is always continued regardless of this value.
+   */
+  cooldownMs?: number;
+  /**
+   * Pool constructor, defaulting to pg's.
+   *
+   * It exists because the cooldown's central guarantee — that a no-op opens the
+   * derived database and never touches the market one — is only observable from
+   * outside this function. A test supplies a factory that records what is
+   * opened; production passes nothing and gets `new Pool`.
+   */
+  openPool?: (config: PoolConfig) => Pool;
 };
 
 /** Leaves room for planning, completion and the platform's own overhead. */
@@ -152,7 +182,9 @@ export async function runRefresh(
         `MAX_DAYS_MUST_BE_AN_INTEGER_BETWEEN_1_AND_${MAX_SCOPE_DAYS}`,
       );
 
-    target = new Pool({
+    const openPool = options.openPool ?? ((config: PoolConfig) => new Pool(config));
+
+    target = openPool({
       connectionString: derivedUrl,
       max: 2,
       connectionTimeoutMillis: 10000,
@@ -175,12 +207,56 @@ export async function runRefresh(
 
     outcome.activeSnapshotBefore = await readActiveSnapshot(lockHolder);
 
+    /*
+     * 1b. Freshness gate, and deliberately BEFORE the source pool exists.
+     *
+     * Everything expensive — the seven-day evidence read, derivation, and the
+     * feature writes — hangs off `source`, which is constructed in the next
+     * stage. Returning here means no market connection is opened, no scope is
+     * read, nothing is derived and no row is written. A gate placed later that
+     * merely declined to activate would still pay the whole cost, which is the
+     * cost this exists to avoid.
+     *
+     * It is race-safe because it runs while this session holds the refresh
+     * advisory lock: a second invocation arriving at the same instant never
+     * reaches this point, it exits at LOCK_HELD_ELSEWHERE above. The decision
+     * and the build creation that follows are therefore serialised by the lock
+     * that already existed, not by a new mechanism.
+     *
+     * An open build outranks the gate. Work in flight is always continued.
+     */
+    const cooldownMs = options.cooldownMs ?? DERIVED_ACTIVATION_COOLDOWN_MS;
+    if (cooldownMs > 0 && !(await openBuild(lockHolder))) {
+      stage = "cooldown";
+      const gate = await activationCooldown(lockHolder, cooldownMs);
+      if (!gate.eligible) {
+        outcome.result = "COOLDOWN";
+        outcome.stage = stage;
+        outcome.cooldown = {
+          lastActivatedAt: gate.lastActivatedAt,
+          elapsedMs: gate.elapsedMs,
+          remainingMs: gate.remainingMs,
+          cooldownMs,
+        };
+        outcome.message =
+          "No build was in flight and the last activation is more recent than the freshness interval. No source evidence was read, nothing was derived and the active snapshot is unchanged.";
+        throw new CleanExit();
+      }
+      outcome.cooldown = {
+        lastActivatedAt: gate.lastActivatedAt,
+        elapsedMs: gate.elapsedMs,
+        eligible: true,
+        reason: gate.reason,
+        cooldownMs,
+      };
+    }
+
     // 2. Read-only source scope, pinned read-only at the connection AND at the
     //    transaction, so a write attempted anywhere in the derivation path is
     //    rejected by Postgres rather than merely being absent by convention.
     stage = "source-read";
     const sourceStarted = process.hrtime.bigint();
-    source = new Pool({
+    source = openPool({
       connectionString: sourceUrl,
       max: 1,
       connectionTimeoutMillis: 10000,

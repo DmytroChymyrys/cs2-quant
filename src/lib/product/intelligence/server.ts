@@ -20,6 +20,7 @@ import type {
   SnapshotSelection,
 } from "./contract";
 import { selectSnapshot } from "../../derived-market/active-snapshot";
+import { snapshotIsStale } from "../../derived-market/policy";
 import { resolveDerivedDatabase } from "../../derived-market/config";
 import { profileForMethod } from "../../derived-market/cadence";
 import { summary, seriesPoint, historyContract } from "./map";
@@ -382,7 +383,7 @@ export const readMarketDataset = cache(async (): Promise<MarketDataset> => {
         method: metadata.method,
         generatedAt: computedAt,
         ageSeconds: snapshotAge(scope.to, asOf),
-        stale: (snapshotAge(scope.to, asOf) ?? Infinity) > 900,
+        stale: snapshotIsStale(snapshotAge(scope.to, asOf)),
         selection: selection.source,
         activatedAt:
           selection.source === "ACTIVE_POINTER" ? selection.activatedAt : null,

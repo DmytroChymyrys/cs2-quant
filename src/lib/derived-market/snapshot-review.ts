@@ -7,6 +7,7 @@ import {
   type Feature,
 } from "./model";
 import { distribution } from "./report";
+import { snapshotIsStale } from "./policy";
 export type SnapshotHead = {
   method: string;
   scope: Scope;
@@ -120,7 +121,7 @@ export function reviewSnapshot(
       ...(features.length < expectedPerAsset * head.scope.assets.length
         ? ["PARTIAL_COVERAGE"]
         : []),
-      ...((snapshotAge(head.scope.to, asOf) ?? Infinity) > 900
+      ...(snapshotIsStale(snapshotAge(head.scope.to, asOf))
         ? ["STALE_SNAPSHOT"]
         : []),
     ],
