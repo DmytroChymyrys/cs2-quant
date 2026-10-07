@@ -1,6 +1,6 @@
 import { Tooltip } from "./tooltip";
 import { metricHelp } from "./metric-help";
-import Form from "next/form";
+import { ScreenForm } from "./screen-form";
 import { identityText, MARKET_CATEGORIES } from "@/lib/catalog/browsing";
 import { availabilityPresentation } from "@/lib/product/intelligence/availability-presentation";
 import {
@@ -171,16 +171,29 @@ export function Quality({ quality: q }: { quality: MarketDataQuality }) {
 export function IntelligenceFilters({
   screen: s,
   path = "/screener",
+  authenticated = true,
 }: {
   screen: Screen;
   path?: string;
+  /*
+   * Resolved on the server from the session. Defaults to `true` so a surface
+   * that is already behind authentication, or one that gates nothing, keeps
+   * plain form behaviour without having to say so.
+   */
+  authenticated?: boolean;
 }) {
   return (
-    <Form
+    /*
+     * The key resets the uncontrolled inputs when the screen changes. It sits
+     * on this wrapper rather than on <Form>, because Next documents that a key
+     * on a string-action <Form> is not supported; remounting the wrapper
+     * remounts the form beneath it, which is the behaviour that was wanted.
+     */
+    <ScreenForm
       key={JSON.stringify(s)}
       action={path}
-      className="filters"
-      scroll={false}
+      authenticated={authenticated}
+      surface={`${path.replace(/^\//, "")}-run`}
     >
       <input type="hidden" name="category" value={s.category} />
       <label>
@@ -342,7 +355,7 @@ export function IntelligenceFilters({
       >
         Clear
       </Link>
-    </Form>
+    </ScreenForm>
   );
 }
 export function IntelligenceTable({

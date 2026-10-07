@@ -297,7 +297,11 @@ export default async function Terminal({
               )}
               <details className="terminal-screen-options">
                 <summary>Screen filters &amp; methodology</summary>
-                <IntelligenceFilters screen={screen} path="/terminal" />
+                <IntelligenceFilters
+                  screen={screen}
+                  path="/terminal"
+                  authenticated={authenticated}
+                />
                 <PresetDefinitions />
               </details>
             </Panel>

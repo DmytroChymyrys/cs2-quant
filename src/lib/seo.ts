@@ -104,6 +104,16 @@ export const INDEXABLE_ROUTES = [
   { path: "/assets", priority: 0.9, changeFrequency: "hourly" as const, freshness: "MARKET" as const },
   { path: "/screener", priority: 0.8, changeFrequency: "daily" as const, freshness: "MARKET" as const },
   { path: "/pricing", priority: 0.7, changeFrequency: "monthly" as const, freshness: "CONTENT" as const },
+  /*
+   * The public legal and provenance surfaces. They were already indexable —
+   * absent from DISALLOWED_PATHS, rendering `index, follow` — but were missing
+   * here, so the sitemap and the robots policy disagreed about them, which the
+   * comment above says cannot happen. Low priority because they are reference
+   * pages: they should be findable and are not what anyone searches for.
+   */
+  { path: "/methodology", priority: 0.4, changeFrequency: "monthly" as const, freshness: "CONTENT" as const },
+  { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const, freshness: "CONTENT" as const },
+  { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const, freshness: "CONTENT" as const },
 ];
 
 /**

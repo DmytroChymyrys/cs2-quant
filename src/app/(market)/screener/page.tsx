@@ -100,7 +100,7 @@ export default async function Screener({
         counts={categoryCounts(dataset.assets)}
       />
       <div className="screen-toolbar">
-        <IntelligenceFilters screen={screen} />
+        <IntelligenceFilters screen={screen} authenticated={Boolean(user)} />
         <PresetDefinitions />
       </div>
       {dataset.error ? (

@@ -209,7 +209,15 @@ export function AppShell({
           <kbd>W</kbd> Watchlist
         </span>
       </footer>
-      {personal && <PublicFooter />}
+      {/*
+        Every market surface, not only the signed-in ones. /terminal, /screener
+        and /assets are public, and a visitor who lands on one of them needs the
+        same route to the privacy notice, the terms and the data sources as a
+        visitor who lands on /pricing. Before this it rendered only on the four
+        personal routes, which put the legal surfaces behind a sign-in on
+        exactly the pages advertising sends people to.
+      */}
+      <PublicFooter />
     </>
   );
 }

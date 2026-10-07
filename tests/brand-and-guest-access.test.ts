@@ -161,8 +161,14 @@ describe("contact and disclosure surfaces", () => {
   it("appears on exactly the intended surfaces and nowhere else", async () => {
     /*
      * An exact set rather than a count: a cap would silently allow the address
-     * to move somewhere unintended as long as the total held. These four are
-     * the footer and the three public legal pages.
+     * to move somewhere unintended as long as the total held. These are the
+     * shared footer and the three public legal pages.
+     *
+     * src/app/page.tsx joined them in P2A. The landing page does not use the
+     * shared shell, so the shared footer never reached it — the one page paid
+     * traffic lands on had no contact address and no route to the privacy
+     * notice. It repeats the footer disclosure rather than gaining a contact
+     * surface of its own.
      */
     const { execSync } = await import("node:child_process");
     const hits = execSync(
@@ -170,6 +176,7 @@ describe("contact and disclosure surfaces", () => {
     ).trim().split("\n").filter(Boolean).sort();
     expect(hits).toEqual([
       "src/app/methodology/page.tsx",
+      "src/app/page.tsx",
       "src/app/privacy/page.tsx",
       "src/app/terms/page.tsx",
       "src/components/shell.tsx",

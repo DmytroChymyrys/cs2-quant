@@ -1282,3 +1282,10 @@ td small {
 }
 .signup-gate h3 { margin: 0; }
 .signup-gate p { margin: 0; font-size: 0.9375rem; line-height: 1.55; }
+/*
+  The action gate answers a click inside the toolbar rather than closing a long
+  list, so it sits tighter and does not restate the surrounding chrome.
+*/
+.signup-gate.compact { margin-top: 0.75rem; padding: 1rem 1.125rem; }
+.signup-gate.compact h3 { font-size: 1rem; }
+.signup-gate.compact p { font-size: 0.875rem; }

@@ -45,7 +45,20 @@ const FROZEN_ROUTE_FAMILIES = [
 describe("the indexable surface is frozen", () => {
   it("publishes exactly the documented static routes", () => {
     expect(INDEXABLE_ROUTES.map((r) => r.path).sort()).toEqual(
-      ["/", "/assets", "/pricing", "/screener", "/terminal"].sort(),
+      [
+        "/",
+        "/assets",
+        "/pricing",
+        "/screener",
+        "/terminal",
+        // Added in P2A. These three were already indexable and already in
+        // FROZEN_ROUTE_FAMILIES; they were missing only from the sitemap, so
+        // the two lists disagreed. Listing them closes that, and does not
+        // widen the indexable surface.
+        "/methodology",
+        "/terms",
+        "/privacy",
+      ].sort(),
     );
   });
 

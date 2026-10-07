@@ -599,6 +599,7 @@ export default async function Home() {
               [
                 ["Market dimensions", "#methodology"],
                 ["Data provenance", "#data"],
+                ["Data sources", "/methodology"],
                 ["Subscription tiers", "/pricing"],
               ],
             ],
@@ -623,8 +624,18 @@ export default async function Home() {
         </div>
         <div className="lp-footer-bottom">
           <span>FloatAlpha · CS2 market intelligence</span>
+          {/*
+            The landing page has its own footer rather than the shared one, so
+            the legal links have to be repeated here. This is the page paid
+            traffic lands on: without them a visitor who never scrolls into the
+            product has no route to the privacy notice at all.
+          */}
           <span>
-            Independent market research. Not affiliated with Valve or Counter-Strike.
+            Independent market research. Not affiliated with Valve or Counter-Strike.{" "}
+            <Link href="/methodology">Data sources</Link> ·{" "}
+            <Link href="/terms">Terms</Link> ·{" "}
+            <Link href="/privacy">Privacy</Link> ·{" "}
+            <a href="mailto:info@floatalpha.com">info@floatalpha.com</a>
           </span>
         </div>
       </footer>
