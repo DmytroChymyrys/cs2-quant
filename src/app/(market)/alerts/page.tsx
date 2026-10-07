@@ -93,7 +93,7 @@ export default async function Alerts({
         <Metric
           label="Monitored assets"
           value={new Set(rules.map((r) => r.assetId)).size}
-          note="Canonical Skinport assets"
+          note="Canonical tracked assets"
         />
         <Metric
           label="Evaluation status"
@@ -288,7 +288,7 @@ export default async function Alerts({
           {rule ? (
             <>
               <h2>{asset?.name ?? "Asset unavailable"}</h2>
-              <p className="muted">Canonical unversioned asset · Skinport</p>
+              <p className="muted">Canonical unversioned asset</p>
               <div className="rule-definition">
                 <h3>
                   Rule definition <span>BOOLEAN AND</span>

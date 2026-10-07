@@ -30,7 +30,7 @@ export const metadata = pageMetadata({
   // — which shares the root segment with the layout — carries the brand
   // itself rather than inheriting the "%s | FloatAlpha" suffix.
   title: "FloatAlpha — CS2 Skin Market Intelligence & Price Data",
-  description: "Observed CS2 skin prices, listing supply and market activity from Skinport, with transparent source timestamps and no fabricated history.",
+  description: "Observed CS2 skin prices, listing supply and market activity from observed venue listings, with transparent source timestamps and no fabricated history.",
   path: "/",
 });
 export const dynamic = "force-dynamic";
@@ -261,7 +261,7 @@ export default async function Home() {
                     </div>
                     <div>
                       <span>Source grounding</span>
-                      <b>Skinport observations</b>
+                      <b>Observed market data</b>
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@ export default async function Home() {
                 [
                   ChartNoAxesCombined,
                   "Market terminal",
-                  "View the tracked pilot universe through current prices, listing quantities, sales aggregates, and available historical comparisons.",
+                  "View the tracked universe through current prices, listing quantities, sales aggregates, and available historical comparisons.",
                 ],
                 [
                   ListFilter,
@@ -378,7 +378,7 @@ export default async function Home() {
               <span className="lp-label">Auditable architecture</span>
               <h2>Built on observations, not hype</h2>
               <p>
-                Skinport observations · 100-asset pilot universe · Stored source
+                Observed market data · 150-asset tracked universe · Stored source
                 timestamps and explicit data states, without synthetic volume
                 padding.
               </p>
@@ -565,9 +565,9 @@ export default async function Home() {
               <p>
                 FloatAlpha provides descriptive CS2 market information.
                 Observations are not investment advice and do not guarantee
-                future prices or sales activity. Data comes from stored Skinport
+                future prices or sales activity. Data comes from stored market-venue
                 snapshots. FloatAlpha is not affiliated with, sponsored by, or
-                endorsed by Valve, Counter-Strike, or Skinport.
+                endorsed by Valve, Counter-Strike, or any trading venue.
               </p>
             </div>
           </div>
@@ -582,7 +582,7 @@ export default async function Home() {
             </Link>
             <p>
               CS2 market observations. Price, supply, and activity intelligence
-              grounded in the tracked Skinport pilot universe.
+              grounded in the tracked market universe.
             </p>
           </div>
           {[
@@ -624,7 +624,7 @@ export default async function Home() {
         <div className="lp-footer-bottom">
           <span>FloatAlpha · CS2 market intelligence</span>
           <span>
-            Skinport observations. Not affiliated with Valve or Counter-Strike.
+            Independent market research. Not affiliated with Valve or Counter-Strike.
           </span>
         </div>
       </footer>

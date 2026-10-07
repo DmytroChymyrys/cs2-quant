@@ -168,6 +168,13 @@ export default function Privacy() {
           </li>
         </ul>
 
+        <h2>Where market data comes from</h2>
+        <p>
+          Market observations originate from third-party sources, described in{" "}
+          <Link href="/methodology">data sources and methodology</Link>. That
+          page also sets out what the numbers do and do not measure.
+        </p>
+
         <h2>Google&rsquo;s role</h2>
         <p>
           Google Analytics and Google Ads are operated by Google, not by
@@ -193,10 +200,10 @@ export default function Privacy() {
 
         <h2>Contact</h2>
         <p>
-          FloatAlpha is in Preview and does not yet publish a contact address.
-          Account deletion and your consent choice are both available in{" "}
-          <Link href="/settings">Settings</Link> without needing to contact
-          anyone.
+          Write to <a href="mailto:info@floatalpha.com">info@floatalpha.com</a>{" "}
+          with any question about this notice or your data. Account deletion and
+          your consent choice are both available directly in{" "}
+          <Link href="/settings">Settings</Link>.
         </p>
       </div>
     </PublicShell>

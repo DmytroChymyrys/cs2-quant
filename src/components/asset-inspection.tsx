@@ -30,7 +30,7 @@ export async function AssetInspection({
   ]);
   return (
     <aside className="inspection-rail">
-      <Panel title="Inspection rail · asset observations" note="SKINPORT">
+      <Panel title="Inspection rail · asset observations" note="OBSERVED">
         <div className="inspection-identity">
           <AssetImage name={asset.name} media={asset.catalog?.media} large />
           <h2>{asset.name}</h2>

@@ -103,7 +103,7 @@ export function LandingHero() {
             <div className={styles.canvas}>
               <div className={styles.assetLabel}>
                 <strong>AK-47 | BLOODSPORT</strong>
-                <span>FIELD-TESTED · SKINPORT · USD</span>
+                <span>FIELD-TESTED · OBSERVED LISTING · USD</span>
               </div>
               <div className={styles.spotlight}>
                 <span>OBSERVED MIN LISTING</span>
@@ -146,7 +146,7 @@ export function LandingHero() {
                 <span>
                   {snapshot.listingTransitions} listing-quantity changes
                 </span>
-                <span>Observed Skinport supply</span>
+                <span>Observed listing supply</span>
               </div>
               <div className={styles.activityMetric} data-cinematic-metric>
                 <span className={styles.metricLabel}>
@@ -171,7 +171,7 @@ export function LandingHero() {
               </Link>
             </div>
             <p className={styles.trust}>
-              100-ASSET EXPERIMENT · SKINPORT OBSERVATIONS
+              150-ASSET TRACKED UNIVERSE · OBSERVED LISTINGS
             </p>
           </div>
         </div>

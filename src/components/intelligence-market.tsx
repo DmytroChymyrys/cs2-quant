@@ -621,7 +621,7 @@ export function IntelligenceInspection({
     <aside className="inspection-rail">
       <Panel
         title="Inspection rail · asset observations"
-        note={detail?.evidence === "SYNTHETIC" ? "SYNTHETIC" : "SKINPORT"}
+        note={detail?.evidence === "SYNTHETIC" ? "SYNTHETIC" : "OBSERVED"}
       >
         <div className="inspection-identity">
           <AssetImage name={a.name} media={a.artwork} large />

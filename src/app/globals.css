@@ -1266,3 +1266,19 @@ td small {
   .consent-banner-body { flex-direction: row; align-items: center; }
   .consent-banner-body .row { flex-shrink: 0; }
 }
+
+/* Guest preview boundary. Reads as a continuation of the page rather than an
+   interruption: no overlay, no blur, nothing above it is obscured. */
+.signup-gate {
+  margin-top: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.14));
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--surface-raised, rgba(255, 255, 255, 0.03))
+  );
+}
+.signup-gate h3 { margin: 0; }
+.signup-gate p { margin: 0; font-size: 0.9375rem; line-height: 1.55; }

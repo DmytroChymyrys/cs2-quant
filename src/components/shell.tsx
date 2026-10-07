@@ -144,11 +144,15 @@ export function AppShell({
           />
           <kbd aria-hidden="true">{searchExpanded ? "Esc" : "/"}</kbd>
         </form>
+        {/*
+          Product identity, not provider identity. The data source is disclosed
+          on /methodology rather than used as FloatAlpha's chrome.
+        */}
         <span className="header-feed">
           <span className="dot" />
-          SKINPORT
+          MARKET
           <br />
-          PILOT UNIVERSE
+          OBSERVATIONS
         </span>
         <div className="top-utils">
           <Link
@@ -198,7 +202,7 @@ export function AppShell({
         {children}
       </main>
       <footer className="statusbar">
-        <span>SKINPORT · PILOT UNIVERSE · USD</span>
+        <span>FLOATALPHA · MARKET OBSERVATIONS · USD</span>
         <span>Market observations, not investment advice.</span>
         <span className="keyboard-legend">
           <kbd>/</kbd> Search <kbd>T</kbd> Terminal <kbd>S</kbd> Screener{" "}
@@ -276,7 +280,12 @@ export function PublicFooter() {
       <div className="footer-disclosure">
         <span>FloatAlpha · CS2 market intelligence</span>
         <span>
-          Skinport observations. Not affiliated with Valve or Counter-Strike.
+          Independent market research. Not affiliated with or endorsed by Valve,
+          Counter-Strike or any trading venue.{" "}
+          <Link href="/methodology">Data sources</Link> ·{" "}
+          <Link href="/terms">Terms</Link> ·{" "}
+          <Link href="/privacy">Privacy</Link> ·{" "}
+          <a href="mailto:info@floatalpha.com">info@floatalpha.com</a>
         </span>
       </div>
     </footer>

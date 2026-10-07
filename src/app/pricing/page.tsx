@@ -277,7 +277,7 @@ export default async function Pricing() {
               ],
               [
                 "Where does the data come from?",
-                "The current pilot tracks 100 explicitly selected unversioned Skinport assets. Collection and source update timestamps remain separate.",
+                "The tracked universe is 150 explicitly selected unversioned assets. Collection and source update timestamps remain separate.",
               ],
               [
                 "What is Price Confidence?",

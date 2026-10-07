@@ -12,7 +12,7 @@ import { SITE_NAME } from "@/lib/seo";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt =
-  "FloatAlpha — CS2 skin market intelligence grounded in observed Skinport listings";
+  "FloatAlpha — CS2 skin market intelligence grounded in observed market listings";
 
 export default function OpenGraphImage() {
   return new ImageResponse(

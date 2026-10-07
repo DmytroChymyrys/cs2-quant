@@ -72,7 +72,7 @@ export default async function Settings({
               alter the shared market observations.
             </p>
             <Link href="/#data">Data methodology →</Link>
-            <Link href="/assets">Skinport pilot universe →</Link>
+            <Link href="/assets">Tracked universe →</Link>
           </div>
         </nav>
         <div className="stack">
@@ -103,7 +103,16 @@ export default async function Settings({
                 <div className="account-fact">
                   <span className="eyebrow">Entitlement class</span>
                   <strong className="cyan">{caps.plan}</strong>
-                  <span className="muted">Current workspace access</span>
+                  {/*
+                    States what is actually true during early access: the full
+                    currently-available product, at no cost, for as long as
+                    early access lasts. No monetary value is claimed, no
+                    permanent entitlement is implied, and no subscription the
+                    account does not hold is asserted.
+                  */}
+                  <span className="muted">
+                    Pro access is included during early access
+                  </span>
                 </div>
               </div>
             </Panel>
@@ -225,7 +234,7 @@ export default async function Settings({
                     </tr>
                     <tr>
                       <td>Market source</td>
-                      <td>Skinport · 100-asset pilot universe</td>
+                      <td>150-asset tracked universe</td>
                     </tr>
                     <tr>
                       <td>Confidence classification</td>

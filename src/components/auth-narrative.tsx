@@ -52,7 +52,7 @@ export async function AuthNarrative({
           <div className="auth-thesis-head">
             <div>
               <strong>{asset?.name ?? "MARKET OBSERVATIONS"}</strong>
-              <small>Three-vector market observations · Skinport</small>
+              <small>Three-vector market observations</small>
             </div>
             <span className="auth-thesis-badge">CONFIDENCE: COLLECTING</span>
           </div>
@@ -116,7 +116,7 @@ export async function AuthNarrative({
           </div>
           <div className="narrative-example">
             <strong>
-              <span className="dot" /> SKINPORT GROUNDED OBSERVATIONS
+              <span className="dot" /> GROUNDED MARKET OBSERVATIONS
             </strong>
             <p>
               No synthetic sentiment, directional recommendations or fabricated

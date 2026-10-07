@@ -29,6 +29,17 @@ const FROZEN_ROUTE_FAMILIES = [
    * decision someone made, not one that appeared.
    */
   "/privacy",
+  /*
+   * Added in gate P1. Provider provenance moved out of the product chrome and
+   * onto a dedicated public page, which the footer links from every surface —
+   * so it is deliberately indexable.
+   */
+  "/methodology",
+  /*
+   * Added in gate P1A. Public terms of use, linked from the footer on every
+   * surface, so deliberately indexable alongside /privacy and /methodology.
+   */
+  "/terms",
 ];
 
 describe("the indexable surface is frozen", () => {

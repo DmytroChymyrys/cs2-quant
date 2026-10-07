@@ -30,6 +30,23 @@ export type AnalyticsEvent =
       params: { category: string; asset_count: number };
     }
   | { name: "portfolio_opened"; params?: Record<string, never> }
+  /*
+   * The guest preview ended and the signup gate was shown.
+   *
+   * The one event added for the acquisition experiment, and only because the
+   * funnel is unmeasurable without it: signups are already counted, but not how
+   * many visitors reached the point of being asked. Without that denominator a
+   * change to where the gate sits cannot be told from a change in traffic
+   * quality.
+   *
+   * `surface` is which list ended, `withheld` how much was behind it. Neither
+   * identifies anyone. This is observation only and must never be configured as
+   * a Google Ads conversion.
+   */
+  | {
+      name: "signup_gate_viewed";
+      params: { surface: string; withheld: number };
+    }
   | { name: "pricing_viewed"; params?: Record<string, never> }
   | {
       name: "preview_signup_started";

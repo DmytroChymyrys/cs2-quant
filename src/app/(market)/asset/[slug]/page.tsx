@@ -86,7 +86,7 @@ export async function generateMetadata({
   // a legacy UUID URL or an outdated slug must point at the one real URL.
   const metadata = pageMetadata({
     title: `${asset.name} Price, History & Market Data`,
-    description: `Observed Skinport listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
+    description: `Observed listing prices, available supply and market activity for ${asset.name}, with source timestamps and collected history on FloatAlpha.`,
     path: assetPath(asset.name, asset.id),
   });
   return indexable ? metadata : { ...metadata, robots: PRIVATE_ROBOTS };

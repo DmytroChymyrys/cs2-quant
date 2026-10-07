@@ -103,14 +103,18 @@ describe("the notice describes what the product actually does", () => {
       expect(src, claim).not.toContain(claim);
   });
 
-  it("invents no contact or company details", async () => {
+  it("publishes the official contact address and invents nothing else", async () => {
+    /*
+     * G1B asserted there was NO mailto, because no contact route existed in the
+     * repository. Gate P1 introduced info@floatalpha.com as an official address,
+     * so the assertion inverts: the real address must be present, the old
+     * disclaimer gone, and the two non-contact addresses still absent.
+     */
     const src = await privacy();
-    // The only addresses in the repo are an input placeholder and a noreply
-    // sender; neither is a contact route, so neither is published here.
+    expect(src).toContain("mailto:info@floatalpha.com");
+    expect(src).not.toContain("does not yet publish a contact address");
     expect(src).not.toContain("analyst@floatalpha.com");
     expect(src).not.toContain("noreply@floatalpha.com");
-    expect(src).not.toMatch(/mailto:/);
-    expect(src).toContain("does not yet publish a contact address");
   });
 
   it("is honest about the limits of deletion", async () => {

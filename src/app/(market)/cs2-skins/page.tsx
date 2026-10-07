@@ -13,7 +13,7 @@ import { assetPath } from "@/lib/asset-slug";
 export const metadata = pageMetadata({
   title: "CS2 Skins — Prices, Supply & Market Data by Category",
   description:
-    "Browse observed CS2 skin prices by category. Rifles, knives, gloves, cases and stickers, with listing supply, market activity and collected history from Skinport observations.",
+    "Browse observed CS2 skin prices by category. Rifles, knives, gloves, cases and stickers, with listing supply, market activity and collected history from observed venue listings.",
   path: "/cs2-skins",
 });
 

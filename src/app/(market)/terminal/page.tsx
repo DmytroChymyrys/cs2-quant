@@ -28,6 +28,9 @@ import { displayed } from "@/lib/product/intelligence/contract";
 import { pageMetadata } from "@/lib/seo";
 import { assetPath } from "@/lib/asset-slug";
 import { marketPulse } from "@/lib/product/intelligence/pulse";
+import { currentUser } from "@/lib/product/auth";
+import { GUEST_RAIL_LIMIT, preview } from "@/lib/product/access";
+import { SignupGate } from "@/components/signup-gate";
 import { MarketPulseStrip } from "@/components/market-pulse";
 
 // The derived read can take ~13 s against a Neon compute resuming from
@@ -45,6 +48,9 @@ export default async function Terminal({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const p = await searchParams,
+    // Resolved on the server from the session: a guest cannot ask for more by
+    // changing a parameter, and a crawler receives exactly what a guest does.
+    authenticated = Boolean(await currentUser()),
     dataset = await readMarketDataset(),
     screen = screenInput({
       ...p,
@@ -80,6 +86,13 @@ export default async function Terminal({
     direction: "desc",
     page: 1,
   }).assets.slice(0, 6);
+  // Rails are the Terminal's depth; a guest sees the leading entries of each.
+  const moversView = preview(movers, authenticated, GUEST_RAIL_LIMIT);
+  const contractingView = preview(contracting, authenticated, GUEST_RAIL_LIMIT);
+  const activeView = preview(active, authenticated, GUEST_RAIL_LIMIT);
+  const railsWithheld =
+    moversView.withheld + contractingView.withheld + activeView.withheld;
+
   const fmt = (v: string | number | null, suffix = "") =>
     v === null
       ? "Unavailable"
@@ -294,7 +307,7 @@ export default async function Terminal({
                 note="1H VENUE CHANGE"
               >
                 <IntelligenceMonitor
-                  assets={contracting}
+                  assets={contractingView.visible}
                   metric="listings"
                   params={p}
                   horizon={screen.horizon}
@@ -312,13 +325,20 @@ export default async function Terminal({
                 note="1H TRANSITIONS"
               >
                 <IntelligenceMonitor
-                  assets={active}
+                  assets={activeView.visible}
                   metric="activity"
                   params={p}
                   horizon={screen.horizon}
                 />
               </Panel>
             </div>
+            {railsWithheld > 0 && (
+              <SignupGate
+                surface="terminal"
+                withheld={railsWithheld}
+                what="market movements"
+              />
+            )}
           </div>
           <aside className="stack">
             <Panel title="Market coverage & freshness" note="SELECTED SNAPSHOT">
@@ -344,7 +364,7 @@ export default async function Terminal({
               note={`${screen.horizon.toUpperCase()} LISTING RETURN`}
             >
               <IntelligenceMonitor
-                assets={movers}
+                assets={moversView.visible}
                 horizon={screen.horizon}
                 params={p}
               />
