@@ -62,7 +62,7 @@ describe("stream isolation is structural, not only guarded", () => {
     ]);
   });
 
-  it("product owns exactly the six product migrations", async () => {
+  it("product owns exactly the seven product migrations", async () => {
     expect(await journalTags("product")).toEqual([
       "0002_product_accounts_monitoring_billing",
       "0003_ops_application_role",
@@ -70,6 +70,7 @@ describe("stream isolation is structural, not only guarded", () => {
       "0005_user_lifecycle",
       "0006_signup_method",
       "0007_inventory",
+      "0008_signup_conversion",
     ]);
   });
 

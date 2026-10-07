@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { PublicShell } from "@/components/shell";
+import { SignupConversion } from "@/components/signup-conversion";
 import { LinkButton, Notice, SemanticBadge } from "@/components/ui";
 import { CheckoutButton } from "@/components/checkout-button";
 import { publicPrices } from "@/lib/product/billing";
@@ -25,6 +26,10 @@ export default async function Pricing() {
   const prices = await publicPrices();
   return (
     <PublicShell>
+      {/* /pricing is a returnTo destination in the billing sandbox, so a new
+
+          account can land here without passing /continue. */}
+      <SignupConversion />
       <TrackEvent event={{ name: "pricing_viewed" }} eventKey="pricing" />
       <div className="pricing-fidelity">
         <section className="public-section">

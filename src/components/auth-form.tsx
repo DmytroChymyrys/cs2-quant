@@ -163,6 +163,14 @@ export function AuthForm({
               onClick={async () => {
                 setBusy(true);
                 setMessage("");
+                // Signup intent for the Steam path, measured here for the same
+                // reason as Google: the browser leaves the site immediately and
+                // no success is observable from this component.
+                if (mode === "signup")
+                  track({
+                    name: "preview_signup_started",
+                    params: { method: "steam" },
+                  });
                 try {
                   const response = await fetch("/api/auth/steam/auth", {
                     method: "POST",

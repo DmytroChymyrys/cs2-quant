@@ -2,6 +2,17 @@ import { NextResponse, type NextRequest } from "next/server";
 import { assertPreviewIsolation, isDemoPreview } from "./lib/preview";
 import { billingSandboxEnabled } from "./lib/product/billing-config";
 import { isLegacyAssetId } from "./lib/asset-slug";
+import {
+  CONSENT_REQUIRED_COOKIE,
+  CONSENT_MAX_AGE_SECONDS,
+  consentRequiredFor,
+} from "./lib/consent";
+import {
+  ACQUISITION_COOKIE,
+  ACQUISITION_MAX_AGE_SECONDS,
+  readAcquisition,
+  serializeAcquisition,
+} from "./lib/acquisition";
 
 /**
  * Permanently redirects a legacy /asset/<uuid> URL to its slug.
@@ -39,6 +50,64 @@ async function redirectLegacyAssetUrl(request: NextRequest) {
     // whose canonical already points at the slug.
     return null;
   }
+}
+
+/**
+ * Records first-touch acquisition context, once.
+ *
+ * Written here because it must happen on the LANDING request, before the
+ * visitor can be redirected to Google or Steam — a callback URL carries none of
+ * the original query string. First-touch: an existing cookie is never
+ * overwritten, so a paid click is not replaced by the direct return it caused.
+ *
+ * Not httpOnly-sensitive in the security sense, but set httpOnly anyway: only
+ * the server reads it, so there is no reason for page scripts to.
+ */
+function captureAcquisition(request: NextRequest, response: NextResponse) {
+  if (request.cookies.get(ACQUISITION_COOKIE)) return response;
+  const acquisition = readAcquisition(request.nextUrl);
+  if (!acquisition) return response;
+  const value = serializeAcquisition(acquisition);
+  if (!value) return response;
+  response.cookies.set(ACQUISITION_COOKIE, value, {
+    maxAge: ACQUISITION_MAX_AGE_SECONDS,
+    httpOnly: true,
+    sameSite: "lax",   // must survive the return hop from Google and Steam
+    secure: true,
+    path: "/",
+  });
+  return response;
+}
+
+/**
+ * Marks requests from consent-required regions, so the banner can be a purely
+ * client decision.
+ *
+ * Read from the CDN's geo header, which is already present on every request.
+ * Doing this here rather than in a server component is what keeps the landing
+ * page static: reading headers() in the layout would make every page dynamic
+ * for the sake of one banner.
+ *
+ * This only decides whether to ASK. What may actually be stored is decided by
+ * Google's own region matching in the Consent Mode defaults, so a disagreement
+ * between the two resolves on the cautious side.
+ */
+function markConsentRegion(request: NextRequest, response: NextResponse) {
+  const country = request.headers.get("x-vercel-ip-country");
+  // No header means local development or an unknown edge: do not assert a
+  // region, and do not clear a value a previous request established.
+  if (!country) return response;
+  const required = consentRequiredFor(country);
+  const current = request.cookies.get(CONSENT_REQUIRED_COOKIE)?.value;
+  if (current === (required ? "1" : "0")) return response;
+  response.cookies.set(CONSENT_REQUIRED_COOKIE, required ? "1" : "0", {
+    maxAge: CONSENT_MAX_AGE_SECONDS,
+    httpOnly: false, // the banner reads it on the client
+    sameSite: "lax",
+    secure: true,
+    path: "/",
+  });
+  return response;
 }
 
 export async function proxy(request: NextRequest) {
@@ -79,7 +148,7 @@ export async function proxy(request: NextRequest) {
       );
     }
   }
-  return NextResponse.next();
+  return markConsentRegion(request, captureAcquisition(request, NextResponse.next()));
 }
 
 export const config = {

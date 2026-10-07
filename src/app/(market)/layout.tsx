@@ -4,6 +4,7 @@ import "../asset-images.css";
 import "./market-presentation.css";
 import { AppShell } from "@/components/shell";
 import { currentUser } from "@/lib/product/auth";
+import { SignupConversion } from "@/components/signup-conversion";
 export const dynamic = "force-dynamic";
 export default async function MarketLayout({
   children,
@@ -19,6 +20,9 @@ export default async function MarketLayout({
       configuredEnabled={images.configuredEnabled}
       initiallyEnabled={images.effectiveEnabled}
     >
+      {/* Claimed once per account in the database, so rendering it from the
+          shared shell cannot double count however the visitor arrived. */}
+      <SignupConversion />
       <AppShell authenticated={Boolean(user)}>{children}</AppShell>
     </AssetImagesProvider>
   );

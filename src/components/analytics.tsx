@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { AnalyticsConsent } from "./analytics-consent";
 import { AnalyticsRouteGate } from "./analytics-route-gate";
+import { ConsentBanner } from "./consent-banner";
 import { GA_MEASUREMENT_ID, analyticsEnabled } from "@/lib/ga";
 
 /**
@@ -26,6 +27,9 @@ export function Analytics() {
       {/* Consent defaults must be in the dataLayer before gtag config runs. */}
       <AnalyticsConsent />
       <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+      {/* Shows only where a choice is required and none is stored; it decides
+          that on the client, so no page becomes dynamic for it. */}
+      <ConsentBanner />
     </AnalyticsRouteGate>
   );
 }

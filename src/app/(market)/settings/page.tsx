@@ -17,6 +17,7 @@ import { billingAccount } from "@/lib/product/billing-account";
 import { billingSandboxEnabled } from "@/lib/product/billing-config";
 import { BillingReturn } from "@/components/billing-return";
 import { SteamConnection } from "@/components/steam-connection";
+import { ConsentPreference } from "@/components/consent-preference";
 import { steamConnection, steamConnectionEnabled } from "@/lib/product/steam";
 import { GoogleConnections } from "@/components/google-connections";
 import { googleConnections, googleLinkingEnabled } from "@/lib/product/google-link";
@@ -120,6 +121,7 @@ export default async function Settings({
                   enabled={googleLinkingEnabled()}
                   outcome={google}
                 />
+                <ConsentPreference />
               </div>
             </Panel>
           </div>

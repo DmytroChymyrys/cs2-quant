@@ -118,6 +118,13 @@ export const appUsers = pgTable(
     categories: jsonb("categories").$type<string[]>().default([]).notNull(),
     interests: jsonb("interests").$type<string[]>().default([]).notNull(),
     onboarded: boolean("onboarded").default(false).notNull(),
+    /*
+     * When the signup conversion was reported, or NULL if it has not been.
+     * Claimed by one conditional UPDATE so the conversion fires once per
+     * ACCOUNT rather than once per browser session. Analytics state only: it is
+     * never read by authentication, entitlements or any product surface.
+     */
+    signupReportedAt: time("signup_reported_at"),
     watchVisitedAt: time("watch_visited_at"),
     /*
      * Account lifecycle. Both states deny access through currentUser() and are

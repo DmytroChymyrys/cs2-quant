@@ -22,6 +22,13 @@ const FROZEN_ROUTE_FAMILIES = [
   "/cs2-skins",
   "/cs2-skins/[category]",
   "/asset/[slug]",
+  /*
+   * Added in gate G1B. The consent banner links here, so it must be reachable
+   * before anyone authenticates or chooses — which also makes it indexable.
+   * Listed deliberately: this freeze exists so a new public surface is a
+   * decision someone made, not one that appeared.
+   */
+  "/privacy",
 ];
 
 describe("the indexable surface is frozen", () => {
@@ -111,25 +118,37 @@ describe("analytics stays production-safe", () => {
     );
   });
 
-  it("denies advertising signals unconditionally", async () => {
+  it("denies advertising signals wherever consent is required", async () => {
+    /*
+     * This assertion used to be "unconditionally", because FloatAlpha ran no
+     * advertising and there was nothing the signals could be granted for. Gate
+     * G1A changed that premise: denying them worldwide would degrade conversion
+     * measurement everywhere while protecting nobody the law protects. They are
+     * now denied by region, until the visitor affirmatively chooses.
+     *
+     * The full policy is asserted in tests/consent-mode.test.ts; this keeps the
+     * SEO/analytics freeze honest about which half it still guards.
+     */
     const consent = await readFile(
       "src/components/analytics-consent.tsx",
       "utf8",
     );
-    // FloatAlpha runs no advertising, so there is nothing these could be
-    // granted for. Consent Mode v2 requires them declared, not permissive.
+    const regional = consent.split("'region':")[0].split("gtag('consent','default'").pop() ?? "";
     for (const signal of ["ad_storage", "ad_user_data", "ad_personalization"])
-      expect(consent).toContain(`'${signal}':'denied'`);
-    expect(consent).not.toContain("'ad_storage':'granted'");
+      expect(regional).toContain(`'${signal}':'denied'`);
   });
 
-  it("covers the EEA, the UK and Switzerland", async () => {
+  it("scopes the denial to the EEA, the UK and Switzerland", async () => {
+    // The region list moved to src/lib/consent.ts so the proxy and the banner
+    // share one source; the component interpolates it.
     const consent = await readFile(
       "src/components/analytics-consent.tsx",
       "utf8",
     );
+    expect(consent).toContain("JSON.stringify(CONSENT_REQUIRED_REGIONS)");
+    const { CONSENT_REQUIRED_REGIONS } = await import("../src/lib/consent");
     for (const region of ["DE", "FR", "IE", "NO", "IS", "LI", "GB", "CH"])
-      expect(consent).toContain(`"${region}"`);
+      expect(CONSENT_REQUIRED_REGIONS as readonly string[]).toContain(region);
   });
 });
 

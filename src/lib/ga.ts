@@ -31,17 +31,42 @@ export type AnalyticsEvent =
     }
   | { name: "portfolio_opened"; params?: Record<string, never> }
   | { name: "pricing_viewed"; params?: Record<string, never> }
-  | { name: "preview_signup_started"; params: { method: "google" | "email" } }
+  | {
+      name: "preview_signup_started";
+      params: { method: "google" | "email" | "steam" };
+    }
   /*
-   * A registration that actually completed, so signup conversion can be
-   * measured rather than only signup intent.
+   * GA4's recommended name for a completed registration, and the PRIMARY
+   * Google Ads conversion.
    *
-   * Not the same moment as the attempt. Email signup requires verification,
-   * so an account exists but is unusable until the link is clicked; treating
-   * "verification email sent" as completion would overstate conversion by
-   * however many people never open the mail. This fires on the first
-   * authenticated page load of a verified account — which both the Google
-   * callback and the email verification link reach.
+   * Means one thing only: a new FloatAlpha account became usable. Not a click,
+   * not an OAuth start, not a callback, not a returning login, and not a linked
+   * identity. It is claimed once per ACCOUNT in the database
+   * (signup-conversion.ts), so a refresh, a second tab or a replayed callback
+   * cannot repeat it.
+   *
+   * `method` is provenance, never an identifier. No email, no Steam ID, no user
+   * id: a conversion needs to know which channel produced an account, not who
+   * the account belongs to.
+   */
+  | {
+      name: "sign_up";
+      params: {
+        method: "google" | "email" | "steam" | "unknown";
+        /** First-touch campaign, when the visitor arrived with one. */
+        campaign_source?: string;
+        campaign_medium?: string;
+        campaign_name?: string;
+      };
+    }
+  /*
+   * SUPERSEDED by `sign_up`, and emitted beside it only for history continuity.
+   *
+   * GA4 history cannot be renamed retroactively, so this keeps the existing
+   * series unbroken while `sign_up` accumulates. It must NEVER be configured as
+   * a Google Ads conversion at the same time as `sign_up` — that would double
+   * count every signup. Remove it once `sign_up` has enough history to compare,
+   * which is a GA4 configuration decision, not a code one.
    */
   | { name: "preview_signup_completed"; params?: Record<string, never> }
   /*
@@ -134,11 +159,19 @@ export function analyticsExcludedPath(pathname: string | null): boolean {
 
 declare global {
   interface Window {
-    gtag?: (
-      command: "event",
-      name: string,
-      params?: Record<string, unknown>,
-    ) => void;
+    gtag?: {
+      (command: "event", name: string, params?: Record<string, unknown>): void;
+      /**
+       * Consent Mode updates. Declared alongside events because the consent
+       * banner issues them through the same global, and an untyped cast at the
+       * call site would hide a wrong signal name.
+       */
+      (
+        command: "consent",
+        action: "update" | "default",
+        signals: Record<string, "granted" | "denied">,
+      ): void;
+    };
   }
 }
 
