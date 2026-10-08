@@ -9,6 +9,15 @@ import {
   type ReactNode,
 } from "react";
 const ImageContext = createContext(false);
+
+/**
+ * How often an open, VISIBLE tab re-checks image-delivery health.
+ *
+ * The state behind it is written with a 20-minute maximum age
+ * (HEALTH_MAX_AGE_MS) and read through a 30-second server cache, so polling
+ * faster than this buys nothing that can be observed.
+ */
+export const IMAGE_HEALTH_POLL_MS = 300_000;
 export function AssetImagesProvider({
   configuredEnabled,
   initiallyEnabled = false,
@@ -40,13 +49,41 @@ export function AssetImagesProvider({
         clearTimeout(timer);
       }
     };
-    // Initial HTML already includes the server's cached health decision.
-    // Poll only for subsequent circuit-breaker changes.
-    const interval = setInterval(() => void refresh(), 60000);
+    /*
+     * Initial HTML already includes the server's cached health decision, so
+     * this poll exists only to notice a later circuit-breaker change.
+     *
+     * It polls at IMAGE_HEALTH_POLL_MS and only while the tab is visible.
+     * Both matter: this ran every 60 s in every open tab regardless of whether
+     * anyone was looking, which made it the single largest source of requests
+     * in production -- 32% of them -- for state whose own maximum age is
+     * HEALTH_MAX_AGE_MS (20 minutes). Five minutes is still four times finer
+     * than the state can change, and a hidden tab observes nothing anyone can
+     * see.
+     */
+    let lastRun = Date.now();
+    const run = () => {
+      lastRun = Date.now();
+      void refresh();
+    };
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") run();
+    }, IMAGE_HEALTH_POLL_MS);
+    // Returning to a tab that sat hidden should not wait out a whole period,
+    // but alt-tabbing repeatedly must not turn into a request per switch.
+    const onVisible = () => {
+      if (
+        document.visibilityState === "visible" &&
+        Date.now() - lastRun >= IMAGE_HEALTH_POLL_MS
+      )
+        run();
+    };
+    document.addEventListener("visibilitychange", onVisible);
     return () => {
       stopped = true;
       controller?.abort();
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, [configuredEnabled]);
   return (

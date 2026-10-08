@@ -18,7 +18,15 @@ export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 /**
- * Hourly derived-intelligence refresh, for Vercel Cron.
+ * Derived-intelligence refresh, for Vercel Cron.
+ *
+ * Driven by one schedule: the five-minute continuation ticker. A second,
+ * hourly entry for this same path existed from before that ticker and was
+ * removed: the five-minute schedule already covers minute 20, the route takes
+ * no parameter that could tell the two apart, and the overlap simply started
+ * two 3009 MB invocations at once to contend for the same advisory lock.
+ * Activation is bounded by DERIVED_ACTIVATION_COOLDOWN_MS regardless of how
+ * often this runs.
  *
  * It calls the SAME lifecycle as the CLI (src/lib/derived-market/refresh-run.ts):
  * market read-only → derive → derived database → validate → activate → verify

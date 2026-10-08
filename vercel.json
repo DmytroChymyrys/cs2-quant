@@ -17,10 +17,6 @@
   "crons": [
     {
       "path": "/api/internal/refresh",
-      "schedule": "20 * * * *"
-    },
-    {
-      "path": "/api/internal/refresh",
       "schedule": "*/5 * * * *"
     },
     {
