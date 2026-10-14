@@ -2,6 +2,7 @@ import "server-only";
 import { sql } from "drizzle-orm";
 import Decimal from "./decimal";
 import { productDatabase } from "./db";
+import { canonicalMarketName } from "../market-identity";
 import { steamLiquidity, type SteamLiquidity } from "./liquidity";
 
 /**
@@ -220,7 +221,7 @@ export function compareVenues(
 
 /** The normalisation the inventory matcher uses, so the two cannot drift apart. */
 export function crossVenueKey(marketHashName: string): string {
-  return marketHashName.normalize("NFC").trim().replace(/\s+/g, " ");
+  return canonicalMarketName(marketHashName);
 }
 
 /**

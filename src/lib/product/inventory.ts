@@ -1,6 +1,7 @@
 import "server-only";
 import { and, eq, gt, isNull, or, sql } from "drizzle-orm";
 import { productDatabase } from "./db";
+import { canonicalMarketName } from "../market-identity";
 import {
   inventoryHoldings,
   inventorySyncRuns,
@@ -41,7 +42,7 @@ export const SYNC_LEASE_MS = 5 * 60 * 1000;
  * normalisation is applied rather than skipped.
  */
 export function normalizeMarketName(name: string): string {
-  return name.normalize("NFC").trim().replace(/\s+/g, " ");
+  return canonicalMarketName(name);
 }
 
 /** One observed inventory item, already normalised and already matched. */
