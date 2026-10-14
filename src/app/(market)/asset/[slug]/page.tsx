@@ -8,6 +8,8 @@ import {
 } from "@/lib/product/intelligence/server";
 import type { Horizon } from "@/lib/product/intelligence/contract";
 import { screenInput, explain } from "@/lib/product/intelligence/screener";
+import { CrossVenuePanel } from "@/components/cross-venue";
+import { crossVenueFor, crossVenueKey } from "@/lib/product/cross-venue";
 import { PageHeading, Panel, DataState, Notice } from "@/components/ui";
 import { AssetImage } from "@/components/asset-image";
 import { AvailabilityNotice } from "@/components/intelligence-market";
@@ -141,6 +143,21 @@ export default async function Asset({
    */
   const viewerTarget = await resolveAsset3dTarget(id);
   const a = detail.asset;
+  /*
+   * One asset, one query. Same calculation path the screener uses.
+   *
+   * Skipped entirely when the page is presenting synthetic evidence: these are
+   * REAL venue observations from the product database, and a page that labels
+   * itself SYNTHETIC must not carry real prices in one panel. A demo preview
+   * also has no product database by design, so this avoids asking.
+   */
+  const crossVenue =
+    dataset.evidence === "SYNTHETIC"
+      ? { available: false as const, comparisons: new Map() }
+      : await crossVenueFor([a.name]);
+  const venues = crossVenue.available
+    ? crossVenue.comparisons.get(crossVenueKey(a.name))
+    : undefined;
   const storyHorizon: Horizon = (
     permitted && h !== "7d" ? h : "24h"
   ) as Horizon;
@@ -283,6 +300,7 @@ export default async function Asset({
           </Panel>
         </div>
         <aside className="stack">
+          {venues && <CrossVenuePanel venues={venues} />}
           <Panel title="Data quality and provenance">
             <Quality quality={a.quality} />
             <details>

@@ -21,6 +21,11 @@ import { screenInput, screenAssets } from "@/lib/product/intelligence/screener";
 import { pageMetadata } from "@/lib/seo";
 import { TrackEvent } from "@/components/track-event";
 import { recognizeAsset } from "@/lib/product/recognition";
+import {
+  crossVenueFor,
+  crossVenueKey,
+  divergenceSortValue,
+} from "@/lib/product/cross-venue";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -38,8 +43,42 @@ export default async function Screener({
 }) {
   const p = await searchParams,
     dataset = await readMarketDataset(),
-    screen = screenInput(p),
-    result = screenAssets(dataset.assets, screen);
+    screen = screenInput(p);
+  /*
+   * One query for the whole page, before screening, because the sort needs a
+   * value for every asset rather than only the rendered ones. 150 names go
+   * down and come back joined, so this is a single round trip regardless of
+   * how many rows survive the filter.
+   */
+  const venues =
+    dataset.evidence === "SYNTHETIC"
+      ? { available: false as const, comparisons: new Map() }
+      : await crossVenueFor(dataset.assets.map((a) => a.name));
+  const divergence = new Map(
+    dataset.assets.map((a) => [
+      a.name,
+      divergenceSortValue(venues.comparisons.get(crossVenueKey(a.name))),
+    ]),
+  );
+  /*
+   * The column exists only when the comparison could actually be made.
+   *
+   * On an unreadable product database the column is dropped entirely rather
+   * than rendered with a dash on every row -- a dash means "this asset has no
+   * comparable listing", and saying that 150 times because a query failed
+   * would be a lie about the market rather than about our infrastructure.
+   * Same reasoning for a synthetic page, where the prices would be real while
+   * the page says they are not.
+   */
+  const byName = venues.available
+    ? new Map(
+        dataset.assets.map((a) => [
+          a.name,
+          venues.comparisons.get(crossVenueKey(a.name))!,
+        ]),
+      )
+    : undefined;
+  const result = screenAssets(dataset.assets, screen, divergence);
   const user = await currentUser(),
     caps = user ? await entitlements(user.app.id) : null;
   // Only when a search returned nothing: recognition explains an empty
@@ -108,7 +147,12 @@ export default async function Screener({
       ) : (
         <div className="terminal-grid">
           <div className="results-surface">
-            <IntelligenceTable result={gatedResult} screen={screen} params={p} />
+            <IntelligenceTable
+              result={gatedResult}
+              screen={screen}
+              params={p}
+              crossVenue={byName}
+            />
             {rows.gated && (
               <SignupGate
                 surface="screener"

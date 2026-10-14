@@ -44,6 +44,11 @@ export function metricHelp(label: string) {
       title: "Listing-price return",
       text: "Percentage change in minimum listing price against the selected horizon’s eligible baseline: (current − baseline) ÷ baseline × 100. An absent or nonpositive baseline is unavailable. This is not an execution price or a forecast.",
     };
+  if (name.includes("venue \u03b4") || name.includes("venue divergence"))
+    return {
+      title: "Steam ask vs Skinport ask",
+      text: "The Steam minimum ask relative to the Skinport minimum ask, for the same wear and variant. Both are what a buyer pays on that venue; neither is a sale price and neither is net of fees. This is not profit: Steam deducts a seller fee and Steam wallet funds cannot be withdrawn. Withheld where the Skinport ask is under $0.10, because one cent would dominate the percentage.",
+    };
   if (name.includes("confidence"))
     return {
       title: "Price confidence",

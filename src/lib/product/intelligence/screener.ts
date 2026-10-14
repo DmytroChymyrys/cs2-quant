@@ -133,6 +133,7 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
       "volatility",
       "freshness",
       "coverage",
+      "venueDelta",
     ].includes(p.sort ?? "")
       ? p.sort!
       : (defaults[preset] ?? "activity"),
@@ -243,6 +244,16 @@ export function explain(a: MarketAssetSummary, s: Screen) {
 export function screenAssets(
   assets: MarketAssetSummary[],
   s: Screen,
+  /*
+   * Observed Steam-vs-Skinport divergence per asset NAME, when the caller has
+   * it. Passed in rather than read here because it comes from the product
+   * database while everything else in this function comes from the derived
+   * snapshot -- and because this function must stay pure and synchronous.
+   *
+   * A name absent from the map, or present with null, means "no comparison",
+   * which the comparator already sorts last in both directions.
+   */
+  divergence?: ReadonlyMap<string, number | null>,
 ): MarketScreenerResult {
   const filtered = assets.filter((a) => {
     if (
@@ -373,6 +384,7 @@ export function screenAssets(
         volatility: volatilityFor(a, s.basis)[s.horizon],
         freshness: a.quality.sourceAgeSeconds,
         coverage: a.quality.coveragePct,
+        venueDelta: divergence?.get(a.name) ?? null,
       } as Record<string, string | number | null>
     )[s.sort];
     return v === null ? null : Number(v);
@@ -412,6 +424,7 @@ export const SORT_LABELS = {
   volatility: "Volatility",
   freshness: "Source age",
   coverage: "Coverage",
+  venueDelta: "Venue divergence",
 };
 export function whySurfaced(a: MarketAssetSummary, s: Screen) {
   const fmt = (v: string | number | null, suffix = "") =>

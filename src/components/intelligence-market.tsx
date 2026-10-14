@@ -1,4 +1,6 @@
 import { Tooltip } from "./tooltip";
+import { VenueDeltaCell } from "./cross-venue";
+import type { CrossVenue } from "@/lib/product/cross-venue";
 import { metricHelp } from "./metric-help";
 import { ScreenForm } from "./screen-form";
 import { identityText, MARKET_CATEGORIES } from "@/lib/catalog/browsing";
@@ -364,11 +366,18 @@ export function IntelligenceTable({
   params,
   path = "/screener",
   recognition = null,
+  crossVenue,
 }: {
   result: MarketScreenerResult;
   screen: Screen;
   params: Record<string, string | undefined>;
   path?: string;
+  /*
+   * Keyed by asset NAME. Present only where the caller fetched it -- the
+   * column appears with the data and is absent without it, so /assets and
+   * /terminal are untouched by this feature.
+   */
+  crossVenue?: ReadonlyMap<string, CrossVenue>;
   /*
    * Set when a search matched nothing here but the name is recognised in
    * market data. Lets the empty state say what is true — we see this item,
@@ -418,6 +427,7 @@ export function IntelligenceTable({
                 `Listings Δ · ${screen.horizon}`,
                 "Activity",
                 ...(showVolatility ? ["Volatility"] : []),
+                ...(crossVenue ? ["Venue Δ %"] : []),
                 "Quality / explanation",
                 "Inspect",
               ].map((h) => (
@@ -431,6 +441,7 @@ export function IntelligenceTable({
                       `Listings Δ · ${screen.horizon}`,
                       "Activity",
                       "Volatility",
+                      "Venue Δ %",
                     ].includes(h)
                       ? "number"
                       : undefined
@@ -522,6 +533,11 @@ export function IntelligenceTable({
                 {showVolatility && (
                   <td className="number">
                     {value(a.volatility[screen.horizon], "%")}
+                  </td>
+                )}
+                {crossVenue && (
+                  <td className="number">
+                    <VenueDeltaCell venues={crossVenue.get(a.name)} />
                   </td>
                 )}
                 <td>
