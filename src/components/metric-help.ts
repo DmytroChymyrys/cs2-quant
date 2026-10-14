@@ -44,6 +44,11 @@ export function metricHelp(label: string) {
       title: "Listing-price return",
       text: "Percentage change in minimum listing price against the selected horizon’s eligible baseline: (current − baseline) ÷ baseline × 100. An absent or nonpositive baseline is unavailable. This is not an execution price or a forecast.",
     };
+  if (name.includes("days to clear") || name.includes("clearance"))
+    return {
+      title: "Market clearance estimate",
+      text: "Steam listings standing now divided by average daily Steam sales over a fixed 30-day window. Steam-only; no Skinport figure enters it. This is not a sale time \u2014 it describes how long the current book would last at the recent average rate, not when any listing sells. Withheld below 10 observed sales in the window, and reported as over a year beyond 365 days.",
+    };
   if (name.includes("venue \u03b4") || name.includes("venue divergence"))
     return {
       title: "Steam ask vs Skinport ask",

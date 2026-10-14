@@ -513,7 +513,9 @@ describe("the column appears only where the data was fetched", () => {
 
   it("the table renders the column only when given the map", async () => {
     const src = await readFile("src/components/intelligence-market.tsx", "utf8");
-    expect(src).toContain('...(crossVenue ? ["Venue Δ %"] : [])');
+    // Both cross-venue columns arrive with the same map, so the surface is
+    // all-or-nothing rather than two independent switches.
+    expect(src).toContain('...(crossVenue ? ["Venue Δ %", "Days to clear"] : [])');
     expect(src).toContain("{crossVenue && (");
   });
 });

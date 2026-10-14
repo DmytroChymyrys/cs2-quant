@@ -2,6 +2,7 @@ import "server-only";
 import { sql } from "drizzle-orm";
 import Decimal from "./decimal";
 import { productDatabase } from "./db";
+import { steamLiquidity, type SteamLiquidity } from "./liquidity";
 
 /**
  * Observed price divergence between Steam and Skinport.
@@ -91,8 +92,19 @@ export type SteamSide = {
   bid: string | null;
   bidVolume: number | null;
   sold24h: number | null;
+  /** The fixed thirty-day window every liquidity rate is measured over. */
+  sold30d: number | null;
   observedAt: Date;
   stale: boolean;
+  /**
+   * Steam-only liquidity, from this same capture.
+   *
+   * Present whenever the Steam side is, because having the inputs and having
+   * a publishable number are different things and each indicator says which
+   * it has. Null only when the observation is stale: a rate computed from a
+   * book we stopped watching is not a current reading.
+   */
+  liquidity: SteamLiquidity | null;
 };
 
 export type CrossVenue = {
@@ -139,7 +151,8 @@ export function compareVenues(
     skinport?: { ask: string | null; listings: number | null; observedAt: Date } | null;
     steam?: {
       ask: string | null; offers: number | null; bid: string | null;
-      bidVolume: number | null; sold24h: number | null; observedAt: Date;
+      bidVolume: number | null; sold24h: number | null; sold30d?: number | null;
+      observedAt: Date;
     } | null;
   },
   now: Date = new Date(),
@@ -157,7 +170,22 @@ export function compareVenues(
     ? {
         ask: st.ask as string, offers: st.offers, bid: st.bid,
         bidVolume: st.bidVolume, sold24h: st.sold24h,
+        sold30d: st.sold30d ?? null,
         observedAt: st.observedAt, stale: stStale,
+        /*
+         * Withheld on a stale observation rather than computed from it. The
+         * arithmetic would still work; the reading would describe a book we
+         * stopped watching hours ago, which is the same reason a stale side
+         * cannot produce a price comparison.
+         */
+        liquidity: stStale
+          ? null
+          : steamLiquidity({
+              offers: st.offers,
+              sold30d: st.sold30d ?? null,
+              ask: st.ask,
+              bid: st.bid,
+            }),
       }
     : null;
 
@@ -211,7 +239,8 @@ type Row = {
   key: string;
   sp_ask: string | null; sp_qty: number | null; sp_at: Date | null;
   st_ask: string | null; st_offers: number | null; st_bid: string | null;
-  st_bidvol: number | null; st_sold24: number | null; st_at: Date | null;
+  st_bidvol: number | null; st_sold24: number | null; st_sold30: number | null;
+  st_at: Date | null;
 };
 
 /**
@@ -259,14 +288,15 @@ export async function crossVenueFor(
     st as (
       select ${NORMALIZE} as key, s.min_price::text st_ask, s.offer_volume st_offers,
              s.buy_order_price::text st_bid, s.buy_order_volume st_bidvol,
-             s.sold_24h st_sold24, s.observed_at st_at
+             s.sold_24h st_sold24, s.sold_30d st_sold30, s.observed_at st_at
       from provider_assets a
       join steam_market_state s on s.provider_asset_id = a.id
       where a.provider = 'STEAMWEBAPI' and s.present
         and ${NORMALIZE} in (select value from wanted)
     )
     select w.value as key, sp.sp_ask, sp.sp_qty, sp.sp_at,
-           st.st_ask, st.st_offers, st.st_bid, st.st_bidvol, st.st_sold24, st.st_at
+           st.st_ask, st.st_offers, st.st_bid, st.st_bidvol, st.st_sold24,
+           st.st_sold30, st.st_at
     from wanted w
     left join sp on sp.key = w.value
     left join st on st.key = w.value
@@ -290,6 +320,7 @@ export async function crossVenueFor(
             ? {
                 ask: r.st_ask, offers: r.st_offers, bid: r.st_bid,
                 bidVolume: r.st_bidvol, sold24h: r.st_sold24,
+                sold30d: r.st_sold30,
                 observedAt: new Date(r.st_at),
               }
             : null,

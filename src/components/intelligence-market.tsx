@@ -1,5 +1,5 @@
 import { Tooltip } from "./tooltip";
-import { VenueDeltaCell } from "./cross-venue";
+import { VenueDeltaCell, ClearanceCell } from "./cross-venue";
 import type { CrossVenue } from "@/lib/product/cross-venue";
 import { metricHelp } from "./metric-help";
 import { ScreenForm } from "./screen-form";
@@ -427,7 +427,7 @@ export function IntelligenceTable({
                 `Listings Δ · ${screen.horizon}`,
                 "Activity",
                 ...(showVolatility ? ["Volatility"] : []),
-                ...(crossVenue ? ["Venue Δ %"] : []),
+                ...(crossVenue ? ["Venue Δ %", "Days to clear"] : []),
                 "Quality / explanation",
                 "Inspect",
               ].map((h) => (
@@ -442,6 +442,7 @@ export function IntelligenceTable({
                       "Activity",
                       "Volatility",
                       "Venue Δ %",
+                      "Days to clear",
                     ].includes(h)
                       ? "number"
                       : undefined
@@ -538,6 +539,11 @@ export function IntelligenceTable({
                 {crossVenue && (
                   <td className="number">
                     <VenueDeltaCell venues={crossVenue.get(a.name)} />
+                  </td>
+                )}
+                {crossVenue && (
+                  <td className="number">
+                    <ClearanceCell venues={crossVenue.get(a.name)} />
                   </td>
                 )}
                 <td>

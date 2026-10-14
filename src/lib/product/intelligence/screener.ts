@@ -134,6 +134,7 @@ export function screenInput(p: Record<string, string | undefined>): Screen {
       "freshness",
       "coverage",
       "venueDelta",
+      "clearance",
     ].includes(p.sort ?? "")
       ? p.sort!
       : (defaults[preset] ?? "activity"),
@@ -254,6 +255,12 @@ export function screenAssets(
    * which the comparator already sorts last in both directions.
    */
   divergence?: ReadonlyMap<string, number | null>,
+  /*
+   * Observed Steam market-clearance days per asset NAME, when the caller has
+   * it. Same contract as `divergence`: absent or null means no publishable
+   * estimate, which the comparator already sorts last in both directions.
+   */
+  clearance?: ReadonlyMap<string, number | null>,
 ): MarketScreenerResult {
   const filtered = assets.filter((a) => {
     if (
@@ -385,6 +392,7 @@ export function screenAssets(
         freshness: a.quality.sourceAgeSeconds,
         coverage: a.quality.coveragePct,
         venueDelta: divergence?.get(a.name) ?? null,
+        clearance: clearance?.get(a.name) ?? null,
       } as Record<string, string | number | null>
     )[s.sort];
     return v === null ? null : Number(v);
@@ -425,6 +433,7 @@ export const SORT_LABELS = {
   freshness: "Source age",
   coverage: "Coverage",
   venueDelta: "Venue divergence",
+  clearance: "Market clearance estimate",
 };
 export function whySurfaced(a: MarketAssetSummary, s: Screen) {
   const fmt = (v: string | number | null, suffix = "") =>

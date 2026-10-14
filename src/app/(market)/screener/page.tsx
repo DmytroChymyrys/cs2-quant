@@ -26,6 +26,7 @@ import {
   crossVenueKey,
   divergenceSortValue,
 } from "@/lib/product/cross-venue";
+import { clearanceSortValue } from "@/lib/product/liquidity";
 
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
@@ -78,7 +79,17 @@ export default async function Screener({
         ]),
       )
     : undefined;
-  const result = screenAssets(dataset.assets, screen, divergence);
+  // Same single query, read a second way. No extra round trip.
+  const clearance = new Map(
+    dataset.assets.map((a) => [
+      a.name,
+      clearanceSortValue(
+        venues.comparisons.get(crossVenueKey(a.name))?.steam?.liquidity
+          ?.clearance,
+      ),
+    ]),
+  );
+  const result = screenAssets(dataset.assets, screen, divergence, clearance);
   const user = await currentUser(),
     caps = user ? await entitlements(user.app.id) : null;
   // Only when a search returned nothing: recognition explains an empty

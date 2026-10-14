@@ -1,6 +1,14 @@
 import { Panel, Metric } from "./ui";
 import type { CrossVenue, CrossVenueGap } from "@/lib/product/cross-venue";
 import { DIVERGENCE_MIN_BASE } from "@/lib/product/cross-venue";
+import {
+  CLEARANCE_CAP_DAYS,
+  CLEARANCE_MIN_SALES,
+  LIQUIDITY_WINDOW_DAYS,
+  type BidAsk,
+  type Clearance,
+  type Velocity,
+} from "@/lib/product/liquidity";
 
 /**
  * Two venues' asking prices, side by side.
@@ -27,6 +35,41 @@ const money = (v: string | null) => (v === null ? "—" : `$${Number(v).toFixed(
 const count = (v: number | null) => (v === null ? "Not observed" : v.toLocaleString("en-US"));
 const at = (d: Date) =>
   d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) + " UTC";
+
+/*
+ * Each indicator says which of three things it has: a number, a measured
+ * absence, or no measurement. They render differently on purpose -- "no sales
+ * observed" and "we did not measure the book" are different facts, and a
+ * shared dash would hide both behind the same mark.
+ */
+const velocityText = (v: Velocity) =>
+  v.state === "OK"
+    ? { value: `${v.percent}%`, note: `${LIQUIDITY_WINDOW_DAYS}-day sales vs listings now` }
+    : v.state === "OFFERS_UNKNOWN"
+      ? { value: "—", note: "Steam listing count not measured" }
+      : { value: "—", note: "Steam sales not measured" };
+
+const clearanceText = (c: Clearance) =>
+  c.state === "OK"
+    ? { value: `≈${c.days} days`, note: "At the recent selling rate" }
+    : c.state === "OVER_CAP"
+      ? { value: `Over 1 year`, note: "At recent rate" }
+      : c.state === "NO_SALES"
+        ? { value: "—", note: `No sales observed in ${LIQUIDITY_WINDOW_DAYS} days` }
+        : c.state === "INSUFFICIENT_SALES"
+          ? { value: "—", note: `Insufficient recent sales (${c.observed})` }
+          : c.state === "OFFERS_UNKNOWN"
+            ? { value: "—", note: "Steam listing count not measured" }
+            : { value: "—", note: "Steam sales not measured" };
+
+const bidAskText = (b: BidAsk) =>
+  b.state === "OK"
+    ? { value: `${b.percent}%`, note: "Lowest ask above highest bid" }
+    : b.state === "LEVEL_OR_CROSSED"
+      ? { value: "Level", note: "Level / crossed observation" }
+      : b.state === "NO_BID"
+        ? { value: "—", note: "No standing bid observed" }
+        : { value: "—", note: "No Steam ask observed" };
 
 export function CrossVenuePanel({ venues }: { venues: CrossVenue }) {
   const { skinport, steam, comparable } = venues;
@@ -99,6 +142,53 @@ export function CrossVenuePanel({ venues }: { venues: CrossVenue }) {
         />
       </div>
 
+      {steam?.liquidity && (
+        <>
+          <div className="inspection-metrics">
+            <Metric
+              label="Market clearance estimate"
+              value={clearanceText(steam.liquidity.clearance).value}
+              note={clearanceText(steam.liquidity.clearance).note}
+            />
+            <Metric
+              label={`Trading velocity · ${LIQUIDITY_WINDOW_DAYS}d`}
+              value={velocityText(steam.liquidity.velocity).value}
+              note={velocityText(steam.liquidity.velocity).note}
+            />
+            <Metric
+              label="Steam bid/ask distance"
+              value={bidAskText(steam.liquidity.bidAsk).value}
+              note={bidAskText(steam.liquidity.bidAsk).note}
+            />
+          </div>
+          <details>
+            <summary>What the clearance estimate is, and is not</summary>
+            <p>
+              It divides the Steam listings standing right now by the average
+              daily sales over a fixed {LIQUIDITY_WINDOW_DAYS}-day window. Both
+              figures are Steam&rsquo;s own; nothing from Skinport enters this
+              calculation.
+            </p>
+            <p>
+              <strong>It is not a sale time.</strong> It describes how long the
+              current book would last at the recent average rate, which is a
+              statement about the book and not about any individual listing.
+              Demand changes, and a listing&rsquo;s own price decides where it
+              sits in the queue.
+            </p>
+            <p>
+              No figure is shown below {CLEARANCE_MIN_SALES} observed sales in
+              the window, because a rate built on a handful of events is
+              arithmetic rather than evidence, and anything beyond{" "}
+              {CLEARANCE_CAP_DAYS} days is reported as over a year rather than
+              as a precise number. Trading velocity above 100% means a
+              month of sales exceeded the listings standing now — ordinary for
+              a liquid asset, and not a guaranteed turnover rate.
+            </p>
+          </details>
+        </>
+      )}
+
       {comparable && venues.skewMinutes !== null && (
         <p className="muted">
           The two observations are {venues.skewMinutes} minute
@@ -143,6 +233,22 @@ export function VenueDeltaCell({ venues }: { venues: CrossVenue | undefined }) {
     >
       {Number(venues.percentage) > 0 ? "+" : ""}
       {venues.percentage}%
+    </span>
+  );
+}
+
+/** The screener cell. Silent where no estimate can be published. */
+export function ClearanceCell({ venues }: { venues: CrossVenue | undefined }) {
+  const c = venues?.steam?.liquidity?.clearance;
+  if (!c) return <span className="muted" title="Not observed">—</span>;
+  const { value, note } = clearanceText(c);
+  // Only an OK state is a number; everything else keeps its own reason in the
+  // tooltip rather than collapsing into an unexplained dash.
+  return c.state === "OK" ? (
+    <span title={note}>{value}</span>
+  ) : (
+    <span className="muted" title={note}>
+      {c.state === "OVER_CAP" ? ">1y" : "—"}
     </span>
   );
 }
