@@ -17,7 +17,9 @@ import { billingAccount } from "@/lib/product/billing-account";
 import { billingSandboxEnabled } from "@/lib/product/billing-config";
 import { BillingReturn } from "@/components/billing-return";
 import { SteamConnection } from "@/components/steam-connection";
+import { InventoryIntegration } from "@/components/inventory-integration";
 import { ConsentPreference } from "@/components/consent-preference";
+import { inventoryView } from "@/lib/product/inventory-view";
 import { steamConnection, steamConnectionEnabled } from "@/lib/product/steam";
 import { GoogleConnections } from "@/components/google-connections";
 import { googleConnections, googleLinkingEnabled } from "@/lib/product/google-link";
@@ -38,6 +40,12 @@ export default async function Settings({
   const billing = await billingAccount(user.app.id);
   const { checkout, steam, google } = await searchParams;
   const connection = await steamConnection(user.identity.id);
+  /*
+   * Read-only. inventoryView() never writes and never contacts Steam, so
+   * rendering Settings cannot create an integration -- which is the property
+   * the domain boundary depends on.
+   */
+  const inventory = await inventoryView(user.app.id);
   const googleLinked = await googleConnections(user.identity.id);
   return (
     <div className="personal-workstation account-workstation">
@@ -131,6 +139,11 @@ export default async function Settings({
                   outcome={google}
                 />
                 <ConsentPreference />
+                <InventoryIntegration
+                  steamLinked={Boolean(connection)}
+                  enabled={inventory.integration.status !== null}
+                  everSynced={inventory.snapshot.lastSuccessAt !== null}
+                />
               </div>
             </Panel>
           </div>

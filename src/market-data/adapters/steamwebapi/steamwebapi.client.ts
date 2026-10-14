@@ -104,6 +104,17 @@ export type SteamInventoryResponse = {
   startedAt: Date;
   finishedAt: Date;
   responseBytes: number;
+  /**
+   * The wrapper object the rows arrived in, or null when the body was a bare
+   * array.
+   *
+   * Kept because it is the only place a pagination or truncation indicator
+   * could appear, and discarding it here would make completeness
+   * undecidable downstream. Every observation so far has been a bare array,
+   * so this is null in practice -- which is exactly why it must be carried
+   * rather than assumed.
+   */
+  envelope: Record<string, unknown> | null;
 };
 
 export type SteamItemsResponse = {
@@ -239,7 +250,8 @@ export function steamWebApiClient(fetchImpl: typeof fetch = fetch) {
       } catch {
         throw new SteamWebApiError("MALFORMED_BODY", response.status);
       }
-      const rows = Array.isArray(parsed)
+      const bare = Array.isArray(parsed);
+      const rows = bare
         ? parsed
         : ((parsed as { data?: unknown[] })?.data ?? null);
       // A 200 carrying something that is not a list of items is a provider
@@ -253,6 +265,9 @@ export function steamWebApiClient(fetchImpl: typeof fetch = fetch) {
         startedAt,
         finishedAt: new Date(),
         responseBytes: Buffer.byteLength(text, "utf8"),
+        // Only the wrapper, never the rows: the caller inspects it for
+        // pagination metadata and must not be handed the payload twice.
+        envelope: bare ? null : ((parsed as Record<string, unknown>) ?? null),
       };
     },
   };

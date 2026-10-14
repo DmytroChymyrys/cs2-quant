@@ -3,7 +3,9 @@ import { currentUser } from "@/lib/product/auth";
 import { AuthRequired } from "@/components/auth-required";
 import { PageHeading, Panel, Metric, DataState, Notice } from "@/components/ui";
 import { InventoryTable } from "@/components/inventory-table";
+import { InventorySync } from "@/components/inventory-sync-button";
 import { inventoryView } from "@/lib/product/inventory-view";
+import { outcomeMessage } from "@/lib/product/inventory-failure";
 import { money, integer, timestamp } from "@/lib/product/format";
 import { PRIVATE_ROBOTS } from "@/lib/seo";
 
@@ -12,8 +14,11 @@ import { PRIVATE_ROBOTS } from "@/lib/seo";
  *
  * Strictly a read surface. Rendering this page never contacts Steam and never
  * writes: it displays what the last successful observation recorded, and says
- * plainly when that is old, failed or absent. Synchronisation is a separate,
- * explicit action that does not exist yet.
+ * plainly when that is old, failed or absent.
+ *
+ * Synchronisation remains a separate, explicit action. The refresh control
+ * below posts to /api/product/inventory; nothing on this page triggers a sync
+ * by being rendered, and there is no periodic refresh.
  */
 export const metadata = {
   title: "Inventory",
@@ -22,13 +27,16 @@ export const metadata = {
 };
 export const dynamic = "force-dynamic";
 
-const OUTCOME_NOTE: Record<string, string> = {
-  UNAVAILABLE:
-    "The most recent refresh could not read your Steam inventory. This is usually a Steam privacy setting rather than a problem with your FloatAlpha account.",
-  RATE_LIMITED: "The most recent refresh was rate limited by the data provider.",
-  PROVIDER_ERROR: "The most recent refresh failed at the data provider.",
-  TIMEOUT: "The most recent refresh timed out before Steam answered.",
-};
+/*
+ * One vocabulary, shared with the API, so the sentence a person sees after
+ * pressing Refresh and the sentence they see on reload cannot drift apart.
+ *
+ * LIMITATION: `steam_integrations` persists `last_outcome` but no error code,
+ * so this surface cannot distinguish a completeness refusal from another
+ * provider fault and renders the general PROVIDER_ERROR sentence for both. The
+ * live response the button receives DOES carry the precise reason. Closing the
+ * gap means a new column, which this rollout deliberately avoids.
+ */
 
 export default async function Inventory() {
   const user = await currentUser();
@@ -60,8 +68,24 @@ export default async function Inventory() {
           {/* Never observed is NOT an empty inventory, and must not read like one. */}
           <DataState
             state="EMPTY"
-            title="Inventory not imported yet"
-            description="Steam is connected, but FloatAlpha has not yet observed your CS2 inventory. Nothing is known about it either way."
+            title={
+              snapshot.latestAttemptFailed
+                ? "Inventory could not be read"
+                : "Inventory not imported yet"
+            }
+            description={
+              snapshot.latestAttemptFailed
+                ? /*
+                   * The first import failed, so there is no earlier snapshot to
+                   * fall back to and nothing is known about this inventory. The
+                   * provider cannot tell us WHY it was refused, so this names
+                   * the setting to check without asserting a cause -- and never
+                   * says the inventory is empty, which only OK_EMPTY may say.
+                   */
+                  "FloatAlpha could not access this Steam inventory. Check that your Steam inventory privacy allows access, then try again. This is not a statement that your inventory is empty."
+                : "Steam is connected, but FloatAlpha has not yet observed your CS2 inventory. Nothing is known about it either way."
+            }
+            action={<InventorySync label="Import inventory" />}
           />
         </Panel>
       )}
@@ -74,11 +98,11 @@ export default async function Inventory() {
         </Notice>
       )}
 
-      {snapshot.latestAttemptFailed && (
+      {snapshot.latestAttemptFailed && snapshot.lastSuccessAt && (
         /* The previous snapshot stays on screen. Hiding observed inventory
            because a later refresh failed would lose real evidence. */
         <Notice>
-          {OUTCOME_NOTE[snapshot.lastOutcome ?? ""] ??
+          {outcomeMessage(snapshot.lastOutcome) ??
             "The most recent refresh did not succeed."}{" "}
           Showing the last successful observation from{" "}
           {timestamp(snapshot.lastSuccessAt)}.
@@ -90,6 +114,12 @@ export default async function Inventory() {
           This inventory was last observed {timestamp(snapshot.lastSuccessAt)} and
           may no longer reflect what you own.
         </Notice>
+      )}
+
+      {(view.state === "AVAILABLE" || view.state === "OBSERVED_EMPTY") && (
+        <div className="row">
+          <InventorySync />
+        </div>
       )}
 
       {(view.state === "AVAILABLE" || view.state === "OBSERVED_EMPTY") && (

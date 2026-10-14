@@ -6,6 +6,7 @@ import {
   SteamWebApiError,
   steamWebApiClient,
 } from "../../market-data/adapters/steamwebapi/steamwebapi.client";
+import { assessCompleteness } from "./inventory-completeness";
 import type { IdentityStatus, MarketDepth, SyncOutcome } from "./schema";
 
 /**
@@ -258,6 +259,32 @@ export async function observeSteamInventory(
     durationMs,
     responseBytes: response.responseBytes,
   };
+
+  /*
+   * Completeness first, before a single row is read.
+   *
+   * A truncated response is well-formed: every row in it validates, every name
+   * matches, and the result is indistinguishable from a smaller inventory. If
+   * it reached the authoritative path it would not produce a short list -- it
+   * would close an ownership interval for each missing item and record a sale
+   * that never happened, which no later sync can repair.
+   *
+   * Checked ahead of row validation so the reported reason describes the
+   * response as a whole rather than the first row that happened to fail.
+   */
+  const completeness = assessCompleteness({
+    rowCount: response.rows.length,
+    responseBytes: response.responseBytes,
+    envelope: response.envelope ?? null,
+  });
+  if (!completeness.complete)
+    return {
+      ...base,
+      outcome: "PROVIDER_ERROR",
+      authoritative: false,
+      errorCode: completeness.errorCode,
+      items: [],
+    };
 
   const read = response.rows.map((row) => readRow(row as RawRow));
   /*
