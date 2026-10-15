@@ -1017,8 +1017,10 @@ export function PresetDefinitions() {
         {SCREEN_THRESHOLDS.quietActivity24h}/100 over 24h. Listings
         Contracting/Expanding use at least {SCREEN_THRESHOLDS.listingPct}%
         change over the selected horizon. Fresh Changes require a nonzero
-        minimum-price or listing-count change over 5m and source/observation
-        ages ≤ {SCREEN_THRESHOLDS.freshSeconds}s. Movers sort absolute return;
+        minimum-price or listing-count change over one step, an observation no
+        more than {Math.round(SCREEN_THRESHOLDS.observationSeconds / 60)}m old,
+        and a venue feed no more than {SCREEN_THRESHOLDS.sourceLagSeconds}s
+        behind when it was read. Movers sort absolute return;
         Up/Down select its sign. High Volatility is EXPERIMENTAL: it ranks
         complete-horizon log-return standard deviations, which on low-priced
         assets are dominated by the one-cent tick. It assigns no trading

@@ -23,6 +23,7 @@ import {
   readAssetDetail,
   syntheticMode,
 } from "../src/lib/product/intelligence/server";
+import { OBSERVATION_STALE_AFTER_SECONDS } from "../src/lib/derived-market/policy";
 import { portfolioIntelligence } from "../src/lib/product/intelligence/portfolio";
 import { seriesPath } from "../src/components/intelligence-chart";
 let data: ReturnType<typeof fixtureDataset>, assets: MarketAssetSummary[];
@@ -138,28 +139,55 @@ describe("product evidence semantics", () => {
       "remained unchanged",
     );
   });
-  it("calculates staleness at read time, rather than reusing captured source age", () => {
-    expect(named("Stale source").quality.state).toBe("STALE_SOURCE");
+  it("separates provider lag at capture from observation age at read time", () => {
+    // Stale because the venue's own feed was an hour behind when we read it.
+    // That is a property of the observation and does not decay, so it is
+    // flagged regardless of how fresh the snapshot is.
+    const stale = named("Stale source");
+    expect(stale.quality.state).toBe("STALE_SOURCE");
+    expect(stale.quality.capturedSourceAgeSeconds).toBeGreaterThan(
+      SCREEN_THRESHOLDS.sourceLagSeconds,
+    );
+
     const f = data.features
       .filter((f) => f.asset_id === named("Quiet market").id)
       .at(-1)!;
-    const later = summary(
-      f,
-      2016,
-      2016,
-      new Date(Date.parse(FIXTURE_AS_OF) + 3600000).toISOString(),
-      null,
-    );
+    const at = (offsetMs: number) =>
+      summary(
+        f,
+        2016,
+        2016,
+        new Date(Date.parse(FIXTURE_AS_OF) + offsetMs).toISOString(),
+        null,
+      );
+
+    // Read-time source age still advances with the clock...
+    const later = at(3600000);
     expect(later.quality.sourceAgeSeconds).toBe(
       named("Quiet market").quality.sourceAgeSeconds! + 3600,
     );
-    expect(later.quality.state).toBe("STALE_SOURCE");
-    expect(screen({ preset: "fresh" }).assets).not.toContainEqual(
-      named("Stale source"),
+    // ...but an hour-old snapshot from an hourly pipeline is healthy, not
+    // stale. This is the regression that labelled every Screener row "Stale".
+    expect(later.quality.observationAgeSeconds).toBeLessThan(
+      OBSERVATION_STALE_AFTER_SECONDS,
     );
+    expect(later.quality.state).toBe("FULL_COVERAGE");
+
+    // Beyond the publication allowance it is stale again, so genuinely old
+    // data stays labelled.
+    const abandoned = at((OBSERVATION_STALE_AFTER_SECONDS + 600) * 1000);
+    expect(abandoned.quality.observationAgeSeconds).toBeGreaterThan(
+      OBSERVATION_STALE_AFTER_SECONDS,
+    );
+    expect(abandoned.quality.state).toBe("STALE_SOURCE");
+
+    expect(screen({ preset: "fresh" }).assets).not.toContainEqual(stale);
     const unknown = {
       ...named("Active price"),
-      quality: { ...named("Active price").quality, sourceAgeSeconds: null },
+      quality: {
+        ...named("Active price").quality,
+        capturedSourceAgeSeconds: null,
+      },
     };
     expect(
       screenAssets([unknown], screenInput({ preset: "fresh" })).total,

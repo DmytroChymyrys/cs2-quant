@@ -50,8 +50,28 @@ export const THRESHOLDS = {
   ),
   /** Listing move considered material at the selected horizon. */
   listingChangePct: spec(2, "retained from the previous configuration"),
-  /** Observation age at which data is labelled stale. */
-  freshSeconds: spec(900, "three cadence steps; p99 source age is 314.9s"),
+  /**
+   * How far behind a venue's own feed may be at the moment we read it.
+   *
+   * This bounds PROVIDER LAG MEASURED AT CAPTURE — the gap between the
+   * venue's `items_source_timestamp` and the instant the collector read it.
+   * That number is fixed when the observation is written and never grows, so
+   * the threshold does not have to track how often we collect.
+   *
+   * It is explicitly NOT the age of the observation itself. This value was
+   * previously documented as "three cadence steps", which tied it to the
+   * five-minute collection grid; collection moved to hourly on
+   * 2026-09-22 (see `derived-market/cadence.ts`) and three steps became three
+   * hours, while the constant stayed at fifteen minutes. Applied to a
+   * read-time observation age it then marked healthy hourly data stale for
+   * forty-five minutes of every hour. Observation age is now governed by
+   * `OBSERVATION_STALE_AFTER_SECONDS`; this one keeps the strict bound,
+   * because the quantity it measures genuinely is small.
+   */
+  sourceLagSeconds: spec(
+    900,
+    "p99 provider source age is 314.9s; ~3x headroom, independent of collection cadence",
+  ),
   /** Price move below which an asset counts as stable for combined states. */
   priceStableTolerancePct: spec(
     0.5,

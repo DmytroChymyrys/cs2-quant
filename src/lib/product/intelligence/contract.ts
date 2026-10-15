@@ -174,7 +174,16 @@ export type MarketScreenerResult = {
   explanations: Record<string, string[]>;
 };
 export const HORIZONS: Horizon[] = ["1h", "6h", "24h"];
-export const STALE_SECONDS = 900;
+/**
+ * Freshness thresholds are no longer declared here.
+ *
+ * A single `STALE_SECONDS = 900` used to answer two different questions —
+ * "how old is this observation?" and "how far behind was the venue's feed when
+ * we read it?" — and both were compared against a read-time age. Observation
+ * age now comes from `OBSERVATION_STALE_AFTER_SECONDS` (derived-market policy)
+ * and provider lag from `THRESHOLDS.sourceLagSeconds`, measured at capture.
+ * See `map.ts` for where each is applied.
+ */
 export function displayed(
   value: string | number | null | undefined,
   suffix = "",

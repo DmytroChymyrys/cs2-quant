@@ -9,6 +9,7 @@ import {
   volatilityFor,
 } from "./contract";
 import { THRESHOLDS } from "../../intelligence/thresholds";
+import { OBSERVATION_STALE_AFTER_SECONDS } from "../../derived-market/policy";
 export const PRESETS = {
   all: "All assets",
   active: "Most Active",
@@ -44,7 +45,10 @@ export const SCREEN_THRESHOLDS = {
   activity: THRESHOLDS.activeMinActivity1h.value,
   listingPct: THRESHOLDS.listingChangePct.value,
   quietActivity24h: THRESHOLDS.quietMaxActivity24h.value,
-  freshSeconds: THRESHOLDS.freshSeconds.value,
+  /** Provider lag budget, measured at capture. */
+  sourceLagSeconds: THRESHOLDS.sourceLagSeconds.value,
+  /** Observation age budget, shared with the publication policy. */
+  observationSeconds: OBSERVATION_STALE_AFTER_SECONDS,
 };
 export const THRESHOLD_BASIS = THRESHOLDS;
 export type Screen = {
@@ -364,12 +368,22 @@ export function screenAssets(
           Number(listing) > 0
         );
       case "fresh":
+        /*
+         * Each age against the threshold that matches it. Testing the
+         * read-time source age against the provider-lag budget made this
+         * preset return nothing at all once a snapshot was fifteen minutes
+         * old, which under hourly publication is almost always.
+         */
         return (
           a.changed5m === true &&
-          a.quality.sourceAgeSeconds !== null &&
-          a.quality.sourceAgeSeconds <= SCREEN_THRESHOLDS.freshSeconds &&
           a.quality.observationAgeSeconds !== null &&
-          a.quality.observationAgeSeconds <= SCREEN_THRESHOLDS.freshSeconds
+          a.quality.observationAgeSeconds <=
+            SCREEN_THRESHOLDS.observationSeconds &&
+          // An unmeasured lag is not evidence of freshness, so it is excluded
+          // exactly as a null source age was before.
+          typeof a.quality.capturedSourceAgeSeconds === "number" &&
+          a.quality.capturedSourceAgeSeconds <=
+            SCREEN_THRESHOLDS.sourceLagSeconds
         );
       default:
         return true;

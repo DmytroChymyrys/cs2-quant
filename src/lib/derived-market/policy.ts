@@ -51,6 +51,26 @@ export const DERIVED_STALE_AFTER_MS = 90 * 60 * 1000;
 export const DERIVED_STALE_AFTER_SECONDS = DERIVED_STALE_AFTER_MS / 1000;
 
 /**
+ * Observation age beyond which a single asset's evidence stops being current.
+ *
+ * This is the SAME question as `DERIVED_STALE_AFTER_MS`, asked per asset rather
+ * than per snapshot: "is data still arriving on schedule?" The newest
+ * observation in a snapshot is what fixes the snapshot's own age, so answering
+ * the two with different numbers would let one surface call an asset stale
+ * while another calls the snapshot that contains it healthy.
+ *
+ * It is therefore an alias by identity, not a coincidence of value, and is the
+ * one case where this module deliberately defines one constant in terms of
+ * another. The cooldown above remains independent of both.
+ *
+ * It is NOT the budget for how far behind a venue's own feed may be when we
+ * read it. That is a different measurement, taken at capture and never
+ * recomputed, and it keeps its own much stricter threshold in
+ * `intelligence/thresholds.ts`.
+ */
+export const OBSERVATION_STALE_AFTER_SECONDS = DERIVED_STALE_AFTER_SECONDS;
+
+/**
  * Whether a snapshot age indicates degradation.
  *
  * `> threshold`, preserving the convention the hard-coded check used: an age of

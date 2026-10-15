@@ -7,6 +7,10 @@ import {
   reviewSnapshot,
 } from "../src/lib/derived-market/snapshot-review";
 import {
+  snapshotIsStale,
+  DERIVED_STALE_AFTER_SECONDS,
+} from "../src/lib/derived-market/policy";
+import {
   fingerprint,
   selectionContents,
   type SnapshotExport,
@@ -77,7 +81,22 @@ describe("waiting-week snapshot and product semantics", () => {
     expect(snapshotAge(data.head.scope.to, asOf)).toBe(3600);
     expect(a.quality.capturedSourceAgeSeconds).toBe(306);
     expect(a.quality.sourceAgeSeconds).toBe(4200);
-    expect(a.quality.state).toBe("STALE_SOURCE");
+    /*
+     * All three ages differ and all three stay reported exactly. The state is
+     * healthy: a 306-second provider lag is well inside its budget, and an
+     * observation ~65 minutes old is inside the publication allowance. The
+     * snapshot age agrees — `snapshotIsStale(3600)` is false — which is the
+     * agreement the shared threshold exists to guarantee.
+     */
+    expect(snapshotIsStale(snapshotAge(data.head.scope.to, asOf))).toBe(false);
+    expect(a.quality.state).toBe("FULL_COVERAGE");
+
+    // Past the allowance both the snapshot and the asset turn stale together.
+    const old = iso(start + 160 * STEP + (DERIVED_STALE_AFTER_SECONDS + 600) * 1000);
+    expect(snapshotIsStale(snapshotAge(data.head.scope.to, old))).toBe(true);
+    expect(summary(features.at(-1)!, 160, 160, old, null).quality.state).toBe(
+      "STALE_SOURCE",
+    );
   });
   it("rejects unsupported methods, missing metadata, misaligned scopes, and absent reference keys", () => {
     expect(() => validateSnapshotHead({ ...data.head, method: "v0" })).toThrow(

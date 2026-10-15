@@ -33,6 +33,16 @@ import { GUEST_RAIL_LIMIT, preview } from "@/lib/product/access";
 import { SignupGate } from "@/components/signup-gate";
 import { MarketPulseStrip } from "@/components/market-pulse";
 
+/**
+ * The observation-age budget in minutes, for the freshness notes below.
+ * Derived from the shared policy so the prose cannot drift from the rule it
+ * describes — these notes previously read "15m" long after the threshold they
+ * described had stopped matching the collection cadence.
+ */
+const STALE_NOTE_MINUTES = Math.round(
+  SCREEN_THRESHOLDS.observationSeconds / 60,
+);
+
 // The derived read can take ~13 s against a Neon compute resuming from
 // scale-to-zero (753 ms warm). Without this the platform default would kill the
 // function before READ_TIMEOUT_MS could bound the query.
@@ -167,7 +177,7 @@ export default async function Terminal({
             dataset.assets.filter((a) => a.quality.state === "STALE_SOURCE")
               .length,
           )}
-          note="Source or observation > 15m"
+          note={`Observation > ${STALE_NOTE_MINUTES}m, or venue feed > ${SCREEN_THRESHOLDS.sourceLagSeconds}s behind at capture`}
         />
         </div>
       </details>
@@ -355,7 +365,7 @@ export default async function Terminal({
                 <Metric
                   label="Fresh observations"
                   value={`${dataset.assets.filter((a) => a.quality.state === "FULL_COVERAGE" || a.quality.state === "PARTIAL_COVERAGE").length} / ${dataset.assets.length}`}
-                  note="Source and observation ≤ 15m"
+                  note={`Observation ≤ ${STALE_NOTE_MINUTES}m and venue feed ≤ ${SCREEN_THRESHOLDS.sourceLagSeconds}s behind at capture`}
                 />
               </div>
               <p className="chart-caption">

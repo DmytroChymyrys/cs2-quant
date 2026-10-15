@@ -5,7 +5,8 @@ import type {
   MarketHistoryVersion,
   Horizon,
 } from "./contract";
-import { STALE_SECONDS } from "./contract";
+import { OBSERVATION_STALE_AFTER_SECONDS } from "../../derived-market/policy";
+import { THRESHOLDS } from "../../intelligence/thresholds";
 import { METHOD } from "../../derived-market/model";
 import {
   ACTIVE_PROFILE,
@@ -71,6 +72,15 @@ export function summary(
   const observedAge = (Date.parse(asOf) - Date.parse(f.observed_at)) / 1000;
   const ageValid = Number.isFinite(age) && age >= 0,
     observationValid = Number.isFinite(observedAge) && observedAge >= 0;
+  /*
+   * Provider lag as measured when the observation was written. Unlike `age`
+   * above it does not grow while the snapshot sits on the shelf, which is what
+   * makes it comparable against a strict threshold: it answers "was the venue's
+   * feed behind when we read it", not "how long ago did we read it".
+   */
+  const capturedLag = Number.isFinite(f.items_source_age_seconds)
+    ? f.items_source_age_seconds
+    : null;
   const pct = expected > 0 ? Math.min(100, (available / expected) * 100) : null;
   // Suffixed with the contract's step label: "5m" at five minutes, "1h" at one
   // hour. Reading the literal "5m" from an hourly snapshot would find nothing
@@ -121,16 +131,29 @@ export function summary(
       expected,
       coveragePct: pct,
       sourceAgeSeconds: ageValid ? age : null,
-      capturedSourceAgeSeconds: Number.isFinite(f.items_source_age_seconds)
-        ? f.items_source_age_seconds
-        : null,
+      capturedSourceAgeSeconds: capturedLag,
       observationAgeSeconds: observationValid ? observedAge : null,
       observedAt: f.observed_at,
       scheduledWindow: f.scheduled_window,
+      /*
+       * Two independent freshness questions, each against its own threshold.
+       *
+       *   observedAge   how long since we observed this asset. Grows while the
+       *                 snapshot ages, so it is bounded by the publication
+       *                 policy (90m) rather than by a collection-step count.
+       *   capturedLag   how far behind the venue's feed was at capture. Fixed
+       *                 when written, so it keeps the strict bound (900s).
+       *
+       * Comparing a read-time age against the strict bound is what labelled
+       * every asset in a healthy hourly snapshot "Stale" for forty-five
+       * minutes of every hour.
+       */
       state:
         !ageValid || !observationValid
           ? "UNAVAILABLE"
-          : age > STALE_SECONDS || observedAge > STALE_SECONDS
+          : observedAge > OBSERVATION_STALE_AFTER_SECONDS ||
+              (capturedLag !== null &&
+                capturedLag > THRESHOLDS.sourceLagSeconds.value)
             ? "STALE_SOURCE"
             : available === expected
               ? "FULL_COVERAGE"
