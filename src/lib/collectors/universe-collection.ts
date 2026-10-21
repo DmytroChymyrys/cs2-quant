@@ -113,9 +113,7 @@ export async function collectUniverse({
     }
   }
 
-  // One read of the catalogue per run. `currentState` carries each row's id
-  // alongside its fingerprint, so registration no longer re-reads the table.
-  const { known, ids: knownIds } = await store.currentState(PROVIDER, VENUE);
+  const known = await store.currentState(PROVIDER, VENUE);
   const deltas = computeDeltas({ observed, known });
 
   const ids = await store.registerAssets(
@@ -127,7 +125,6 @@ export async function collectUniverse({
       version: w.version,
       marketHashName: w.marketHashName,
     })),
-    knownIds,
   );
 
   const resolved = deltas.writes
